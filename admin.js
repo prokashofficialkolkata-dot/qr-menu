@@ -20,18 +20,6 @@ serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-function showPage(page){
-
-document.querySelectorAll(".page").forEach(p=>{
-    p.style.display="none";
-});
-
-document.getElementById(page).style.display="block";
-
-}
-
-
-window.showPage = showPage;
 
 
 // YOUR FIREBASE CONFIG HERE
