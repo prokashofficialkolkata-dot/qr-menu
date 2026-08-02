@@ -1,0 +1,992 @@
+S.No,ITEM NAME,DINE IN PRICE,TAKE AWAY PRICE,DELIVERY PRICE
+ ,ABC - ABC, , , 
+1,ABC Biasa,6,6,6
+2,ABC Special,6,6,6
+3,Lychee Kang,6,6,6
+ ,AIR TIN - AIR TIN, , , 
+4,Drinking Water Besar,2,2,2
+5,Drinking Water Kecil,1,1,1
+6,Air Tin,2.7,2.7,2.7
+7,Basil Seed,4,4,4
+8,Calpis,3.5,3.5,3.5
+9,Durian Blenda,4,4,4
+10,Mango Tin,4,4,4
+11,100 Plus 500ml,3.5,3.5,3.5
+12,Coca Cola 500ml,3.5,3.5,3.5
+13,Red Bull,4,4,4
+14,Nescafe Tin,3.5,3.5,3.5
+15,Milo Tin,3.5,3.5,3.5
+16,100 Plus Big 1.5L,5,5,5
+17,Coca Cola Big,5,5,5
+18,AIS BATU,0.5,0.5,0.5
+19,AIR TIN BUNGKUS,3,3,3
+20,ASAM JAWA BOTTOL,3,3,3
+21,ASAM JAWA MADU,3.5,3.5,3.5
+22,BARBICAN,6.5,6.5,6.5
+23,PRAN FALOODA,4.8,4.8,4.8
+ ,BREAK FAST - BREAK FAST, , , 
+24,Vadai,1,1,1
+25,Samosa,1.5,1.5,1.5
+26,Puttu Mayam 1 BIJI,1,1,1
+27,Poori 1 Set*2pcs,4,4,4
+28,Poori 1 Keping,2,2,2
+29,Capati Biasa,2.5,2.5,2.5
+30,Capati Planta,3,3,3
+31,Capati Cheese,3.8,3.8,3.8
+32,Capati Sardin,4.9,4.9,4.9
+33,IDLI 1 BIJI,1,1,1
+34,Capati Masala,4,4,4
+35,Capati Tampal,3.9,3.9,3.9
+36,Capati Ghee,4,4,4
+37,Capati Kaya,3.2,3.2,3.2
+38,IDLI 1 SET*2pcs,2,2,2
+39,Kentang Masala,2,2,2
+40,APPAM BIASA,2.5,2.5,2.5
+41,APPAM TELUR,3.5,3.5,3.5
+42,KENTANG MASALA RM1,1,1,1
+43,KARUPUP BIASA,1,1,1
+44,KARIPUP SARDIN,1.5,1.5,1.5
+ ,BUAH BUAHAN - BUAH BUAHAN, , , 
+45,Fruit Papaya Long Cut,3,3,3
+46,Fruit Jambu,4,4,4
+47,Fruit Dragon,5,5,5
+48,Fruit Mango,5,5,5
+49,Fruit Nanas,5,5,5
+50,Fruit Papaya Small Cut,3.5,3.5,3.5
+51,BUAH NANGKA,5,5,5
+ ,FRESH JUICE - FRESH JUICE, , , 
+52,Air Kelapa,6.3,6.3,6.3
+53,Orange Juice,6.3,6.3,6.3
+54,Orange Juice Besar,7.8,7.8,7.8
+55,Pineapple Jucie,6.3,6.3,6.3
+56,Pineapple Juice Besar,7.5,7.8,7.8
+57,Carrot O,6,6.3,6.3
+58,Apple Juice,6,6.3,6.3
+59,Apple Juice Besar,7.5,7.8,7.8
+60,Watermelon Juice,6,6.3,6.3
+61,Watermelon Juice Besar,7.5,7.8,7.8
+62,Carrot O Besar,7.5,7.8,7.8
+63,Carrot Milk,7,7.3,7.3
+64,Carrot Milk Besar,8.5,8.8,8.8
+65,2 Mixed Fruit,7.5,7.8,7.8
+66,Mixed Fruit Besar,10.5,10.8,10.8
+67,Lychee,5.5,5.8,5.8
+68,Lemon Panas,3.8,4.1,4.1
+69,Lemon Ais,4.1,4.3,4.3
+70,LEMON HALIA PANAS,4.3,4.8,4.8
+71,LEMON HALIA AIS,4.8,4.8,4.8
+72,Watermelon Lychee,7.5,7.8,7.8
+73,Apple Lychee,7.5,7.8,7.8
+74,Lychee Besar,7.5,7.8,7.8
+75,Teh O Lemon Panas,4,4.3,4.3
+76,Teh O Lemon Ais,4.6,4.9,4.9
+77,Lemon Asam Boi Panas,4.8,5,5
+78,Lemon Asam Boi Ais,5.1,5.4,5.4
+79,Sirap Lemon Ais,4.6,4.9,4.9
+80,Sirap Lemon Ais Besar,6.8,7,7
+81,Lemon Madu,4.8,5,5
+82,Lemon Madu Ais,5.1,5.4,5.4
+83,Barli Lemon,4.3,4.6,4.6
+84,Barli Lemon Ais,4.8,5.1,5.1
+85,Apple Asam Boi,6.5,6.8,6.8
+86,Sirap Lychee Ais,6.4,6.7,6.7
+87,Limau Madu Ais,3.8,4,4
+88,Limau Madu Panas,3.3,3.6,3.6
+89,TEH O LEMON AIS BESAR,6.8,7,7
+90,LEMON AIS BESAR,6.1,6.4,6.4
+91,Air Mata Kuching,4.1,4.4,4.4
+92,LEMON MADU AIS BESAR,7.5,7.8,7.8
+93,WATERMELON SUSU,7,7.3,7.3
+94,LYCHEE SUSU,7,7.3,7.3
+95,APPLE SUSU,7,7.3,7.3
+ ,FRESH JUICE - LASSI, , , 
+96,Sweet Lassi,8,8,8
+97,Papaya Honey Lassi,8,8,8
+98,Rose Lassi,8,8,8
+99,Strawberry Lassi,8,8,8
+100,Mango Lassi,8,8,8
+101,Banana Lassi,8,8,8
+102,Almond Sweet Lassi,9,9,9
+ ,FRESH JUICE - MILK SHAKE, , , 
+103,Strawberry Milkshake,7.5,7.5,7.5
+104,Vanilla Milkshake,7.5,7.5,7.5
+105,Caramel Milkshake,7.5,7.5,7.5
+106,Chocolate Milkshake,8,8,8
+107,Oreo Milkshake,7.5,7.5,7.5
+108,Banana Milkshake,7.5,7.5,7.5
+109,Mango Milkshake,7.5,7.5,7.5
+110,Blackcurrent Milkshake,7.5,7.5,7.5
+111,Almond Honey Milkshake,9,9,9
+ ,GORENG MELAYU - BIHUN GORENG, , , 
+112,Bihun Goreng Biasa,6.5,6.5,6.5
+113,Bihun Goreng Telur Mata,8.3,8.3,8.3
+114,Bihun Goreng Ayam,10.5,10.5,10.5
+115,Bihun Goreng Daging,10.5,10.5,10.5
+116,Bihun Goreng Udang,10.5,10.5,10.5
+117,Bihun Goreng Sotong,10.5,10.5,10.5
+118,Bihun Goreng Seafood,10.5,10.5,10.5
+119,Bihun Goreng Pattaya,8,8,8
+120,Bihun Goreng Tom Yam,9,9,8
+121,Bihun Goreng Bandung,11,11,11
+122,Bihun Goreng Ladna,11,11,11
+123,Bihun Goreng Kongfu,11,11,11
+124,Bihun Goreng Singapore,7,7,7
+125,Bihun Goreng Hailam,11,11,11
+126,Bihun Campur Mee Goreng,7.5,7.5,7.5
+ ,GORENG MELAYU - INDOMEE GORENG, , , 
+127,INDOMEE BIASA,5.5,5.5,5.5
+128,INDOMEE DOUBLE,8,8,8
+129,INDOMEE TRIPLE,10,10,10
+ ,GORENG MELAYU - KUEY TEOW GORENG, , , 
+130,Kuey Teow Goreng Biasa,6.5,6.5,6.5
+131,Kuey Teow Goreng Telur Mata,8.3,8.3,8.3
+132,Kuey Teow Goreng Ayam,10.5,10.5,10.5
+133,Kuey Teow Goreng Daging,10.5,10.5,10.5
+134,Kuey Teow Goreng Udang,10.5,10.5,10.5
+135,Kuey Teow Goreng Sotong,10.5,10.5,10.5
+136,Kuey Teow Goreng Seafood,10.5,10.5,10.5
+137,Kuey Teow Goreng Pattaya,8,8,8
+138,Kuey Teow Goreng Bandung,11,11,11
+139,Kuey Teow Goreng Ladna,11,11,11
+140,Kuey Teow Goreng Hailam,11,11,11
+141,Kuey Teow Goreng Kungfu,11,11,11
+142,Kuey Teow Goreng Hong Kong,11,11,11
+143,Kuey Teow Campur Mee Goreng,7.5,7.5,7.5
+144,Kuey Teow Campur Bihun Goreng,7.5,7.5,7.5
+145,KUEY TEOW G TOMYAM,8,8,8
+ ,GORENG MELAYU - MAGGI GORENG, , , 
+146,Maggi Goreng Biasa,6.5,6.5,6.5
+147,Maggi Goreng Double,8.5,8.5,8.5
+148,Maggi Goreng Telur Mata,8.3,8.3,8.3
+149,Maggi Goreng Ayam,10.5,10.5,10.5
+150,Maggi Goreng Double Ayam,12.5,12.5,12.5
+151,Maggi Goreng Daging,10.5,10.5,10.5
+152,Maggi Goreng Udang,11,11.3,11.3
+153,Maggi Goreng Sotong,10.5,10.5,10.5
+154,Maggi Goreng Seafood,10.5,10.5,10.5
+155,Maggi Goreng Pattaya,7,7,7
+156,Maggi Kungfu,11,11,11
+157,Maggi Goreng Tom Yam,8,8,8
+158,Maggi Bandung,11,11,11
+159,Maggi Ladna,11,11,11
+160,Maggi Hailam,11,11,11
+161,Maggi Goreng Hong Kong,11,11,11
+162,Maggi Campur Mee Goreng,7.5,7.5,7.5
+163,Maggi Campur Kuey Teow Goreng,7.5,7.5,7.5
+164,Maggi Campur Bihun Goreng,7.5,7.5,7.5
+ ,GORENG MELAYU - MEE GORENG, , , 
+165,Mee Goreng Biasa,6.5,6.5,6.5
+166,Mee Goreng Telur Mata,8.3,8.3,8.3
+167,Mee Goreng Ayam,10.5,10.5,10.5
+168,Mee Goreng Daging,10.5,10.5,10.5
+169,Mee Goreng Udang,10.5,10.5,10.5
+170,Mee Goreng Sotong,10.5,10.5,10.5
+171,Mee Goreng Seafood,10.5,10.5,10.5
+172,Mee Goreng Pattaya,8,8,8
+173,Mee Goreng Ladna,11,11,11
+174,Mee Goreng Hong Kong,11,11,11
+175,Mee Goreng Kongfu,11,11,11
+176,Mee Goreng Tom Yam,11,11,11
+177,Mee Goreng Hailam,11,11,11
+178,Mee Goreng Bandung,11,11,11
+179,Mee Campur Kuey Teow Goreng,7.5,7.5,7.5
+180,Mee Campur Bihun,7.5,7.5,8.8
+ ,GORENG MELAYU - NASI GORENG, , , 
+181,Nasi Goreng Biasa,6.5,6.5,6.5
+182,Nasi G Kampung,7.5,7.5,7.5
+183,Nasi Goreng Thai,7,7,7
+184,N G USA AYAM,12,12,12
+185,Nasi Goreng Hameed,12.5,12.5,12.5
+186,Nasi Goreng Telur Mata,8.3,8.3,8.3
+187,Nasi Goreng Ikan Masin,8.5,8.5,8.5
+188,Nasi Goreng Sardin,7.5,7.5,7.5
+189,N G USA Daging,12,12,12
+190,Nasi Goreng Tom Yam,8,8,8
+191,Nasi Goreng Ayam,10.5,10.5,10.5
+192,Nasi G Cina,7,7,7
+193,Nasi Goreng Cili Api,7,7,7
+194,N G Paprik Ayam,11,11,11
+195,Nasi Goreng Pattaya Ayam,12.5,12.5,12.5
+196,Nasi Goreng Daging,10.5,10.5,10.5
+197,Nasi Goreng Belacan,7,7,7
+198,Nasi Goreng Cendawan,8.5,8.5,8.5
+199,N G Paprik Daging,11,11,11
+200,Nasi Goreng Paprik Campur,11.5,11.5,11.5
+201,Nasi Goreng Seafood,10.5,10.5,10.5
+202,Nasi Goreng Sotong,10.5,10.5,10.5
+203,Nasi Goreng Ayam Kunyit,11,11,11
+204,Nasi Goreng Ayam Merah,11,11,11
+205,Nasi Goreng Sotong Kunyit,11.5,11.5,11.5
+206,Nasi Goreng Udang,10.5,10.5,10.5
+207,Nasi Goreng Pattaya,8,8,8
+208,Nasi Goreng Daging Kunyit,11,11,11
+209,Nasi Goreng Daging Merah,11,11,11
+210,Nasi Goreng Kicap,7,7,7
+211,Nasi Goreng Paprik Udang,11.5,11.5,11.5
+212,Nasi Goreng Paprik Sotong,11.5,11.5,11.5
+213,N G Paprik Seafood,11.5,11.5,11.5
+214,N G KAMPUNG DAGING,11.5,11.5,11.5
+215,N G Kampung Ayam,11.5,11.5,11.5
+216,Nasi Goreng Kampung Seafood,12,12,12
+217,Nasi Goreng U S A Campur,13,13,13
+218,Nasi Goreng U S A Seafood,13,13,13
+219,Nasi Goreng Ladna,9.5,9.5,9.5
+220,Nasi Goreng Tom Yam Ayam,12,12,12
+221,Nasi Goreng Tom Yam Daging,12,12,12
+222,Nasi Goreng Tom Yam Seafood,12.5,12.5,12.5
+223,Nasi Bujang,4.8,4.8,4.8
+ ,ICE CREAM - ICE CREAM, , , 
+224,Ice Cream RM1.20,1.2,1.2,1.2
+225,Ice Cream RM4.50,4.5,4.5,4.5
+226,Butterfly Ice Cream,2.5,2.5,2.5
+227,Milo Stick Ice Cream,2.5,2.5,2.5
+228,Milo Cup Ice Cream,2.5,2.5,2.5
+229,Kitkat Cone Ice Cream,3.5,3.5,3.5
+230,Kitkat Stick Ice Cream,4.9,4.9,4.9
+231,Sundae Cup Ice Cream,3,3,3
+232,Drumstick Ice Cream,3,3,3
+233,Crunch Ice Cream,2.5,2.5,2.5
+234,Apple Sourz Ice Cream,2.5,2.5,2.5
+235,Mochi Boba Ice Cream,3.7,3.7,3.7
+236,Nes Gold Stick Ice Cream,4.9,4.9,4.9
+237,Oreo Stick Ice Cream,4.9,4.9,4.9
+238,Musang King Ice Cream,6.5,6.5,6.5
+239,ICE CREAM RM4.00,4,4,4
+240,MILO KAW ICECREAM,3.5,3.5,3.5
+241,CADBURY ICE CREAM,5.2,5.2,5.2
+242,OREO CONE,3.5,3.5,3.5
+243,DRUMSTICK FRO-YO,3.5,3.5,3.5
+244,ICE CREAM,0,0,0
+ ,MAMAK GORENG - BIHUN GORENG, , , 
+245,Bihun Goreng Biasa Mamak,6.5,6.5,6.5
+246,Bihun Goreng Telur Mata Mamak,8.3,8.3,8.3
+247,Bihun Goreng Ayam Mamak,10.5,10.5,10.5
+248,Bihun Goreng Kambing Mamak,13,13,13
+249,Bihun Goreng Daging Mamak,12,12,12
+250,Bihun Goreng Pattaya Mamak,0,0,0
+251,Bihun Sup Mamak,0,0,0
+ ,MAMAK GORENG - CAMPUR GORENG, , , 
+252,Mee Campur Bihun,7.5,7.5,7.5
+253,Kuey Teow Campur Bihun,7.5,7.5,7.5
+254,Mee Campur Bihun Goreng,7.5,7.5,7.5
+255,Mee Campur Kuey Teow,7.5,7.5,7.5
+256,Mee Campur Kuey Teow Goreng,7.5,7.5,7.5
+257,Bihun Campur Kuey Teow Goreng,7.5,7.5,7.5
+ ,MAMAK GORENG - KUEY TEOW GORENG, , , 
+258,Kuey Teow Gg Biasa Mamak,6.5,6.5,6.5
+259,Kuey Teow Gg Telur Mata Mamak,8.3,8.3,8.3
+260,Kuey Teow Gg Ayam Mamak,10.5,10.5,10.5
+261,Kuey Teow Goreng Kambing Mamak,13,13,13
+262,Kuey Teow Goreng Daging Mamak,12,12,12
+263,Kuey Teow Goreng Pattaya Mamak,0,0,0
+ ,MAMAK GORENG - MAGGI/ INDOMEE, , , 
+264,Maggi Goreng Biasa Mamak,6,6,6
+265,Maggi Goreng Telur Mata Mamak,7.8,7.8,7.8
+266,Maggi Goreng Double Mamak,8,8,8
+267,Maggi Goreng Ayam Mamak,10.5,10.5,10.5
+268,Maggi Goreng Double Ayam Mamak,12.5,12.5,12.5
+269,Maggi Goreng Kambing Mamak,12.5,12.5,12.5
+270,Maggi Goreng Daging Mamak,11.5,11.5,11.5
+271,Maggi Sup Mamak,5,5,5
+272,Maggi Sup Double Mamak,7,7,7
+273,Maggi Sup Ayam Mamak,5,5,5
+274,Maggi Sup Ayam Double Mamak,7,7,7
+275,Maggi Sup Asam laksha Mamak,5,5,5
+276,Maggi Sup Jantan Mamak,7,7,7
+277,Maggi Sup Perisa Tom Yam Mamak,5,5,5
+278,INDO MEE BIASA,5.5,5.5,5.5
+279,INDO MEE DOUBLE,8,8,8
+280,INDO MEE GORENG AYAM,10.5,10.5,10.5
+281,INDO MEE DOUBLE AYAM,13,13,13
+282,INDO MEE TRIPLE,10,10,10
+ ,MAMAK GORENG - MEE GORENG, , , 
+283,Mee Goreng Biasa Mamak,6.5,6.5,6.5
+284,Mee Goreng Telur Mata Mamak,8.3,8.3,8.3
+285,Mee Goreng Ayam Mamak,10.5,10.5,10.5
+286,Mee Goreng Kambing Mamak,13,13,13
+287,Mee Goreng Daging Mamak,12,12,12
+288,Mee Goreng Pattaya Mamak,0,0,0
+ ,MAMAK GORENG - NASI GORENG, , , 
+289,Nasi Goreng Biasa Mamak,6.5,6.5,6.5
+290,Nasi Goreng Telur Mata Mamak,8.3,8.3,8.3
+291,Nasi Goreng Ayam Mamak,10.5,10.5,10.5
+292,Nasi Goreng Kambing Mamak,13,13,13
+293,Nasi Goreng Daging Mamak,12,12,12
+294,Nasi Goreng Sardin Mamak,0,0,0
+295,Nasi Goreng Pattaya Mamak,0,0,0
+296,Nasi Goreng Cina Mamak,0,0,0
+297,Nasi Goreng Kampung Mamak,7.5,7.5,7.5
+298,Nasi Goreng Kampung Ayam Mamak,11.5,11.5,11.5
+ ,MAMAK GORENG - ROJAK, , , 
+299,Rojak Biasa,6,6,6
+300,Rojak Mee,7.5,7.5,7.5
+301,Rojak Ayam,10.5,10.5,10.5
+302,Rojak Mee Ayam,11.5,11.5,11.5
+303,Mee Rebus,0,0,0
+ ,MAMAK GORENG - VEGETARIAN, , , 
+304,Nasi Goreng Veg,5.5,5.5,5.5
+305,Maggi Goreng Veg,5,5,5
+306,Maggi Sup Veg,4.5,4.5,4.5
+307,Mee Goreng Veg,5.5,5.5,5.5
+308,Kuey Teow Goreng Veg,5.5,5.5,5.5
+309,Bihun Goreng Veg,5.5,5.5,5.5
+310,Mee Campur Bihun Goreng Veg,6,6,6
+311,Kuey Teow Campur Bihun Veg,6,6,6
+312,Mee Campur Kuey Teow Goreng Veg,6,6,6
+313,Mee Campur Kuey Teow Veg,6,6,6
+314,Mee Campur Bihun Veg,6,6,6
+315,Bihun Campur Kuey Teow Goreng Veg,6,6,6
+ ,MASAKAN MELAYU - AYAM, , , 
+316,Ayam Goreng Tepung,8.5,8.5,8.5
+317,Ayam Masak Merah,8.5,8.5,8.5
+318,Ayam Goreng Kunyit,8.5,8.5,8.5
+319,Ayam Masak Kicap,8.5,8.5,8.5
+320,Ayam Cendawan,8.5,8.5,8.5
+321,Ayam Masak Manis,8.5,8.5,8.5
+322,Ayam Masak Halia,8.5,8.5,8.5
+323,Ayam Masak Pedas,8.5,8.5,8.5
+324,Ayam Masak Paprik,8.5,8.5,8.5
+325,Ayam Masak Halia Kicap,8.5,8.5,8.5
+326,Ayam Masak Cili Api,8.5,8.5,8.5
+327,Ayam Masak Berlada,8.5,8.5,8.5
+328,Ayam Masak Blackpepper,8.5,8.5,8.5
+329,Ayam Sambal Petai,8.5,8.5,8.5
+330,Ayam Kerabu,8.5,8.5,8.5
+ ,MASAKAN MELAYU - CAMPUR, , , 
+331,Paprik Campur,10,10,10
+332,Campur Goreng Kunyit,10,10,10
+333,Campur Masak Cili Api,10,10,10
+334,Campur Masak Manis,10,10,10
+335,Campur Masak Merah,10,10,10
+336,Campur Masak Pedas,10,10,10
+337,Campur Masak Kicap,10,10,10
+338,Campur Masak Halia,10,10,10
+ ,MASAKAN MELAYU - DAGING, , , 
+339,Daging Goreng Kunyit,8.5,8.5,8.5
+340,Daging Masak Halia,8.5,8.5,8.5
+341,Daging Masak Kicap,8.5,8.5,8.5
+342,Daging Masak Merah,8.5,8.5,8.5
+343,Daging Masak Paprik,8.5,8.5,8.5
+344,Daging Masak Pedas,8.5,8.5,8.5
+345,Daging Masak Cili Api,8.5,8.5,8.5
+ ,MASAKAN MELAYU - NASI PUTIH, , , 
+346,Nasi Putih,2.5,2.5,2.5
+347,NASI PUTIH SEPARUH,1.5,1.5,1.5
+ ,MASAKAN MELAYU - SAYUR, , , 
+348,Sayur Campur,8,8,8
+349,Kailan Ikan Masin,7.5,7.5,7.5
+350,Kailan Belacan,7.5,7.5,7.5
+351,Kangkung Belacan,7.5,7.5,7.5
+352,Kangkung Ikan Masin,7.5,7.5,7.5
+353,Kacang Panjang Goreng,7.5,7.5,7.5
+354,Cendawan Goreng Tepung,8,8,8
+355,KAILAN GORENG BIASA,7.5,7.5,7.5
+356,KANKUNG GORENG BIASA,7.5,7.5,7.5
+357,CENDAWAN GORENG KUNIYT,8,8,8
+ ,MASAKAN MELAYU - SEAFOOD, , , 
+358,Seafood Masak Paprik,9.8,9.8,9.8
+359,Seafood Goreng Kunyit,9.8,9.8,9.8
+360,Seafood Masak Cili Api,9.8,9.8,9.8
+361,Seafood Masak Manis,9.8,9.8,9.8
+362,Seafood Masak Merah,9.8,9.8,9.8
+363,Seafood Masak Pedas,9.8,9.8,9.8
+364,Seafood Masak Kicap,9.8,9.8,9.8
+365,Seafood Masak Halia,9.8,9.8,9.8
+366,Kerabu Seafood,9.8,9.8,9.8
+ ,MASAKAN MELAYU - SOTONG, , , 
+367,Sotong Masak Merah,9.8,9.8,9.8
+368,Sotong Masak Pedas,9.8,9.8,9.8
+369,Sotong Masak Kicap,9.8,9.8,9.8
+370,Sotong Goreng Tepung,9.8,9.8,9.8
+371,Sotong Masak Halia,9.8,9.8,9.8
+372,Sotong Masak Paprik,9.8,9.8,9.8
+373,Sotong Goreng Kunyit,9.8,9.8,9.8
+374,Sotong Masak Manis,9.8,9.8,9.8
+375,Sotong Masak Cili Api,9.8,9.8,9.8
+376,Sotong Masak Berlada,9.8,9.8,9.8
+377,Sotong Masak Blackpepper,9.8,9.8,9.8
+378,Sotong Sambal Petai,9.8,9.8,9.8
+379,Sotong Kerabu,9.8,9.8,9.8
+ ,MASAKAN MELAYU - SUP MELAYU, , , 
+380,Sup Ayam,8.5,8.5,8.5
+381,Sup Seafood,10,10,10
+382,Kuey Tiaw Sup,9.8,9.8,938
+383,Mee Sup,9.8,9.8,9.8
+384,Bihun Sup,9.8,9.8,9.8
+385,Sup daging,10.5,10.5,10.5
+386,Sup Tulang,14,14,14
+387,Kuey Tiaw Sup Daging,11.6,11.6,11.6
+388,Mee Sup Daging,11.6,11.6,11.6
+389,Bihun Sup Daging,11.6,11.6,11.6
+390,Sup Udang,9.8,9.8,9.8
+391,Sup Sayur,7,7,7
+392,Kuey Tiaw Sup Seafood,11.6,11.6,11.6
+393,Mee Sup Seafood,11.6,11.6,11.6
+394,Bihun Sup Seafood,11.6,11.6,11.6
+395,Sup Sotong,9.8,9.8,9.8
+396,Sup Campur,10,10,10
+397,Maggi Sup,5,5,5
+398,Sup Daging Maggie,11.6,11.6,11.6
+399,SUP SEAFOOD MAGGIE,11.6,11.6,11.6
+400,Sup Ekor,16,16,16
+401,Maggie Sup DBL,7,7,7
+402,Maggie Sup Perisa Ayam,5,5,5
+403,NASI PUTIH,2.5,2.5,2.5
+404,MAGGI SUP JANTAN,6.8,6.8,6.8
+405,SUP CENDAWAN,8.5,8.5,8.5
+406,BIHUN SUP TULANG,16.5,16.5,16.5
+407,MEE SUP TULANG,16.5,16.5,16.5
+408,KUEY TEOW SUP TULANG,16.5,16.5,16.5
+ ,MASAKAN MELAYU - TELUR, , , 
+409,Telur Bistik,9.5,9.8,9.8
+410,Telur Dadar Thai,2,2,2
+411,Telur Mata Thai,1.8,1.8,1.8
+412,Telur Bungkus,9.5,9.5,9.5
+413,Telur Goreng Thai,1.8,1.8,1.8
+ ,MASAKAN MELAYU - TOM YAM, , , 
+414,Tom Yam Ayam,8.5,8.5,8.5
+415,Tom Yam Vege,7,7,7
+416,Mee Tom Yam,9.8,9.8,9.8
+417,Kuey Tiaw Tom Yam,9.8,9.8,9.8
+418,Maggi Tomyam,9.8,9.8,9.8
+419,Tom Yam Daging,8.5,8.5,8.5
+420,Tom Yam Sayur,7,7,7
+421,Mee Tom Yam Daging,10.3,10.3,10.3
+422,Kuey Tiaw Tom Yam Daging,10.3,10.3,10.3
+423,Maggi Tom Yam Daging,10.3,10.3,10.3
+424,Tom Yam Seafood,10,10,10
+425,Tom Yam Cendawan,9,9,9
+426,Mee Tom Yam Seafood,10.8,10.8,10.8
+427,Kuey Tiaw Tom Yam Seafood,10.8,10.8,10.8
+428,Maggi Tom Yam Seafood,10.8,10.8,10.8
+429,Tom Yam Campur,10,10,10
+430,Bihun Tom Yam,9.8,9.8,9.8
+431,Mee Tom Yam Campur,11.3,11.3,11.3
+432,Kuey Tiaw Tom Yam Campur,11.3,11.3,11.3
+433,Maggi Tom Yam Campur,11.3,11.3,11.3
+434,Tom Yam Udang,9.5,9.5,9.5
+435,Bihun Tom Yam Daging,10.3,10.3,10.3
+436,Bihun Kuey Tiaw Tom Yam,9.8,9.8,9.8
+437,Mee Bihun Tom Yam,9.8,9.8,9.8
+438,Mee Kuey Tiaw Tom Yam,9.8,9.8,9.8
+439,Tom Yam Sotong,9.5,9.5,9.5
+440,Bihun Tom Yam Seafood,10.8,10.8,10.8
+441,Bihun Tom Yam Campur,11.3,11.3,11.3
+ ,MASAKAN MELAYU - UDANG, , , 
+442,Udang Masak Merah,9.8,9.8,9.8
+443,Udang Masak Pedas,9.8,9.8,9.8
+444,Udang Masak Kicap,9.8,9.8,9.8
+445,Udang Goreng Tepung,9.8,9.8,9.8
+446,Udang Masak Halia,9.8,9.8,9.8
+447,Udang Masak Paprik,9.8,9.8,9.8
+448,Udang Goreng Kunyit,9.8,9.8,9.8
+449,Udang Masak Manis,9.8,9.8,9.8
+450,Udang Masak Cili Api,9.8,9.8,9.8
+451,Udang Masak Berlada,9.8,9.8,9.8
+452,Udang Masak Blackpepper,9.8,9.8,9.8
+453,Udang Sambal Petai,9.8,9.8,9.8
+454,Udang Kerabu,9.8,9.8,9.8
+ ,MINUMAN - AIR, , , 
+455,Ais Kosong,0.6,0.6,0.6
+456,Air Suam,0.3,0.6,0.6
+457,Air Panas,0.5,0.8,0.8
+458,Air Kosong Besar,0.9,0.9,0.9
+459,Air Suam Besar,0.7,0.7,0.7
+460,AIS  BATU,0.5,0.5,0.5
+ ,MINUMAN - CUTTING, , , 
+461,TEH CUTING.,1.8,1.8,1.8
+462,TEH O CUTTING,1.5,1.5,1.5
+463,NESCAFE CUTTING.,2.5,2.5,2.5
+464,BRUCAFE CUTTING,2.8,2.8,2.8
+465,KOPI CUTTING,1.8,1.8,1.8
+466,MILO CUTTING,2.5,2.5,2.5
+467,TEH HALIA CUTTING,2.3,2.3,2.3
+ ,MINUMAN - HORLICKS, , , 
+468,Horlicks,3.5,3.8,3.8
+469,Horlicks Besar,3.8,4.1,4.1
+470,Horlicks Ais,4.8,4.8,4.8
+471,Horlicks Ais Besar,7,7.3,7.3
+472,Horlicks C,3.8,4.1,4.1
+473,Horlicks O,3.3,3.6,3.6
+474,Horlicks O Besar,3.6,3.9,3.9
+475,Horlicks O Ais,4.8,4.8,4.8
+476,Horlicks O Ais Besar,6.6,6.9,6.9
+477,Horlicks C Besar,4,4.3,4.3
+478,Horlicks Kaw,4.2,4.5,4.5
+479,Horlicks Ais Kaw,5.5,5.5,5.5
+480,Horlicks C Ais,5,5,5
+481,Horlicks C Ais Besar,7,7.3,7.3
+ ,MINUMAN - KOPI, , , 
+482,Kopi Tarik,2.3,3,3
+483,Kopi Panas,2.3,3,3
+484,Kopi Besar,2.8,3,3
+485,Kopi Ais,3.3,3.3,3.3
+486,Kopi Ais Besar,5,5,5
+487,Kopi C,2.5,3,3
+488,Kopi C Besar,3,3.3,3.3
+489,Kopi C Ais,3.3,3.3,3.3
+490,Kopi C Ais Besar,5,5.3,5.3
+491,Kopi O,1.8,2,2
+492,Kopi O Besar,2.2,2.5,2.5
+493,Kopi O Ais,2.8,2.8,2.8
+494,Kopi O Ais Besar,4.3,4.3,4.3
+495,Kopi Halia,2.6,2.9,2.9
+496,Kopi Halia Besar,0,0,0
+497,Kopi Halia Ais,3.6,3.6,3.6
+498,Kopi Halia Ais Besar,0,0,0
+499,Kopi C Halia,3.6,3.6,3.6
+500,Kopi C Halia Besar,0,0,0
+501,Kopi C Halia Ais,3.9,3.9,3.9
+502,Kopi C Halia Ais Besar,0,0,0
+503,Kopi O Halia,2.5,2.8,2.8
+504,Kopi O Halia Besar,0,0,0
+505,Kopi O Halia Ais,3.3,3.3,3.3
+506,Kopi O Halia Ais Besar,0,0,0
+507,Kopi O Limau Suam,2.3,2.6,2.6
+508,Kopi O Limau Ais,2.8,2.8,2.8
+509,Kopi O Limau Ais Besar,5.2,5.2,5.2
+ ,MINUMAN - MILO, , , 
+510,Milo,3.2,3.5,3.5
+511,Milo Besar,3.5,3.5,3.5
+512,Milo O,3.2,3.5,3.5
+513,Milo O Besar,3.5,3.5,3.5
+514,Milo O Ais,4.1,4.1,4.1
+515,Milo Ais,4.1,4.1,4.1
+516,Milo Ais Besar,5.9,5.9,5.9
+517,Milo C,3.2,3.5,3.5
+518,Milo C Besar,3.4,3.5,3.5
+519,Milo O Ais Besar,5.8,5.8,5.8
+520,Milo Kaw,3.5,3.8,3.8
+521,Milo Kaw Besar,4,4,4
+522,Milo Ais Kaw,4.5,4.5,4.5
+523,Milo C Ais Besar,6,6.3,6.3
+524,Milo C Ais,3.8,3.8,3.8
+525,Milo Ais Tabur,5,5,5
+ ,MINUMAN - NESCAFE/ NESLO/BRU, , , 
+526,Nescafe,3.2,3.5,3.5
+527,NESCAFE CUTING,2.5,2.5,2.5
+528,Nescafe Besar,3.5,3.5,3.5
+529,Nescafe Ais,4.1,4.1,4.1
+530,Nescafe Ais Besar,5.9,5.9,5.9
+531,Neslo Ais Besar,6.9,6.9,6.9
+532,Nescafe O,2.9,3.2,3.2
+533,Nescafe O Besar,3.1,3.4,3.4
+534,Nescafe O Ais,3.6,3.6,3.6
+535,Nescafe O Ais Besar,5.3,5.3,5.3
+536,Neslo O Ais Besar,5.3,5.3,5.3
+537,Nescafe C,3.5,3.8,3.8
+538,Nescafe C Besar,3.8,3.8,3.8
+539,Nescafe C Ais,4.1,4.1,4.1
+540,Nescafe C Ais Besar,6.5,6.5,6.5
+541,Neslo O Ais,4.6,4.6,4.6
+542,Neslo,3.8,4.1,4.1
+543,Neslo Ais,4.6,4.6,4.6
+544,Neslo O,3.6,3.9,3.9
+545,BRU Cafee,3.3,3.6,3.6
+546,BRU Cafee Ais,3.8,4.1,4.1
+547,Nescafe Kaw,3.6,3.9,3.9
+548,Nescafe Ais Kaw,4.5,4.5,4.5
+549,NESCAFE HALIA,3.8,4.1,4.1
+550,BRUCAFE C,3.5,3.8,3.8
+551,BRU COFEE C AIS,4.1,4.4,4.4
+552,BRUCAFE O,3.2,3.5,3.5
+553,BRUCAFE KAW,4.3,4.6,4.6
+554,BRUCAFE AIS KAW,4.3,4.6,4.6
+ ,MINUMAN - NESTUM / CHAM, , , 
+555,Nestum Panas,0,0,0
+556,Nestum Besar,0,0,0
+557,Nestum Ais,0,0,0
+558,Cham Tarik,2.6,2.9,2.9
+559,Cham Ais,3.3,3.3,3.3
+560,Cham O,2,2.3,2.3
+561,Cham O Ais,2.8,2.8,2.8
+562,Cham C,2.8,3,3
+563,Cham C Ais,3.2,3.5,3.5
+ ,MINUMAN - PACKET KOPI, , , 
+564,TONKAT ALI CNI,3.8,4,4
+565,Tongat Ali Ais,4.6,4.6,4.6
+566,Kopi Radix,3.8,4,4
+567,Kopi Radix Ais,4.6,4.6,4.6
+568,Kopi Jantan,3.8,4,4
+569,Hi Goat,4,4.3,4.3
+570,Kopi Jantan Ais,4.6,4.6,4.6
+571,Ali Cafe Ais,4.6,4.6,4.6
+572,Ali Cafe,3.8,4,4
+573,Kopi 69,7,7.3,7.3
+574,Kopi Meesai,7,7.3,7.3
+575,Kopi Al Janna,4,4.3,4.3
+576,Kopi Al Janna Ais,4.8,4.8,4.8
+577,CHOKLET PANAS,4,4.3,4.3
+578,CHOKLET AIS,4.8,4.8,4.8
+579,Kopi RM7.00,7,7.3,7.3
+580,XTRA Joss Ori,3,3,3
+581,XTRA Joss Anggur,3,3,3
+582,XTRA Joss Manga,3,3,3
+583,XTRA Joss Orange,3,3,3
+584,XTRA Joss Ori Ais Besar,4.5,4.8,4.8
+585,XTRA Joss Manga Ais Besar,4.5,4.8,4.8
+586,XTRA JOSE OREN BESAR,4.5,4.5,4.5
+587,XTRA Joss Anggur Ais Besar,4.5,4.8,4.8
+588,Sunquick Orange,3,3.3,3.3
+589,Sunquick Mango,3,3.3,3.3
+590,Sunquick Blackcurrent,3,3.3,3.3
+591,Sunquick Anggur,3,3.3,3.3
+592,Ribena Blackcurrent,3,3.3,3.3
+593,Cappucino Ais,4.8,4.8,4.8
+594,Ribena Strawberry,3,3.3,3.3
+595,Cappucino,4,4.3,4.3
+596,White Coffee Ais,4.3,4.3,4.3
+597,White Coffee,3.5,3.8,3.8
+ ,MINUMAN - SIRAP/ LIMAU/ BARLI, , , 
+598,Sirap,1.8,2.1,2.1
+599,Sirap Ais,2.8,2.8,2.8
+600,Sirap Ais Besar,4,4.3,4.3
+601,Sirap Bandung Panas,2.3,2.6,2.6
+602,Sirap Bandung Ais,3.1,3.1,3.1
+603,Barli Panas,2.9,2.9,2.9
+604,Barli Ais,3.2,3.2,3.2
+605,BARLI SUSU,3.5,3.8,3.8
+606,BARLI SUSU AIS,3.8,3.8,3.8
+607,Barli Ais Besar,4.5,4.8,4.8
+608,Barli Limau Panas,3.3,3.6,3.6
+609,Sirap Bandung Ais Besar,4.8,5.1,5.1
+610,Barli Panas Besar,2.8,3.1,3.1
+611,Limau,2.2,2.5,2.5
+612,Limau Besar,2.5,2.8,2.8
+613,Limau Ais,2.8,2.8,2.8
+614,Limau Ais Besar,4.3,4.6,4.6
+615,Sirap Limau,2.3,2.6,2.6
+616,Sirap Limau Ais,3,3,3
+617,Sirap Limau Ais Besar,4.5,4.8,4.8
+618,Barli Limau Ais,3.9,3.9,3.9
+619,Limau Asam Boi Ais,3.5,3.5,3.5
+620,Limau Asam Boi Ais Besar,4.5,4.8,4.8
+621,Limau Asam Boi,2.7,3,3
+622,Sirap Bandung Cincau,6,6,6
+623,BANDUNG HAMEEDS SPECIAL (BANDUNG SODA SELASIH),5.9,6.2,6.2
+624,ASAM BOI PANAS,2.6,2.9,2.9
+625,ASAM BOI AIS,3,3,3
+626,BANDUNG LYCHEE,6.5,6.8,6.8
+627,BANDUNG SODA,5.7,6,6
+ ,MINUMAN - SUSU, , , 
+628,Susu,2.3,2.6,2.6
+629,Susu Besar,2.8,3.1,3.1
+630,Susu Ais,2.8,3.1,3.1
+631,Susu Ais Besar,4.5,4.8,4.8
+632,Susu Halia,3,3.3,3.3
+633,Susu Halia Besar,3.3,3.3,3.3
+634,Susu Halia Ais,3.5,3.8,3.8
+635,Susu Halia Ais Besar,0,0,0
+ ,MINUMAN - TEH, , , 
+636,Teh,2.3,3,3
+637,TEH CUTING,1.8,2.5,2.5
+638,Teh O,1.8,2,2
+639,Teh O Limau Ais,3,3,3
+640,Teh C,2.5,3,3
+641,Teh C AIS BESAR,5,5.3,5.3
+642,Teh Panas,2.3,3,3
+643,Teh O Besar,2.2,2.5,2.5
+644,Teh O Limau Ais Besar,4.8,4.8,4.8
+645,Teh C BESAR,3,3.3,3.3
+646,Teh C HALIA AIS,3.9,3.9,3.9
+647,Teh Besar,2.8,3,3
+648,Teh O Ais,2.8,2.8,2.8
+649,Teh O Halia,2.5,2.8,2.8
+650,Teh C Ais,3.3,3.3,3.3
+651,Teh C Halia Ais Besar,5.5,5.8,5.8
+652,Teh Ais,3.3,3.3,3.3
+653,Teh O Ais Besar,4,4.3,4.3
+654,Teh O Halia Besar,3,3.3,3.3
+655,Teh C Halia,3,3.3,3.3
+656,Teh Halia Ais Besar,5.5,5.8,5.8
+657,Teh Ais Besar,5,5,5
+658,Teh O Limau,2.3,2.6,2.6
+659,Teh Halia,2.6,3.3,3.3
+660,Teh C Halia Besar,3.3,3.6,3.6
+661,Teh O Halia Ais,3.3,3.3,3.3
+662,Teh O Limau Besar,2.6,2.9,2.9
+663,Teh Halia Ais,3.6,3.6,3.6
+664,Teh Halia Besar,3,3,3
+665,3 Layer Tea,5.8,5.8,5.8
+666,Teh O Ais Lychee,6.2,6.2,6.2
+667,TEH AIS CINCAU,6,6,6
+668,Halia O,2,2.3,2.3
+669,Serai Halia Ais,3.8,3.8,3.8
+670,Halia O Ais,2.5,2.8,2.8
+671,Serai Halia,3,3.3,3.3
+ ,MINUMAN - TELUR, , , 
+672,Telur 1/2 Masak 2 Biji Biasa,3.6,3.6,3.6
+673,Telur 1/2 Masak 1 Biji Biasa,1.8,1.8,1.8
+674,Telur Kampung 1/2 Masak 2 Biji,4.4,4.4,4.4
+675,Telur Kampung 1/2 Masak 1 Biji,2.2,2.2,2.2
+ ,NAAN/ TANDOORI - NAAN/ TANDOORI, , , 
+676,Naan Biasa,3.5,3.5,3.5
+677,Naan Bawang,4.3,4.3,4.3
+678,Naan Kaya,4.5,4.5,4.5
+679,Naan Cendawan,6,6,6
+680,Ayam Tandoori,9,9,9
+681,Naan Cheese,9,9,9
+682,Naan Cheese Double,11.5,11.5,11.5
+683,Naan Cheese Triple,13.5,13.5,13.5
+684,Naan Cheese Butter,9,9,9
+685,Ayam Tandoori Dada,9,9,9
+686,Naan Garlic,4.5,4.5,4.5
+687,Naan Cheese Garlic,11,11,11
+688,Naan Cheese Garlic Double,11.5,11.5,11.5
+689,Naan Garlic Cheese Double,13.5,13.5,13.5
+690,Ayam Tandoori Peha,9,9,9
+691,Naan Butter,4.5,4.5,4.5
+692,Naan Garlic Butter,5.8,5.8,5.8
+693,Naan Shahjahan,20,20,20
+694,NASI--PUTIH,2.5,2.5,2.5
+695,Capati Tampal,0,0,0
+ ,NASI KANDAR - BRIYANI, , , 
+696,Nasi Briyani Ayam,14,14,14
+697,Nasi Briyani Ayam Bawang,16,16,16
+698,Nasi Briyani Ayam 65,14,14,14
+699,Nasi Briyani Kambing,18,18,18
+700,Nasi Briyani Daging,15,15,15
+701,Nasi Briyani Ikan,15,15,15
+702,Nasi Briyani Telur,7,7,7
+703,Nasi Briyani Kosong,5,5,5
+704,NASI BERIYANI,0,0,0
+ ,NASI KANDAR - LAUK LAUK, , , 
+705,Nasi Kandar,0,0,0
+706,Nasi Putih,2.5,2.5,2.5
+707,Nasi Separuh,1.5,1.5,1.5
+708,Sayur,2,2,2
+709,Ayam Goreng,5.5,5.5,5.5
+710,LAUK-LAUK,0,0,0
+711,Nasi + Ayam + Sayur,9.5,9.5,9.5
+712,Nasi + Kambing,14,14,14
+713,Nasi + Kambing + Sayur,16,16,16
+714,Kambing,12,12,12
+715,Nasi + Ayam,7.5,7.5,7
+716,Ayam Kicap,6,6,6
+717,Ayam Madu,6,6,6
+718,Ayam Kurma,6,6,6
+719,Ayam Bawang,6,6,6
+720,Ayam Kari,6,6,6
+721,Perut Kambing,10,10,10
+722,Daging,10,10,10
+723,Ayam.,0,0,0
+724,Hati Ayam Goreng,0,0,0
+725,Kambing.,0,0,0
+726,Ikan Tenggiri,0,0,0
+727,Telur Ikan,10,10,10
+728,Telur Masin Separuh,2,2,2
+729,Ikan Tenggiri Kari,0,0,0
+730,Ikan.,0,0,0
+731,Kepala Ikan,0,0,0
+732,Telur Sotong,10,10,10
+733,Telur Masin 1 Biji,4,4,4
+734,Pappadam,1,1,1
+735,SAYUR OPEN,0,0,0
+736,Udang Sambal,0,0,0
+737,Sotong Goreng,0,0,0
+738,Udang Goreng,0,0,0
+739,Telur Rebus,2,2,2
+740,NASI TAMBAH,1,1,1
+741,Sotong Kari,0,0,0
+742,OMLET,2.5,2.5,2.5
+743,Telur Mata,1.8,1.8,1.8
+744,PERKEDEL,2,2,2
+ ,NASI LEMAK - NASI LEMAK, , , 
+745,NASI LEMAK BIASA,3.8,3.8,3.8
+746,NASI LEMAK AYAM GORENG,9,9,9
+747,NASI LEMAK KAMBING,13.5,13.5,13.5
+748,NASI LEMAK DAGING,12.5,12.5,12.5
+749,NASI LEMAK TAMBAH,1.5,1.5,1.5
+750,NASI LEMAK AYAM MASAK MERAH,9,9,9
+751,NASI LEMAK KERANG RENDANG,9,9,9
+752,NASI LEMAK KERANG SAMBAL,8.5,8.5,8.5
+753,NASI LEMAK SAMBAL IKAN BILIS + TELUR GORENG,7,7,7
+754,NASI LEMAK SAMBAL IKAN BILIS PETAI + TELUR GORENG,7.5,7.5,7.5
+755,NASI LEMAK SAMBAL SOTONG FRESH,9,9,9
+756,NASI LEMAK SAMBAL SOTONG KEMBANG,8.5,8.5,8.5
+757,NASI LEMAK SAMBAL UDANG,9.5,9.5,9.5
+758,NASI LEMAK TELUR GORENG,3.8,3.8,3.8
+759,NASI LEMAK TELUR SAMBAL,5,5,5
+760,NASI LEMAK TELUR REBUS,3.8,3.8,3.8
+761,NASI LEMAK DAGING RENDANG,11.5,11.5,11.5
+762,NASI LEMAK DAGING DENDENG,11.5,11.5,11.5
+763,NASI LEMAK DAGING DENDENG BERLADO,11.5,11.5,11.5
+764,NASI LEMAK PARU BERLADO,7.5,7.5,7.5
+ ,NASI LEMAK - NASI LEMAK LAUK LAUK, , , 
+765,TELUR REBUS,1.8,1.8,1.8
+766,TELUR GORENG,1.8,1.8,1.8
+767,TELUR SAMBAL,2,2,2
+768,DAGING RENDANG,10.5,10.5,10.5
+769,DAGING DENDENG BERLADO ( DENDENG BATOKO),10.5,10.5,10.5
+770,GULAI TUNJANG,12.5,12.5,12.5
+771,DAGING (TETEL) GULAI,10.5,10.5,10.5
+772,DAGING SALAI GULAI,12.5,12.5,12.5
+773,AYAM POP,10,10,10
+774,AYAM GORENG BEREMPAH,6,6,6
+775,AYAM BERLADO,6,6,6
+776,AYAM BAKAR,7,7,7
+777,AYAM RENDANG,7.5,7.5,7.5
+778,AYAM GULAI,7,7,7
+779,IKAN KELI GULAI,7.5,7.5,7.5
+780,IKAN TALAPIA GULAI,7.5,7.5,7.5
+781,IKAN KEMBUNG GULAI,8,8,8
+782,IKAN KEMBUNG ASAM PEDAS,8,8,8
+783,IKAN PARI ASAM PEDAS,8.5,8.5,8.5
+784,IKAN TENGGIRI ASAM PEDAS,9,9,9
+785,IKAN TALAPIA BERLADO,7.5,7.5,7.5
+786,IKAN KELI BERLADO,7.5,7.5,7.5
+787,IKAN KEMBUNG BERLADO,8,8,8
+788,IKAN TALAPIA BAKAR,7.5,7.5,7.5
+789,IKAN KELI BAKAR,7.5,7.5,7.5
+790,IKAN KEMBUNG BAKAR,8,8,8
+791,SAMBAL SOTONG KERING,8.5,8.5,8.5
+792,SAMBAL SOTONG FRESH,9,9,9
+793,SAMBAL UDANG,9,9,9
+794,PARU BERLADO,7,7,7
+795,PERGEDIL KENTANG,1.8,1.8,1.8
+796,TELUR DADAR,2,2,2
+797,TERUNG BERLADO,3,3,3
+798,SAMBAL HATI PEDAL,4,4,4
+799,GULAI PUCUK PAKU,2.5,2.5,2.5
+800,GULAI PUCUK UBI,2.5,2.5,2.5
+801,GULAI NANGKA MUDA,2.5,2.5,2.5
+802,PUCUK UBI REBUS,2,2,2
+803,KERANG RENDANG,7,7,7
+804,KERANG SAMBAL,6,6,6
+805,SAMBAL IKAN BILIS,3,3,3
+806,SAMBAL IKAN BILIS PETAI,4,4,4
+ ,OPEN ITEM - OPEN ITEM, , , 
+807,Open minuman,0,0,0
+808,Open Juice,0,0,0
+809,Open Goreng,0,0,0
+810,Open Naan,0,0,0
+811,Open Food,0,0,0
+812,OPEN TOMYUM,0,0,0
+813,OPEN GORENG TOMYUM,0,0,0
+814,OPEN ROTI,0,0,0
+815,OPEN NASI KANDAR,0,0,0
+ ,ROKOK - ROKOK, , , 
+816,Dunhil,17.7,17.7,17.7
+817,Marlboro,17.4,17.4,17.4
+818,Mevius,17.4,17.4,17.4
+819,Winston,15.9,15.9,15.9
+820,Sampoerna,15.9,15.9,15.9
+821,Pallmall,15.9,15.9,15.9
+822,Peter,16.2,16.2,16.2
+823,LM,15.9,15.9,15.9
+824,Kent,17.4,17.4,17.4
+825,Benson,17.9,17.9,17.9
+826,Chesterfield,12.4,12.4,12.4
+827,LD,12,12,12
+828,Rothmans,12.4,12.4,12.4
+829,Bond,12,12,12
+830,Heets,14,14,14
+831,KYO,13,13,13
+ ,ROTI - MURTABAK, , , 
+832,Murtabak Ayam,9,9,9
+833,Murtabak Daging,10,10,10
+834,Murtabak Kambing,12,12,12
+835,Murtabak Sardin,6.5,6.5,6.5
+836,Murtabak Special,0,0,0
+ ,ROTI - ROTI, , , 
+837,Roti Canai,1.7,1.7,1.7
+838,Roti Telur,3.2,3.2,3.2
+839,Roti Tampal,3.2,3.2,3.2
+840,Roti Planta,2.8,2.8,2.8
+841,Roti Pisang,3.8,3.8,3.8
+842,Roti Petak,1.7,1.7,1.7
+843,Roti Tisu,3.8,3.8,3.8
+844,Roti Telur Bawang,3.8,3.8,3.8
+845,Roti Bawang,2.7,2.7,2.7
+846,Roti Telur Bawang Cili,4,4,4
+847,Roti Bawang Cili,3,3,3
+848,Roti Susu,2.7,2.7,2.7
+849,Roti Cheese,3.2,3.2,3.2
+850,Roti Double Cheese,4.7,4.7,4.7
+851,Roti Kaya,3,3,3
+852,Roti Boom,3,3,3
+853,Roti Sardin,4.8,4.8,4.8
+854,Roti Jantan,4.8,4.8,4.8
+855,Roti Jantan Bawang,5.2,5.2,5.2
+856,Roti Milo,3.8,3.8,3.8
+857,Roti Telur Cheese,4.7,4.7,4.7
+858,Roti Pisang Telur,4.8,4.8,4.8
+859,Roti Boom Cheese,4.5,4.5,4.5
+860,Roti Planta Telur,4,4,4
+861,Roti Special,5.3,5.3,5.3
+862,Roti Kawin,4.8,4.8,4.8
+863,Roti Goreng Biasa,7.5,7.5,7.5
+864,Roti Goreng Ayam,11,11,11
+865,ROTI SARANG BURUNG,5,5,5
+866,Roti Goreng Kambing,14,14,14
+867,PISANG,0,0,0
+ ,ROTI - ROTI BAKAR, , , 
+868,Roti Bakar,2,2,2
+869,Roti Bakar Telur,4.2,4.2,4.2
+870,Roti Bakar Cheese,3,3,3
+871,Roti Bakar Telur Cheese,5,5,5
+872,Roti Arab Biasa,3.5,3.5,3.5
+873,Roti Arab Cheese,4.8,4.8,4.8
+874,Roti Arab Telur,4.8,4.8,4.8
+875,Roti Arab Sardin,6.5,6.5,6.5
+876,Roti Arab Ayam,8,8,8
+877,Roti Arab Daging,8,8,8
+878,Roti Arab Kambing,10,10,10
+879,ROTI BAKAR SPECIAL,5.2,5.2,5.2
+ ,ROTI - TELUR, , , 
+880,Telur Mata,1.8,1.8,1.8
+881,Telur Goreng,1.8,1.8,1.8
+882,Telur Dadar,2,2,2
+883,Telur Omblet,2.5,2.5,2.5
+884,Telur Kalaki,3,3,3
+ ,SUP MAMAK - SUP MAMAK, , , 
+885,Sup Kosong Mamak,0,0,0
+886,Sup Ayam Mamak,8.5,8.5,8.5
+887,Sup Kambing Mamak,12,12,12
+888,Roti Slice 3 Keping,1.8,1.8,1.8
+889,ROTI SLICE 1 KEPING,0.6,0.6,0.6
+890,NASI  PUTIH,2.5,2.5,2.5
+ ,THOSAI/ UTHAPPAM - THOSAI, , , 
+891,Tosai Biasa,2.5,2.5,2.5
+892,Tosai Telur,3.9,3.9,3.9
+893,Tosai Telur Bawang,4.5,4.5,4.5
+894,Tosai Bawang,3,3,3
+895,Tosai Telur Bawang Cili,4.8,4.8,4.8
+896,Tosai Cheese,3.8,3.8,3.8
+897,Tosai Cheese Telur,4.8,4.8,4.8
+898,Tosai Susu,3,3,3
+899,Tosai Paper,3.5,3.5,3.5
+900,Tosai Plantha,3.5,3.5,3.5
+901,Tosai Masala,4.5,4.5,4.5
+902,Tosai Ghee,4.5,4.5,4.5
+903,Tosai Ghee Telur,6,6,6
+904,Tosai Gula,3,3,3
+905,Tosai Sardin,5,5,5
+906,Tosai Rumah,2.5,2.5,2.5
+907,Tosai Rumah Telur,3.9,3.9,3.9
+908,Rawa Tosai,3.8,3.8,3.8
+909,Rawa Tosai Masala,5.3,5.3,5.3
+910,Rawa Tosai Telur,5.3,5.3,5.3
+911,Uthappam,2.5,2.5,2.5
+912,Uthappam Telur,3.9,3.9,3.9
+913,Uthappam Bawang,3,3,3
+914,Uthappam Telur Bawang,4.5,4.5,4.5
+915,Uthappam Ghee,4.5,4.5,4.5
+916,Tosai Pisang,4.5,4.5,4.5
+ ,UBAT / GULA-GULA - UBAT GULA-GULA, , , 
+917,Gula- Gula,0,0,0
+918,Gula- Gula Rm1.00,1,1,1
+919,Lighter,1,1,1
+920,Ubat,0,0,0
+921,Kacang,2,2,2
+922,Kacang Manis,2,2,2
+923,YSM Asam,4,4,4
+924,Marsmallow,4.5,4.5,4.5
+925,Mentos Stick,2.2,2.2,2.2
+926,Mentos Box,3.8,3.8,3.8
+927,Roti Bun,0,0,0
+928,DETOX PLASTER,10,10,10
+929,PERFUME,10,10,10
+930,GULA GULA RM1.20,1.2,1.2,1.2
+ ,WESTERN - WESTERN, , , 
+931,FRENCH FRIES,6,6,6
