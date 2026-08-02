@@ -438,21 +438,48 @@ box.innerHTML="Table: TAKE AWAY";
 
 // Place Order
 
-function placeOrder(){
+async function placeOrder(){
 
 
-let name=document.getElementById("customerName").value;
+let customerName=document.getElementById("customerName").value;
 
 let phone=document.getElementById("phone").value;
 
 
+let table="TAKE AWAY";
 
-alert(
-"Order Received\n"+
-"Customer: "+name+
-"\nPhone: "+phone
-);
 
+if(selectedType=="DINE IN"){
+
+table=document.getElementById("tableNumber").value;
+
+}
+
+
+
+await addDoc(collection(db,"orders"),{
+
+
+type:selectedType,
+
+table:table,
+
+customerName:customerName,
+
+phone:phone,
+
+items:cart,
+
+time:new Date(),
+
+status:"NEW"
+
+
+});
+
+
+
+alert("Order Sent Successfully");
 
 
 cart=[];
