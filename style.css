@@ -1,158 +1,99 @@
 body{
     margin:0;
     padding:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#064b9b;
     color:white;
     text-align:center;
 }
 
 
-/* Welcome Page */
-
 #welcome{
     min-height:100vh;
-    padding-top:25px;
-    box-sizing:border-box;
+    padding-top:20px;
 }
-.back-btn{
 
-    background:#555 !important;
-
-    color:white;
-
-    margin-bottom:15px;
-
-    width:120px;
-
-}
 
 .logo{
-
-    width:180px;
-    height:180px;
+    width:190px;
+    height:190px;
     object-fit:contain;
-
     background:white;
-
-    border:5px solid white;
     border-radius:50%;
-
     padding:8px;
-
 }
-
 
 
 h1{
-
     font-size:28px;
     margin:15px 0 5px;
-
 }
-
 
 
 h2{
-
     font-size:20px;
-    margin:5px 0 25px;
-
 }
 
 
-
-/* Language Buttons */
-
 .languages{
-
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
     gap:10px;
-
-    margin:20px;
-
+    margin:25px;
 }
-
 
 
 .languages button{
-
-    width:85px;
+    width:90px;
     height:70px;
-
-    background:white;
-    color:#064b9b;
-
     border:none;
     border-radius:10px;
-
-    font-size:13px;
+    background:white;
+    color:#064b9b;
     font-weight:bold;
-
 }
 
 
-
-/* Dine In Take Away */
-
-.type{
-
-    margin-top:35px;
-
-}
-
-
-
-.type button{
-
-    width:150px;
+.order-type button{
+    width:160px;
     height:55px;
-
     margin:10px;
-
     border:none;
     border-radius:10px;
-
     background:white;
     color:#064b9b;
-
     font-size:18px;
     font-weight:bold;
-
 }
 
 
 
-/* Menu Page */
 
-#menuPage{
+#menuPage,
+#cartPage,
+#checkoutPage{
 
     background:white;
     color:#222;
-
     min-height:100vh;
-
     padding:20px;
 
 }
 
 
 
-#menuPage button{
+.main-btn,
+.back-btn,
+#cartBtn{
 
     background:#064b9b;
-
     color:white;
-
     border:none;
-
-    padding:12px 25px;
-
-    border-radius:8px;
-
+    padding:14px 25px;
+    border-radius:10px;
     font-size:16px;
+    margin:10px;
 
 }
 
@@ -160,15 +101,14 @@ h2{
 
 .category{
 
+    display:block;
+    width:90%;
+    margin:10px auto;
+    padding:15px;
     background:#064b9b;
-
     color:white;
-
-    padding:12px;
-
-    margin:10px;
-
     border-radius:10px;
+    font-size:17px;
 
 }
 
@@ -176,28 +116,59 @@ h2{
 
 .item{
 
-    background:#f5f5f5;
-
+    background:#f1f1f1;
     color:#222;
-
-    margin:10px 0;
-
     padding:15px;
-
+    margin:10px;
     border-radius:10px;
-
     display:flex;
-
     justify-content:space-between;
+    align-items:center;
 
 }
 
 
 
-.price{
+.add-btn{
 
-    color:green;
+    background:green;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:8px;
 
-    font-weight:bold;
+}
+
+
+
+.cart-item{
+
+    background:#eee;
+    color:#222;
+    padding:15px;
+    margin:10px;
+    border-radius:10px;
+
+}
+
+
+
+.qty button{
+
+    padding:5px 12px;
+    margin:5px;
+
+}
+
+
+
+input{
+
+    width:85%;
+    padding:15px;
+    margin:10px;
+    font-size:16px;
+    border-radius:8px;
+    border:1px solid #ccc;
 
 }
