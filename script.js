@@ -113,7 +113,8 @@ takeaway:col[3].trim()
 
 });
 
-
+openCategory();
+showItems("ALL");
 
 });
 
@@ -487,15 +488,6 @@ cart=[];
 }
 
 
-}
-window.setLanguage = setLanguage;
-window.startMenu = startMenu;
-window.openCategory = openCategory;
-window.showItems = showItems;
-window.showCart = showCart;
-window.checkout = checkout;
-window.backMenu = backMenu;
-window.placeOrder = placeOrder;
 window.setLanguage = setLanguage;
 window.startMenu = startMenu;
 window.openCategory = openCategory;
@@ -506,6 +498,5 @@ window.checkout = checkout;
 window.backMenu = backMenu;
 window.placeOrder = placeOrder;
 window.changeQty = changeQty;
-function closeCategoryMenu(){
 
     
