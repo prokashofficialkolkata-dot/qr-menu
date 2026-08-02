@@ -1,1 +1,43 @@
+{
+  "languages": {
+    "en": "English",
+    "ms": "Bahasa Melayu",
+    "ta": "தமிழ்",
+    "zh": "中文",
+    "hi": "हिन्दी",
+    "bn": "বাংলা"
+  },
 
+  "menu": {
+    "category": {
+      "Roti": {
+        "en": "Roti",
+        "ms": "Roti",
+        "ta": "ரொட்டி",
+        "zh": "印度煎饼",
+        "hi": "रोटी",
+        "bn": "রুটি"
+      },
+
+      "Drinks": {
+        "en": "Drinks",
+        "ms": "Minuman",
+        "ta": "பானங்கள்",
+        "zh": "饮料",
+        "hi": "पेय पदार्थ",
+        "bn": "পানীয়"
+      },
+
+      "Rice": {
+        "en": "Rice",
+        "ms": "Nasi",
+        "ta": "சாதம்",
+        "zh": "米饭",
+        "hi": "चावल",
+        "bn": "ভাত"
+      }
+    },
+
+    "items": {}
+  }
+}
