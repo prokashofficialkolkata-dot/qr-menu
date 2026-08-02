@@ -1,21 +1,28 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import { 
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  doc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+getAuth,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getFirestore,
+collection,
+onSnapshot,
+doc,
+updateDoc,
+addDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-// এখানে আপনার Firebase Config বসাবেন
+
+// YOUR FIREBASE CONFIG HERE
 
 const firebaseConfig = {
     apiKey: "AIzaSyA-bY4_1pk5QX6dTQPyy2uruB0qBb0c6s0",
@@ -27,6 +34,7 @@ const firebaseConfig = {
   };
 
 
+
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
@@ -35,52 +43,83 @@ const db = getFirestore(app);
 
 
 
-// LOGIN BUTTON
 
-document.getElementById("loginBtn").addEventListener("click", function(){
+// PAGE CHANGE
 
-const email = document.getElementById("email").value;
+window.showPage=function(page){
 
-const password = document.getElementById("password").value;
+document.querySelectorAll(".page").forEach(p=>{
+p.style.display="none";
+});
 
+
+document.getElementById(page).style.display="block";
+
+
+}
+
+
+
+
+// LOGIN
+
+document.getElementById("loginBtn").onclick=()=>{
+
+
+let email=document.getElementById("email").value;
+
+let password=document.getElementById("password").value;
 
 
 signInWithEmailAndPassword(auth,email,password)
 
-.then((userCredential)=>{
-
-console.log("Login Success");
+.then(()=>{
 
 document.getElementById("loginBox").style.display="none";
 
 document.getElementById("dashboard").style.display="block";
 
-
 loadOrders();
-
 
 })
 
+.catch(e=>{
 
-.catch((error)=>{
-
-console.log(error.message);
-
-document.getElementById("loginMessage").innerHTML =
-"Wrong Email or Password";
+document.getElementById("loginMessage").innerHTML=
+"Login Failed";
 
 });
 
 
+};
+
+
+
+
+
+// LOGOUT
+
+
+document.getElementById("logoutBtn").onclick=()=>{
+
+
+signOut(auth).then(()=>{
+
+location.reload();
+
 });
 
 
+};
 
 
 
-// যদি আগে থেকেই Login করা থাকে
 
-onAuthStateChanged(auth,(user)=>{
+
+// AUTO LOGIN
+
+
+onAuthStateChanged(auth,user=>{
 
 if(user){
 
@@ -92,6 +131,7 @@ loadOrders();
 
 }
 
+
 });
 
 
@@ -99,84 +139,106 @@ loadOrders();
 
 
 
-// LOAD ORDERS FROM FIREBASE
+// LOAD ORDERS
+
 
 function loadOrders(){
 
 
-const ordersBox = document.getElementById("orders");
+const box=document.getElementById("ordersList");
 
 
-onSnapshot(collection(db,"orders"),(snapshot)=>{
+onSnapshot(collection(db,"orders"),snapshot=>{
 
 
-ordersBox.innerHTML="";
+box.innerHTML="";
 
 
-snapshot.forEach((orderDoc)=>{
+snapshot.forEach(orderDoc=>{
 
 
-const order = orderDoc.data();
+let o=orderDoc.data();
+
+
+if(o.status==="NEW"){
 
 
 
-let itemList="";
+let items="";
 
 
-if(order.items){
+o.items.forEach(i=>{
 
-order.items.forEach(item=>{
-
-itemList += `
-<p>
-${item.name} × ${item.qty}
-</p>
+items += `
+<div>
+${i.name} × ${i.qty}
+</div>
 `;
 
 });
 
-}
 
 
-
-ordersBox.innerHTML += `
-
-<div class="orderBox">
-
-<h3>${order.type}</h3>
-
-<p>
-Customer: ${order.customerName}
-</p>
-
-<p>
-Phone: ${order.phone}
-</p>
+box.innerHTML += `
 
 
-<p>
-Table: ${order.tableNumber}
-</p>
+<div class="order-card">
 
 
-<h4>Items</h4>
+<center>
+<h3>HAMEED BISTRO</h3>
+<b>NEW ORDER</b>
+</center>
 
-${itemList}
+
+<hr>
 
 
 <p>
-Status: ${order.status}
+Customer: ${o.customerName}
 </p>
 
 
-<button onclick="readyOrder('${orderDoc.id}')">
+<p>
+Phone: ${o.phone}
+</p>
+
+
+<p>
+Type: ${o.type}
+</p>
+
+
+<p>
+Table: ${o.tableNumber || "TAKE AWAY"}
+</p>
+
+
+<hr>
+
+${items}
+
+
+<hr>
+
+
+<button class="ready-btn"
+onclick="readyOrder('${orderDoc.id}')">
+
 READY
+
 </button>
 
 
 </div>
 
+
+
 `;
+
+
+
+}
 
 
 
@@ -192,11 +254,21 @@ READY
 
 
 
-window.readyOrder = async function(id){
 
-await updateDoc(doc(db,"orders",id),{
+// READY BUTTON
 
-status:"READY"
+
+window.readyOrder=async function(id){
+
+
+let ref=doc(db,"orders",id);
+
+
+await updateDoc(ref,{
+
+status:"COMPLETED",
+
+completedTime:serverTimestamp()
 
 });
 
