@@ -183,12 +183,11 @@ box.appendChild(btn);
 
 function showItems(category){
 
-
+// Mobile-এ Category List বন্ধ হবে
 document.getElementById("categoryBox").innerHTML="";
-
+document.activeElement.blur();
 
 let box=document.getElementById("itemBox");
-
 
 box.innerHTML="";
 
@@ -462,7 +461,7 @@ await addDoc(collection(db,"orders"),{
 
 type:selectedType,
 
-table:table,
+tableNumber: table,
 
 customerName:customerName,
 
@@ -486,6 +485,9 @@ cart=[];
 
 
 }
+
+
+}
 window.setLanguage = setLanguage;
 window.startMenu = startMenu;
 window.openCategory = openCategory;
@@ -504,3 +506,6 @@ window.checkout = checkout;
 window.backMenu = backMenu;
 window.placeOrder = placeOrder;
 window.changeQty = changeQty;
+function closeCategoryMenu(){
+
+    
