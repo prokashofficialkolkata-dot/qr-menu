@@ -89,7 +89,7 @@ categories=[...new Set(menuData.map(item=>item.category))];
 
 
 showCategories();
-
+document.getElementById("categories").style.display="block";
 
 });
 
@@ -152,7 +152,7 @@ box.appendChild(button);
 
 function showItems(category){
 
-
+document.getElementById("categories").style.display="none";
 let box=document.getElementById("items");
 
 
