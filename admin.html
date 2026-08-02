@@ -1,1 +1,59 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+
+<title>Admin Panel</title>
+
+<link rel="stylesheet" href="admin.css">
+
+</head>
+
+
+<body>
+
+
+<h1>
+Restoran Hameed's Bistro Admin
+</h1>
+
+
+<div class="login">
+
+<input id="username" placeholder="Username">
+
+<input id="password" type="password" placeholder="Password">
+
+
+<button onclick="login()">
+LOGIN
+</button>
+
+</div>
+
+
+
+<div id="panel" style="display:none">
+
+
+<h2>Upload Menu CSV</h2>
+
+
+<input type="file" id="csvFile">
+
+
+<button onclick="uploadCSV()">
+Upload
+</button>
+
+
+</div>
+
+
+
+<script src="admin.js"></script>
+
+
+</body>
+
+</html>
