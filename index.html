@@ -15,99 +15,149 @@
 <body>
 
 
+<!-- Welcome Page -->
+
 <div id="welcome">
 
 
 <img src="images/logo.png" class="logo">
 
 
-<h1>
-Restoran Hameed's Bistro
-</h1>
+<h1>Restoran Hameed's Bistro</h1>
 
-
-<h2>
-Ordering System & Digital Menu
-</h2>
-
+<h2>Ordering System & Digital Menu</h2>
 
 
 <div class="languages">
 
-<button onclick="setLanguage('en')">
-🇬🇧<br>English
-</button>
+<button onclick="setLanguage('en')">🇬🇧<br>English</button>
 
+<button onclick="setLanguage('ms')">🇲🇾<br>Malay</button>
 
-<button onclick="setLanguage('ms')">
-🇲🇾<br>Malay
-</button>
+<button onclick="setLanguage('ta')">🇮🇳<br>Tamil</button>
 
+<button onclick="setLanguage('zh')">🇨🇳<br>Chinese</button>
 
-<button onclick="setLanguage('ta')">
-🇮🇳<br>Tamil
-</button>
+<button onclick="setLanguage('hi')">🇮🇳<br>Hindi</button>
 
-
-<button onclick="setLanguage('zh')">
-🇨🇳<br>Chinese
-</button>
-
-
-<button onclick="setLanguage('hi')">
-🇮🇳<br>Hindi
-</button>
-
-
-<button onclick="setLanguage('bn')">
-🇧🇩<br>Bangla
-</button>
-
+<button onclick="setLanguage('bn')">🇧🇩<br>Bangla</button>
 
 </div>
 
 
+<div class="order-type">
 
-<div class="type">
-
-<button onclick="openMenu('Dine In')">
+<button onclick="startMenu('DINE IN')">
 DINE IN
 </button>
 
 
-<button onclick="openMenu('Take Away')">
+<button onclick="startMenu('TAKE AWAY')">
 TAKE AWAY
 </button>
 
 </div>
 
 
-
 </div>
 
 
 
-<div id="menuPage" style="display:none">
-<button class="back-btn" onclick="goBack()">
-⬅ BACK
-</button>
+
+
+<!-- Menu Page -->
+
+<div id="menuPage" style="display:none;">
+
+
 <h2 id="menuTitle">
-Menu
+MENU
 </h2>
 
 
-<button onclick="showCategories()">
+<button onclick="openCategory()" class="main-btn">
 SELECT CATEGORY
 </button>
 
 
-<div id="categories"></div>
+<div id="categoryBox"></div>
 
 
-<div id="items"></div>
+<div id="itemBox"></div>
+
+
+
+<button onclick="showCart()" id="cartBtn">
+🛒 SHOW CART
+</button>
 
 
 </div>
+
+
+
+
+
+<!-- Cart Page -->
+
+<div id="cartPage" style="display:none;">
+
+
+<h2>
+YOUR CART
+</h2>
+
+
+<div id="cartItems"></div>
+
+
+<h3 id="total"></h3>
+
+
+<button onclick="checkout()" class="main-btn">
+CHECKOUT
+</button>
+
+
+<button onclick="backMenu()" class="back-btn">
+⬅ BACK
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- Checkout Page -->
+
+<div id="checkoutPage" style="display:none;">
+
+
+<h2>
+CHECKOUT
+</h2>
+
+
+<div id="tableInput"></div>
+
+
+<input id="customerName" placeholder="Customer Name">
+
+
+<input id="phone" placeholder="Phone Number">
+
+
+
+<button onclick="placeOrder()" class="main-btn">
+PLACE ORDER
+</button>
+
+
+</div>
+
+
 
 
 
