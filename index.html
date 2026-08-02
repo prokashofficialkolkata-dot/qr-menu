@@ -1,68 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Restoran Hameed's Bistro</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<header>
-    <img src="images/logo.png" class="logo" alt="Logo">
 
-    <h1>Restoran Hameed's Bistro</h1>
+<div id="welcome">
 
-    <div class="languages">
 
-<button onclick="changeLanguage('en')">
-<img src="https://flagcdn.com/w40/gb.png">
-<br>English
+<img src="images/logo.png" class="logo">
+
+
+<h1>
+Restoran Hameed's Bistro
+</h1>
+
+
+<h2>
+Ordering System & Digital Menu
+</h2>
+
+
+
+<div class="languages">
+
+<button onclick="setLanguage('en')">
+🇬🇧<br>English
 </button>
 
 
-<button onclick="changeLanguage('ms')">
-<img src="https://flagcdn.com/w40/my.png">
-<br>Malay
+<button onclick="setLanguage('ms')">
+🇲🇾<br>Malay
 </button>
 
 
-<button onclick="changeLanguage('ta')">
-<img src="https://flagcdn.com/w40/in.png">
-<br>தமிழ்
+<button onclick="setLanguage('ta')">
+🇮🇳<br>Tamil
 </button>
 
 
-<button onclick="changeLanguage('zh')">
-<img src="https://flagcdn.com/w40/cn.png">
-<br>中文
+<button onclick="setLanguage('zh')">
+🇨🇳<br>Chinese
 </button>
 
 
-<button onclick="changeLanguage('hi')">
-<img src="https://flagcdn.com/w40/in.png">
-<br>हिन्दी
+<button onclick="setLanguage('hi')">
+🇮🇳<br>Hindi
 </button>
 
 
-<button onclick="changeLanguage('bn')">
-<img src="https://flagcdn.com/w40/bd.png">
-<br>বাংলা
+<button onclick="setLanguage('bn')">
+🇧🇩<br>Bangla
 </button>
+
+
 </div>
 
-</header>
 
 
-<div id="menu">
-    Loading Menu...
+<div class="type">
+
+<button onclick="openMenu('Dine In')">
+DINE IN
+</button>
+
+
+<button onclick="openMenu('Take Away')">
+TAKE AWAY
+</button>
+
 </div>
+
+
+
+</div>
+
+
+
+<div id="menuPage" style="display:none">
+
+
+<h2 id="menuTitle">
+Menu
+</h2>
+
+
+<button onclick="showCategories()">
+SELECT CATEGORY
+</button>
+
+
+<div id="categories"></div>
+
+
+<div id="items"></div>
+
+
+</div>
+
 
 
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
