@@ -80,11 +80,25 @@ TAKE AWAY
 
 <div id="menuPage" style="display:none;">
 
+<div class="top-bar">
 
-<h2 id="menuTitle">
-MENU
-</h2>
+<button id="backBtn" onclick="goBack()">
+⬅ Back
+</button>
 
+<button id="homeBtn" onclick="goHome()">
+🏠 Home
+</button>
+
+<button onclick="refreshPage()">
+🔄 Refresh
+</button>
+
+<button onclick="showCart()">
+🛒 Show Cart (<span id="cartCount2">0</span>)
+</button>
+
+</div>
 
 <button onclick="openCategory()" class="main-btn">
 SELECT CATEGORY
@@ -130,8 +144,16 @@ CHECKOUT
 </button>
 
 
-<button onclick="backMenu()" class="back-btn">
+<button onclick="goBack()" class="back-btn">
 ⬅ BACK
+</button>
+
+<button onclick="goHome()" class="main-btn">
+🏠 HOME
+</button>
+
+<button onclick="refreshPage()" class="main-btn">
+🔄 REFRESH
 </button>
 
 
@@ -164,7 +186,17 @@ CHECKOUT
 <button onclick="placeOrder()" class="main-btn">
 PLACE ORDER
 </button>
+<button onclick="goBack()" class="back-btn">
+⬅ BACK
+</button>
 
+<button onclick="goHome()" class="main-btn">
+🏠 HOME
+</button>
+
+<button onclick="refreshPage()" class="main-btn">
+🔄 REFRESH
+</button>
 
 </div>
 
