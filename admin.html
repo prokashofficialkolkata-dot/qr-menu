@@ -1,59 +1,79 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>Admin Panel</title>
-
-<link rel="stylesheet" href="admin.css">
-
-</head>
-
-
-<body>
-
-
-<h1>
-Restoran Hameed's Bistro Admin
-</h1>
-
-
-<div class="login">
-
-<input id="username" placeholder="Username">
-
-<input id="password" type="password" placeholder="Password">
-
-
-<button onclick="login()">
-LOGIN
-</button>
-
-</div>
+const ADMIN_USER="admin";
+const ADMIN_PASS="12345";
 
 
 
-<div id="panel" style="display:none">
+function login(){
 
 
-<h2>Upload Menu CSV</h2>
+let u=document.getElementById("user").value;
 
-
-<input type="file" id="csvFile">
-
-
-<button onclick="uploadCSV()">
-Upload
-</button>
-
-
-</div>
+let p=document.getElementById("pass").value;
 
 
 
-<script src="admin.js"></script>
+if(u==ADMIN_USER && p==ADMIN_PASS){
 
 
-</body>
+document.getElementById("loginBox").style.display="none";
 
-</html>
+document.getElementById("adminPanel").style.display="block";
+
+
+}
+
+else{
+
+
+alert("Wrong Login");
+
+
+}
+
+
+}
+
+
+
+
+function uploadCSV(){
+
+
+let file=document.getElementById("csvUpload").files[0];
+
+
+if(file){
+
+alert("CSV Uploaded Successfully");
+
+}
+
+
+}
+
+
+
+
+function turnOn(){
+
+
+localStorage.setItem("ordering","ON");
+
+document.getElementById("status").innerHTML=
+"Ordering System ON";
+
+
+}
+
+
+
+function turnOff(){
+
+
+localStorage.setItem("ordering","OFF");
+
+document.getElementById("status").innerHTML=
+"Ordering System OFF";
+
+
+}
