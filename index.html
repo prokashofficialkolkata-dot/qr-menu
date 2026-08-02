@@ -1,35 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Restoran Hameeds Bistro</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Restoran Hameed's Bistro</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div style="text-align:center;">
+<header>
+    <img src="images/logo.png" class="logo" alt="Logo">
 
-    <img src="images/logo.png" width="180">
+    <h1>Restoran Hameed's Bistro</h1>
 
-    <h1>Welcome To<br>Restoran Hameeds Bistro</h1>
+    <div class="languages">
+        <button onclick="changeLanguage('en')">English</button>
+        <button onclick="changeLanguage('ms')">Malay</button>
+        <button onclick="changeLanguage('ta')">தமிழ்</button>
+        <button onclick="changeLanguage('zh')">中文</button>
+        <button onclick="changeLanguage('hi')">हिन्दी</button>
+        <button onclick="changeLanguage('bn')">বাংলা</button>
+    </div>
 
-<h3>Choose Language</h3>
+</header>
 
-<div class="languages">
-    <button>🇬🇧 English</button>
-    <button>🇲🇾 Malay</button>
-    <button>🇮🇳 தமிழ்</button>
-    <button>🇨🇳 中文</button>
-    <button>🇮🇳 हिन्दी</button>
-    <button>🇧🇩 বাংলা</button>
+
+<div id="menu">
+    Loading Menu...
 </div>
 
-<div class="price-switch">
-    <button onclick="setPriceMode('dine')">🍽️ Dine In</button>
-    <button onclick="setPriceMode('takeaway')">🥡 Take Away</button>
-</div>
-
-<div id="menu-container"></div>
 
 <script src="script.js"></script>
+
+</body>
+</html>
