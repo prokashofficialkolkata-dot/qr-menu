@@ -1,3 +1,37 @@
+// Firebase
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+
+import { 
+getFirestore,
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyA-bY4_1pk5QX6dTQPyy2uruB0qBb0c6s0",
+
+authDomain: "hameed-bistro-qr-menu.firebaseapp.com",
+
+projectId: "hameed-bistro-qr-menu",
+
+storageBucket: "hameed-bistro-qr-menu.firebasestorage.app",
+
+messagingSenderId: "860085792035",
+
+appId: "1:860085792035:web:9907610b51cd7b73147096"
+
+};
+
+
+
+const app = initializeApp(firebaseConfig);
+
+
+const db = getFirestore(app);
 let menuData = [];
 
 let selectedType = "";
