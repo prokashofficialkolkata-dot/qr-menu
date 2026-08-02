@@ -1,25 +1,25 @@
-let selectedLanguage = "en";
+let menuData = [];
+
 let selectedType = "";
 
-let menuData = [];
-let categories = [];
+let selectedLanguage = "en";
+
+let cart = [];
 
 
-// Language Select
+// Language
 
 function setLanguage(lang){
 
     selectedLanguage = lang;
 
-    alert("Language Selected");
-
 }
 
 
 
-// Dine In / Take Away
+// Start Menu
 
-function openMenu(type){
+function startMenu(type){
 
     selectedType = type;
 
@@ -27,20 +27,19 @@ function openMenu(type){
 
     document.getElementById("menuPage").style.display="block";
 
-    loadMenu();
+    loadCSV();
 
 }
 
 
 
-// Load CSV Menu
+// Load CSV
 
-function loadMenu(){
-
+function loadCSV(){
 
 fetch("menu.csv")
 
-.then(response => response.text())
+.then(res=>res.text())
 
 .then(data=>{
 
@@ -48,31 +47,28 @@ fetch("menu.csv")
 let rows=data.split("\n");
 
 
-rows.shift();
-
-
-
 menuData=[];
 
 
-
-rows.forEach(row=>{
-
-
-let column=row.split(",");
+rows.slice(1).forEach(row=>{
 
 
+let col=row.split(",");
 
-if(column.length>=3){
+
+
+if(col.length>=4){
 
 
 menuData.push({
 
-category:column[0].trim(),
+category:col[0].trim(),
 
-name:column[1].trim(),
+name:col[1].trim(),
 
-price:column[2].trim()
+dine:col[2].trim(),
+
+takeaway:col[3].trim()
 
 
 });
@@ -85,60 +81,61 @@ price:column[2].trim()
 
 
 
-categories=[...new Set(menuData.map(item=>item.category))];
-
-
-showCategories();
-document.getElementById("categories").style.display="block";
-
 });
-
 
 }
 
 
 
-// Show Category List
+// Category Open
 
-function showCategories(){
+function openCategory(){
 
 
-let box=document.getElementById("categories");
+let box=document.getElementById("categoryBox");
 
 
 box.innerHTML="";
 
 
-let title=document.createElement("h3");
+let all=document.createElement("button");
 
-title.innerHTML="Select Category";
+all.innerHTML="ALL CATEGORY";
 
-box.appendChild(title);
+all.className="category";
 
+all.onclick=function(){
 
+showItems("ALL");
 
-categories.forEach(cat=>{
-
-
-let button=document.createElement("button");
-
-
-button.innerHTML=cat;
+};
 
 
-button.className="category";
+box.appendChild(all);
 
 
-button.onclick=function(){
+
+let cats=[...new Set(menuData.map(x=>x.category))];
+
+
+cats.forEach(cat=>{
+
+
+let btn=document.createElement("button");
+
+btn.innerHTML=cat;
+
+btn.className="category";
+
+
+btn.onclick=function(){
 
 showItems(cat);
 
 };
 
 
-
-box.appendChild(button);
-
+box.appendChild(btn);
 
 
 });
@@ -152,19 +149,48 @@ box.appendChild(button);
 
 function showItems(category){
 
-document.getElementById("categories").style.display="none";
-let box=document.getElementById("items");
+
+document.getElementById("categoryBox").innerHTML="";
+
+
+let box=document.getElementById("itemBox");
 
 
 box.innerHTML="";
 
 
-
-let list=menuData.filter(item=>item.category==category);
-
+let items;
 
 
-list.forEach(item=>{
+
+if(category=="ALL"){
+
+items=menuData;
+
+}else{
+
+items=menuData.filter(x=>x.category==category);
+
+}
+
+
+
+items.forEach(item=>{
+
+
+let price;
+
+
+if(selectedType=="DINE IN"){
+
+price=item.dine;
+
+}else{
+
+price=item.takeaway;
+
+}
+
 
 
 let div=document.createElement("div");
@@ -176,12 +202,14 @@ div.className="item";
 div.innerHTML=`
 
 <div>
-${item.name}
+<b>${item.name}</b><br>
+${price}
 </div>
 
-<div class="price">
-${item.price}
-</div>
+<button class="add-btn"
+onclick="addCart('${item.name}','${price}')">
+ADD
+</button>
 
 `;
 
@@ -195,10 +223,205 @@ box.appendChild(div);
 
 
 }
-function goBack(){
 
-    document.getElementById("items").innerHTML="";
 
-    document.getElementById("categories").style.display="block";
+
+// Add Cart
+
+function addCart(name,price){
+
+
+let found=cart.find(x=>x.name==name);
+
+
+
+if(found){
+
+found.qty++;
+
+}else{
+
+
+cart.push({
+
+name:name,
+
+price:price,
+
+qty:1
+
+});
+
+
+}
+
+
+alert("Added to Cart");
+
+
+}
+
+
+
+// Show Cart
+
+function showCart(){
+
+
+document.getElementById("menuPage").style.display="none";
+
+document.getElementById("cartPage").style.display="block";
+
+
+let box=document.getElementById("cartItems");
+
+
+box.innerHTML="";
+
+
+let total=0;
+
+
+
+cart.forEach((item,index)=>{
+
+
+let amount=parseFloat(
+item.price.replace("RM","")
+)*item.qty;
+
+
+total+=amount;
+
+
+
+box.innerHTML+=`
+
+<div class="cart-item">
+
+${item.name}
+
+<br>
+
+RM ${amount.toFixed(2)}
+
+<br>
+
+<button onclick="changeQty(${index},-1)">-</button>
+
+${item.qty}
+
+<button onclick="changeQty(${index},1)">+</button>
+
+
+</div>
+
+`;
+
+
+});
+
+
+document.getElementById("total").innerHTML=
+"Total: RM "+total.toFixed(2);
+
+
+
+}
+
+
+
+// Quantity
+
+function changeQty(index,value){
+
+
+cart[index].qty+=value;
+
+
+if(cart[index].qty<=0){
+
+cart.splice(index,1);
+
+}
+
+
+showCart();
+
+
+}
+
+
+
+// Back Menu
+
+function backMenu(){
+
+document.getElementById("cartPage").style.display="none";
+
+document.getElementById("menuPage").style.display="block";
+
+}
+
+
+
+// Checkout
+
+function checkout(){
+
+
+document.getElementById("cartPage").style.display="none";
+
+document.getElementById("checkoutPage").style.display="block";
+
+
+
+let box=document.getElementById("tableInput");
+
+
+if(selectedType=="DINE IN"){
+
+
+box.innerHTML=`
+
+<input id="tableNumber" placeholder="Table Number">
+
+`;
+
+}else{
+
+
+box.innerHTML="Table: TAKE AWAY";
+
+
+}
+
+
+
+}
+
+
+
+// Place Order
+
+function placeOrder(){
+
+
+let name=document.getElementById("customerName").value;
+
+let phone=document.getElementById("phone").value;
+
+
+
+alert(
+"Order Received\n"+
+"Customer: "+name+
+"\nPhone: "+phone
+);
+
+
+
+cart=[];
+
 
 }
