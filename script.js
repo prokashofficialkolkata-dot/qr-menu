@@ -195,3 +195,10 @@ box.appendChild(div);
 
 
 }
+function goBack(){
+
+    document.getElementById("items").innerHTML="";
+
+    document.getElementById("categories").style.display="block";
+
+}
