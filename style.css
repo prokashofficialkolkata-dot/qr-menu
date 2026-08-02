@@ -15,7 +15,17 @@ body{
     padding-top:25px;
     box-sizing:border-box;
 }
+.back-btn{
 
+    background:#555 !important;
+
+    color:white;
+
+    margin-bottom:15px;
+
+    width:120px;
+
+}
 
 .logo{
 
