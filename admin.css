@@ -1,1 +1,231 @@
+*{
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
+
+body{
+    margin:0;
+    background:#eef5ff;
+}
+
+
+/* LOGIN */
+
+.login-box{
+
+    width:90%;
+    max-width:400px;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+    text-align:center;
+
+}
+
+
+.login-box h2{
+
+    color:#0755b5;
+    font-size:28px;
+
+}
+
+
+.login-box input{
+
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+
+}
+
+
+
+button{
+
+    border:none;
+    background:#0755b5;
+    color:white;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+
+}
+
+
+button:hover{
+
+    opacity:0.85;
+
+}
+
+
+
+/* DASHBOARD */
+
+
+.dashboard{
+
+    width:100%;
+    min-height:100vh;
+
+}
+
+
+
+header{
+
+    background:#0755b5;
+    color:white;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+
+header h1{
+
+    margin:0;
+    font-size:22px;
+
+}
+
+
+
+#logoutBtn{
+
+    background:#d9534f;
+
+}
+
+
+
+
+/* MENU BUTTONS */
+
+
+.menu-buttons{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:15px;
+
+}
+
+
+.menu-buttons button{
+
+    background:white;
+    color:#0755b5;
+    border:2px solid #0755b5;
+    font-weight:bold;
+
+}
+
+
+
+.menu-buttons button:hover{
+
+    background:#0755b5;
+    color:white;
+
+}
+
+
+
+/* PAGE */
+
+
+.page{
+
+    background:white;
+    margin:15px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 3px 15px rgba(0,0,0,0.1);
+
+}
+
+
+.page h2{
+
+    color:#0755b5;
+
+}
+
+
+
+/* ORDER CARD */
+
+
+.order-card{
+
+    background:#f8fbff;
+    border-left:5px solid #0755b5;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:12px;
+
+}
+
+
+
+.order-card h3{
+
+    margin-top:0;
+
+}
+
+
+
+.ready-btn{
+
+    background:#198754;
+    width:100%;
+
+}
+
+
+
+/* MENU LIST */
+
+
+.menu-item{
+
+    padding:12px;
+    border-bottom:1px solid #ddd;
+
+}
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:600px){
+
+    .menu-buttons{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    header h1{
+
+        font-size:18px;
+
+    }
+
+}
