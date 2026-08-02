@@ -12,15 +12,21 @@
 
 <body>
 
-<div id="loginBox">
 
-<h2>Admin Login</h2>
+<!-- LOGIN -->
+
+<div class="login-box" id="loginBox">
+
+<h2>Hameed Bistro</h2>
+<h3>Admin Login</h3>
 
 <input id="email" type="email" placeholder="Email">
 
 <input id="password" type="password" placeholder="Password">
 
-<button id="loginBtn">Login</button>
+<button id="loginBtn">
+Login
+</button>
 
 <p id="loginMessage"></p>
 
@@ -28,22 +34,177 @@
 
 
 
-<div id="dashboard" style="display:none;">
 
-<h1>Hameed Bistro Orders</h1>
+<!-- ADMIN PANEL -->
 
-<div id="orders">
+<div id="dashboard" class="dashboard" style="display:none;">
+
+
+
+<!-- HEADER -->
+
+<header>
+
+<h1>Hameed Bistro Admin</h1>
+
+<button id="logoutBtn">
+Logout
+</button>
+
+</header>
+
+
+
+
+<!-- MENU BUTTONS -->
+
+<div class="menu-buttons">
+
+<button onclick="showPage('orders')">
+📦 Orders
+</button>
+
+
+<button onclick="showPage('menuUpdate')">
+📋 Menu Update
+</button>
+
+
+<button onclick="showPage('showMenu')">
+👁 Show Menu
+</button>
+
+
+<button onclick="showPage('sales')">
+📊 Sales Report
+</button>
+
+
+<button onclick="showPage('history')">
+🕘 History
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- ORDERS PAGE -->
+
+<section id="orders" class="page">
+
+<h2>New Orders</h2>
+
+<div id="ordersList">
 
 Loading Orders...
 
 </div>
 
+</section>
+
+
+
+
+
+
+
+<!-- MENU UPDATE PAGE -->
+
+<section id="menuUpdate" class="page" style="display:none;">
+
+<h2>Update Menu</h2>
+
+
+<input type="file" id="csvFile" accept=".csv">
+
+
+<button id="uploadMenuBtn">
+
+Upload Menu CSV
+
+</button>
+
+
+<div id="uploadStatus"></div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- SHOW MENU PAGE -->
+
+<section id="showMenu" class="page" style="display:none;">
+
+<h2>Menu List</h2>
+
+<div id="menuList">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- SALES REPORT -->
+
+<section id="sales" class="page" style="display:none;">
+
+<h2>Sales Report</h2>
+
+
+<div id="salesReport">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- HISTORY -->
+
+<section id="history" class="page" style="display:none;">
+
+
+<h2>24 Hours Order History</h2>
+
+
+<div id="historyList">
+
+</div>
+
+
+</section>
+
+
 
 </div>
 
 
 
+
+
+
 <script type="module" src="admin.js"></script>
+
 
 </body>
 </html>
