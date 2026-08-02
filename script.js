@@ -486,3 +486,11 @@ cart=[];
 
 
 }
+window.setLanguage = setLanguage;
+window.startMenu = startMenu;
+window.openCategory = openCategory;
+window.showItems = showItems;
+window.showCart = showCart;
+window.checkout = checkout;
+window.backMenu = backMenu;
+window.placeOrder = placeOrder;
