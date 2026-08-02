@@ -201,7 +201,17 @@ Upload Menu CSV
 
 
 
+<script>
+function showPage(page){
 
+    document.querySelectorAll(".page").forEach(function(p){
+        p.style.display="none";
+    });
+
+    document.getElementById(page).style.display="block";
+
+}
+</script>
 
 <script type="module" src="admin.js"></script>
 
