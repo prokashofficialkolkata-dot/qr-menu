@@ -209,7 +209,92 @@ PLACE ORDER
 
 
 <script type="module" src="script.js"></script>
+<div id="loginBox" style="display:none;">
 
+<h2>Customer Login</h2>
+
+<input id="loginEmail" 
+placeholder="Email ID">
+
+<input id="loginPassword" 
+type="password"
+placeholder="Password">
+
+
+<input id="loginPhone"
+placeholder="Phone Number"
+style="display:none;">
+
+
+<button onclick="loginUser()">
+LOGIN
+</button>
+
+
+<button onclick="googleLogin()">
+Sign in with Google
+</button>
+
+
+<p onclick="showCreateAccount()">
+Create Account
+</p>
+
+
+</div>
+<div id="createBox" style="display:none;">
+
+<h2>Create Account</h2>
+
+
+<input id="createName"
+placeholder="Customer Name">
+
+
+<input id="createPhone"
+placeholder="Phone Number">
+
+
+<input id="createEmail"
+placeholder="Email ID">
+
+
+<input id="createPassword"
+type="password"
+placeholder="Password">
+
+
+<input id="confirmPassword"
+type="password"
+placeholder="Confirm Password">
+
+
+<button onclick="createAccount()">
+CREATE ACCOUNT
+</button>
+
+
+<p onclick="showLogin()">
+Back To Login
+</p>
+
+
+</div>
+<div id="phoneBox" style="display:none;">
+
+<h2>Complete Profile</h2>
+
+
+<input id="googlePhone"
+placeholder="Phone Number">
+
+
+<button onclick="saveGooglePhone()">
+SAVE
+</button>
+
+
+</div>
 
 </body>
 
