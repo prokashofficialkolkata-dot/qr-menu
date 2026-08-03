@@ -1029,6 +1029,66 @@ alert(error.message);
 
 }
 
+async function saveGooglePhone(){
+
+    let phone = document.getElementById("googlePhone").value.trim();
+
+
+    if(phone === ""){
+        alert("Please enter phone number");
+        return;
+    }
+
+
+    let user = auth.currentUser;
+
+
+    if(!user){
+        alert("User not logged in");
+        return;
+    }
+
+
+    try{
+
+        await addDoc(collection(db,"customers"),{
+
+            uid:user.uid,
+
+            name:user.displayName,
+
+            email:user.email,
+
+            phone:phone,
+
+            loginType:"Google",
+
+            createdAt:new Date()
+
+        });
+
+
+        alert("Profile Completed Successfully");
+
+
+        document.getElementById("phoneBox").style.display="none";
+
+
+        // Checkout আবার দেখাবে
+        showPage("checkoutPage");
+
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+
 // Place Order Final
 
 async function placeOrder(){
