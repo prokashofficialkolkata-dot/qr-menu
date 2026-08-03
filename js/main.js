@@ -321,7 +321,55 @@ showPopularItems();
 
 
 
+window.showCreateAccount=function(){
 
+
+let login=document.getElementById("loginBox");
+
+let create=document.getElementById("createBox");
+
+
+if(login){
+
+login.style.display="none";
+
+}
+
+
+if(create){
+
+create.style.display="block";
+
+}
+
+
+};
+
+
+
+window.showLogin=function(){
+
+
+let login=document.getElementById("loginBox");
+
+let create=document.getElementById("createBox");
+
+
+if(create){
+
+create.style.display="none";
+
+}
+
+
+if(login){
+
+login.style.display="block";
+
+}
+
+
+};
 
 
 // ================================
