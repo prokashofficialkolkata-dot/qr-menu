@@ -866,18 +866,10 @@ showCart();
 
 function checkout(){
 
-    // History save
-    if(pageHistory[pageHistory.length-1] !== "checkoutPage"){
-        pageHistory.push("checkoutPage");
-    }
+    pageHistory.push("checkoutPage");
 
-
-    // Checkout page open
     showPage("checkoutPage");
 
-
-
-    // Boxes
 
     let loginBox = document.getElementById("loginBox");
     let createBox = document.getElementById("createBox");
@@ -886,56 +878,51 @@ function checkout(){
     let tableBox = document.getElementById("tableInput");
 
 
-
-    // প্রথমে Login দেখাবে
+    // প্রথমে সব Hide
 
     if(loginBox){
-        loginBox.style.display = "block";
+        loginBox.style.display="block";
     }
 
 
     if(createBox){
-        createBox.style.display = "none";
+        createBox.style.display="none";
     }
 
 
     if(phoneBox){
-        phoneBox.style.display = "none";
+        phoneBox.style.display="none";
     }
+
+
+
+    // Customer info hide থাকবে যতক্ষণ login না হয়
+
+    document.getElementById("customerName").style.display="none";
+
+    document.getElementById("phone").style.display="none";
 
 
 
     // Table Number
 
-    if(selectedType === "DINE IN"){
+    if(selectedType=="DINE IN"){
 
+        tableBox.innerHTML=`
 
-        tableBox.innerHTML = `
-
-        <h3>Table Number *</h3>
-
-        <input 
-        id="tableNumber"
-        placeholder="Enter Table Number"
+        <input id="tableNumber"
+        placeholder="Table Number"
         required>
 
         `;
 
+    }
+    else{
 
-    }else{
-
-
-        tableBox.innerHTML = `
-
-        <h3>Order Type</h3>
-
-        <p>TAKE AWAY</p>
-
-        `;
-
+        tableBox.innerHTML=
+        "Table : TAKE AWAY";
 
     }
-
 
 }
 
