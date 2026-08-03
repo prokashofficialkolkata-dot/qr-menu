@@ -10,12 +10,12 @@ window.selectedType = "";
 
 
 
-
 // ==============================
 // START MENU
 // ==============================
 
-window.startMenu = function(type){
+
+window.startMenu=function(type){
 
 
     window.selectedType = type;
@@ -23,7 +23,9 @@ window.startMenu = function(type){
 
     if(typeof pageHistory !== "undefined"){
 
+
         pageHistory.push("welcome");
+
 
     }
 
@@ -32,7 +34,9 @@ window.startMenu = function(type){
     showPage("menuPage");
 
 
+
     loadCSV();
+
 
 
 };
@@ -44,29 +48,56 @@ window.startMenu = function(type){
 
 
 // ==============================
-// LOAD MENU CSV
+// LOAD CSV
 // ==============================
 
+
 window.loadCSV=function(){
+
 
 
 fetch("menu.csv")
 
 
-.then(response=>response.text())
+
+.then(response=>{
+
+
+    if(!response.ok){
+
+        throw new Error("CSV file not found");
+
+    }
+
+
+    return response.text();
+
+
+
+})
+
 
 
 .then(data=>{
 
 
-    let rows=data.split("\n");
+
+    let rows=data.split(/\r?\n/);
+
 
 
     window.menuData=[];
 
 
 
+
     rows.slice(1).forEach(row=>{
+
+
+
+        if(row.trim()=="") return;
+
+
 
 
         let col=row.split(",");
@@ -76,28 +107,59 @@ fetch("menu.csv")
         if(col.length>=4){
 
 
-            menuData.push({
+
+            window.menuData.push({
+
+
 
                 category:col[0].trim(),
 
+
                 name:col[1].trim(),
+
 
                 dine:col[2].trim(),
 
+
                 takeaway:col[3].trim()
+
 
 
             });
 
 
+
         }
+
 
 
     });
 
 
 
+
+    console.log(
+        "Menu Loaded:",
+        window.menuData.length
+    );
+
+
+
     showPopularItems();
+
+
+
+})
+
+
+
+.catch(error=>{
+
+
+    console.log(
+        "CSV ERROR:",
+        error
+    );
 
 
 });
@@ -116,26 +178,34 @@ fetch("menu.csv")
 // OPEN CATEGORY
 // ==============================
 
+
 window.openCategory=function(){
 
 
-let box=document.getElementById("categoryBox");
 
-let itemBox=document.getElementById("itemBox");
-
-
-
-if(!box)return;
+let categoryBox =
+document.getElementById(
+"categoryBox"
+);
 
 
 
-box.innerHTML="";
+let itemBox =
+document.getElementById(
+"itemBox"
+);
+
+
+
+
+if(!categoryBox)return;
+
+
+
+
+categoryBox.innerHTML="";
 
 itemBox.innerHTML="";
-
-
-
-document.getElementById("popularSection").style.display="none";
 
 
 
@@ -143,7 +213,9 @@ let categories=[
 
 ...new Set(
 
-menuData.map(item=>item.category)
+window.menuData.map(
+item=>item.category
+)
 
 )
 
@@ -152,20 +224,31 @@ menuData.map(item=>item.category)
 
 
 
+
 categories.forEach(category=>{
 
 
-box.innerHTML += `
+
+categoryBox.innerHTML += `
 
 
-<button onclick="showItems('${escapeText(category)}')">
+
+<button
+
+class="category"
+
+onclick="showItems('${escapeText(category)}')">
+
 
 ${category}
+
 
 </button>
 
 
+
 `;
+
 
 
 });
@@ -184,32 +267,43 @@ ${category}
 // SHOW ITEMS
 // ==============================
 
+
 window.showItems=function(category){
 
 
 
-let box=document.getElementById("itemBox");
+let itemBox =
+document.getElementById(
+"itemBox"
+);
 
 
 
-box.innerHTML="";
+itemBox.innerHTML="";
 
 
 
-let list =
-menuData.filter(
-item=>item.category===category
+let items =
+
+window.menuData.filter(
+
+item=>
+
+item.category==category
+
 );
 
 
 
 
-list.forEach(item=>{
+
+items.forEach(item=>{
+
 
 
 let price =
 
-(selectedType==="DINE IN")
+(window.selectedType=="DINE IN")
 
 ?
 
@@ -223,17 +317,23 @@ item.takeaway;
 
 
 
-box.innerHTML += `
+
+itemBox.innerHTML += `
+
 
 
 <div class="item">
 
 
+
 <div>
+
 
 <b>${item.name}</b>
 
+
 <br>
+
 
 <span>${price}</span>
 
@@ -242,14 +342,22 @@ box.innerHTML += `
 
 
 
-<button onclick="addCart('${escapeText(item.name)}','${price}')">
+
+<button
+
+onclick="addCart('${escapeText(item.name)}','${price}')">
+
 
 ADD
+
 
 </button>
 
 
+
+
 </div>
+
 
 
 `;
@@ -259,7 +367,9 @@ ADD
 });
 
 
+
 };
+
 
 
 
@@ -271,11 +381,15 @@ ADD
 // POPULAR ITEMS
 // ==============================
 
+
 window.showPopularItems=function(){
 
 
 
-let box=document.getElementById("popularItems");
+let box =
+document.getElementById(
+"popularItems"
+);
 
 
 
@@ -289,18 +403,23 @@ box.innerHTML="";
 
 
 
-let popular =
-menuData.slice(0,15);
+// Top 15 temporary
+
+let popularItems =
+
+window.menuData.slice(0,15);
 
 
 
 
-popular.forEach(item=>{
+
+popularItems.forEach(item=>{
+
 
 
 let price =
 
-(selectedType==="DINE IN")
+(window.selectedType=="DINE IN")
 
 ?
 
@@ -313,16 +432,24 @@ item.takeaway;
 
 
 
+
 box.innerHTML += `
+
 
 
 <div class="popular-card">
 
 
-<img 
+
+<img
+
 src="images/${item.name}.jpg"
+
 onerror="this.src='images/no-image.png'"
+
 >
+
+
 
 
 <b>
@@ -341,15 +468,22 @@ ${price}
 
 
 
-<button onclick="addCart('${escapeText(item.name)}','${price}')">
+
+<button
+
+onclick="addCart('${escapeText(item.name)}','${price}')">
+
 
 ADD
+
 
 </button>
 
 
 
+
 </div>
+
 
 
 `;
@@ -357,6 +491,7 @@ ADD
 
 
 });
+
 
 
 };
@@ -369,15 +504,20 @@ ADD
 
 
 // ==============================
-// ESCAPE TEXT
+// ESCAPE SPECIAL CHARACTER
 // ==============================
+
 
 function escapeText(text){
 
 
+
 return text
+
 .replace(/'/g,"\\'")
+
 .replace(/"/g,'\\"');
+
 
 
 }
