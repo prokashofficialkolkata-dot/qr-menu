@@ -182,13 +182,12 @@ takeaway:col[3].trim()
 
 });
 
-openCategory();
+
 showPopularItems();
 
 });
 
 }
-
 
 
 // Category Open
