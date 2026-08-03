@@ -358,8 +358,6 @@ pageHistory.push("cartPage");
 
 showPage("cartPage");
 
-";
-
 
 let box=document.getElementById("cartItems");
 
