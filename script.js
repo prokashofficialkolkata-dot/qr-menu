@@ -266,6 +266,30 @@ box.innerHTML = "";
 // আগের Category item মুছে দেবে
 
 itemBox.innerHTML = "";
+// Category Open
+
+function openCategory(){
+
+let box = document.getElementById("categoryBox");
+
+let popular = document.getElementById("popularSection");
+
+let itemBox = document.getElementById("itemBox");
+
+
+
+// যদি Category আগে থেকেই খোলা থাকে
+// তাহলে বন্ধ করবে
+
+if(box.innerHTML !== ""){
+
+
+box.innerHTML = "";
+
+
+// আগের Category item মুছে দেবে
+
+itemBox.innerHTML = "";
 
 
 // Popular আবার দেখাবে
@@ -284,7 +308,7 @@ return;
 
 
 // Category খোলার সময়
-// Popular এবং আগের item লুকাবে
+// Popular এবং Item লুকাবে
 
 if(popular){
 
@@ -295,9 +319,8 @@ popular.style.display = "none";
 
 itemBox.innerHTML = "";
 
-
-
 box.innerHTML = "";
+
 
 
 
@@ -322,7 +345,8 @@ box.appendChild(all);
 
 
 
-// সব Category তৈরি করবে
+
+// Category List তৈরি
 
 let cats = [...new Set(menuData.map(x=>x.category))];
 
@@ -350,7 +374,6 @@ showItems(cat);
 box.appendChild(btn);
 
 
-
 });
 
 
@@ -375,17 +398,49 @@ box.innerHTML="";
 
 let items;
 
+// Show Items
+
+function showItems(category){
+
+
+// Popular Items পুরো লুকাবে
+
+let popularSection = document.getElementById("popularSection");
+
+if(popularSection){
+
+popularSection.style.display = "none";
+
+}
+
+
+// Category list বন্ধ হবে
+
+document.getElementById("categoryBox").innerHTML="";
+
+
+// Item Box পরিষ্কার করবে
+
+let box=document.getElementById("itemBox");
+
+box.innerHTML="";
+
+
+
+let items;
+
 
 
 if(category=="ALL"){
 
-items=menuData;
+items = menuData;
 
 }else{
 
-items=menuData.filter(x=>x.category==category);
+items = menuData.filter(x=>x.category==category);
 
 }
+
 
 
 
@@ -407,6 +462,7 @@ price=item.takeaway;
 
 
 
+
 let div=document.createElement("div");
 
 
@@ -420,6 +476,7 @@ div.innerHTML=`
 ${price}
 </div>
 
+
 <button class="add-btn"
 onclick="addCart('${item.name}','${price}')">
 ADD
@@ -430,7 +487,6 @@ ADD
 
 
 box.appendChild(div);
-
 
 
 });
