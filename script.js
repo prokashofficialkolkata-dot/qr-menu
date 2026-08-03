@@ -358,9 +358,7 @@ pageHistory.push("cartPage");
 
 showPage("cartPage");
 
-document.getElementById("menuPage").style.display="none";
-
-document.getElementById("cartPage").style.display="block";
+";
 
 
 let box=document.getElementById("cartItems");
@@ -447,9 +445,7 @@ showCart();
 
 function backMenu(){
 
-document.getElementById("cartPage").style.display="none";
-
-document.getElementById("menuPage").style.display="block";
+goBack();
 
 }
 
