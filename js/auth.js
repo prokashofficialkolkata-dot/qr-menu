@@ -1,250 +1,701 @@
-import { auth, db } from "./firebase.js";
+// =====================================
+// RESTORAN HAMEED'S BISTRO
+// AUTH.JS FINAL
+// Firebase Authentication + Firestore
+// =====================================
+
+
+import { 
+    auth, 
+    db 
+} from "./firebase.js";
+
+
 
 import {
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword,
-GoogleAuthProvider,
-signInWithPopup,
-signOut,
-onAuthStateChanged
+
+    createUserWithEmailAndPassword,
+
+    signInWithEmailAndPassword,
+
+    GoogleAuthProvider,
+
+    signInWithPopup,
+
+    signOut,
+
+    onAuthStateChanged
+
+
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
+
+
 import {
-doc,
-setDoc,
-getDoc
+
+    doc,
+
+    setDoc,
+
+    getDoc,
+
+    serverTimestamp
+
+
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
+
+
+
 // ===============================
-// Create Account
+// GOOGLE PROVIDER
 // ===============================
+
+
+const provider = new GoogleAuthProvider();
+
+
+
+
+
+
+
+// ===============================
+// CREATE ACCOUNT
+// ===============================
+
 
 window.createAccount = async function(){
 
-const name =
+
+
+let name =
 document.getElementById("createName").value.trim();
 
-const phone =
+
+let phone =
 document.getElementById("createPhone").value.trim();
 
-const email =
+
+let email =
 document.getElementById("createEmail").value.trim();
 
-const password =
-document.getElementById("createPassword").value;
 
-const confirm =
-document.getElementById("confirmPassword").value;
+let password =
+document.getElementById("createPassword").value.trim();
+
+
+let confirm =
+document.getElementById("confirmPassword").value.trim();
+
+
+
+
+
+if(!name || !phone || !email || !password){
+
+    showToast("Please fill all details");
+
+    return;
+
+}
+
+
+
+
 
 if(password !== confirm){
 
-alert("Password does not match");
+    showToast("Password not match");
 
-return;
+    return;
 
 }
 
+
+
+
+
+if(password.length < 8){
+
+    showToast("Password minimum 8 characters");
+
+    return;
+
+}
+
+
+
+
+
+
 try{
 
-const userCredential =
+
+const result =
 await createUserWithEmailAndPassword(
+
 auth,
+
 email,
+
 password
+
 );
+
+
+
+
+const user=result.user;
+
+
+
+
+
 
 await setDoc(
-doc(db,"customers",userCredential.user.uid),
+
+doc(
+db,
+"customers",
+user.uid
+),
+
 {
-uid:userCredential.user.uid,
-name,
-phone,
-email,
-loginType:"Email"
-}
-);
-
-alert("Account Created Successfully");
-
-showLogin();
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-};
 
 
-// ===============================
-// Email Login
-// ===============================
-
-window.loginUser = async function(){
-
-const email =
-document.getElementById("loginEmail").value.trim();
-
-const password =
-document.getElementById("loginPassword").value;
-
-try{
-
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-};
-
-
-// ===============================
-// Google Login
-// ===============================
-
-window.googleLogin = async function(){
-
-const provider =
-new GoogleAuthProvider();
-
-try{
-
-await signInWithPopup(auth,provider);
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-};
-// ====================================
-// Auth State Listener
-// ====================================
-
-onAuthStateChanged(auth, async(user)=>{
-
-if(!user){
-
-return;
-
-}
-
-const ref = doc(db,"customers",user.uid);
-
-const snap = await getDoc(ref);
-
-if(snap.exists()){
-
-const data = snap.data();
-
-// যদি Phone আগে থেকেই থাকে
-if(data.phone){
-
-localStorage.setItem("customerName",data.name);
-
-localStorage.setItem("customerPhone",data.phone);
-
-localStorage.setItem("customerEmail",data.email);
-
-if(typeof openCheckoutForm==="function"){
-
-openCheckoutForm();
-
-}
-
-}else{
-
-// Phone না থাকলে Complete Profile দেখাবে
-document.getElementById("loginBox").style.display="none";
-document.getElementById("createBox").style.display="none";
-document.getElementById("phoneBox").style.display="block";
-
-}
-
-}else{
-
-// Google Login-এর পরে প্রথমবার Firestore Record না থাকলে
-document.getElementById("loginBox").style.display="none";
-document.getElementById("createBox").style.display="none";
-document.getElementById("phoneBox").style.display="block";
-
-}
-
-});
-
-
-
-// ====================================
-// Save Google Phone
-// ====================================
-
-window.saveGooglePhone = async function(){
-
-const phone =
-document.getElementById("googlePhone").value.trim();
-
-if(phone==""){
-
-alert("Phone Number Required");
-
-return;
-
-}
-
-const user = auth.currentUser;
-
-await setDoc(doc(db,"customers",user.uid),{
-
-uid:user.uid,
-
-name:user.displayName || "",
-
-email:user.email || "",
+name:name,
 
 phone:phone,
 
-loginType:"Google"
+email:email,
 
-});
+loginType:"Email",
 
-localStorage.setItem("customerName",user.displayName || "");
+createdAt:serverTimestamp()
 
-localStorage.setItem("customerPhone",phone);
-
-localStorage.setItem("customerEmail",user.email || "");
-
-if(typeof openCheckoutForm==="function"){
-
-openCheckoutForm();
 
 }
 
+
+);
+
+
+
+
+
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+
+
+showToast(
+"Account Created"
+);
+
+
+
+
+
+openProfile();
+
+
+
+}
+
+catch(error){
+
+
+showToast(error.message);
+
+
+}
+
+
+
 };
 
 
 
-// ====================================
-// Logout
-// ====================================
+
+
+
+
+
+
+// ===============================
+// EMAIL LOGIN
+// ===============================
+
+
+
+window.loginUser = async function(){
+
+
+
+let email =
+document.getElementById("loginEmail").value.trim();
+
+
+
+let password =
+document.getElementById("loginPassword").value.trim();
+
+
+
+
+try{
+
+
+const result =
+
+await signInWithEmailAndPassword(
+
+auth,
+
+email,
+
+password
+
+);
+
+
+
+const user=result.user;
+
+
+
+
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+
+
+openProfile();
+
+
+
+}
+
+catch(error){
+
+
+showToast(error.message);
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ===============================
+// GOOGLE LOGIN
+// ===============================
+
+
+
+window.googleLogin = async function(){
+
+
+
+try{
+
+
+const result =
+
+await signInWithPopup(
+
+auth,
+
+provider
+
+);
+
+
+
+
+const user=result.user;
+
+
+
+
+
+
+const userRef = doc(
+
+db,
+
+"customers",
+
+user.uid
+
+);
+
+
+
+
+
+const snap =
+
+await getDoc(userRef);
+
+
+
+
+
+
+
+
+if(snap.exists()){
+
+
+
+// OLD CUSTOMER
+
+
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+openProfile();
+
+
+
+}
+
+else{
+
+
+
+// NEW GOOGLE CUSTOMER
+
+
+
+document.getElementById(
+"loginBox"
+).style.display="none";
+
+
+
+document.getElementById(
+"profileBox"
+).style.display="block";
+
+
+
+
+
+document.getElementById(
+"googleName"
+).value =
+user.displayName || "";
+
+
+
+document.getElementById(
+"googleEmail"
+).value =
+user.email || "";
+
+
+
+
+
+}
+
+
+
+
+
+}
+
+catch(error){
+
+
+showToast(error.message);
+
+
+}
+
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ===============================
+// SAVE GOOGLE PROFILE
+// ===============================
+
+
+
+window.saveGoogleProfile = async function(){
+
+
+
+let user=auth.currentUser;
+
+
+
+if(!user)return;
+
+
+
+
+
+let name =
+document.getElementById("googleName").value.trim();
+
+
+
+let phone =
+document.getElementById("googlePhone").value.trim();
+
+
+
+
+
+
+if(!phone){
+
+
+showToast(
+"Phone number required"
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+await setDoc(
+
+doc(
+db,
+"customers",
+user.uid
+),
+
+{
+
+
+name:name,
+
+email:user.email,
+
+phone:phone,
+
+loginType:"Google",
+
+createdAt:serverTimestamp()
+
+
+}
+
+
+);
+
+
+
+
+
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+
+
+
+openProfile();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ===============================
+// LOGOUT
+// ===============================
+
 
 window.logoutUser = async function(){
 
+
+
 await signOut(auth);
 
-localStorage.removeItem("customerName");
-localStorage.removeItem("customerPhone");
-localStorage.removeItem("customerEmail");
 
-location.reload();
+
+localStorage.removeItem(
+"loggedIn"
+);
+
+
+localStorage.removeItem(
+"uid"
+);
+
+
+
+
+
+showPage("welcome");
+
+
+
+updateCustomerButton();
+
+
+
+showToast(
+"Logged Out"
+);
+
+
 
 };
+
+
+
+
+
+
+
+
+
+// ===============================
+// AUTH CHECK
+// ===============================
+
+
+
+onAuthStateChanged(
+
+auth,
+
+async function(user){
+
+
+
+if(user){
+
+
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+}
+else{
+
+
+localStorage.removeItem(
+"loggedIn"
+);
+
+
+
+}
+
+
+
+
+if(
+typeof updateCustomerButton==="function"
+){
+
+
+updateCustomerButton();
+
+
+}
+
+
+
+}
+
+);
