@@ -79,7 +79,7 @@ updateCartCount();
 
 
 
-alert(name + " Added");
+showToast("Hameed's Bistro: " + name + " Added");
 
 
 
@@ -491,3 +491,43 @@ updateCartCount();
 }
 
 );
+// ==============================
+// RESTAURANT TOAST MESSAGE
+// ==============================
+
+window.showToast=function(message){
+
+
+let toast=document.getElementById("toast");
+
+
+if(!toast){
+
+
+toast=document.createElement("div");
+
+toast.id="toast";
+
+document.body.appendChild(toast);
+
+
+}
+
+
+
+toast.innerHTML=message;
+
+
+toast.classList.add("show");
+
+
+
+setTimeout(function(){
+
+toast.classList.remove("show");
+
+},1000);
+
+
+
+};
