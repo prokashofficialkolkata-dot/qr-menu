@@ -10,6 +10,14 @@ addDoc
 }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+GoogleAuthProvider,
+signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+
 
 
 // Firebase Config
@@ -35,7 +43,7 @@ appId: "1:860085792035:web:9907610b51cd7b73147096"
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-
+const auth = getAuth(app);
 
 
 // Global Variables
@@ -858,52 +866,168 @@ showCart();
 
 function checkout(){
 
+    pageHistory.push("checkoutPage");
 
-pageHistory.push("checkoutPage");
-
-
-showPage("checkoutPage");
+    showPage("checkoutPage");
 
 
+    let loginBox = document.getElementById("loginBox");
+    let createBox = document.getElementById("createBox");
+    let phoneBox = document.getElementById("phoneBox");
 
-let box =
-document.getElementById("tableInput");
-
-
-
-if(selectedType=="DINE IN"){
+    let tableBox = document.getElementById("tableInput");
 
 
+    // প্রথমে Login দেখাবে
 
-box.innerHTML = `
-
-
-<input id="tableNumber"
-placeholder="Table Number">
-
-
-`;
+    if(loginBox){
+        loginBox.style.display="block";
+    }
 
 
+    if(createBox){
+        createBox.style.display="none";
+    }
 
-}else{
+
+    if(phoneBox){
+        phoneBox.style.display="none";
+    }
 
 
-box.innerHTML =
-"Table: TAKE AWAY";
+
+    // Table Number তৈরি
+
+    if(selectedType=="DINE IN"){
+
+        tableBox.innerHTML=`
+
+        <input id="tableNumber"
+        placeholder="Table Number">
+
+        `;
+
+    }else{
+
+        tableBox.innerHTML=
+        "Table: TAKE AWAY";
+
+    }
 
 
 }
 
+//creat account
 
+async function createAccount(){
+
+let name=document.getElementById("createName").value;
+let phone=document.getElementById("createPhone").value;
+let email=document.getElementById("createEmail").value;
+let password=document.getElementById("createPassword").value;
+let confirm=document.getElementById("confirmPassword").value;
+
+
+if(password !== confirm){
+
+alert("Password not match");
+return;
 
 }
 
 
+try{
+
+let userCredential =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
 
+let user=userCredential.user;
 
 
+await addDoc(collection(db,"customers"),{
+
+uid:user.uid,
+name:name,
+phone:phone,
+email:email
+
+});
+
+
+alert("Account Created");
+
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+//Login 
+async function loginUser(){
+
+let email=document.getElementById("loginEmail").value;
+
+let password=document.getElementById("loginPassword").value;
+
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+
+alert("Login Successful");
+
+
+document.getElementById("loginBox").style.display="none";
+
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+//Google Login
+async function googleLogin(){
+
+let provider=new GoogleAuthProvider();
+
+
+try{
+
+let result =
+await signInWithPopup(auth,provider);
+
+
+alert("Google Login Successful");
+
+
+document.getElementById("loginBox").style.display="none";
+
+document.getElementById("phoneBox").style.display="block";
+
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
 
 // Place Order Firebase
 
@@ -1014,3 +1138,9 @@ window.goBack=goBack;
 window.goHome=goHome;
 
 window.refreshPage=refreshPage;
+
+window.createAccount=createAccount;
+
+window.loginUser=loginUser;
+
+window.googleLogin=googleLogin;
