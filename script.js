@@ -1102,6 +1102,7 @@ async function saveGooglePhone(){
 
 
 // Place Order Final
+console.log(document.getElementById("tableNumber"));
 
 async function placeOrder(){
 
@@ -1186,6 +1187,25 @@ alert("Order Sent Successfully");
 cart=[];
 
 localStorage.removeItem("cart");
+document.getElementById("customerName").value =
+localStorage.getItem("customerName");
+
+document.getElementById("phone").value =
+localStorage.getItem("customerPhone");
+
+document.getElementById("customerName").readOnly = true;
+
+document.getElementById("phone").readOnly = true;
+
+document.getElementById("tableInput").innerHTML = `
+<input id="tableNumber"
+placeholder="Enter Table Number"
+required>
+`;
+
+document.getElementById("tableInput").style.display = "block";
+document.getElementById("customerName").style.display = "block";
+document.getElementById("phone").style.display = "block";
 
 
 }
