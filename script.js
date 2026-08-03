@@ -866,65 +866,56 @@ showCart();
 
 function checkout(){
 
+    // Login Page হিসেবে checkoutPage ব্যবহার করবো
+
     pageHistory.push("checkoutPage");
 
     showPage("checkoutPage");
 
 
-    let loginBox = document.getElementById("loginBox");
-    let createBox = document.getElementById("createBox");
-    let phoneBox = document.getElementById("phoneBox");
+    // Checkout form hide
 
-    let tableBox = document.getElementById("tableInput");
-
-
-    // প্রথমে সব Hide
-
-    if(loginBox){
-        loginBox.style.display="block";
-    }
-
-
-    if(createBox){
-        createBox.style.display="none";
-    }
-
-
-    if(phoneBox){
-        phoneBox.style.display="none";
-    }
-
-
-
-    // Customer info hide থাকবে যতক্ষণ login না হয়
+    document.getElementById("tableInput").style.display="none";
 
     document.getElementById("customerName").style.display="none";
 
     document.getElementById("phone").style.display="none";
 
 
+    // Login show
 
-    // Table Number
+    document.getElementById("loginBox").style.display="block";
 
-    if(selectedType=="DINE IN"){
+    document.getElementById("createBox").style.display="none";
 
-        tableBox.innerHTML=`
-
-        <input id="tableNumber"
-        placeholder="Table Number"
-        required>
-
-        `;
-
-    }
-    else{
-
-        tableBox.innerHTML=
-        "Table : TAKE AWAY";
-
-    }
+    document.getElementById("phoneBox").style.display="none";
 
 }
+
+//login succes 
+function loginSuccess(userData){
+
+    document.getElementById("loginBox").style.display="none";
+
+
+    // Checkout fields show
+
+    document.getElementById("tableInput").style.display="block";
+
+    document.getElementById("customerName").style.display="block";
+
+    document.getElementById("phone").style.display="block";
+
+
+    // Auto fill
+
+    document.getElementById("customerName").value = userData.name;
+
+    document.getElementById("phone").value = userData.phone;
+
+
+}
+
 
 //creat account
 
@@ -1038,37 +1029,93 @@ alert(error.message);
 
 }
 
-// Place Order Firebase
+// Place Order Final
 
 async function placeOrder(){
 
 
-
-let customerName =
-document.getElementById("customerName").value;
-
+let customerName = 
+document.getElementById("customerName").value.trim();
 
 
-let phone =
-document.getElementById("phone").value;
+let phone = 
+document.getElementById("phone").value.trim();
 
 
 
-let table="TAKE AWAY";
+let table = "TAKE AWAY";
 
 
 
-if(selectedType=="DINE IN"){
+// Customer Name Check
+
+if(customerName === ""){
+
+alert("Customer Name Required");
+
+return;
+
+}
 
 
-table =
-document.getElementById("tableNumber").value;
+
+// Phone Check
+
+if(phone === ""){
+
+alert("Phone Number Required");
+
+return;
+
+}
+
+
+
+
+// Dine In Table Check
+
+if(selectedType === "DINE IN"){
+
+
+let tableInput = document.getElementById("tableNumber");
+
+
+if(!tableInput || tableInput.value.trim()===""){
+
+
+alert("Table Number Required");
+
+return;
+
+
+}
+
+
+table = tableInput.value.trim();
 
 
 }
 
 
 
+
+// Cart Check
+
+if(cart.length === 0){
+
+
+alert("Cart is Empty");
+
+return;
+
+
+}
+
+
+
+
+
+try{
 
 
 await addDoc(
@@ -1097,9 +1144,7 @@ time:new Date(),
 status:"NEW"
 
 
-
 });
-
 
 
 
@@ -1107,15 +1152,36 @@ alert("Order Sent Successfully");
 
 
 
-cart=[];
+// Clear Cart
 
+cart=[];
 
 localStorage.removeItem("cart");
 
 
 
+// Go Home
+
+goHome();
+
+
+
 }
 
+
+catch(error){
+
+
+console.log(error);
+
+alert("Order Failed");
+
+
+}
+
+
+
+}
 
 
 
