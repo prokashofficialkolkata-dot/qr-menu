@@ -1,121 +1,75 @@
 // ==============================
-// MAIN.JS
+// MENU.JS
 // ==============================
 
 
-window.pageHistory = [];
+window.menuData = [];
 
-window.currentPage = "welcome";
+window.selectedType = "";
 
 
-// Refresh
-window.refreshPage = function(){
 
-    location.reload();
 
-};
+// Load CSV
 
+window.loadCSV = function(){
 
 
-// Start Menu
+fetch("menu.csv")
 
-window.startMenu = function(type){
 
-    window.selectedType = type;
+.then(response=>response.text())
 
-    pageHistory.push("welcome");
 
-    showPage("menuPage");
+.then(data=>{
 
-    loadCSV();
 
-};
+let rows = data.split("\n");
 
 
+menuData=[];
 
 
-// Show Page
 
-window.showPage = function(page){
+rows.slice(1).forEach(row=>{
 
-    document.getElementById("welcome").style.display="none";
 
-    document.getElementById("menuPage").style.display="none";
+let col = row.split(",");
 
-    document.getElementById("cartPage").style.display="none";
 
-    document.getElementById("checkoutPage").style.display="none";
 
+if(col.length >= 4){
 
-    let target=document.getElementById(page);
 
+menuData.push({
 
-    if(target){
+category: col[0].trim(),
 
-        target.style.display="block";
+name: col[1].trim(),
 
-        currentPage=page;
+dine: col[2].trim(),
 
-    }
+takeaway: col[3].trim()
 
-};
 
+});
 
 
+}
 
-// Home
 
-window.goHome=function(){
+});
 
-    pageHistory=[];
 
-    showPage("welcome");
 
-};
+showPopularItems();
 
 
+openCategory();
 
 
 
-// Back
-
-window.goBack=function(){
-
-    let previous = pageHistory.pop();
-
-
-    if(previous){
-
-        showPage(previous);
-
-    }
-
-    else{
-
-        goHome();
-
-    }
-
-};
-
-
-
-
-
-// Open Login
-
-window.openLogin=function(){
-
-    showPage("checkoutPage");
-
-
-    document.getElementById("loginBox").style.display="block";
-
-    document.getElementById("createBox").style.display="none";
-
-    document.getElementById("phoneBox").style.display="none";
-
-    document.getElementById("checkoutForm").style.display="none";
+});
 
 
 };
@@ -125,42 +79,58 @@ window.openLogin=function(){
 
 
 
-// Cart Count
 
-window.updateCartCount=function(){
+// Category List
 
-    let count=0;
+window.openCategory=function(){
 
 
-    if(window.cart){
+let box=document.getElementById("categoryBox");
 
-        cart.forEach(item=>{
 
-            count += item.qty;
+let itemBox=document.getElementById("itemBox");
 
-        });
 
-    }
+if(!box) return;
 
 
 
-    let a=document.getElementById("cartCount");
-
-    let b=document.getElementById("cartCount2");
+box.innerHTML="";
 
 
-    if(a){
-
-        a.innerHTML=count;
-
-    }
+itemBox.innerHTML="";
 
 
-    if(b){
 
-        b.innerHTML=count;
+let categories=[...new Set(
 
-    }
+menuData.map(item=>item.category)
+
+)];
+
+
+
+
+categories.forEach(category=>{
+
+
+box.innerHTML += `
+
+
+<button onclick="showItems('${category}')">
+
+
+${category}
+
+
+</button>
+
+
+`;
+
+
+});
+
 
 
 };
@@ -169,45 +139,118 @@ window.updateCartCount=function(){
 
 
 
-// Language
-
-window.selectedLanguage="en";
 
 
-window.setLanguage=function(lang){
+// Show Items
 
-    window.selectedLanguage=lang;
-
-
-    console.log("Language:",lang);
+window.showItems=function(category){
 
 
-    // পরে language.js connect হবে
+
+let box=document.getElementById("itemBox");
+
+
+box.innerHTML="";
+
+
+
+let list = menuData.filter(
+
+item=>item.category==category
+
+);
+
+
+
+
+list.forEach(item=>{
+
+
+
+let price;
+
+
+
+if(selectedType=="DINE IN"){
+
+price=item.dine;
+
+}
+
+else{
+
+price=item.takeaway;
+
+}
+
+
+
+
+box.innerHTML += `
+
+
+<div class="item">
+
+
+<div>
+
+
+<b>${item.name}</b>
+
+
+<br>
+
+
+<span>${price}</span>
+
+
+</div>
+
+
+
+<button onclick="addCart('${item.name}','${price}')">
+
+
+ADD
+
+
+</button>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
 
 };
 
 
 
 
-// User Logout Button
-
-window.showLogout=function(){
-
-    let box=document.getElementById("logoutArea");
 
 
-    if(box){
 
-        box.innerHTML=`
+// Popular Items
 
-        <button onclick="logoutUser()">
+window.showPopularItems=function(){
 
-        Logout
 
-        </button>
+let section=document.getElementById("popularSection");
 
-        `;
 
-    }
+if(section){
+
+section.style.display="none";
+
+}
+
 
 };
