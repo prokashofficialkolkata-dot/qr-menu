@@ -11,7 +11,8 @@ import {
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 GoogleAuthProvider,
-signInWithPopup,
+signInWithRedirect,
+getRedirectResult,,
 signOut,
 onAuthStateChanged
 
@@ -352,86 +353,30 @@ window.loginUser = async function () {
 // GOOGLE LOGIN
 // ==========================================
 
-window.googleLogin = async function () {
+window.googleLogin = async function(){
 
-    try {
 
-        const result = await signInWithPopup(auth, provider);
+try{
 
-        const user = result.user;
 
-        localStorage.setItem("loggedIn", "yes");
-        localStorage.setItem("uid", user.uid);
+await signInWithRedirect(
+auth,
+provider
+);
 
-        const ref = doc(db, "customers", user.uid);
 
-        const snap = await getDoc(ref);
+}
 
-        // ==========================
-        // OLD CUSTOMER
-        // ==========================
+catch(error){
 
-        if (snap.exists()) {
 
-            if (typeof checkLoginStatus === "function") {
+console.log(error);
 
-                checkLoginStatus();
+showToast(error.message);
 
-            }
 
-            if (typeof updateCustomerButton === "function") {
+}
 
-                updateCustomerButton();
-
-            }
-
-            showToast("Welcome Back");
-
-            if (typeof openProfile === "function") {
-
-                openProfile();
-
-            }
-
-            return;
-
-        }
-
-        // ==========================
-        // NEW GOOGLE CUSTOMER
-        // ==========================
-
-        showGoogleProfile();
-
-        $("googleName").value = user.displayName || "";
-
-        $("googleEmail").value = user.email || "";
-
-        $("googlePhone").value = "";
-
-    }
-
-    catch (error) {
-
-        console.log(error);
-
-        if (error.code === "auth/popup-closed-by-user") {
-
-            showToast("Google Login Cancelled");
-
-            return;
-
-        }
-
-        if (error.code === "auth/cancelled-popup-request") {
-
-            return;
-
-        }
-
-        showToast(error.message);
-
-    }
 
 };
 // ==========================================
