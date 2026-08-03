@@ -320,7 +320,7 @@ error.message
 
 window.googleLogin = async function(){
 
-
+console.log(result.user);
 
 try{
 
@@ -441,7 +441,13 @@ user.email || "";
 
 catch(error){
 
+console.log(error);
 
+alert(error.code);
+
+alert(error.message);
+
+}
 showToast(
 error.message
 );
