@@ -14,7 +14,7 @@ body{
 
     min-height:100vh;
 
-    background:#0b3d91;
+    background:#052c65;
 
     color:#333;
 
@@ -23,26 +23,6 @@ body{
     flex-direction:column;
 
 }
-
-
-
-
-button{
-
-    cursor:pointer;
-
-    border:none;
-
-    border-radius:10px;
-
-    padding:10px 15px;
-
-    font-size:15px;
-
-    font-weight:bold;
-
-}
-
 
 
 /* =========================
@@ -54,18 +34,15 @@ TOP BAR
 
     width:100%;
 
-    background:#052c65;
-
     padding:10px;
 
     display:flex;
 
-    gap:10px;
-
     justify-content:space-between;
 
-}
+    gap:10px;
 
+}
 
 
 .top-bar button{
@@ -76,15 +53,24 @@ TOP BAR
 
     color:#052c65;
 
+    border:none;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+
 }
 
 
 
-
-
-
 /* =========================
-HOME PAGE
+HOME
 ========================= */
 
 
@@ -108,13 +94,13 @@ HOME PAGE
 
     border-radius:50%;
 
-    margin:25px auto;
+    margin:20px auto;
 
     display:flex;
 
-    justify-content:center;
-
     align-items:center;
+
+    justify-content:center;
 
     overflow:hidden;
 
@@ -126,9 +112,9 @@ HOME PAGE
 
 .logo{
 
-    width:160px;
+    width:170px;
 
-    height:160px;
+    height:170px;
 
     object-fit:cover;
 
@@ -150,19 +136,9 @@ h1{
 
 h2{
 
-    color:#052c65;
-
-}
-
-
-
-#welcome h2{
-
     color:white;
 
 }
-
-
 
 
 
@@ -194,9 +170,13 @@ LANGUAGE
 
     color:#052c65;
 
+    border:none;
+
+    padding:8px 12px;
+
     border-radius:20px;
 
-    padding:8px 14px;
+    font-weight:bold;
 
 }
 
@@ -204,14 +184,11 @@ LANGUAGE
 
 .languages.small button{
 
-    font-size:12px;
+    font-size:13px;
 
     padding:6px 10px;
 
 }
-
-
-
 
 
 
@@ -229,6 +206,8 @@ ORDER BUTTON
 
     gap:15px;
 
+    margin:25px 0;
+
 }
 
 
@@ -237,61 +216,71 @@ ORDER BUTTON
 
     width:45%;
 
-    max-width:250px;
-
-    background:#052c65;
-
-    color:white;
-
     padding:18px;
+
+    border:none;
+
+    border-radius:15px;
 
     font-size:18px;
 
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 12px rgba(0,0,0,.25);
+
 }
 
 
 
+.order-type button:first-child{
+
+    background:white;
+
+    color:#052c65;
+
+    border:3px solid #f5b700;
+
+}
 
 
 
-.main-btn{
+.order-type button:last-child{
 
-    background:#052c65;
+    background:#8b0000;
 
     color:white;
 
 }
-
 
 
 
 
 
 /* =========================
-PAGE CONTAINER
+CUSTOMER LOGIN
 ========================= */
 
 
-#menuPage,
-#cartPage,
-#checkoutPage{
+.welcome-login .main-btn{
 
-    background:white;
 
-    width:95%;
+    background:#f5b700;
 
-    max-width:1100px;
+    color:#052c65;
 
-    margin:15px auto;
+    padding:15px 25px;
 
-    padding:15px;
+    border:none;
 
-    border-radius:20px;
+    border-radius:15px;
 
-    min-height:70vh;
+    font-weight:bold;
+
+    font-size:17px;
 
 }
-
 
 
 
@@ -306,15 +295,11 @@ NAVIGATION
 
     display:flex;
 
-    flex-wrap:wrap;
-
     gap:8px;
-
-    background:#052c65;
 
     padding:10px;
 
-    border-radius:15px;
+    flex-wrap:wrap;
 
 }
 
@@ -328,8 +313,38 @@ NAVIGATION
 
     color:#052c65;
 
+    border:none;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
 }
 
+
+
+
+
+/* =========================
+PAGE CARD
+========================= */
+
+
+#menuPage,
+#cartPage,
+#checkoutPage{
+
+    background:white;
+
+    min-height:80vh;
+
+    border-radius:20px 20px 0 0;
+
+    padding:15px;
+
+}
 
 
 
@@ -340,27 +355,25 @@ CATEGORY
 ========================= */
 
 
-#categoryBox{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:10px;
-
-}
-
-
-
 #categoryBox button{
+
+    width:100%;
+
+    margin:6px 0;
+
+    padding:15px;
 
     background:#052c65;
 
     color:white;
 
+    border:none;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
 }
-
-
 
 
 
@@ -369,16 +382,6 @@ CATEGORY
 /* =========================
 POPULAR ITEMS
 ========================= */
-
-
-#popularSection h2{
-
-    color:#052c65;
-
-    text-align:center;
-
-}
-
 
 
 #popularItems{
@@ -390,7 +393,6 @@ POPULAR ITEMS
     gap:12px;
 
 }
-
 
 
 
@@ -414,7 +416,7 @@ POPULAR ITEMS
 
     width:100%;
 
-    height:120px;
+    height:100px;
 
     object-fit:cover;
 
@@ -428,12 +430,32 @@ POPULAR ITEMS
 
     color:#052c65;
 
-    display:block;
+}
 
-    margin:8px 0;
+
+
+
+
+/* DESKTOP */
+
+@media(min-width:900px){
+
+
+#popularItems{
+
+    grid-template-columns:repeat(5,1fr);
 
 }
 
+
+.popular-card img{
+
+    height:130px;
+
+}
+
+
+}
 
 
 
@@ -446,12 +468,6 @@ MENU ITEM
 
 .item{
 
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
     background:#eef5ff;
 
     padding:15px;
@@ -460,13 +476,9 @@ MENU ITEM
 
     border-radius:12px;
 
-}
+    display:flex;
 
-
-
-.item b{
-
-    color:#052c65;
+    justify-content:space-between;
 
 }
 
@@ -478,30 +490,21 @@ MENU ITEM
 
     color:white;
 
-}
+    border:none;
 
+    border-radius:8px;
+
+    padding:10px;
+
+}
 
 
 
 
 
 /* =========================
-CART LOGIN
+INPUT
 ========================= */
-
-
-.cart-item{
-
-    background:#eef5ff;
-
-    padding:15px;
-
-    margin:10px 0;
-
-    border-radius:12px;
-
-}
-
 
 
 input{
@@ -522,7 +525,6 @@ input{
 
 
 
-
 /* =========================
 FOOTER
 ========================= */
@@ -534,9 +536,9 @@ footer{
 
     text-align:center;
 
-    padding:15px;
-
     color:white;
+
+    padding:15px;
 
     font-size:13px;
 
@@ -546,13 +548,27 @@ footer{
 
 
 
-
-/* =========================
-MOBILE
-========================= */
-
+/* MOBILE */
 
 @media(max-width:600px){
+
+.logo-box{
+
+    width:170px;
+
+    height:170px;
+
+}
+
+
+.logo{
+
+    width:150px;
+
+    height:150px;
+
+}
+
 
 
 h1{
@@ -563,79 +579,11 @@ h1{
 
 
 
-.logo-box{
+.order-type button{
 
-    width:160px;
-
-    height:160px;
+    font-size:15px;
 
 }
-
-
-.logo{
-
-    width:135px;
-
-    height:135px;
-
-}
-
-
-
-.navigation button{
-
-    font-size:12px;
-
-    padding:8px;
-
-}
-
-
-
-#popularItems{
-
-    grid-template-columns:repeat(3,1fr);
-
-}
-
-
-
-.popular-card img{
-
-    height:80px;
-
-}
-
-
-
-.popular-card b{
-
-    font-size:12px;
-
-}
-
-
-}
-
-
-
-
-/* =========================
-DESKTOP
-========================= */
-
-
-@media(min-width:1000px){
-
-
-#popularItems{
-
-    max-width:900px;
-
-    margin:auto;
-
-}
-
 
 
 }
