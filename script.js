@@ -332,8 +332,7 @@ function openCategory(){
 
 
 //show category 
-    
-function showItems(category){
+
 function showItems(category){
 
 
