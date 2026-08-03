@@ -127,3 +127,124 @@ alert(error.message);
 }
 
 };
+// ====================================
+// Auth State Listener
+// ====================================
+
+onAuthStateChanged(auth, async(user)=>{
+
+if(!user){
+
+return;
+
+}
+
+const ref = doc(db,"customers",user.uid);
+
+const snap = await getDoc(ref);
+
+if(snap.exists()){
+
+const data = snap.data();
+
+// যদি Phone আগে থেকেই থাকে
+if(data.phone){
+
+localStorage.setItem("customerName",data.name);
+
+localStorage.setItem("customerPhone",data.phone);
+
+localStorage.setItem("customerEmail",data.email);
+
+if(typeof openCheckoutForm==="function"){
+
+openCheckoutForm();
+
+}
+
+}else{
+
+// Phone না থাকলে Complete Profile দেখাবে
+document.getElementById("loginBox").style.display="none";
+document.getElementById("createBox").style.display="none";
+document.getElementById("phoneBox").style.display="block";
+
+}
+
+}else{
+
+// Google Login-এর পরে প্রথমবার Firestore Record না থাকলে
+document.getElementById("loginBox").style.display="none";
+document.getElementById("createBox").style.display="none";
+document.getElementById("phoneBox").style.display="block";
+
+}
+
+});
+
+
+
+// ====================================
+// Save Google Phone
+// ====================================
+
+window.saveGooglePhone = async function(){
+
+const phone =
+document.getElementById("googlePhone").value.trim();
+
+if(phone==""){
+
+alert("Phone Number Required");
+
+return;
+
+}
+
+const user = auth.currentUser;
+
+await setDoc(doc(db,"customers",user.uid),{
+
+uid:user.uid,
+
+name:user.displayName || "",
+
+email:user.email || "",
+
+phone:phone,
+
+loginType:"Google"
+
+});
+
+localStorage.setItem("customerName",user.displayName || "");
+
+localStorage.setItem("customerPhone",phone);
+
+localStorage.setItem("customerEmail",user.email || "");
+
+if(typeof openCheckoutForm==="function"){
+
+openCheckoutForm();
+
+}
+
+};
+
+
+
+// ====================================
+// Logout
+// ====================================
+
+window.logoutUser = async function(){
+
+await signOut(auth);
+
+localStorage.removeItem("customerName");
+localStorage.removeItem("customerPhone");
+localStorage.removeItem("customerEmail");
+
+location.reload();
+
+};
