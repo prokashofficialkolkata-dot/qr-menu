@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-content="width=device-width, initial-scale=1.0">
-
-<title>
-
-Restoran Hameed's Bistro
-
-</title>
+<title>Restoran Hameed's Bistro</title>
 
 <link rel="icon" href="images/logo.png">
 
@@ -22,117 +15,117 @@ Restoran Hameed's Bistro
 
 </head>
 
+
 <body>
 
-<!-- ========================= -->
-
-<!-- WELCOME PAGE -->
 
 <!-- ========================= -->
-
-<div id="welcome">
+<!-- HEADER -->
+<!-- ========================= -->
 
 <div class="top-bar">
 
 <button onclick="refreshPage()">
-
 🔄 Refresh
-
 </button>
+
 
 <button onclick="showCart()">
-
-🛒 Cart
-
-(<span id="cartCount">0</span>)
-
+🛒 Cart (<span id="cartCount">0</span>)
 </button>
+
+
+<span id="logoutArea"></span>
 
 </div>
 
-<img
 
-src="images/logo.png"
 
-class="logo"
 
->
+
+<!-- ========================= -->
+<!-- HOME PAGE -->
+<!-- ========================= -->
+
+<div id="welcome">
+
+
+<div class="logo-box">
+
+<img src="images/logo.png" class="logo">
+
+</div>
+
+
 
 <h1>
-
 Restoran Hameed's Bistro
-
 </h1>
 
+
 <h2>
-
-QR Ordering System
-
+QR Ordering, QR Menu & Ordering System
 </h2>
 
-<!-- Language -->
+
+
+
+
+<!-- LANGUAGE -->
 
 <div class="languages">
 
+
 <button onclick="setLanguage('en')">
-
-🇬🇧
-
-English
-
+🇬🇧 English
 </button>
+
 
 <button onclick="setLanguage('ms')">
-
-🇲🇾
-
-Malay
-
+🇲🇾 Malay
 </button>
+
 
 <button onclick="setLanguage('ta')">
-
-🇮🇳
-
-Tamil
-
+🇮🇳 Tamil
 </button>
+
 
 <button onclick="setLanguage('zh')">
-
-🇨🇳
-
-Chinese
-
+🇨🇳 Chinese
 </button>
+
 
 <button onclick="setLanguage('hi')">
-
-🇮🇳
-
-Hindi
-
+🇮🇳 Hindi
 </button>
+
 
 <button onclick="setLanguage('bn')">
-
-🇧🇩
-
-Bangla
-
+🇧🇩 বাংলা
 </button>
+
 
 </div>
 
-<!-- Order Type -->
+
+
+
+
+
+<!-- ORDER TYPE -->
+
 
 <div class="order-type">
 
+
 <button onclick="startMenu('DINE IN')">
 
-🍽️ DINE IN
+🍽 DINE IN
 
 </button>
+
+
 
 <button onclick="startMenu('TAKE AWAY')">
 
@@ -140,85 +133,133 @@ Bangla
 
 </button>
 
+
+
 </div>
 
-<!-- Customer Login -->
+
+
+
+
+
+
+<!-- LOGIN -->
 
 <div class="welcome-login">
 
-<button
 
-class="main-btn"
-
-onclick="checkout()">
+<button class="main-btn" onclick="openLogin()">
 
 👤 Customer Login
 
 </button>
 
-</div>
 
 </div>
+
+
+
+</div>
+
+
+
+
+
+
+
 <!-- ========================= -->
 <!-- MENU PAGE -->
 <!-- ========================= -->
 
 <div id="menuPage" style="display:none;">
 
-<div class="top-bar">
+
+
+<div class="navigation">
+
 
 <button onclick="goBack()">
 ⬅ Back
 </button>
 
+
 <button onclick="goHome()">
 🏠 Home
 </button>
+
 
 <button onclick="refreshPage()">
 🔄 Refresh
 </button>
 
+
 <button onclick="showCart()">
-🛒 Cart
-(<span id="cartCount2">0</span>)
+🛒 Cart (<span id="cartCount2">0</span>)
 </button>
+
 
 </div>
 
-<button
-class="main-btn"
-onclick="openCategory()">
+
+
+
+
+<div class="languages small">
+
+
+<button onclick="setLanguage('en')">EN</button>
+
+<button onclick="setLanguage('ms')">BM</button>
+
+<button onclick="setLanguage('ta')">TA</button>
+
+<button onclick="setLanguage('zh')">中文</button>
+
+<button onclick="setLanguage('hi')">HI</button>
+
+<button onclick="setLanguage('bn')">BN</button>
+
+
+</div>
+
+
+
+
+
+<button class="main-btn" onclick="openCategory()">
 
 📋 SELECT CATEGORY
 
 </button>
 
+
+
 <div id="categoryBox"></div>
 
-<!-- Popular Items -->
+
 
 <div id="popularSection">
 
+
 <h2>
-
 ⭐ Popular Items
-
 </h2>
 
-<div id="popularItems">
+
+<div id="popularItems"></div>
+
 
 </div>
 
-</div>
 
-<!-- Menu Items -->
 
-<div id="itemBox">
+<div id="itemBox"></div>
 
-</div>
+
 
 </div>
+
+
 
 
 
@@ -228,17 +269,19 @@ onclick="openCategory()">
 <!-- CART PAGE -->
 <!-- ========================= -->
 
+
 <div id="cartPage" style="display:none;">
 
+
 <h2>
-
 🛒 Your Cart
-
 </h2>
+
 
 <div id="cartItems">
 
 </div>
+
 
 <h3 id="total">
 
@@ -246,249 +289,239 @@ Total : RM 0.00
 
 </h3>
 
-<div class="cart-buttons">
 
-<button
-class="main-btn"
-onclick="checkout()">
 
+<button onclick="checkout()">
 ✅ CHECKOUT
-
 </button>
 
-<button
-class="back-btn"
-onclick="goBack()">
-
-⬅ BACK
-
-</button>
-
-<button
-class="main-btn"
-onclick="goHome()">
-
-🏠 HOME
-
-</button>
-
-<button
-class="main-btn"
-onclick="refreshPage()">
-
-🔄 REFRESH
-
-</button>
 
 </div>
 
-</div>
+
+
+
+
+
+
 <!-- ========================= -->
-<!-- CHECKOUT PAGE -->
+<!-- CHECKOUT + LOGIN -->
 <!-- ========================= -->
+
 
 <div id="checkoutPage" style="display:none;">
 
-<!-- ========================= -->
-<!-- LOGIN BOX -->
-<!-- ========================= -->
 
-<div id="loginBox">
+
+
+
 <div id="loginBox" style="display:none;">
 
-<h2>Customer Login</h2>
 
-<input
-id="loginEmail"
+<h2>
+Customer Login
+</h2>
+
+
+<input id="loginEmail"
 type="email"
 placeholder="Email Address">
 
-<input
-id="loginPassword"
+
+<input id="loginPassword"
 type="password"
 placeholder="Password">
 
-<button
-class="main-btn"
-onclick="loginUser()">
+
+
+<button onclick="loginUser()">
 
 LOGIN
 
 </button>
 
-<button
-class="google-btn"
-onclick="googleLogin()">
+
+
+<button onclick="googleLogin()">
 
 Sign in with Google
 
 </button>
 
-<p class="link"
 
-onclick="showCreateAccount()">
+
+<p onclick="showCreateAccount()">
 
 Create Account
 
 </p>
 
+
+
 </div>
 
 
 
-<!-- ========================= -->
-<!-- CREATE ACCOUNT -->
-<!-- ========================= -->
+
+
+
+
 
 <div id="createBox" style="display:none;">
 
-<h2>Create Account</h2>
 
-<input
-id="createName"
+<h2>
+Create Account
+</h2>
+
+
+
+<input id="createName"
 placeholder="Customer Name">
 
-<input
-id="createPhone"
+
+<input id="createPhone"
 placeholder="Phone Number">
 
-<input
-id="createEmail"
+
+<input id="createEmail"
 type="email"
 placeholder="Email Address">
 
-<input
-id="createPassword"
+
+
+<input id="createPassword"
 type="password"
 placeholder="Password">
 
-<input
-id="confirmPassword"
+
+
+<input id="confirmPassword"
 type="password"
 placeholder="Confirm Password">
 
-<button
-class="main-btn"
-onclick="createAccount()">
+
+
+<button onclick="createAccount()">
 
 CREATE ACCOUNT
 
 </button>
 
-<p class="link"
 
-onclick="showLogin()">
+
+<p onclick="showLogin()">
 
 Back To Login
 
 </p>
 
+
 </div>
 
 
 
-<!-- ========================= -->
-<!-- COMPLETE PROFILE -->
-<!-- ========================= -->
+
+
+
+
 
 <div id="phoneBox" style="display:none;">
 
+
 <h2>
-
 Complete Profile
-
 </h2>
 
-<p>
 
-Please enter your phone number.
-
-</p>
-
-<input
-id="googlePhone"
+<input id="googlePhone"
 placeholder="Phone Number">
 
-<button
-class="main-btn"
-onclick="saveGooglePhone()">
+
+
+<button onclick="saveGooglePhone()">
 
 SAVE
 
 </button>
 
+
 </div>
 
 
 
-<!-- ========================= -->
-<!-- CHECKOUT FORM -->
-<!-- ========================= -->
 
-<div
-id="checkoutForm"
-style="display:none;">
+
+
+
+
+<div id="checkoutForm" style="display:none;">
+
 
 <h2>
-
 Checkout
-
 </h2>
 
-<div id="tableInput">
 
-</div>
 
-<input
-id="customerName"
-placeholder="Customer Name"
+<input id="customerName"
 readonly>
 
-<input
-id="phone"
-placeholder="Phone Number"
+
+<input id="phone"
 readonly>
 
-<button
-class="main-btn"
-onclick="placeOrder()">
+
+
+
+<button onclick="placeOrder()">
 
 PLACE ORDER
 
 </button>
 
-<button
-class="back-btn"
-onclick="goBack()">
-
-⬅ BACK
-
-</button>
-
-<button
-class="main-btn"
-onclick="goHome()">
-
-🏠 HOME
-
-</button>
-
-<button
-class="main-btn"
-onclick="refreshPage()">
-
-🔄 REFRESH
-
-</button>
 
 </div>
 
-</div>
-<!-- ========================= -->
-<!-- SCRIPT -->
-<!-- ========================= -->
 
-<script type="module" src="script.js"></script>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<footer>
+
+© 2023 Prokash Rakkhit. All Rights Reserved. | Version 1.0.0
+
+</footer>
+
+
+
+
+
+
+
+<script type="module" src="js/firebase.js"></script>
+
+<script type="module" src="js/auth.js"></script>
+
+<script src="js/main.js"></script>
+
+<script src="js/menu.js"></script>
+
+<script src="js/cart.js"></script>
+
+<script src="js/checkout.js"></script>
+
 
 </body>
 
