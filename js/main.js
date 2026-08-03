@@ -1,72 +1,90 @@
-// ==============================
+// =================================
 // MAIN.JS
-// ==============================
-
-
-// PAGE HISTORY
-
-window.pageHistory = [];
-
-window.currentPage = "welcome";
+// =================================
 
 
 
+let currentPage = "welcome";
 
-// ==============================
-// SHOW PAGE
-// ==============================
+let previousPage = [];
+
+let orderType = "";
+
+
+
+
+// ================================
+// PAGE SHOW SYSTEM
+// ================================
+
 
 window.showPage = function(page){
 
 
-    window.currentPage = page;
 
+// save previous page
 
-    localStorage.setItem(
-        "currentPage",
-        page
-    );
+if(currentPage !== page){
 
+previousPage.push(currentPage);
 
-
-    let pages = [
-
-        "welcome",
-        "menuPage",
-        "cartPage",
-        "checkoutPage"
-
-    ];
+}
 
 
 
-    pages.forEach(function(id){
+document.querySelectorAll(
+
+"body > div"
+
+).forEach(function(div){
 
 
-        let el = document.getElementById(id);
+if(
+div.id &&
+div.id !== "toast"
+){
+
+div.style.display="none";
+
+}
 
 
-        if(el){
-
-            el.style.display = "none";
-
-        }
-
-
-    });
-
-
-
-    let target =
-    document.getElementById(page);
+});
 
 
 
-    if(target){
 
-        target.style.display = "block";
+let target = document.getElementById(page);
 
-    }
+
+
+if(target){
+
+target.style.display="block";
+
+currentPage = page;
+
+
+}
+
+
+
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+
+
+
+// update logout
+
+checkLoginStatus();
+
 
 
 };
@@ -78,17 +96,20 @@ window.showPage = function(page){
 
 
 
-// ==============================
+
+// ================================
 // HOME
-// ==============================
+// ================================
+
 
 window.goHome=function(){
 
 
-    pageHistory=[];
+
+previousPage=[];
 
 
-    showPage("welcome");
+showPage("welcome");
 
 
 };
@@ -100,133 +121,29 @@ window.goHome=function(){
 
 
 
-// ==============================
+
+
+// ================================
 // BACK
-// ==============================
+// ================================
+
 
 window.goBack=function(){
 
 
-    if(pageHistory.length > 0){
 
+let last = previousPage.pop();
 
-        let last =
-        pageHistory.pop();
 
 
-        showPage(last);
+if(last){
 
 
-    }
-    else{
-
-
-        showPage("welcome");
-
-
-    }
-
-
-};
-
-
-
-
-
-
-
-
-// ==============================
-// REFRESH
-// ==============================
-
-window.refreshPage=function(){
-
-
-
-let page =
-window.currentPage || "welcome";
-
-
-
-localStorage.setItem(
-"refreshPage",
-page
-);
-
-
-
-location.reload();
-
-
-
-};
-
-
-
-
-
-
-
-
-// ==============================
-// AFTER REFRESH RESTORE
-// ==============================
-
-
-window.addEventListener(
-"load",
-function(){
-
-
-
-checkLogin();
-
-
-updateCartCount();
-
-
-
-let savedPage =
-localStorage.getItem(
-"refreshPage"
-);
-
-
-
-if(savedPage){
-
-
-
-showPage(savedPage);
-
-
-
-if(savedPage=="menuPage"){
-
-
-
-setTimeout(function(){
-
-
-if(typeof loadCSV=="function"){
-
-
-loadCSV();
+showPage(last);
 
 
 }
 
-
-},300);
-
-
-
-}
-
-
-
-}
 else{
 
 
@@ -237,7 +154,7 @@ showPage("welcome");
 
 
 
-});
+};
 
 
 
@@ -246,30 +163,63 @@ showPage("welcome");
 
 
 
-// ==============================
-// LANGUAGE
-// ==============================
+
+// ================================
+// REFRESH SAME PAGE
+// ================================
 
 
-window.selectedLanguage =
-localStorage.getItem("language")
-||
-"en";
-
+window.refreshPage=function(){
 
 
 
-window.setLanguage=function(lang){
+let page=currentPage;
 
 
 
-window.selectedLanguage = lang;
+if(page==="welcome"){
+
+location.reload();
+
+return;
+
+}
 
 
 
-localStorage.setItem(
-"language",
-lang
+
+showPage(page);
+
+
+
+
+// reload menu data
+
+if(
+typeof loadCSV === "function"
+){
+
+loadCSV();
+
+
+}
+
+
+
+
+if(
+typeof displayCart === "function"
+){
+
+displayCart();
+
+
+}
+
+
+
+showToast(
+"Hameed's Bistro Refreshed"
 );
 
 
@@ -283,66 +233,97 @@ lang
 
 
 
-// ==============================
+
+// ================================
+// START MENU
+// ================================
+
+
+window.startMenu=function(type){
+
+
+
+orderType=type;
+
+
+localStorage.setItem(
+
+"orderType",
+
+type
+
+);
+
+
+
+showPage("menuPage");
+
+
+
+if(
+typeof loadCSV === "function"
+){
+
+loadCSV();
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
 // POPULAR BUTTON
-// ==============================
+// ================================
 
 
 window.showPopular=function(){
 
 
 
-let categoryBox =
+showPage("menuPage");
+
+
+
+setTimeout(function(){
+
+
+let section=
+
 document.getElementById(
-"categoryBox"
-);
 
-
-
-let itemBox =
-document.getElementById(
-"itemBox"
-);
-
-
-
-let popularSection =
-document.getElementById(
 "popularSection"
+
 );
 
 
 
+if(section){
 
 
-if(categoryBox){
+section.scrollIntoView({
 
-categoryBox.style.display="none";
+behavior:"smooth"
 
-}
-
-
-
-if(itemBox){
-
-itemBox.innerHTML="";
-
-}
-
-
-
-if(popularSection){
-
-
-popularSection.style.display="block";
+});
 
 
 }
 
 
 
+if(
+typeof showPopularItems === "function"
 
-if(typeof showPopularItems=="function"){
+){
 
 
 showPopularItems();
@@ -352,6 +333,10 @@ showPopularItems();
 
 
 
+},200);
+
+
+
 };
 
 
@@ -361,53 +346,28 @@ showPopularItems();
 
 
 
-// ==============================
-// CART COUNT
-// ==============================
+
+// ================================
+// CUSTOMER LOGIN
+// ================================
 
 
-window.updateCartCount=function(){
-
-
-
-let count=0;
+window.checkout=function(){
 
 
 
-if(Array.isArray(window.cart)){
-
-
-count=window.cart.length;
-
-
-}
+showPage("checkoutPage");
 
 
 
-let c1 =
-document.getElementById(
-"cartCount"
-);
+if(
+typeof showLogin === "function"
+
+){
 
 
-let c2 =
-document.getElementById(
-"cartCount2"
-);
+showLogin();
 
-
-
-if(c1){
-
-c1.innerHTML=count;
-
-}
-
-
-
-if(c2){
-
-c2.innerHTML=count;
 
 }
 
@@ -422,93 +382,135 @@ c2.innerHTML=count;
 
 
 
-// ==============================
-// LOGIN / LOGOUT
-// ==============================
+
+// ================================
+// LOGIN STATUS
+// ================================
 
 
-window.showLogout=function(){
-
-
-let box =
-document.getElementById(
-"logoutArea"
-);
+window.checkLoginStatus=function(){
 
 
 
-if(!box)return;
+let login=
 
-
-
-box.innerHTML=`
-
-
-<button onclick="logoutUser()">
-
-Logout
-
-</button>
-
-
-`;
-
-
-
-};
-
-
-
-
-
-
-window.hideLogout=function(){
-
-
-let box =
-document.getElementById(
-"logoutArea"
-);
-
-
-
-if(box){
-
-box.innerHTML="";
-
-}
-
-
-};
-
-
-
-
-
-
-
-window.checkLogin=function(){
-
-
-
-let email =
 localStorage.getItem(
-"customerEmail"
+
+"loggedIn"
+
 );
 
 
 
-if(email){
+
+let buttons=
+
+[
+
+"logoutBtn",
+
+"logoutBtnCart"
+
+];
 
 
-showLogout();
+
+
+buttons.forEach(function(id){
+
+
+let btn=document.getElementById(id);
+
+
+
+if(btn){
+
+
+
+if(login==="yes"){
+
+
+btn.style.display="block";
 
 
 }
+
 else{
 
 
-hideLogout();
+btn.style.display="none";
+
+
+}
+
+
+
+}
+
+
+
+});
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
+// DINE / TAKE ORDER TYPE GET
+// ================================
+
+
+window.getOrderType=function(){
+
+
+
+return localStorage.getItem(
+
+"orderType"
+
+) || "";
+
+
+
+};
+
+
+
+
+
+
+
+
+// ================================
+// INITIAL LOAD
+// ================================
+
+
+window.onload=function(){
+
+
+
+currentPage="welcome";
+
+
+
+checkLoginStatus();
+
+
+
+if(
+typeof updateCartCount === "function"
+){
+
+updateCartCount();
 
 
 }
