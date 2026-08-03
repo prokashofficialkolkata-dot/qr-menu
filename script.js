@@ -453,7 +453,6 @@ goBack();
 
 function checkout(){
 
-    pageHistory.push("checkoutPage");
 
     showPage("checkoutPage");
 
