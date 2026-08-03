@@ -15,7 +15,7 @@ window.selectedType = "";
 // ==============================
 
 
-window.startMenu=function(type){
+window.startMenu = function(type){
 
 
     window.selectedType = type;
@@ -23,16 +23,13 @@ window.startMenu=function(type){
 
     if(typeof pageHistory !== "undefined"){
 
-
         pageHistory.push("welcome");
-
 
     }
 
 
 
     showPage("menuPage");
-
 
 
     loadCSV();
@@ -55,48 +52,27 @@ window.startMenu=function(type){
 window.loadCSV=function(){
 
 
-
 fetch("menu.csv")
 
 
-
-.then(response=>{
-
-
-    if(!response.ok){
-
-        throw new Error("CSV file not found");
-
-    }
-
-
-    return response.text();
-
-
-
-})
-
+.then(response=>response.text())
 
 
 .then(data=>{
 
 
-
     let rows=data.split(/\r?\n/);
-
 
 
     window.menuData=[];
 
 
 
-
-    rows.slice(1).forEach(row=>{
+    rows.slice(1).forEach(function(row){
 
 
 
         if(row.trim()=="") return;
-
 
 
 
@@ -107,9 +83,7 @@ fetch("menu.csv")
         if(col.length>=4){
 
 
-
             window.menuData.push({
-
 
 
                 category:col[0].trim(),
@@ -122,7 +96,6 @@ fetch("menu.csv")
 
 
                 takeaway:col[3].trim()
-
 
 
             });
@@ -147,19 +120,6 @@ fetch("menu.csv")
 
     showPopularItems();
 
-
-
-})
-
-
-
-.catch(error=>{
-
-
-    console.log(
-        "CSV ERROR:",
-        error
-    );
 
 
 });
@@ -198,14 +158,47 @@ document.getElementById(
 
 
 
-if(!categoryBox)return;
+let popular =
+document.getElementById(
+"popularSection"
+);
 
 
 
 
-categoryBox.innerHTML="";
 
-itemBox.innerHTML="";
+if(categoryBox){
+
+
+    categoryBox.style.display="block";
+
+
+    categoryBox.innerHTML="";
+
+
+}
+
+
+
+if(itemBox){
+
+
+    itemBox.innerHTML="";
+
+
+}
+
+
+
+if(popular){
+
+
+    popular.style.display="none";
+
+
+}
+
+
 
 
 
@@ -213,9 +206,11 @@ let categories=[
 
 ...new Set(
 
-window.menuData.map(
-item=>item.category
-)
+window.menuData.map(function(item){
+
+return item.category;
+
+})
 
 )
 
@@ -225,17 +220,17 @@ item=>item.category
 
 
 
-categories.forEach(category=>{
+categories.forEach(function(category){
 
 
 
 categoryBox.innerHTML += `
 
 
-
 <button
 
 class="category"
+
 
 onclick="showItems('${escapeText(category)}')">
 
@@ -244,7 +239,6 @@ ${category}
 
 
 </button>
-
 
 
 `;
@@ -264,11 +258,18 @@ ${category}
 
 
 // ==============================
-// SHOW ITEMS
+// SHOW ITEMS BY CATEGORY
 // ==============================
 
 
 window.showItems=function(category){
+
+
+
+let categoryBox =
+document.getElementById(
+"categoryBox"
+);
 
 
 
@@ -279,25 +280,44 @@ document.getElementById(
 
 
 
+
+
+// Hide category list
+
+if(categoryBox){
+
+
+categoryBox.style.display="none";
+
+
+}
+
+
+
+
 itemBox.innerHTML="";
 
 
 
-let items =
 
-window.menuData.filter(
 
-item=>
-
-item.category==category
-
-);
+let items = window.menuData.filter(function(item){
 
 
 
+return item.category === category;
 
 
-items.forEach(item=>{
+
+});
+
+
+
+
+
+
+
+items.forEach(function(item){
 
 
 
@@ -355,7 +375,6 @@ ADD
 
 
 
-
 </div>
 
 
@@ -369,7 +388,6 @@ ADD
 
 
 };
-
 
 
 
@@ -403,9 +421,7 @@ box.innerHTML="";
 
 
 
-// Top 15 temporary
-
-let popularItems =
+let popular =
 
 window.menuData.slice(0,15);
 
@@ -413,7 +429,8 @@ window.menuData.slice(0,15);
 
 
 
-popularItems.forEach(item=>{
+
+popular.forEach(function(item){
 
 
 
@@ -445,10 +462,9 @@ box.innerHTML += `
 
 src="images/${item.name}.jpg"
 
-onerror="this.src='images/no-image.png'"
+onerror="this.style.display='none'"
 
 >
-
 
 
 
@@ -481,7 +497,6 @@ ADD
 
 
 
-
 </div>
 
 
@@ -502,14 +517,12 @@ ADD
 
 
 
-
 // ==============================
-// ESCAPE SPECIAL CHARACTER
+// ESCAPE TEXT
 // ==============================
 
 
 function escapeText(text){
-
 
 
 return text
@@ -517,7 +530,6 @@ return text
 .replace(/'/g,"\\'")
 
 .replace(/"/g,'\\"');
-
 
 
 }
