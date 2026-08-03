@@ -1279,3 +1279,5 @@ window.createAccount=createAccount;
 window.loginUser=loginUser;
 
 window.googleLogin=googleLogin;
+
+window.saveGooglePhone = saveGooglePhone;
