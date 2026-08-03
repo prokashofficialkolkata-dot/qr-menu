@@ -1,46 +1,50 @@
-/* ==============================
+/* =========================
    GLOBAL
-============================== */
+========================= */
+
 
 *{
+
 box-sizing:border-box;
+
 font-family:Arial, sans-serif;
+
 }
 
 
+
 body{
+
 
 margin:0;
 
 min-height:100vh;
 
-background:#063970;
+background:#075aa8;
 
 color:white;
+
 
 }
 
 
-/* ==============================
- BUTTON COMMON
-============================== */
 
 
 button{
+
 
 border:none;
 
 cursor:pointer;
 
-border-radius:14px;
-
 font-size:15px;
 
 font-weight:bold;
 
-padding:11px 16px;
+border-radius:12px;
 
-transition:.3s;
+transition:0.3s;
+
 
 }
 
@@ -48,9 +52,8 @@ transition:.3s;
 
 button:hover{
 
-transform:translateY(-2px);
 
-opacity:.9;
+transform:scale(1.03);
 
 }
 
@@ -58,24 +61,21 @@ opacity:.9;
 
 
 
-
-
-/* ==============================
- TOP BAR
-============================== */
+/* =========================
+   TOP BAR
+========================= */
 
 
 .top-bar{
 
+
 display:flex;
 
-justify-content:center;
-
-align-items:center;
+gap:8px;
 
 flex-wrap:wrap;
 
-gap:8px;
+justify-content:center;
 
 padding:12px;
 
@@ -86,13 +86,12 @@ padding:12px;
 
 .top-bar button{
 
+
 background:white;
 
-color:#063970;
+color:#075aa8;
 
-border:2px solid #ffffff;
-
-box-shadow:0 3px 8px rgba(0,0,0,.2);
+padding:10px 16px;
 
 
 }
@@ -101,19 +100,18 @@ box-shadow:0 3px 8px rgba(0,0,0,.2);
 
 
 
-
-
-
-/* ==============================
- WELCOME PAGE
-============================== */
+/* =========================
+   WELCOME
+========================= */
 
 
 #welcome{
 
+
 text-align:center;
 
 padding:15px;
+
 
 }
 
@@ -121,36 +119,38 @@ padding:15px;
 
 .logo-circle{
 
-width:180px;
 
-height:180px;
+width:170px;
+
+height:170px;
 
 background:white;
 
 border-radius:50%;
 
-margin:25px auto;
+margin:20px auto;
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
+
+justify-content:center;
 
 overflow:hidden;
 
-box-shadow:0 5px 20px rgba(0,0,0,.3);
 
 }
 
 
 
 
+
 .logo{
 
-width:160px;
 
-height:160px;
+width:150px;
+
+height:150px;
 
 object-fit:contain;
 
@@ -163,35 +163,38 @@ border-radius:50%;
 
 
 
-h1{
+#welcome h1{
+
 
 font-size:32px;
 
-margin:10px;
+margin:10px 0;
 
 }
 
 
 
-h2{
+#welcome h2{
+
 
 font-size:22px;
 
+margin-bottom:20px;
+
+
 }
 
 
 
 
 
-
-
-
-/* ==============================
- LANGUAGE BUTTON
-============================== */
+/* =========================
+   LANGUAGE
+========================= */
 
 
 .languages{
+
 
 display:flex;
 
@@ -201,7 +204,8 @@ flex-wrap:wrap;
 
 gap:8px;
 
-margin:20px;
+margin:15px auto;
+
 
 }
 
@@ -209,11 +213,43 @@ margin:20px;
 
 .languages button{
 
+
 background:white;
 
-color:#063970;
+color:#075aa8;
+
+padding:8px 14px;
 
 border:2px solid white;
+
+
+}
+
+
+
+.languages button:hover{
+
+
+background:#ffd700;
+
+color:#222;
+
+
+}
+
+
+
+
+/* SMALL LANGUAGE BAR */
+
+
+.small-language button{
+
+
+font-size:12px;
+
+padding:6px 10px;
+
 
 }
 
@@ -221,15 +257,13 @@ border:2px solid white;
 
 
 
-
-
-
-/* ==============================
- DINE TAKEAWAY
-============================== */
+/* =========================
+   ORDER BUTTON
+========================= */
 
 
 .order-type{
+
 
 display:flex;
 
@@ -239,40 +273,39 @@ gap:15px;
 
 flex-wrap:wrap;
 
-margin-top:20px;
+margin:25px 0;
 
 
 }
 
 
 
-.order-type button{
+
+.dine-btn{
 
 
-padding:16px 35px;
-
-font-size:18px;
-
-border-radius:20px;
-
-background:#ffd43b;
+background:#ffd700;
 
 color:#222;
 
-border:3px solid white;
+padding:16px 35px;
 
 
 }
 
 
 
-.order-type button:nth-child(2){
+
+
+.take-btn{
 
 
 background:#ff7043;
 
 color:white;
 
+padding:16px 35px;
+
 
 }
 
@@ -281,62 +314,31 @@ color:white;
 
 
 
-
-
-/* ==============================
+/* =========================
  CUSTOMER LOGIN BUTTON
-============================== */
+========================= */
 
 
 .login-btn{
 
 
-background:linear-gradient(
-135deg,
-#9b59b6,
-#6c3483
-);
-
+background:#9b1c31;
 
 color:white;
 
+padding:15px 35px;
 
-font-size:18px;
-
-
-padding:16px 40px;
-
-
-border-radius:30px;
-
-
-margin-top:25px;
-
-
-border:3px solid white;
-
-
-box-shadow:
-
-0 6px 15px rgba(0,0,0,.35);
+font-size:17px;
 
 
 }
-
 
 
 
 .login-btn:hover{
 
 
-background:linear-gradient(
-135deg,
-#8e44ad,
-#512e5f
-);
-
-
-transform:scale(1.05);
+background:#c62828;
 
 
 }
@@ -345,328 +347,95 @@ transform:scale(1.05);
 
 
 
+.google-btn{
 
 
-/* ==============================
- MENU PAGE
-============================== */
+background:white;
 
+color:#333;
 
-#menuPage,
-#cartPage,
-#checkoutPage{
+border:2px solid #ddd;
 
+padding:14px 25px;
 
-padding:10px;
+margin-top:10px;
 
 
 }
+
+
 
 
 
 .main-btn{
 
 
-background:#ffd43b;
+background:#ffd700;
 
 color:#222;
 
-margin:10px;
-
-border:2px solid white;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* ==============================
- CATEGORY
-============================== */
-
-
-#categoryBox{
-
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(150px,1fr));
-
-
-gap:12px;
-
-
-padding:15px;
-
-
-}
-
-
-
-.category{
-
-
-background:white;
-
-color:#063970;
-
-
-border:2px solid #063970;
-
-
-border-radius:18px;
-
-
-padding:14px 10px;
-
-
-font-size:16px;
-
-
-box-shadow:
-
-0 4px 12px rgba(0,0,0,.2);
-
-
-}
-
-
-
-.category:hover{
-
-
-background:#063970;
-
-color:white;
-
-border-color:white;
-
-
-}
-
-
-
-
-
-
-
-
-/* ==============================
- POPULAR ITEMS
-============================== */
-
-
-#popularSection{
-
-
-background:white;
-
-color:#063970;
-
-border-radius:20px;
-
-padding:15px;
-
-margin:15px;
-
-
-}
-
-
-
-#popularSection h2{
-
-
-text-align:center;
-
-color:#063970;
-
-
-}
-
-
-
-
-#popularItems{
-
-
-display:grid;
-
-
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
-
-
-gap:15px;
-
-
-}
-
-
-
-.popular-card{
-
-
-background:#f4f8ff;
-
-
-border-radius:18px;
-
-
-padding:12px;
-
-
-text-align:center;
-
-
-border:1px solid #ddd;
-
-
-}
-
-
-
-
-.popular-card img{
-
-
-width:100%;
-
-
-height:130px;
-
-
-object-fit:cover;
-
-
-border-radius:15px;
-
-
-}
-
-
-
-
-.popular-card button{
-
-
-background:#063970;
-
-color:white;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* ==============================
- MENU ITEM
-============================== */
-
-
-.item{
-
-
-background:white;
-
-color:#222;
-
+padding:14px 25px;
 
 margin:10px;
 
 
-padding:15px;
-
-
-border-radius:15px;
-
-
-display:flex;
-
-
-justify-content:space-between;
-
-
-align-items:center;
-
-
-}
-
-
-
-.item button{
-
-
-background:#27ae60;
-
-color:white;
-
-
 }
 
 
 
 
 
+/* =========================
+ AUTH BOX
+========================= */
 
 
-
-
-/* ==============================
- CART CHECKOUT
-============================== */
-
-
-#cartPage,
-#checkoutPage{
-
-
-background:white;
-
-
-color:#063970;
-
-
-border-radius:20px;
-
-
-margin:15px;
-
-
-padding:20px;
-
-
-}
-
-
-
-
-
-input{
+.auth-box{
 
 
 width:90%;
 
-max-width:400px;
+max-width:420px;
+
+margin:30px auto;
+
+background:white;
+
+color:#333;
+
+padding:25px;
+
+border-radius:20px;
+
+text-align:center;
+
+box-shadow:0 5px 20px rgba(0,0,0,.3);
+
+
+}
+
+
+
+
+.auth-box h2{
+
+
+color:#075aa8;
+
+}
+
+
+
+.auth-box input{
+
+
+width:100%;
 
 padding:14px;
 
-margin:8px;
+margin:8px 0;
 
-border-radius:12px;
+border-radius:10px;
 
 border:1px solid #ccc;
 
@@ -679,12 +448,455 @@ font-size:16px;
 
 
 
+.link{
+
+
+color:#075aa8;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-top:15px;
+
+
+}
 
 
 
-/* ==============================
+
+
+
+/* =========================
+ LOGIN LOGO
+========================= */
+
+
+.auth-box .logo-circle{
+
+
+width:120px;
+
+height:120px;
+
+
+}
+
+
+
+.auth-box .logo{
+
+
+width:105px;
+
+height:105px;
+
+
+}
+/* =========================
+   MENU PAGE
+========================= */
+
+
+#menuPage,
+#cartPage,
+#checkoutPage{
+
+
+padding:15px;
+
+}
+
+
+
+
+
+#menuPage h2,
+#cartPage h2{
+
+
+text-align:center;
+
+color:white;
+
+}
+
+
+
+
+
+/* =========================
+   CATEGORY BUTTON
+========================= */
+
+
+#categoryBox{
+
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+gap:12px;
+
+margin:15px;
+
+
+}
+
+
+
+.category-btn{
+
+
+background:white;
+
+color:#075aa8;
+
+border:2px solid white;
+
+padding:12px 18px;
+
+border-radius:15px;
+
+
+}
+
+
+
+.category-btn:hover{
+
+
+background:#ffd700;
+
+color:#222;
+
+
+}
+
+
+
+
+
+
+/* =========================
+   POPULAR ITEMS
+========================= */
+
+
+#popularSection{
+
+
+margin-top:25px;
+
+
+}
+
+
+
+#popularSection h2{
+
+
+background:white;
+
+color:#075aa8;
+
+padding:12px;
+
+border-radius:12px;
+
+text-align:center;
+
+
+}
+
+
+
+
+
+#popularItems{
+
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+padding:10px;
+
+
+}
+
+
+
+
+
+
+
+.popular-card{
+
+
+background:white;
+
+color:#333;
+
+border-radius:15px;
+
+padding:10px;
+
+text-align:center;
+
+box-shadow:0 4px 15px rgba(0,0,0,.2);
+
+
+}
+
+
+
+
+
+.popular-card img{
+
+
+width:100%;
+
+height:120px;
+
+object-fit:cover;
+
+border-radius:12px;
+
+
+}
+
+
+
+
+
+.popular-card button{
+
+
+background:#075aa8;
+
+color:white;
+
+padding:10px;
+
+width:100%;
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+ MENU ITEMS
+========================= */
+
+
+#itemBox{
+
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+
+}
+
+
+
+.menu-item{
+
+
+background:white;
+
+color:#333;
+
+border-radius:15px;
+
+padding:15px;
+
+box-shadow:0 3px 12px rgba(0,0,0,.2);
+
+
+}
+
+
+
+.menu-item h3{
+
+
+color:#075aa8;
+
+
+}
+
+
+
+
+.menu-item button{
+
+
+background:#9b1c31;
+
+color:white;
+
+width:100%;
+
+padding:10px;
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+ CART
+========================= */
+
+
+#cartItems{
+
+
+background:white;
+
+color:#333;
+
+border-radius:15px;
+
+padding:15px;
+
+
+}
+
+
+
+.item{
+
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:12px;
+
+border-bottom:1px solid #ddd;
+
+
+}
+
+
+
+.item button{
+
+
+background:#075aa8;
+
+color:white;
+
+padding:8px 12px;
+
+margin:3px;
+
+
+}
+
+
+
+
+
+#total{
+
+
+background:white;
+
+color:#075aa8;
+
+padding:15px;
+
+border-radius:15px;
+
+text-align:center;
+
+
+}
+
+
+
+
+
+
+
+/* =========================
+ TOAST
+========================= */
+
+
+#toast{
+
+
+position:fixed;
+
+top:80px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+background:#27ae60;
+
+color:white;
+
+padding:14px 25px;
+
+border-radius:25px;
+
+font-weight:bold;
+
+z-index:99999;
+
+opacity:0;
+
+transition:.3s;
+
+}
+
+
+
+#toast.show{
+
+
+opacity:1;
+
+
+}
+
+
+
+
+
+
+
+
+/* =========================
  FOOTER
-============================== */
+========================= */
 
 
 footer{
@@ -692,9 +904,13 @@ footer{
 
 text-align:center;
 
+padding:20px;
 
-padding:18px;
+margin-top:30px;
 
+background:#06447d;
+
+color:white;
 
 font-size:14px;
 
@@ -708,19 +924,29 @@ font-size:14px;
 
 
 
-/* ==============================
+/* =========================
  DESKTOP
-============================== */
+========================= */
 
 
 @media(min-width:900px){
 
 
+
 #popularItems{
 
 
-grid-template-columns:
-repeat(5,1fr);
+grid-template-columns:repeat(5,1fr);
+
+
+}
+
+
+
+#itemBox{
+
+
+grid-template-columns:repeat(5,1fr);
 
 
 }
@@ -732,52 +958,56 @@ repeat(5,1fr);
 
 
 
-
-
-
-/* ==============================
+/* =========================
  MOBILE
-============================== */
+========================= */
 
 
 @media(max-width:600px){
 
 
-h1{
 
-font-size:24px;
-
-}
+#welcome h1{
 
 
-
-.logo-circle{
-
-width:145px;
-
-height:145px;
+font-size:25px;
 
 
 }
 
 
 
-.logo{
+#welcome h2{
 
-width:130px;
 
-height:130px;
+font-size:18px;
 
 
 }
+
+
+
+
+.top-bar button{
+
+
+font-size:12px;
+
+padding:8px;
+
+
+}
+
+
 
 
 
 #popularItems{
 
 
-grid-template-columns:
-repeat(3,1fr);
+grid-template-columns:repeat(3,1fr);
+
+gap:8px;
 
 
 }
@@ -787,94 +1017,24 @@ repeat(3,1fr);
 .popular-card img{
 
 
-height:90px;
+height:80px;
 
 
 }
 
 
 
-.popular-card b{
+#itemBox{
 
 
-font-size:13px;
+grid-template-columns:repeat(2,1fr);
 
-
-}
-
-
-
-.top-bar button{
-
-
-font-size:12px;
-
-padding:8px 10px;
+gap:10px;
 
 
 }
 
 
 
-#categoryBox{
-
-
-grid-template-columns:
-repeat(2,1fr);
-
-
 }
 
-
-}
-#toast{
-
-
-position:fixed;
-
-top:90px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-
-background:#27ae60;
-
-color:white;
-
-
-padding:15px 25px;
-
-
-border-radius:25px;
-
-
-font-size:16px;
-
-
-font-weight:bold;
-
-
-z-index:99999;
-
-
-opacity:0;
-
-
-transition:.3s;
-
-
-box-shadow:0 5px 20px rgba(0,0,0,.3);
-
-
-}
-
-
-#toast.show{
-
-
-opacity:1;
-
-
-}
