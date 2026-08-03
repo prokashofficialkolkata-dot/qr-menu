@@ -1,110 +1,139 @@
-/* =========================
-GLOBAL
-========================= */
+/* ==============================
+   GLOBAL
+============================== */
+
 
 *{
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+
 }
+
 
 
 body{
 
-    margin:0;
+margin:0;
 
-    min-height:100vh;
+min-height:100vh;
 
-    background:#052c65;
+background:#064b8f;
 
-    color:#333;
-
-    display:flex;
-
-    flex-direction:column;
+color:white;
 
 }
 
 
-/* =========================
-TOP BAR
-========================= */
+
+
+button{
+
+border:none;
+
+cursor:pointer;
+
+border-radius:12px;
+
+font-size:15px;
+
+padding:10px 15px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+
+
+button:hover{
+
+transform:scale(1.03);
+
+}
+
+
+
+
+
+/* ==============================
+   TOP BAR
+============================== */
 
 
 .top-bar{
 
-    width:100%;
 
-    padding:10px;
+display:flex;
 
-    display:flex;
+justify-content:center;
 
-    justify-content:space-between;
+flex-wrap:wrap;
 
-    gap:10px;
+gap:8px;
+
+padding:12px;
+
 
 }
+
 
 
 .top-bar button{
 
-    flex:1;
 
-    background:white;
+background:white;
 
-    color:#052c65;
+color:#064b8f;
 
-    border:none;
-
-    padding:12px;
-
-    border-radius:12px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    box-shadow:0 4px 10px rgba(0,0,0,.2);
 
 }
 
 
 
-/* =========================
-HOME
-========================= */
+
+
+
+
+/* ==============================
+   WELCOME
+============================== */
 
 
 #welcome{
 
-    text-align:center;
 
-    padding:20px;
+text-align:center;
+
+padding:15px;
 
 }
 
 
 
-.logo-box{
 
-    width:190px;
+.logo-circle{
 
-    height:190px;
 
-    background:white;
+width:170px;
 
-    border-radius:50%;
+height:170px;
 
-    margin:20px auto;
+background:white;
 
-    display:flex;
+border-radius:50%;
 
-    align-items:center;
+margin:20px auto;
 
-    justify-content:center;
+display:flex;
 
-    overflow:hidden;
+align-items:center;
 
-    box-shadow:0 5px 20px rgba(0,0,0,.3);
+justify-content:center;
+
+overflow:hidden;
+
 
 }
 
@@ -112,23 +141,28 @@ HOME
 
 .logo{
 
-    width:170px;
 
-    height:170px;
+width:150px;
 
-    object-fit:cover;
+height:150px;
 
-    border-radius:50%;
+object-fit:contain;
+
+border-radius:50%;
+
 
 }
 
 
 
+
 h1{
 
-    color:white;
 
-    font-size:30px;
+font-size:32px;
+
+margin:10px;
+
 
 }
 
@@ -136,29 +170,33 @@ h1{
 
 h2{
 
-    color:white;
+
+font-size:22px;
 
 }
 
 
 
 
-/* =========================
-LANGUAGE
-========================= */
+
+/* ==============================
+ LANGUAGE
+============================== */
 
 
 .languages{
 
-    display:flex;
 
-    flex-wrap:wrap;
+display:flex;
 
-    justify-content:center;
+justify-content:center;
 
-    gap:8px;
+flex-wrap:wrap;
 
-    margin:20px 0;
+gap:8px;
+
+margin:20px;
+
 
 }
 
@@ -166,91 +204,63 @@ LANGUAGE
 
 .languages button{
 
-    background:white;
 
-    color:#052c65;
+background:white;
 
-    border:none;
-
-    padding:8px 12px;
-
-    border-radius:20px;
-
-    font-weight:bold;
-
-}
-
-
-
-.languages.small button{
-
-    font-size:13px;
-
-    padding:6px 10px;
+color:#064b8f;
 
 }
 
 
 
 
-/* =========================
-ORDER BUTTON
-========================= */
+
+/* ==============================
+ ORDER TYPE
+============================== */
 
 
 .order-type{
 
-    display:flex;
 
-    justify-content:center;
+display:flex;
 
-    gap:15px;
+justify-content:center;
 
-    margin:25px 0;
+gap:15px;
+
+flex-wrap:wrap;
+
 
 }
+
 
 
 
 .order-type button{
 
-    width:45%;
 
-    padding:18px;
+background:#ffd43b;
 
-    border:none;
+color:#222;
 
-    border-radius:15px;
+font-size:18px;
 
-    font-size:18px;
+padding:15px 30px;
 
-    font-weight:bold;
-
-    cursor:pointer;
-
-    box-shadow:0 5px 12px rgba(0,0,0,.25);
 
 }
 
 
 
-.order-type button:first-child{
 
-    background:white;
-
-    color:#052c65;
-
-    border:3px solid #f5b700;
-
-}
+.order-type button:nth-child(2){
 
 
+background:#ff7043;
 
-.order-type button:last-child{
+color:white;
 
-    background:#8b0000;
-
-    color:white;
 
 }
 
@@ -258,27 +268,24 @@ ORDER BUTTON
 
 
 
-/* =========================
-CUSTOMER LOGIN
-========================= */
+/* ==============================
+ LOGIN BUTTON
+============================== */
 
 
-.welcome-login .main-btn{
+.login-btn{
 
 
-    background:#f5b700;
+background:#8e44ad;
 
-    color:#052c65;
+color:white;
 
-    padding:15px 25px;
+margin-top:20px;
 
-    border:none;
+font-size:18px;
 
-    border-radius:15px;
+padding:14px 30px;
 
-    font-weight:bold;
-
-    font-size:17px;
 
 }
 
@@ -286,63 +293,64 @@ CUSTOMER LOGIN
 
 
 
-/* =========================
-NAVIGATION
-========================= */
-
-
-.navigation{
-
-    display:flex;
-
-    gap:8px;
-
-    padding:10px;
-
-    flex-wrap:wrap;
-
-}
-
-
-
-.navigation button{
-
-    flex:1;
-
-    background:white;
-
-    color:#052c65;
-
-    border:none;
-
-    padding:10px;
-
-    border-radius:10px;
-
-    font-weight:bold;
-
-}
-
-
-
-
-
-/* =========================
-PAGE CARD
-========================= */
+/* ==============================
+ MENU PAGE
+============================== */
 
 
 #menuPage,
 #cartPage,
 #checkoutPage{
 
-    background:white;
 
-    min-height:80vh;
+padding:10px;
 
-    border-radius:20px 20px 0 0;
+}
 
-    padding:15px;
+
+
+.main-btn{
+
+
+background:#ffd43b;
+
+color:#222;
+
+margin:10px;
+
+}
+
+
+
+
+/* CATEGORY */
+
+
+#categoryBox{
+
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+gap:10px;
+
+margin:15px;
+
+
+}
+
+
+
+.category{
+
+
+background:white;
+
+color:#064b8f;
+
 
 }
 
@@ -350,85 +358,126 @@ PAGE CARD
 
 
 
-/* =========================
-CATEGORY
-========================= */
 
 
-#categoryBox button{
+/* ==============================
+ POPULAR ITEMS
+============================== */
 
-    width:100%;
 
-    margin:6px 0;
+#popularSection{
 
-    padding:15px;
 
-    background:#052c65;
+background:white;
 
-    color:white;
+color:#064b8f;
 
-    border:none;
+border-radius:20px;
 
-    border-radius:12px;
+padding:15px;
 
-    font-weight:bold;
+margin:15px;
+
 
 }
 
 
 
+#popularSection h2{
 
 
-/* =========================
-POPULAR ITEMS
-========================= */
+text-align:center;
+
+color:#064b8f;
+
+
+}
+
+
 
 
 #popularItems{
 
-    display:grid;
 
-    grid-template-columns:repeat(3,1fr);
+display:grid;
 
-    gap:12px;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+gap:15px;
+
 
 }
+
 
 
 
 .popular-card{
 
-    background:white;
 
-    border-radius:15px;
+background:#f2f8ff;
 
-    padding:10px;
+border-radius:15px;
 
-    text-align:center;
+padding:12px;
 
-    box-shadow:0 3px 12px rgba(0,0,0,.15);
+text-align:center;
+
 
 }
+
 
 
 
 .popular-card img{
 
-    width:100%;
 
-    height:100px;
+width:100%;
 
-    object-fit:cover;
+height:130px;
 
-    border-radius:10px;
+object-fit:cover;
+
+border-radius:12px;
+
 
 }
+
 
 
 
 .popular-card b{
 
-    color:#052c65;
+
+display:block;
+
+margin-top:8px;
+
+font-size:17px;
+
+
+}
+
+
+
+.popular-card p{
+
+
+font-size:16px;
+
+font-weight:bold;
+
+
+}
+
+
+
+.popular-card button{
+
+
+background:#064b8f;
+
+color:white;
+
 
 }
 
@@ -436,49 +485,30 @@ POPULAR ITEMS
 
 
 
-/* DESKTOP */
-
-@media(min-width:900px){
-
-
-#popularItems{
-
-    grid-template-columns:repeat(5,1fr);
-
-}
-
-
-.popular-card img{
-
-    height:130px;
-
-}
-
-
-}
-
-
-
-
-
-/* =========================
-MENU ITEM
-========================= */
+/* ==============================
+ ITEMS
+============================== */
 
 
 .item{
 
-    background:#eef5ff;
 
-    padding:15px;
+background:white;
 
-    margin:10px 0;
+color:#222;
 
-    border-radius:12px;
+margin:10px;
 
-    display:flex;
+padding:15px;
 
-    justify-content:space-between;
+border-radius:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
 
 }
 
@@ -486,15 +516,11 @@ MENU ITEM
 
 .item button{
 
-    background:#198754;
 
-    color:white;
+background:#27ae60;
 
-    border:none;
+color:white;
 
-    border-radius:8px;
-
-    padding:10px;
 
 }
 
@@ -502,22 +528,51 @@ MENU ITEM
 
 
 
-/* =========================
-INPUT
-========================= */
+/* ==============================
+ CART
+============================== */
+
+
+#cartPage,
+#checkoutPage{
+
+
+background:white;
+
+color:#064b8f;
+
+border-radius:20px;
+
+margin:15px;
+
+padding:20px;
+
+
+}
+
+
+
+
+/* INPUT */
 
 
 input{
 
-    width:100%;
 
-    padding:14px;
+width:90%;
 
-    margin:8px 0;
+max-width:400px;
 
-    border-radius:10px;
+padding:14px;
 
-    border:1px solid #ccc;
+margin:8px;
+
+border-radius:10px;
+
+border:1px solid #ccc;
+
+font-size:16px;
+
 
 }
 
@@ -525,22 +580,24 @@ input{
 
 
 
-/* =========================
-FOOTER
-========================= */
+
+
+/* ==============================
+ FOOTER
+============================== */
 
 
 footer{
 
-    margin-top:auto;
 
-    text-align:center;
+text-align:center;
 
-    color:white;
+padding:15px;
 
-    padding:15px;
+font-size:14px;
 
-    font-size:13px;
+opacity:.9;
+
 
 }
 
@@ -548,42 +605,135 @@ footer{
 
 
 
-/* MOBILE */
+
+
+
+/* ==============================
+ DESKTOP
+============================== */
+
+
+@media(min-width:900px){
+
+
+
+#popularItems{
+
+
+grid-template-columns:repeat(5,1fr);
+
+
+}
+
+
+
+.item{
+
+
+max-width:800px;
+
+margin:10px auto;
+
+
+}
+
+
+
+}
+
+
+
+
+/* ==============================
+ MOBILE
+============================== */
+
 
 @media(max-width:600px){
-
-.logo-box{
-
-    width:170px;
-
-    height:170px;
-
-}
-
-
-.logo{
-
-    width:150px;
-
-    height:150px;
-
-}
 
 
 
 h1{
 
-    font-size:24px;
+font-size:24px;
 
 }
 
 
 
-.order-type button{
+.logo-circle{
 
-    font-size:15px;
+
+width:140px;
+
+height:140px;
+
 
 }
+
+
+
+.logo{
+
+
+width:125px;
+
+height:125px;
+
+
+}
+
+
+
+#popularItems{
+
+
+grid-template-columns:repeat(3,1fr);
+
+
+}
+
+
+
+.popular-card{
+
+
+padding:8px;
+
+}
+
+
+
+.popular-card img{
+
+
+height:90px;
+
+
+}
+
+
+
+.popular-card b{
+
+
+font-size:13px;
+
+
+}
+
+
+
+.top-bar button{
+
+
+font-size:12px;
+
+padding:8px;
+
+
+}
+
 
 
 }
