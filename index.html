@@ -35,6 +35,8 @@ Restoran Hameed's Bistro
 
 
 
+<!-- TOP BAR -->
+
 <div class="top-bar">
 
 
@@ -61,12 +63,19 @@ Restoran Hameed's Bistro
 
 
 
+<!-- LOGO -->
+
 
 <div class="logo-circle">
 
-<img src="images/logo.png" class="logo">
+
+<img 
+src="images/logo.png"
+class="logo">
+
 
 </div>
+
 
 
 
@@ -77,6 +86,7 @@ Restoran Hameed's Bistro
 Restoran Hameed's Bistro
 
 </h1>
+
 
 
 
@@ -92,42 +102,62 @@ QR Menu & Ordering System
 
 
 
-<!-- LANGUAGE -->
+
+<!-- LANGUAGE BUTTON -->
+
 
 <div class="languages">
 
 
 <button onclick="setLanguage('en')">
+
 English
+
 </button>
+
 
 
 <button onclick="setLanguage('ms')">
+
 Malay
+
 </button>
+
 
 
 <button onclick="setLanguage('ta')">
+
 Tamil
+
 </button>
+
 
 
 <button onclick="setLanguage('zh')">
+
 Chinese
+
 </button>
+
 
 
 <button onclick="setLanguage('hi')">
+
 Hindi
+
 </button>
 
 
+
 <button onclick="setLanguage('bn')">
+
 Bangla
+
 </button>
 
 
 </div>
+
 
 
 
@@ -141,24 +171,34 @@ Bangla
 <div class="order-type">
 
 
-<button onclick="startMenu('DINE IN')">
+
+<button 
+class="dine-btn"
+onclick="startMenu('DINE IN')">
+
 
 🍽 DINE IN
+
 
 </button>
 
 
 
-<button onclick="startMenu('TAKE AWAY')">
+
+
+<button
+class="take-btn"
+onclick="startMenu('TAKE AWAY')">
+
 
 🥡 TAKE AWAY
+
 
 </button>
 
 
 
 </div>
-
 
 
 
@@ -173,19 +213,20 @@ Bangla
 
 
 <button
+
 class="login-btn"
+
 onclick="checkout()">
 
+
+
 👤 Customer Login
+
+
 
 </button>
 
 
-</div>
-
-
-
-
 
 </div>
 
@@ -194,17 +235,13 @@ onclick="checkout()">
 
 
 
-
-
-
+</div>
 <!-- ========================= -->
 <!-- MENU PAGE -->
 <!-- ========================= -->
 
 
 <div id="menuPage" style="display:none;">
-
-
 
 
 
@@ -257,6 +294,18 @@ onclick="checkout()">
 
 
 
+<button 
+id="logoutBtn"
+onclick="logoutUser()"
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
 
 </div>
 
@@ -266,13 +315,62 @@ onclick="checkout()">
 
 
 
-<button class="main-btn"
+
+<!-- LANGUAGE BAR -->
+
+
+<div class="languages small-language">
+
+
+<button onclick="setLanguage('en')">
+English
+</button>
+
+
+<button onclick="setLanguage('ms')">
+Malay
+</button>
+
+
+<button onclick="setLanguage('ta')">
+Tamil
+</button>
+
+
+<button onclick="setLanguage('zh')">
+Chinese
+</button>
+
+
+<button onclick="setLanguage('hi')">
+Hindi
+</button>
+
+
+<button onclick="setLanguage('bn')">
+Bangla
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<button 
+class="main-btn"
 onclick="openCategory()">
+
 
 📋 SELECT CATEGORY
 
-</button>
 
+</button>
 
 
 
@@ -289,9 +387,8 @@ onclick="openCategory()">
 
 
 
+<!-- POPULAR ITEMS -->
 
-
-<!-- POPULAR -->
 
 <div id="popularSection">
 
@@ -303,9 +400,9 @@ onclick="openCategory()">
 </h2>
 
 
+
 <div id="popularItems">
 
-
 </div>
 
 
@@ -317,13 +414,12 @@ onclick="openCategory()">
 
 
 
-<!-- ITEMS -->
+<!-- MENU ITEMS -->
+
 
 <div id="itemBox">
 
-
 </div>
-
 
 
 
@@ -358,6 +454,7 @@ onclick="openCategory()">
 </button>
 
 
+
 <button onclick="goHome()">
 
 🏠 Home
@@ -369,6 +466,29 @@ onclick="openCategory()">
 <button onclick="refreshPage()">
 
 🔄 Refresh
+
+</button>
+
+
+
+<button onclick="showCart()">
+
+🛒 Cart
+
+(<span id="cartCount3">0</span>)
+
+</button>
+
+
+
+<button 
+id="logoutBtnCart"
+onclick="logoutUser()"
+style="display:none;">
+
+
+🚪 Logout
+
 
 </button>
 
@@ -393,7 +513,9 @@ onclick="openCategory()">
 
 <div id="cartItems">
 
+
 </div>
+
 
 
 
@@ -411,12 +533,19 @@ Total : RM 0.00
 
 
 
-<button class="main-btn"
+<button
+
+class="main-btn"
+
 onclick="checkout()">
 
-CHECKOUT
+
+
+✅ CHECKOUT
+
 
 </button>
+
 
 
 
@@ -431,7 +560,7 @@ CHECKOUT
 
 
 <!-- ========================= -->
-<!-- CHECKOUT PAGE -->
+<!-- CHECKOUT / LOGIN PAGE -->
 <!-- ========================= -->
 
 
@@ -441,28 +570,59 @@ CHECKOUT
 
 
 
-<div id="loginBox">
+
+<!-- LOGIN BOX -->
+
+
+<div id="loginBox" class="auth-box">
+
+
+
+<div class="logo-circle">
+
+
+<img 
+src="images/logo.png"
+class="logo">
+
+
+</div>
+
+
+
 
 
 <h2>
 
-Customer Login
+Restoran Hameed's Bistro Login
 
 </h2>
 
 
 
 
-<input id="loginEmail"
+
+
+
+<input
+
+id="loginEmail"
+
 type="email"
-placeholder="Email Address">
+
+placeholder="Email / Username">
 
 
 
 
 
-<input id="loginPassword"
+
+<input
+
+id="loginPassword"
+
 type="password"
+
 placeholder="Password">
 
 
@@ -470,34 +630,68 @@ placeholder="Password">
 
 
 
-<button onclick="loginUser()">
+
+<button
+
+class="login-btn"
+
+onclick="loginUser()">
+
+
 
 LOGIN
 
+
+
 </button>
 
 
 
 
 
-<button onclick="googleLogin()">
 
-Sign in with Google
+
+<button
+
+class="google-btn"
+
+onclick="googleLogin()">
+
+
+
+🌐 Sign In With Google
+
+
 
 </button>
 
 
 
 
-<p onclick="showCreateAccount()">
+
+
+
+<p
+
+class="link"
+
+onclick="showCreateAccount()">
+
+
 
 Create Account
+
+
 
 </p>
 
 
 
+
+
 </div>
+
+
 
 
 
@@ -510,7 +704,15 @@ Create Account
 <!-- CREATE ACCOUNT -->
 
 
-<div id="createBox" style="display:none;">
+<div id="createBox"
+
+class="auth-box"
+
+style="display:none;">
+
+
+
+
 
 
 <h2>
@@ -521,44 +723,120 @@ Create Account
 
 
 
-<input id="createName"
+
+
+
+
+
+<input
+
+id="createName"
+
 placeholder="Customer Name">
 
 
 
-<input id="createPhone"
+
+
+
+
+<input
+
+id="createPhone"
+
 placeholder="Phone Number">
 
 
 
-<input id="createEmail"
-placeholder="Email">
 
 
 
-<input id="createPassword"
+
+<input
+
+id="createEmail"
+
+type="email"
+
+placeholder="Email Address">
+
+
+
+
+
+
+
+<input
+
+id="createPassword"
+
 type="password"
+
 placeholder="Password">
 
 
 
-<input id="confirmPassword"
+
+
+
+
+<input
+
+id="confirmPassword"
+
 type="password"
+
 placeholder="Confirm Password">
 
 
 
 
 
-<button onclick="createAccount()">
+
+
+<button
+
+class="login-btn"
+
+onclick="createAccount()">
+
+
 
 CREATE ACCOUNT
+
+
 
 </button>
 
 
 
+
+
+
+
+<p
+
+class="link"
+
+onclick="showLogin()">
+
+
+
+Back To Login
+
+
+
+</p>
+
+
+
+
+
+
 </div>
+
+
+
 
 
 
@@ -570,7 +848,15 @@ CREATE ACCOUNT
 <!-- GOOGLE PROFILE -->
 
 
-<div id="phoneBox" style="display:none;">
+<div id="profileBox"
+
+class="auth-box"
+
+style="display:none;">
+
+
+
+
 
 
 <h2>
@@ -580,20 +866,71 @@ Complete Profile
 </h2>
 
 
-<input id="googlePhone"
+
+
+
+
+<input
+
+id="googleName"
+
+placeholder="Customer Name">
+
+
+
+
+
+
+
+<input
+
+id="googleEmail"
+
+readonly>
+
+
+
+
+
+
+
+
+<input
+
+id="googlePhone"
+
 placeholder="Phone Number">
 
 
 
-<button onclick="saveGooglePhone()">
 
-SAVE
+
+
+
+<button
+
+class="login-btn"
+
+onclick="saveGoogleProfile()">
+
+
+
+SAVE PROFILE
+
+
 
 </button>
 
 
 
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -606,7 +943,14 @@ SAVE
 <!-- CHECKOUT FORM -->
 
 
-<div id="checkoutForm" style="display:none;">
+<div id="checkoutForm"
+
+class="auth-box"
+
+style="display:none;">
+
+
+
 
 
 <h2>
@@ -618,29 +962,61 @@ Checkout
 
 
 
-<input id="customerName"
+
+
+<input
+
+id="customerName"
+
 readonly>
 
 
 
-<input id="phone"
+
+
+
+
+<input
+
+id="phone"
+
 readonly>
 
 
 
 
-<button onclick="placeOrder()">
+
+
+
+<input
+
+id="tableNumber"
+
+placeholder="Table Number">
+
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="placeOrder()">
+
+
 
 PLACE ORDER
+
+
 
 </button>
 
 
 
 
-</div>
-
-
 
 
 </div>
@@ -650,9 +1026,7 @@ PLACE ORDER
 
 
 
-
-
-
+</div>
 <!-- ========================= -->
 <!-- FOOTER -->
 <!-- ========================= -->
@@ -661,7 +1035,7 @@ PLACE ORDER
 <footer>
 
 
-© 2026 Rudranshi Rakshit. All Rights Reserved.
+© 2026 Prakash Rakhit. All Rights Reserved.
 
 &nbsp; | &nbsp;
 
@@ -681,22 +1055,45 @@ Version 1.0.0
 <!-- ========================= -->
 
 
+
+<!-- Firebase -->
+
 <script type="module" src="js/firebase.js"></script>
 
+
+
+<!-- Authentication -->
 
 <script type="module" src="js/auth.js"></script>
 
 
 
+
+
+<!-- Main Control -->
+
 <script src="js/main.js"></script>
 
+
+
+
+<!-- Menu -->
 
 <script src="js/menu.js"></script>
 
 
+
+
+
+<!-- Cart -->
+
 <script src="js/cart.js"></script>
 
 
+
+
+
+<!-- Checkout -->
 
 <script type="module" src="js/checkout.js"></script>
 
@@ -705,5 +1102,6 @@ Version 1.0.0
 
 
 </body>
+
 
 </html>
