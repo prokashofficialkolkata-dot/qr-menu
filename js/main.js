@@ -3,7 +3,7 @@
 // ==============================
 
 
-// PAGE HISTORY
+// PAGE CONTROL
 
 window.pageHistory = [];
 
@@ -18,7 +18,7 @@ window.currentPage = "welcome";
 // ==============================
 
 
-window.showPage = function(page){
+window.showPage=function(page){
 
 
     window.currentPage = page;
@@ -31,7 +31,7 @@ window.showPage = function(page){
 
 
 
-    let pages = [
+    let pages=[
 
         "welcome",
 
@@ -48,18 +48,19 @@ window.showPage = function(page){
     pages.forEach(function(id){
 
 
-        let el = document.getElementById(id);
+        let element =
+        document.getElementById(id);
 
 
-        if(el){
 
-            el.style.display = "none";
+        if(element){
+
+            element.style.display="none";
 
         }
 
 
     });
-
 
 
 
@@ -75,6 +76,7 @@ window.showPage = function(page){
     }
 
 
+
 };
 
 
@@ -85,7 +87,7 @@ window.showPage = function(page){
 
 
 // ==============================
-// HOME BUTTON
+// HOME
 // ==============================
 
 
@@ -106,9 +108,8 @@ window.goHome=function(){
 
 
 
-
 // ==============================
-// BACK BUTTON
+// BACK
 // ==============================
 
 
@@ -116,7 +117,8 @@ window.goBack=function(){
 
 
 
-    if(pageHistory.length > 0){
+    if(pageHistory.length>0){
+
 
 
         let previous =
@@ -125,6 +127,7 @@ window.goBack=function(){
 
 
         showPage(previous);
+
 
 
     }
@@ -138,7 +141,6 @@ window.goBack=function(){
     }
 
 
-
 };
 
 
@@ -147,9 +149,8 @@ window.goBack=function(){
 
 
 
-
 // ==============================
-// REFRESH BUTTON
+// REFRESH
 // ==============================
 
 
@@ -158,18 +159,13 @@ window.refreshPage=function(){
 
 
     let page =
+    window.currentPage
+    ||
     localStorage.getItem(
-        "currentPage"
-    );
-
-
-
-    if(!page){
-
-        page="welcome";
-
-    }
-
+    "currentPage"
+    )
+    ||
+    "welcome";
 
 
 
@@ -194,7 +190,7 @@ window.refreshPage=function(){
 
 
 // ==============================
-// RESTORE PAGE AFTER REFRESH
+// RESTORE AFTER REFRESH
 // ==============================
 
 
@@ -204,28 +200,66 @@ function(){
 
 
 
-let savedPage =
-localStorage.getItem(
-"refreshPage"
-);
+    checkLogin();
+
+
+    updateCartCount();
 
 
 
-if(savedPage){
+    let savedPage =
+    localStorage.getItem(
+    "refreshPage"
+    );
 
 
-    showPage(savedPage);
+
+    if(savedPage){
 
 
-}
 
-else{
-
-
-    showPage("welcome");
+        showPage(savedPage);
 
 
-}
+
+        if(savedPage=="menuPage"){
+
+
+
+            setTimeout(function(){
+
+
+
+                if(
+                typeof loadCSV === "function"
+                ){
+
+
+                    loadCSV();
+
+
+
+                }
+
+
+
+            },300);
+
+
+
+        }
+
+
+
+    }
+
+    else{
+
+
+        showPage("welcome");
+
+
+    }
 
 
 
@@ -257,19 +291,12 @@ window.setLanguage=function(lang){
 
 
 
-    window.selectedLanguage = lang;
+    window.selectedLanguage=lang;
 
 
 
     localStorage.setItem(
         "language",
-        lang
-    );
-
-
-
-    console.log(
-        "Language Changed:",
         lang
     );
 
@@ -293,7 +320,7 @@ window.updateCartCount=function(){
 
 
 
-let count = 0;
+let count=0;
 
 
 
@@ -315,6 +342,7 @@ let cart1 =
 document.getElementById(
 "cartCount"
 );
+
 
 
 let cart2 =
@@ -351,27 +379,25 @@ cart2.innerHTML=count;
 
 
 // ==============================
-// LOGIN DISPLAY
+// LOGIN LOGOUT
 // ==============================
-
 
 
 window.showLogout=function(){
 
 
-
-let box =
+let area =
 document.getElementById(
 "logoutArea"
 );
 
 
 
-if(!box)return;
+if(!area)return;
 
 
 
-box.innerHTML = `
+area.innerHTML=`
 
 
 <button onclick="logoutUser()">
@@ -393,21 +419,20 @@ Logout
 
 
 
-
 window.hideLogout=function(){
 
 
 
-let box =
+let area =
 document.getElementById(
 "logoutArea"
 );
 
 
 
-if(box){
+if(area){
 
-box.innerHTML="";
+area.innerHTML="";
 
 }
 
@@ -422,7 +447,7 @@ box.innerHTML="";
 
 
 // ==============================
-// CHECK LOGIN STATUS
+// LOGIN CHECK
 // ==============================
 
 
@@ -430,14 +455,14 @@ window.checkLogin=function(){
 
 
 
-let user =
+let email =
 localStorage.getItem(
 "customerEmail"
 );
 
 
 
-if(user){
+if(email){
 
 
 showLogout();
@@ -452,27 +477,6 @@ hideLogout();
 
 
 }
-
-
-
-};
-
-
-
-
-
-
-
-// START
-
-window.onload=function(){
-
-
-checkLogin();
-
-
-
-updateCartCount();
 
 
 
