@@ -1,84 +1,80 @@
-/* =========================
+/* ==============================
    GLOBAL
-========================= */
-
+============================== */
 
 *{
-
 box-sizing:border-box;
-
 font-family:Arial, sans-serif;
-
 }
 
 
-
 body{
-
 
 margin:0;
 
 min-height:100vh;
 
-background:#075aa8;
+background:#063970;
 
 color:white;
-
 
 }
 
 
 
+/* ==============================
+   COMMON BUTTON
+============================== */
+
 
 button{
-
 
 border:none;
 
 cursor:pointer;
 
+border-radius:14px;
+
 font-size:15px;
 
 font-weight:bold;
 
-border-radius:12px;
+padding:11px 16px;
 
-transition:0.3s;
-
+transition:.3s;
 
 }
-
 
 
 button:hover{
 
+transform:translateY(-2px);
 
-transform:scale(1.03);
+opacity:.9;
 
 }
 
 
 
 
-
-/* =========================
+/* ==============================
    TOP BAR
-========================= */
+============================== */
 
 
 .top-bar{
 
-
 display:flex;
-
-gap:8px;
-
-flex-wrap:wrap;
 
 justify-content:center;
 
-padding:12px;
+align-items:center;
 
+flex-wrap:wrap;
+
+gap:8px;
+
+padding:12px;
 
 }
 
@@ -86,32 +82,28 @@ padding:12px;
 
 .top-bar button{
 
-
 background:white;
 
-color:#075aa8;
+color:#063970;
 
-padding:10px 16px;
+border:2px solid white;
 
+box-shadow:0 3px 8px rgba(0,0,0,.2);
 
 }
 
 
 
-
-
-/* =========================
-   WELCOME
-========================= */
+/* ==============================
+   WELCOME PAGE
+============================== */
 
 
 #welcome{
 
-
 text-align:center;
 
 padding:15px;
-
 
 }
 
@@ -120,27 +112,27 @@ padding:15px;
 .logo-circle{
 
 
-width:170px;
+width:180px;
 
-height:170px;
+height:180px;
 
 background:white;
 
 border-radius:50%;
 
-margin:20px auto;
+margin:25px auto;
 
 display:flex;
 
-align-items:center;
-
 justify-content:center;
+
+align-items:center;
 
 overflow:hidden;
 
+box-shadow:0 5px 20px rgba(0,0,0,.3);
 
 }
-
 
 
 
@@ -148,9 +140,9 @@ overflow:hidden;
 .logo{
 
 
-width:150px;
+width:160px;
 
-height:150px;
+height:160px;
 
 object-fit:contain;
 
@@ -163,38 +155,32 @@ border-radius:50%;
 
 
 
-#welcome h1{
-
+h1{
 
 font-size:32px;
 
-margin:10px 0;
+margin:10px;
 
 }
 
 
 
-#welcome h2{
-
+h2{
 
 font-size:22px;
 
-margin-bottom:20px;
-
-
 }
 
 
 
 
 
-/* =========================
-   LANGUAGE
-========================= */
+/* ==============================
+   LANGUAGE BUTTON
+============================== */
 
 
 .languages{
-
 
 display:flex;
 
@@ -204,8 +190,7 @@ flex-wrap:wrap;
 
 gap:8px;
 
-margin:15px auto;
-
+margin:20px;
 
 }
 
@@ -216,9 +201,7 @@ margin:15px auto;
 
 background:white;
 
-color:#075aa8;
-
-padding:8px 14px;
+color:#063970;
 
 border:2px solid white;
 
@@ -230,7 +213,7 @@ border:2px solid white;
 .languages button:hover{
 
 
-background:#ffd700;
+background:#ffd43b;
 
 color:#222;
 
@@ -240,30 +223,14 @@ color:#222;
 
 
 
-/* SMALL LANGUAGE BAR */
 
 
-.small-language button{
-
-
-font-size:12px;
-
-padding:6px 10px;
-
-
-}
-
-
-
-
-
-/* =========================
-   ORDER BUTTON
-========================= */
+/* ==============================
+   DINE / TAKE AWAY
+============================== */
 
 
 .order-type{
-
 
 display:flex;
 
@@ -273,39 +240,39 @@ gap:15px;
 
 flex-wrap:wrap;
 
-margin:25px 0;
-
+margin-top:20px;
 
 }
 
 
 
+.order-type button{
 
-.dine-btn{
-
-
-background:#ffd700;
-
-color:#222;
 
 padding:16px 35px;
 
+font-size:18px;
+
+border-radius:20px;
+
+background:#ffd43b;
+
+color:#222;
+
+border:3px solid white;
+
 
 }
 
 
 
-
-
-.take-btn{
+.order-type button:nth-child(2){
 
 
 background:#ff7043;
 
 color:white;
 
-padding:16px 35px;
-
 
 }
 
@@ -314,21 +281,47 @@ padding:16px 35px;
 
 
 
-/* =========================
- CUSTOMER LOGIN BUTTON
-========================= */
+
+/* ==============================
+   CUSTOMER LOGIN
+============================== */
 
 
 .login-btn{
 
 
-background:#9b1c31;
+background:linear-gradient(
+
+135deg,
+
+#9b59b6,
+
+#6c3483
+
+);
+
 
 color:white;
 
-padding:15px 35px;
 
-font-size:17px;
+font-size:18px;
+
+
+padding:16px 40px;
+
+
+border-radius:30px;
+
+
+margin-top:25px;
+
+
+border:3px solid white;
+
+
+box-shadow:
+
+0 6px 15px rgba(0,0,0,.35);
 
 
 }
@@ -338,13 +331,31 @@ font-size:17px;
 .login-btn:hover{
 
 
-background:#c62828;
+background:linear-gradient(
+
+135deg,
+
+#8e44ad,
+
+#512e5f
+
+);
+
+
+transform:scale(1.05);
 
 
 }
 
 
 
+
+
+
+
+/* ==============================
+   GOOGLE LOGIN
+============================== */
 
 
 .google-btn{
@@ -356,9 +367,20 @@ color:#333;
 
 border:2px solid #ddd;
 
-padding:14px 25px;
+padding:14px 30px;
 
-margin-top:10px;
+margin-top:15px;
+
+border-radius:25px;
+
+}
+
+
+
+.google-btn:hover{
+
+
+background:#f1f1f1;
 
 
 }
@@ -367,49 +389,35 @@ margin-top:10px;
 
 
 
-.main-btn{
 
 
-background:#ffd700;
-
-color:#222;
-
-padding:14px 25px;
-
-margin:10px;
-
-
-}
-
-
-
-
-
-/* =========================
- AUTH BOX
-========================= */
+/* ==============================
+   AUTH BOX
+============================== */
 
 
 .auth-box{
 
 
+background:white;
+
+color:#063970;
+
 width:90%;
 
 max-width:420px;
 
-margin:30px auto;
-
-background:white;
-
-color:#333;
+margin:25px auto;
 
 padding:25px;
 
-border-radius:20px;
+border-radius:22px;
 
 text-align:center;
 
-box-shadow:0 5px 20px rgba(0,0,0,.3);
+box-shadow:
+
+0 5px 20px rgba(0,0,0,.35);
 
 
 }
@@ -420,22 +428,32 @@ box-shadow:0 5px 20px rgba(0,0,0,.3);
 .auth-box h2{
 
 
-color:#075aa8;
+color:#063970;
+
+font-size:24px;
+
 
 }
 
 
 
-.auth-box input{
 
 
-width:100%;
+.auth-box input,
+
+
+input{
+
+
+width:90%;
+
+max-width:400px;
 
 padding:14px;
 
-margin:8px 0;
+margin:8px;
 
-border-radius:10px;
+border-radius:12px;
 
 border:1px solid #ccc;
 
@@ -448,29 +466,6 @@ font-size:16px;
 
 
 
-.link{
-
-
-color:#075aa8;
-
-font-weight:bold;
-
-cursor:pointer;
-
-margin-top:15px;
-
-
-}
-
-
-
-
-
-
-/* =========================
- LOGIN LOGO
-========================= */
-
 
 .auth-box .logo-circle{
 
@@ -479,8 +474,11 @@ width:120px;
 
 height:120px;
 
+margin:10px auto;
+
 
 }
+
 
 
 
@@ -493,40 +491,80 @@ height:105px;
 
 
 }
-/* =========================
-   MENU PAGE
-========================= */
 
 
-#menuPage,
-#cartPage,
-#checkoutPage{
 
 
-padding:15px;
+
+
+.link{
+
+
+color:#9b59b6;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-top:15px;
+
 
 }
 
 
 
+.link:hover{
 
 
-#menuPage h2,
-#cartPage h2{
+text-decoration:underline;
 
-
-text-align:center;
-
-color:white;
 
 }
+
+
 
 
 
 
 
 /* ==============================
- CATEGORY
+   MAIN BUTTON
+============================== */
+
+
+.main-btn{
+
+
+background:#ffd43b;
+
+color:#222;
+
+margin:10px;
+
+border:2px solid white;
+
+
+}
+/* ==============================
+   MENU PAGE
+============================== */
+
+
+#menuPage,
+#cartPage,
+#checkoutPage{
+
+padding:10px;
+
+}
+
+
+
+
+
+
+/* ==============================
+   CATEGORY
 ============================== */
 
 
@@ -536,6 +574,7 @@ color:white;
 display:grid;
 
 grid-template-columns:
+
 repeat(auto-fit,minmax(150px,1fr));
 
 
@@ -546,6 +585,7 @@ padding:15px;
 
 
 }
+
 
 
 
@@ -569,12 +609,19 @@ padding:14px 10px;
 font-size:16px;
 
 
+font-weight:bold;
+
+
+text-align:center;
+
+
 box-shadow:
 
 0 4px 12px rgba(0,0,0,.2);
 
 
 }
+
 
 
 
@@ -594,37 +641,44 @@ border-color:white;
 
 
 
-/* =========================
+
+/* ==============================
    POPULAR ITEMS
-========================= */
+============================== */
 
 
 #popularSection{
 
 
-margin-top:25px;
+background:white;
+
+color:#063970;
+
+
+border-radius:20px;
+
+
+padding:15px;
+
+
+margin:15px;
 
 
 }
+
 
 
 
 #popularSection h2{
 
 
-background:white;
-
-color:#075aa8;
-
-padding:12px;
-
-border-radius:12px;
-
 text-align:center;
 
 
-}
+color:#063970;
 
+
+}
 
 
 
@@ -634,16 +688,16 @@ text-align:center;
 
 display:grid;
 
-grid-template-columns:repeat(3,1fr);
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(180px,1fr));
+
 
 gap:15px;
 
-padding:10px;
-
 
 }
-
-
 
 
 
@@ -652,21 +706,22 @@ padding:10px;
 .popular-card{
 
 
-background:white;
+background:#f4f8ff;
 
-color:#333;
 
-border-radius:15px;
+border-radius:18px;
 
-padding:10px;
+
+padding:12px;
+
 
 text-align:center;
 
-box-shadow:0 4px 15px rgba(0,0,0,.2);
+
+border:1px solid #ddd;
 
 
 }
-
 
 
 
@@ -676,11 +731,14 @@ box-shadow:0 4px 15px rgba(0,0,0,.2);
 
 width:100%;
 
-height:120px;
+
+height:130px;
+
 
 object-fit:cover;
 
-border-radius:12px;
+
+border-radius:15px;
 
 
 }
@@ -688,15 +746,29 @@ border-radius:12px;
 
 
 
+.popular-card b{
+
+
+display:block;
+
+
+margin:8px;
+
+
+color:#063970;
+
+
+}
+
+
 
 .popular-card button{
 
 
-background:#075aa8;
+background:#063970;
 
 color:white;
 
-padding:10px;
 
 width:100%;
 
@@ -708,10 +780,28 @@ width:100%;
 
 
 
-
 /* ==============================
- MENU ITEM
+   MENU ITEMS
 ============================== */
+
+
+#itemBox{
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(250px,1fr));
+
+
+gap:12px;
+
+
+}
+
+
 
 
 .item{
@@ -740,7 +830,14 @@ justify-content:space-between;
 align-items:center;
 
 
+box-shadow:
+
+0 3px 12px rgba(0,0,0,.2);
+
+
 }
+
+
 
 
 
@@ -759,55 +856,80 @@ color:white;
 
 
 
-/* =========================
- CART
-========================= */
+/* ==============================
+   CART
+============================== */
+
+
+#cartPage{
+
+
+background:white;
+
+
+color:#063970;
+
+
+border-radius:20px;
+
+
+margin:15px;
+
+
+padding:20px;
+
+
+}
+
+
 
 
 #cartItems{
 
 
-background:white;
-
-color:#333;
-
-border-radius:15px;
-
-padding:15px;
+color:#222;
 
 
 }
 
 
 
-.item{
+
+.cart-item{
+
+
+background:#f4f8ff;
+
+
+padding:12px;
+
+
+margin:10px;
+
+
+border-radius:12px;
 
 
 display:flex;
 
+
 justify-content:space-between;
 
+
 align-items:center;
-
-padding:12px;
-
-border-bottom:1px solid #ddd;
 
 
 }
 
 
 
-.item button{
+
+.cart-item button{
 
 
-background:#075aa8;
+background:#e74c3c;
 
 color:white;
-
-padding:8px 12px;
-
-margin:3px;
 
 
 }
@@ -819,13 +941,17 @@ margin:3px;
 #total{
 
 
-background:white;
+background:#063970;
 
-color:#075aa8;
+
+color:white;
+
 
 padding:15px;
 
+
 border-radius:15px;
+
 
 text-align:center;
 
@@ -838,9 +964,70 @@ text-align:center;
 
 
 
-/* =========================
- TOAST
-========================= */
+
+/* ==============================
+   CHECKOUT
+============================== */
+
+
+#checkoutPage{
+
+
+background:white;
+
+
+color:#063970;
+
+
+border-radius:20px;
+
+
+margin:15px;
+
+
+padding:20px;
+
+
+text-align:center;
+
+
+}
+
+
+
+
+
+
+
+
+/* ==============================
+   LOGOUT BUTTON
+============================== */
+
+
+#logoutBtn,
+
+#logoutBtnCart{
+
+
+background:#e74c3c;
+
+color:white;
+
+
+border:2px solid white;
+
+
+}
+
+
+
+
+
+
+/* ==============================
+   TOAST MESSAGE
+============================== */
 
 
 #toast{
@@ -848,27 +1035,47 @@ text-align:center;
 
 position:fixed;
 
-top:80px;
+
+top:90px;
+
 
 left:50%;
 
+
 transform:translateX(-50%);
+
 
 background:#27ae60;
 
+
 color:white;
 
-padding:14px 25px;
+
+padding:15px 25px;
+
 
 border-radius:25px;
 
+
+font-size:16px;
+
+
 font-weight:bold;
+
 
 z-index:99999;
 
+
 opacity:0;
 
+
 transition:.3s;
+
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,.3);
+
 
 }
 
@@ -888,10 +1095,9 @@ opacity:1;
 
 
 
-
-/* =========================
- FOOTER
-========================= */
+/* ==============================
+   FOOTER
+============================== */
 
 
 footer{
@@ -899,13 +1105,9 @@ footer{
 
 text-align:center;
 
-padding:20px;
 
-margin-top:30px;
+padding:18px;
 
-background:#06447d;
-
-color:white;
 
 font-size:14px;
 
@@ -918,10 +1120,9 @@ font-size:14px;
 
 
 
-
-/* =========================
- DESKTOP
-========================= */
+/* ==============================
+   DESKTOP
+============================== */
 
 
 @media(min-width:900px){
@@ -931,7 +1132,9 @@ font-size:14px;
 #popularItems{
 
 
-grid-template-columns:repeat(5,1fr);
+grid-template-columns:
+
+repeat(5,1fr);
 
 
 }
@@ -941,7 +1144,9 @@ grid-template-columns:repeat(5,1fr);
 #itemBox{
 
 
-grid-template-columns:repeat(5,1fr);
+grid-template-columns:
+
+repeat(4,1fr);
 
 
 }
@@ -953,29 +1158,82 @@ grid-template-columns:repeat(5,1fr);
 
 
 
-/* =========================
- MOBILE
-========================= */
+
+
+
+
+/* ==============================
+   MOBILE
+============================== */
 
 
 @media(max-width:600px){
 
 
 
-#welcome h1{
+h1{
+
+font-size:24px;
+
+}
 
 
-font-size:25px;
+
+.logo-circle{
+
+
+width:145px;
+
+height:145px;
 
 
 }
 
 
 
-#welcome h2{
+
+.logo{
 
 
-font-size:18px;
+width:130px;
+
+height:130px;
+
+
+}
+
+
+
+
+#popularItems{
+
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+
+}
+
+
+
+
+
+.popular-card img{
+
+
+height:90px;
+
+
+}
+
+
+
+
+.popular-card b{
+
+
+font-size:13px;
 
 
 }
@@ -988,7 +1246,8 @@ font-size:18px;
 
 font-size:12px;
 
-padding:8px;
+
+padding:8px 10px;
 
 
 }
@@ -997,39 +1256,29 @@ padding:8px;
 
 
 
-#popularItems{
+#categoryBox{
 
 
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:
 
-gap:8px;
-
-
-}
-
-
-
-.popular-card img{
-
-
-height:80px;
+repeat(2,1fr);
 
 
 }
+
 
 
 
 #itemBox{
 
 
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:
 
-gap:10px;
-
-
-}
-
+repeat(2,1fr);
 
 
 }
 
+
+
+}
