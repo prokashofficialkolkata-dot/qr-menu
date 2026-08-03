@@ -2,15 +2,36 @@
 // MENU.JS
 // ==============================
 
-
 window.menuData = [];
 
 window.selectedType = "";
 
 
+// ==============================
+// START MENU
+// ==============================
+
+window.startMenu = function(type){
+
+    window.selectedType = type;
+
+    if(typeof pageHistory !== "undefined"){
+        pageHistory.push("menuPage");
+    }
+
+    showPage("menuPage");
+
+    loadCSV();
+
+};
 
 
-// Load CSV
+
+
+// ==============================
+// LOAD CSV MENU
+// ==============================
+
 
 window.loadCSV = function(){
 
@@ -27,14 +48,14 @@ fetch("menu.csv")
 let rows = data.split("\n");
 
 
-menuData=[];
+window.menuData=[];
 
 
 
 rows.slice(1).forEach(row=>{
 
 
-let col = row.split(",");
+let col=row.split(",");
 
 
 
@@ -43,19 +64,20 @@ if(col.length >= 4){
 
 menuData.push({
 
-category: col[0].trim(),
+category:col[0].trim(),
 
-name: col[1].trim(),
+name:col[1].trim(),
 
-dine: col[2].trim(),
+dine:col[2].trim(),
 
-takeaway: col[3].trim()
+takeaway:col[3].trim()
 
 
 });
 
 
 }
+
 
 
 });
@@ -65,11 +87,9 @@ takeaway: col[3].trim()
 showPopularItems();
 
 
-openCategory();
-
-
 
 });
+
 
 
 };
@@ -79,49 +99,48 @@ openCategory();
 
 
 
+// ==============================
+// OPEN CATEGORY
+// ==============================
 
-// Category List
 
 window.openCategory=function(){
 
 
-let box=document.getElementById("categoryBox");
+let categoryBox =
+document.getElementById("categoryBox");
 
 
-let itemBox=document.getElementById("itemBox");
-
-
-if(!box) return;
+let itemBox =
+document.getElementById("itemBox");
 
 
 
-box.innerHTML="";
+document.getElementById("popularSection").style.display="none";
 
+
+
+categoryBox.innerHTML="";
 
 itemBox.innerHTML="";
 
 
 
 let categories=[...new Set(
-
 menuData.map(item=>item.category)
-
 )];
-
 
 
 
 categories.forEach(category=>{
 
 
-box.innerHTML += `
+categoryBox.innerHTML += `
 
 
 <button onclick="showItems('${category}')">
 
-
 ${category}
-
 
 </button>
 
@@ -129,6 +148,7 @@ ${category}
 `;
 
 
+
 });
 
 
@@ -141,52 +161,43 @@ ${category}
 
 
 
-// Show Items
+// ==============================
+// SHOW ITEMS
+// ==============================
+
 
 window.showItems=function(category){
 
 
-
-let box=document.getElementById("itemBox");
-
-
-box.innerHTML="";
+let itemBox =
+document.getElementById("itemBox");
 
 
 
-let list = menuData.filter(
+itemBox.innerHTML="";
 
+
+
+let items =
+menuData.filter(
 item=>item.category==category
-
 );
 
 
 
-
-list.forEach(item=>{
-
+items.forEach(item=>{
 
 
-let price;
-
-
-
-if(selectedType=="DINE IN"){
-
-price=item.dine;
-
-}
-
-else{
-
-price=item.takeaway;
-
-}
+let price =
+(selectedType=="DINE IN")
+?
+item.dine
+:
+item.takeaway;
 
 
 
-
-box.innerHTML += `
+itemBox.innerHTML += `
 
 
 <div class="item">
@@ -210,16 +221,13 @@ box.innerHTML += `
 
 <button onclick="addCart('${item.name}','${price}')">
 
-
 ADD
-
 
 </button>
 
 
 
 </div>
-
 
 
 `;
@@ -237,20 +245,78 @@ ADD
 
 
 
+// ==============================
+// POPULAR ITEMS
+// ==============================
 
-// Popular Items
 
 window.showPopularItems=function(){
 
 
-let section=document.getElementById("popularSection");
+let box =
+document.getElementById("popularItems");
 
 
-if(section){
 
-section.style.display="none";
+if(!box)return;
 
-}
+
+
+box.innerHTML="";
+
+
+
+// এখন temporary first 15 item দেখাবে
+
+let popular =
+menuData.slice(0,15);
+
+
+
+popular.forEach(item=>{
+
+
+box.innerHTML += `
+
+
+<div class="popular-card">
+
+
+<img src="images/${item.name}.jpg">
+
+
+<b>${item.name}</b>
+
+
+<p>
+
+${selectedType=="DINE IN"
+?
+item.dine
+:
+item.takeaway}
+
+</p>
+
+
+
+<button onclick="addCart('${item.name}','${item.dine}')">
+
+ADD
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
 
 
 };
