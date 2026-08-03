@@ -1,6 +1,6 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// MAIN.JS FINAL
+// MAIN.JS FINAL UPDATED
 // =====================================
 
 
@@ -13,11 +13,9 @@ let historyPage=[];
 
 
 
-
-// =====================================
+// ================================
 // SHOW PAGE
-// =====================================
-
+// ================================
 
 window.showPage=function(page){
 
@@ -30,7 +28,6 @@ const pages=[
 "checkoutPage"
 
 ];
-
 
 
 pages.forEach(function(id){
@@ -50,7 +47,6 @@ el.style.display="none";
 
 
 
-
 let target=document.getElementById(page);
 
 
@@ -64,7 +60,6 @@ target.style.display="block";
 
 
 currentPage=page;
-
 
 
 localStorage.setItem(
@@ -86,67 +81,15 @@ window.scrollTo(0,0);
 
 
 
-
-
-// =====================================
-// RESET LOGIN AREA
-// =====================================
-
-
-window.resetAuthPage=function(){
-
-
-
-let boxes=[
-
-"loginBox",
-"createBox",
-"profileBox",
-"checkoutForm"
-
-];
-
-
-
-boxes.forEach(function(id){
-
-
-let box=document.getElementById(id);
-
-
-
-if(box){
-
-box.style.display="none";
-
-}
-
-
-
-});
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// CUSTOMER BUTTON
-// =====================================
+// ================================
+// CUSTOMER ACTION
+// ================================
 
 
 window.customerAction=function(){
 
 
-
-let login=
+let login =
 localStorage.getItem("loggedIn");
 
 
@@ -178,19 +121,16 @@ checkout();
 
 
 
-
-
-
-// =====================================
+// ================================
 // UPDATE CUSTOMER BUTTON
-// =====================================
+// ================================
 
 
 window.updateCustomerButton=function(){
 
 
-
-let btn=document.getElementById(
+let btn =
+document.getElementById(
 "customerBtn"
 );
 
@@ -200,7 +140,7 @@ if(!btn)return;
 
 
 
-let login=
+let login =
 localStorage.getItem("loggedIn");
 
 
@@ -208,7 +148,7 @@ localStorage.getItem("loggedIn");
 if(login==="yes"){
 
 
-btn.innerHTML=
+btn.innerHTML =
 "👤 Customer Profile";
 
 
@@ -217,7 +157,7 @@ btn.innerHTML=
 else{
 
 
-btn.innerHTML=
+btn.innerHTML =
 "👤 Customer Login";
 
 
@@ -235,43 +175,76 @@ btn.innerHTML=
 
 
 
-
-
-// =====================================
+// ================================
 // OPEN PROFILE
-// =====================================
+// ================================
 
 
 window.openProfile=async function(){
 
 
 
-showPage(
-"checkoutPage"
-);
+showPage("checkoutPage");
 
 
 
-resetAuthPage();
-
-
-
-let profile=
+let loginBox =
 document.getElementById(
-"profileBox"
+"loginBox"
+);
+
+
+let createBox =
+document.getElementById(
+"createBox"
+);
+
+
+let googleBox =
+document.getElementById(
+"googleProfileBox"
+);
+
+
+let profileBox =
+document.getElementById(
+"customerProfileBox"
+);
+
+
+let checkoutForm =
+document.getElementById(
+"checkoutForm"
 );
 
 
 
-if(profile){
 
-profile.style.display="block";
-
-}
+if(loginBox)
+loginBox.style.display="none";
 
 
+if(createBox)
+createBox.style.display="none";
 
-let uid=
+
+if(googleBox)
+googleBox.style.display="none";
+
+
+if(checkoutForm)
+checkoutForm.style.display="none";
+
+
+
+if(profileBox)
+profileBox.style.display="block";
+
+
+
+
+
+let uid =
 localStorage.getItem("uid");
 
 
@@ -289,9 +262,7 @@ doc,
 getDoc
 
 }=await import(
-
 "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js"
-
 );
 
 
@@ -307,8 +278,7 @@ db
 
 
 
-
-let ref=
+let ref =
 doc(
 db,
 "customers",
@@ -318,7 +288,7 @@ uid
 
 
 
-let snap=
+let snap =
 await getDoc(ref);
 
 
@@ -328,24 +298,24 @@ await getDoc(ref);
 if(snap.exists()){
 
 
+let data =
+snap.data();
 
-let data=snap.data();
 
 
-
-let n=
+let name =
 document.getElementById(
 "profileName"
 );
 
 
-let e=
+let email =
 document.getElementById(
 "profileEmail"
 );
 
 
-let p=
+let phone =
 document.getElementById(
 "profilePhone"
 );
@@ -353,21 +323,22 @@ document.getElementById(
 
 
 
-if(n)
-n.innerHTML=
-"Name : "+(data.name || "");
+
+if(name)
+name.innerHTML =
+data.name || "";
 
 
 
-if(e)
-e.innerHTML=
-"Email : "+(data.email || "");
+if(email)
+email.innerHTML =
+data.email || "";
 
 
 
-if(p)
-p.innerHTML=
-"Phone : "+(data.phone || "");
+if(phone)
+phone.innerHTML =
+data.phone || "";
 
 
 
@@ -397,11 +368,9 @@ console.log(error);
 
 
 
-
-
-// =====================================
+// ================================
 // HOME
-// =====================================
+// ================================
 
 
 window.goHome=function(){
@@ -411,13 +380,13 @@ window.goHome=function(){
 historyPage=[];
 
 
-showPage(
-"welcome"
-);
-
+showPage("welcome");
 
 
 updateCustomerButton();
+
+
+checkLoginStatus();
 
 
 
@@ -430,19 +399,16 @@ updateCustomerButton();
 
 
 
-
-
-
-// =====================================
+// ================================
 // BACK
-// =====================================
+// ================================
 
 
 window.goBack=function(){
 
 
 
-let old=
+let old =
 historyPage.pop();
 
 
@@ -475,11 +441,9 @@ showPage("welcome");
 
 
 
-
-
-// =====================================
-// START MENU
-// =====================================
+// ================================
+// MENU START
+// ================================
 
 
 window.startMenu=function(type){
@@ -493,23 +457,17 @@ type
 
 
 
-historyPage.push(
-currentPage
-);
+historyPage.push(currentPage);
 
 
 
-showPage(
-"menuPage"
-);
+showPage("menuPage");
 
 
 
 if(typeof loadCSV==="function"){
 
-
 loadCSV();
-
 
 }
 
@@ -525,11 +483,9 @@ loadCSV();
 
 
 
-
-
-// =====================================
+// ================================
 // REFRESH
-// =====================================
+// ================================
 
 
 window.refreshPage=function(){
@@ -548,18 +504,16 @@ location.reload();
 
 
 
-
-
-// =====================================
+// ================================
 // CATEGORY
-// =====================================
+// ================================
 
 
 window.openCategory=function(){
 
 
 
-let box=
+let box =
 document.getElementById(
 "categoryBox"
 );
@@ -580,9 +534,7 @@ box.style.display="none";
 
 if(typeof restoreMenuView==="function"){
 
-
 restoreMenuView();
-
 
 }
 
@@ -599,9 +551,7 @@ box.style.display="grid";
 
 if(typeof loadCategory==="function"){
 
-
 loadCategory();
-
 
 }
 
@@ -621,44 +571,37 @@ loadCategory();
 
 
 
-
-
-// =====================================
+// ================================
 // POPULAR
-// =====================================
+// ================================
 
 
 window.showPopular=function(){
 
 
 
-showPage(
-"menuPage"
-);
+showPage("menuPage");
 
 
 
-let box=
+let box =
 document.getElementById(
 "categoryBox"
 );
 
 
 
-if(box){
+if(box)
 
 box.style.display="none";
 
-}
 
 
 
 if(typeof showPopularItems==="function"){
 
-
 showPopularItems();
 
-
 }
 
 
@@ -673,83 +616,37 @@ showPopularItems();
 
 
 
-// =====================================
-// LOGIN PAGE
-// =====================================
-
-
-window.checkout=function(){
-
-
-
-historyPage.push(
-currentPage
-);
-
-
-
-showPage(
-"checkoutPage"
-);
-
-
-
-resetAuthPage();
-
-
-
-let login=
-document.getElementById(
-"loginBox"
-);
-
-
-
-if(login){
-
-login.style.display="block";
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// CREATE ACCOUNT
-// =====================================
+// ================================
+// CREATE ACCOUNT SWITCH
+// ================================
 
 
 window.showCreateAccount=function(){
 
 
 
-resetAuthPage();
+let login =
+document.getElementById(
+"loginBox"
+);
 
 
-
-let box=
+let create =
 document.getElementById(
 "createBox"
 );
 
 
 
-if(box){
+if(login)
 
-box.style.display="block";
+login.style.display="none";
 
-}
+
+
+if(create)
+
+create.style.display="block";
 
 
 
@@ -760,36 +657,34 @@ box.style.display="block";
 
 
 
-
-
-
-
-
-// =====================================
-// BACK TO LOGIN
-// =====================================
 
 
 window.showLogin=function(){
 
 
 
-resetAuthPage();
-
-
-
-let box=
+let login =
 document.getElementById(
 "loginBox"
 );
 
 
+let create =
+document.getElementById(
+"createBox"
+);
 
-if(box){
 
-box.style.display="block";
 
-}
+if(create)
+
+create.style.display="none";
+
+
+
+if(login)
+
+login.style.display="block";
 
 
 
@@ -803,24 +698,20 @@ box.style.display="block";
 
 
 
-// =====================================
+// ================================
 // CART
-// =====================================
+// ================================
 
 
 window.showCart=function(){
 
 
 
-historyPage.push(
-currentPage
-);
+historyPage.push(currentPage);
 
 
 
-showPage(
-"cartPage"
-);
+showPage("cartPage");
 
 
 
@@ -844,56 +735,28 @@ displayCart();
 
 
 
-// =====================================
-// TOAST
-// =====================================
+// ================================
+// CHECKOUT
+// ================================
 
 
-window.showToast=function(message){
-
-
-
-let toast=
-document.getElementById(
-"toast"
-);
+window.checkout=function(){
 
 
 
-if(!toast){
+historyPage.push(currentPage);
 
 
-toast=document.createElement(
-"div"
-);
+
+showPage("checkoutPage");
 
 
-toast.id="toast";
 
+if(typeof showLogin==="function"){
 
-document.body.appendChild(toast);
-
+showLogin();
 
 }
-
-
-
-
-toast.innerHTML=message;
-
-
-
-toast.classList.add("show");
-
-
-
-setTimeout(function(){
-
-
-toast.classList.remove("show");
-
-
-},1000);
 
 
 
@@ -907,37 +770,38 @@ toast.classList.remove("show");
 
 
 
-// =====================================
-// CHECK LOGIN
-// =====================================
+// ================================
+// LOGIN STATUS
+// ================================
 
 
 window.checkLoginStatus=function(){
 
 
 
-let login=
+let login =
 localStorage.getItem(
 "loggedIn"
 );
 
 
 
-let btns=[
+let buttons=[
 
 "logoutBtn",
 "logoutBtnCart",
+"logoutCheckoutBtn",
 "logoutProfileBtn"
 
 ];
 
 
 
-btns.forEach(function(id){
+buttons.forEach(function(id){
 
 
 
-let btn=
+let btn =
 document.getElementById(id);
 
 
@@ -961,7 +825,6 @@ login==="yes"
 
 
 
-
 updateCustomerButton();
 
 
@@ -976,9 +839,69 @@ updateCustomerButton();
 
 
 
-// =====================================
+// ================================
+// TOAST
+// ================================
+
+
+window.showToast=function(message){
+
+
+
+let toast =
+document.getElementById(
+"toast"
+);
+
+
+
+if(!toast){
+
+
+toast=document.createElement("div");
+
+
+toast.id="toast";
+
+
+document.body.appendChild(toast);
+
+
+}
+
+
+
+
+toast.innerHTML=message;
+
+
+toast.classList.add("show");
+
+
+
+setTimeout(()=>{
+
+
+toast.classList.remove("show");
+
+
+},1200);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
 // LOAD
-// =====================================
+// ================================
 
 
 window.addEventListener(
@@ -986,11 +909,7 @@ window.addEventListener(
 function(){
 
 
-
-showPage(
-currentPage
-);
-
+showPage(currentPage);
 
 
 checkLoginStatus();
