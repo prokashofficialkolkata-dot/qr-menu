@@ -335,99 +335,84 @@ function openCategory(){
 
 function showItems(category){
 
-
-let popular=document.getElementById("popularSection");
-
-
-// Popular hide
-if(popular){
-
-popular.style.display="none";
-
-}
+    let popularSection = document.getElementById("popularSection");
+    let categoryBox = document.getElementById("categoryBox");
+    let itemBox = document.getElementById("itemBox");
 
 
-// Category close
-document.getElementById("categoryBox").innerHTML="";
+    // Category select করলে Popular hide হবে
+    if(popularSection){
+        popularSection.style.display="none";
+    }
 
 
-
-let box=document.getElementById("itemBox");
-
-box.innerHTML="";
+    // Category list বন্ধ হবে
+    categoryBox.innerHTML="";
 
 
+    // আগের item clear
+    itemBox.innerHTML="";
 
-let items;
+
+    let items;
 
 
+    if(category=="ALL"){
 
-if(category=="ALL"){
+        items = menuData;
 
-items=menuData;
+    }else{
 
-}else{
+        items = menuData.filter(x=>x.category==category);
 
-items=menuData.filter(x=>x.category==category);
-
-}
+    }
 
 
 
-items.forEach(item=>{
+    items.forEach(item=>{
 
 
-let price;
+        let price;
 
 
-if(selectedType=="DINE IN"){
+        if(selectedType=="DINE IN"){
 
-price=item.dine;
+            price=item.dine;
 
-}else{
+        }else{
 
-price=item.takeaway;
+            price=item.takeaway;
 
-}
-
-
-
-let div=document.createElement("div");
-
-
-div.className="item";
-
-
-div.innerHTML=`
-
-<div>
-
-<b>${item.name}</b>
-
-<br>
-
-${price}
-
-</div>
-
-
-<button class="add-btn"
-
-onclick="addCart('${item.name}','${price}')">
-
-ADD
-
-</button>
-
-
-`;
+        }
 
 
 
-box.appendChild(div);
+        let div=document.createElement("div");
 
 
-});
+        div.className="item";
+
+
+        div.innerHTML=`
+
+        <div>
+        <b>${item.name}</b><br>
+        ${price}
+        </div>
+
+
+        <button class="add-btn"
+        onclick="addCart('${item.name}','${price}')">
+        ADD
+        </button>
+
+        `;
+
+
+        itemBox.appendChild(div);
+
+
+    });
 
 
 }
