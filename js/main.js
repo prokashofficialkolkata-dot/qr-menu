@@ -4,7 +4,7 @@
 // =====================================
 
 
-let currentPage = "welcome";
+let currentPage = localStorage.getItem("currentPage") || "welcome";
 
 let historyPage = [];
 
@@ -15,55 +15,53 @@ let historyPage = [];
 // SHOW PAGE
 // ================================
 
-window.showPage = function(page){
+window.showPage=function(page){
 
 
-    const pages = [
-        "welcome",
-        "menuPage",
-        "cartPage",
-        "checkoutPage"
-    ];
+const pages=[
+"welcome",
+"menuPage",
+"cartPage",
+"checkoutPage"
+];
 
 
-    pages.forEach(function(id){
+pages.forEach(function(id){
 
 
-        let el = document.getElementById(id);
+let el=document.getElementById(id);
 
 
-        if(el){
+if(el){
 
-            el.style.display = "none";
+el.style.display="none";
 
-        }
-
-
-    });
+}
 
 
-
-    let target = document.getElementById(page);
+});
 
 
 
-    if(target){
-
-        target.style.display = "block";
-
-    }
+let target=document.getElementById(page);
 
 
-    currentPage = page;
+if(target){
+
+target.style.display="block";
+
+}
 
 
-    window.scrollTo({
 
-        top:0,
+currentPage=page;
 
-        behavior:"smooth"
 
-    });
+localStorage.setItem(
+"currentPage",
+page
+);
+
 
 
 };
@@ -75,16 +73,16 @@ window.showPage = function(page){
 
 
 // ================================
-// HOME BUTTON
+// HOME
 // ================================
 
-window.goHome = function(){
+window.goHome=function(){
 
 
-    historyPage=[];
+historyPage=[];
 
 
-    showPage("welcome");
+showPage("welcome");
 
 
 };
@@ -96,33 +94,34 @@ window.goHome = function(){
 
 
 // ================================
-// BACK BUTTON
+// BACK
 // ================================
 
-window.goBack = function(){
+window.goBack=function(){
 
 
-    if(historyPage.length > 0){
+let old=historyPage.pop();
 
 
-        let oldPage = historyPage.pop();
+
+if(old){
+
+showPage(old);
 
 
-        showPage(oldPage);
+}
+
+else{
 
 
-    }
-
-    else{
+showPage("welcome");
 
 
-        showPage("welcome");
-
-
-    }
+}
 
 
 };
+
 
 
 
@@ -134,34 +133,32 @@ window.goBack = function(){
 // START MENU
 // ================================
 
-window.startMenu = function(type){
+
+window.startMenu=function(type){
+
+
+localStorage.setItem(
+"orderType",
+type
+);
 
 
 
-    localStorage.setItem(
-        "orderType",
-        type
-    );
+historyPage.push(currentPage);
 
 
 
-    historyPage.push(currentPage);
+showPage("menuPage");
 
 
 
-    showPage("menuPage");
+if(typeof loadCSV==="function"){
 
 
-
-    // default view
-
-    if(typeof loadCSV === "function"){
+loadCSV();
 
 
-        loadCSV();
-
-
-    }
+}
 
 
 
@@ -173,9 +170,11 @@ window.startMenu = function(type){
 
 
 
+
+
+
 // ================================
-// REFRESH
-// SAME PAGE KEEP
+// REAL REFRESH
 // ================================
 
 
@@ -183,50 +182,14 @@ window.refreshPage=function(){
 
 
 
-    let stayPage=currentPage;
+localStorage.setItem(
+"currentPage",
+currentPage
+);
 
 
 
-    showPage(stayPage);
-
-
-
-    if(stayPage==="menuPage"){
-
-
-        if(typeof loadCSV==="function"){
-
-
-            loadCSV();
-
-
-        }
-
-
-    }
-
-
-
-
-    if(stayPage==="cartPage"){
-
-
-        if(typeof displayCart==="function"){
-
-
-            displayCart();
-
-
-        }
-
-
-    }
-
-
-
-    showToast(
-        "Hameed's Bistro Refresh"
-    );
+location.reload();
 
 
 
@@ -238,8 +201,10 @@ window.refreshPage=function(){
 
 
 
+
+
 // ================================
-// SELECT CATEGORY BUTTON
+// CATEGORY TOGGLE
 // ================================
 
 
@@ -247,60 +212,58 @@ window.openCategory=function(){
 
 
 
-    let box=document.getElementById(
-        "categoryBox"
-    );
+let box=document.getElementById(
+"categoryBox"
+);
 
 
 
-    if(!box) return;
+if(!box)return;
 
 
 
 
-    if(box.style.display==="flex"){
+if(
+box.style.display==="grid" ||
+box.style.display==="flex"
+){
 
 
 
-        // close category
-
-        box.style.display="none";
+box.style.display="none";
 
 
 
-        // restore previous view
-
-        if(typeof restoreMenuView==="function"){
+if(typeof restoreMenuView==="function"){
 
 
-            restoreMenuView();
+restoreMenuView();
 
 
-        }
+}
 
 
 
-    }
+}
 
-    else{
-
-
-
-        box.style.display="flex";
+else{
 
 
-
-        if(typeof loadCategory==="function"){
-
-
-            loadCategory();
-
-
-        }
+box.style.display="grid";
 
 
 
-    }
+if(typeof loadCategory==="function"){
+
+
+loadCategory();
+
+
+}
+
+
+
+}
 
 
 
@@ -312,8 +275,10 @@ window.openCategory=function(){
 
 
 
+
+
 // ================================
-// POPULAR BUTTON
+// POPULAR
 // ================================
 
 
@@ -321,44 +286,37 @@ window.showPopular=function(){
 
 
 
-    if(currentPage!=="menuPage"){
-
-
-        showPage("menuPage");
-
-
-    }
+showPage("menuPage");
 
 
 
-
-    let categoryBox=document.getElementById(
-        "categoryBox"
-    );
-
-
-
-    if(categoryBox){
-
-
-        categoryBox.style.display="none";
-
-
-    }
+let box=document.getElementById(
+"categoryBox"
+);
 
 
 
-    if(typeof showPopularItems==="function"){
+if(box){
+
+box.style.display="none";
+
+}
 
 
-        showPopularItems();
+
+if(typeof showPopularItems==="function"){
 
 
-    }
+showPopularItems();
+
+
+}
 
 
 
 };
+
+
 
 
 
@@ -375,20 +333,22 @@ window.showCart=function(){
 
 
 
-    historyPage.push(currentPage);
-
-
-    showPage("cartPage");
+historyPage.push(currentPage);
 
 
 
-    if(typeof displayCart==="function"){
+showPage("cartPage");
 
 
-        displayCart();
+
+if(typeof displayCart==="function"){
 
 
-    }
+displayCart();
+
+
+}
+
 
 
 };
@@ -399,8 +359,10 @@ window.showCart=function(){
 
 
 
+
+
 // ================================
-// CHECKOUT LOGIN
+// LOGIN
 // ================================
 
 
@@ -408,24 +370,27 @@ window.checkout=function(){
 
 
 
-    historyPage.push(currentPage);
+historyPage.push(currentPage);
 
 
 
-    showPage("checkoutPage");
+showPage("checkoutPage");
 
 
 
-    if(typeof showLogin==="function"){
+if(typeof showLogin==="function"){
 
 
-        showLogin();
+showLogin();
 
 
-    }
+}
+
 
 
 };
+
+
 
 
 
@@ -442,43 +407,42 @@ window.showToast=function(message){
 
 
 
-    let toast=document.getElementById(
-        "toast"
-    );
+let toast=document.getElementById(
+"toast"
+);
 
 
 
-    if(!toast){
+if(!toast){
 
 
-        toast=document.createElement("div");
-
-        toast.id="toast";
-
-        document.body.appendChild(toast);
+toast=document.createElement("div");
 
 
-    }
+toast.id="toast";
 
 
+document.body.appendChild(toast);
 
 
-    toast.innerHTML=message;
+}
 
 
 
-    toast.classList.add("show");
+toast.innerHTML=message;
+
+
+toast.classList.add("show");
 
 
 
-
-    setTimeout(function(){
-
-
-        toast.classList.remove("show");
+setTimeout(function(){
 
 
-    },1000);
+toast.classList.remove("show");
+
+
+},1000);
 
 
 
@@ -500,47 +464,44 @@ window.checkLoginStatus=function(){
 
 
 
-    let login =
-    localStorage.getItem(
-        "loggedIn"
-    );
+let login=
+localStorage.getItem(
+"loggedIn"
+);
 
 
 
-    let logoutButtons=[
-
-        "logoutBtn",
-        "logoutBtnCart"
-
-    ];
+let buttons=[
+"logoutBtn",
+"logoutBtnCart"
+];
 
 
 
-    logoutButtons.forEach(function(id){
-
-
-        let btn=document.getElementById(id);
+buttons.forEach(function(id){
 
 
 
-        if(btn){
+let btn=document.getElementById(id);
 
 
 
-            btn.style.display =
-            login==="yes"
-            ?
-            "block"
-            :
-            "none";
+if(btn){
+
+
+btn.style.display =
+login==="yes"
+?
+"block"
+:
+"none";
+
+
+}
 
 
 
-        }
-
-
-
-    });
+});
 
 
 
@@ -552,18 +513,25 @@ window.checkLoginStatus=function(){
 
 
 
+
 // ================================
-// INITIAL LOAD
+// START LOAD
 // ================================
 
 
-window.onload=function(){
+window.addEventListener(
+"load",
+function(){
 
 
-    showPage("welcome");
+
+showPage(currentPage);
 
 
-    checkLoginStatus();
+
+checkLoginStatus();
 
 
-};
+
+}
+);
