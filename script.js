@@ -142,37 +142,28 @@ function setLanguage(lang){
 //Popular items 
 function showPopularItems(){
 
-    let section = document.getElementById("popularSection");
-    let box = document.getElementById("popularItems");
+let section = document.getElementById("popularSection");
+let box = document.getElementById("popularItems");
 
-    // Popular Section দেখাবে
-    section.style.display = "block";
+if(!section || !box) return;
 
-    // আগের Card মুছে ফেলবে
-    box.innerHTML = "";
+section.style.display = "block";
+box.innerHTML = "";
 
-    // নতুন করে Card তৈরি করবে
-    popularItems.forEach(item=>{
+popularItems.forEach(item=>{
 
-        box.innerHTML += `
+box.innerHTML += `
+<div class="popular-card">
+<img src="${item.image}" alt="${item.name}">
+<b>${item.name}</b>
+<p>${item.price}</p>
+<button onclick="addCart('${item.name}','${item.price}')">
+ADD
+</button>
+</div>
+`;
 
-        <div class="popular-card">
-
-            <img src="${item.image}" alt="${item.name}">
-
-            <b>${item.name}</b>
-
-            <p>${item.price}</p>
-
-            <button onclick="addCart('${item.name}','${item.price}')">
-                ADD
-            </button>
-
-        </div>
-
-        `;
-
-    });
+});
 
 }
 
