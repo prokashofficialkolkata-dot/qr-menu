@@ -243,29 +243,6 @@ showPopularItems();
 
 function openCategory(){
 
-let box = document.getElementById("categoryBox");
-
-let popular = document.getElementById("popularSection");
-
-let itemBox = document.getElementById("itemBox");
-
-
-// যদি Category আগে থেকেই খোলা থাকে
-// তাহলে বন্ধ করবে এবং Popular দেখাবে
-
-if(box.innerHTML !== ""){
-
-
-box.innerHTML = "";
-
-
-// আগের Category item মুছে দেবে
-
-itemBox.innerHTML = "";
-// Category Open
-
-function openCategory(){
-
     let box = document.getElementById("categoryBox");
     let popular = document.getElementById("popularSection");
     let itemBox = document.getElementById("itemBox");
