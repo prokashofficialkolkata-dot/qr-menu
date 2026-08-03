@@ -44,21 +44,25 @@ h2{
 
     display:flex;
     justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
-    margin:25px;
+    flex-wrap:nowrap;
+    gap:8px;
+    margin:15px 5px;
 
 }
 
 
 .languages button{
 
-    width:90px;
-    height:70px;
+    width:75px;
+    height:45px;
+
     border:none;
-    border-radius:10px;
+    border-radius:8px;
+
     background:white;
     color:#064b9b;
+
+    font-size:14px;
     font-weight:bold;
 
 }
