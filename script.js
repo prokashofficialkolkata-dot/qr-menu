@@ -1035,39 +1035,71 @@ alert(error.message);
 //Google Phone
 async function saveGooglePhone(){
 
-let phone = document.getElementById("googlePhone").value;
+    let phone = document.getElementById("googlePhone").value.trim();
 
 
-if(phone==""){
-alert("Phone Number Required");
-return;
+    if(phone === ""){
+
+        alert("Please enter phone number");
+        return;
+
+    }
+
+
+    try{
+
+        let user = auth.currentUser;
+
+
+        if(!user){
+
+            alert("Google login required");
+            return;
+
+        }
+
+
+        await setDoc(
+            doc(db,"customers",user.uid),
+            {
+
+            uid:user.uid,
+            name:user.displayName || "",
+            email:user.email || "",
+            phone:phone,
+            loginType:"Google",
+            createdAt:new Date()
+
+            }
+        );
+
+
+        localStorage.setItem("customerPhone",phone);
+        localStorage.setItem("customerName",user.displayName);
+
+
+
+        alert("Phone Saved Successfully");
+
+
+        document.getElementById("phoneBox").style.display="none";
+
+
+        showPage("checkoutPage");
+
+
+    }
+    catch(error){
+
+        console.log("SAVE PHONE ERROR:",error);
+
+        alert(error.message);
+
+    }
+
 }
 
 
-let user = auth.currentUser;
-
-
-await setDoc(
-doc(db,"customers",user.uid),
-{
-name:user.displayName,
-email:user.email,
-phone:phone,
-uid:user.uid
-}
-);
-
-
-alert("Profile Completed");
-
-
-document.getElementById("phoneBox").style.display="none";
-
-
-showPage("checkoutPage");
-
-
-}
 // Place Order Final
 
 async function placeOrder(){
