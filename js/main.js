@@ -3,7 +3,7 @@
 // ==============================
 
 
-// PAGE CONTROL
+// PAGE HISTORY
 
 window.pageHistory = [];
 
@@ -12,13 +12,11 @@ window.currentPage = "welcome";
 
 
 
-
 // ==============================
 // SHOW PAGE
 // ==============================
 
-
-window.showPage=function(page){
+window.showPage = function(page){
 
 
     window.currentPage = page;
@@ -31,14 +29,11 @@ window.showPage=function(page){
 
 
 
-    let pages=[
+    let pages = [
 
         "welcome",
-
         "menuPage",
-
         "cartPage",
-
         "checkoutPage"
 
     ];
@@ -48,14 +43,12 @@ window.showPage=function(page){
     pages.forEach(function(id){
 
 
-        let element =
-        document.getElementById(id);
+        let el = document.getElementById(id);
 
 
+        if(el){
 
-        if(element){
-
-            element.style.display="none";
+            el.style.display = "none";
 
         }
 
@@ -71,10 +64,9 @@ window.showPage=function(page){
 
     if(target){
 
-        target.style.display="block";
+        target.style.display = "block";
 
     }
-
 
 
 };
@@ -89,7 +81,6 @@ window.showPage=function(page){
 // ==============================
 // HOME
 // ==============================
-
 
 window.goHome=function(){
 
@@ -108,30 +99,25 @@ window.goHome=function(){
 
 
 
+
 // ==============================
 // BACK
 // ==============================
 
-
 window.goBack=function(){
 
 
-
-    if(pageHistory.length>0){
-
+    if(pageHistory.length > 0){
 
 
-        let previous =
+        let last =
         pageHistory.pop();
 
 
-
-        showPage(previous);
-
+        showPage(last);
 
 
     }
-
     else{
 
 
@@ -142,6 +128,7 @@ window.goBack=function(){
 
 
 };
+
 
 
 
@@ -153,30 +140,23 @@ window.goBack=function(){
 // REFRESH
 // ==============================
 
-
 window.refreshPage=function(){
 
 
 
-    let page =
-    window.currentPage
-    ||
-    localStorage.getItem(
-    "currentPage"
-    )
-    ||
-    "welcome";
+let page =
+window.currentPage || "welcome";
 
 
 
-    localStorage.setItem(
-        "refreshPage",
-        page
-    );
+localStorage.setItem(
+"refreshPage",
+page
+);
 
 
 
-    location.reload();
+location.reload();
 
 
 
@@ -190,7 +170,7 @@ window.refreshPage=function(){
 
 
 // ==============================
-// RESTORE AFTER REFRESH
+// AFTER REFRESH RESTORE
 // ==============================
 
 
@@ -200,66 +180,60 @@ function(){
 
 
 
-    checkLogin();
+checkLogin();
 
 
-    updateCartCount();
-
-
-
-    let savedPage =
-    localStorage.getItem(
-    "refreshPage"
-    );
+updateCartCount();
 
 
 
-    if(savedPage){
+let savedPage =
+localStorage.getItem(
+"refreshPage"
+);
 
 
 
-        showPage(savedPage);
+if(savedPage){
 
 
 
-        if(savedPage=="menuPage"){
+showPage(savedPage);
 
 
 
-            setTimeout(function(){
+if(savedPage=="menuPage"){
 
 
 
-                if(
-                typeof loadCSV === "function"
-                ){
+setTimeout(function(){
 
 
-                    loadCSV();
+if(typeof loadCSV=="function"){
 
 
-
-                }
-
+loadCSV();
 
 
-            },300);
+}
 
 
-
-        }
+},300);
 
 
 
-    }
-
-    else{
+}
 
 
-        showPage("welcome");
+
+}
+else{
 
 
-    }
+showPage("welcome");
+
+
+}
 
 
 
@@ -278,9 +252,7 @@ function(){
 
 
 window.selectedLanguage =
-localStorage.getItem(
-"language"
-)
+localStorage.getItem("language")
 ||
 "en";
 
@@ -291,14 +263,92 @@ window.setLanguage=function(lang){
 
 
 
-    window.selectedLanguage=lang;
+window.selectedLanguage = lang;
 
 
 
-    localStorage.setItem(
-        "language",
-        lang
-    );
+localStorage.setItem(
+"language",
+lang
+);
+
+
+
+};
+
+
+
+
+
+
+
+
+// ==============================
+// POPULAR BUTTON
+// ==============================
+
+
+window.showPopular=function(){
+
+
+
+let categoryBox =
+document.getElementById(
+"categoryBox"
+);
+
+
+
+let itemBox =
+document.getElementById(
+"itemBox"
+);
+
+
+
+let popularSection =
+document.getElementById(
+"popularSection"
+);
+
+
+
+
+
+if(categoryBox){
+
+categoryBox.style.display="none";
+
+}
+
+
+
+if(itemBox){
+
+itemBox.innerHTML="";
+
+}
+
+
+
+if(popularSection){
+
+
+popularSection.style.display="block";
+
+
+}
+
+
+
+
+if(typeof showPopularItems=="function"){
+
+
+showPopularItems();
+
+
+}
 
 
 
@@ -324,46 +374,40 @@ let count=0;
 
 
 
-if(
-Array.isArray(window.cart)
-){
+if(Array.isArray(window.cart)){
 
 
-count =
-window.cart.length;
+count=window.cart.length;
 
 
 }
 
 
 
-
-let cart1 =
+let c1 =
 document.getElementById(
 "cartCount"
 );
 
 
-
-let cart2 =
+let c2 =
 document.getElementById(
 "cartCount2"
 );
 
 
 
+if(c1){
 
-if(cart1){
-
-cart1.innerHTML=count;
+c1.innerHTML=count;
 
 }
 
 
 
-if(cart2){
+if(c2){
 
-cart2.innerHTML=count;
+c2.innerHTML=count;
 
 }
 
@@ -379,25 +423,25 @@ cart2.innerHTML=count;
 
 
 // ==============================
-// LOGIN LOGOUT
+// LOGIN / LOGOUT
 // ==============================
 
 
 window.showLogout=function(){
 
 
-let area =
+let box =
 document.getElementById(
 "logoutArea"
 );
 
 
 
-if(!area)return;
+if(!box)return;
 
 
 
-area.innerHTML=`
+box.innerHTML=`
 
 
 <button onclick="logoutUser()">
@@ -418,21 +462,19 @@ Logout
 
 
 
-
 window.hideLogout=function(){
 
 
-
-let area =
+let box =
 document.getElementById(
 "logoutArea"
 );
 
 
 
-if(area){
+if(box){
 
-area.innerHTML="";
+box.innerHTML="";
 
 }
 
@@ -443,12 +485,6 @@ area.innerHTML="";
 
 
 
-
-
-
-// ==============================
-// LOGIN CHECK
-// ==============================
 
 
 window.checkLogin=function(){
@@ -469,7 +505,6 @@ showLogout();
 
 
 }
-
 else{
 
 
