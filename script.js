@@ -465,8 +465,9 @@ goBack();
 // Checkout
 
 function checkout(){
-
-
+    
+    pageHistory.push("checkoutPage");
+    
     showPage("checkoutPage");
 
 
