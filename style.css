@@ -172,3 +172,137 @@ input{
     border:1px solid #ccc;
 
 }
+/* Popular Items Grid */
+
+#popularItems{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+width:100%;
+
+margin-top:15px;
+
+}
+
+
+
+/* Popular Card */
+
+.popular-card{
+
+background:white;
+
+border-radius:12px;
+
+padding:10px;
+
+text-align:center;
+
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
+
+overflow:hidden;
+
+}
+
+
+
+/* Popular Image */
+
+.popular-card img{
+
+width:100%;
+
+height:120px;
+
+object-fit:cover;
+
+border-radius:10px;
+
+}
+
+
+
+/* Item Name */
+
+.popular-card b{
+
+display:block;
+
+font-size:18px;
+
+margin-top:8px;
+
+}
+
+
+
+/* Price */
+
+.popular-card p{
+
+font-size:16px;
+
+font-weight:bold;
+
+margin:5px;
+
+}
+
+
+
+/* Add Button */
+
+.popular-card button{
+
+background:#008000;
+
+color:white;
+
+border:none;
+
+padding:8px 18px;
+
+border-radius:8px;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+
+
+
+
+/* Mobile Responsive */
+
+@media(max-width:600px){
+
+#popularItems{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:10px;
+
+}
+
+
+.popular-card img{
+
+height:100px;
+
+}
+
+
+.popular-card b{
+
+font-size:14px;
+
+}
+
+
+}
