@@ -456,6 +456,13 @@ goBack();
 function checkout(){
 
 
+    pageHistory.push("checkoutPage");
+
+    showPage("checkoutPage");
+
+    // বাকি আপনার আগের checkout code থাকবে
+
+    
 document.getElementById("cartPage").style.display="none";
 
 document.getElementById("checkoutPage").style.display="block";
