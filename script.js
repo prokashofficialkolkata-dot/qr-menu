@@ -39,7 +39,61 @@ let selectedType = "";
 let selectedLanguage = "en";
 
 let cart = [];
+// Page Navigation
 
+let pageHistory = ["welcome"];
+
+function showPage(pageId){
+
+    document.querySelectorAll("#welcome, #menuPage, #cartPage, #checkoutPage")
+    .forEach(page=>{
+        page.style.display="none";
+    });
+
+    document.getElementById(pageId).style.display="block";
+
+    if(pageId !== "welcome"){
+        document.getElementById("backBtn").style.display="inline-block";
+        document.getElementById("homeBtn").style.display="inline-block";
+    }else{
+        document.getElementById("backBtn").style.display="none";
+        document.getElementById("homeBtn").style.display="none";
+    }
+
+}
+
+
+function goBack(){
+
+    if(pageHistory.length > 1){
+
+        pageHistory.pop();
+
+        let previousPage = pageHistory[pageHistory.length-1];
+
+        showPage(previousPage);
+
+    }
+
+}
+
+
+
+function goHome(){
+
+    pageHistory=["welcome"];
+
+    showPage("welcome");
+
+}
+
+
+
+function refreshPage(){
+
+    location.reload();
+
+}
 
 // Language
 
@@ -55,16 +109,15 @@ function setLanguage(lang){
 
 function startMenu(type){
 
-    selectedType = type;
+selectedType = type;
 
-    document.getElementById("welcome").style.display="none";
+pageHistory.push("menuPage");
 
-    document.getElementById("menuPage").style.display="block";
+showPage("menuPage");
 
-    loadCSV();
+loadCSV();
 
 }
-
 
 
 // Load CSV
@@ -301,6 +354,9 @@ alert("Added to Cart");
 
 function showCart(){
 
+pageHistory.push("cartPage");
+
+showPage("cartPage");
 
 document.getElementById("menuPage").style.display="none";
 
