@@ -1,55 +1,26 @@
-// ==============================
-// MENU.JS
-// ==============================
+// =====================================
+// MENU.JS FINAL
+// RESTORAN HAMEED'S BISTRO
+// =====================================
 
 
-window.menuData = [];
+let menuData = [];
 
-window.selectedType = "";
+let currentView = "popular";
 
-
-
-
-// ==============================
-// START MENU
-// ==============================
-
-
-window.startMenu = function(type){
-
-
-    window.selectedType = type;
-
-
-    if(typeof pageHistory !== "undefined"){
-
-        pageHistory.push("welcome");
-
-    }
-
-
-
-    showPage("menuPage");
-
-
-    loadCSV();
-
-
-
-};
+let selectedCategory = "";
 
 
 
 
 
-
-
-// ==============================
+// ================================
 // LOAD CSV
-// ==============================
+// ================================
 
 
 window.loadCSV=function(){
+
 
 
 fetch("menu.csv")
@@ -61,18 +32,15 @@ fetch("menu.csv")
 .then(data=>{
 
 
-    let rows=data.split(/\r?\n/);
+
+    let rows=data.split("\n");
 
 
-    window.menuData=[];
-
-
-
-    rows.slice(1).forEach(function(row){
+    menuData=[];
 
 
 
-        if(row.trim()=="") return;
+    rows.slice(1).forEach(row=>{
 
 
 
@@ -83,7 +51,9 @@ fetch("menu.csv")
         if(col.length>=4){
 
 
-            window.menuData.push({
+
+            menuData.push({
+
 
 
                 category:col[0].trim(),
@@ -98,6 +68,7 @@ fetch("menu.csv")
                 takeaway:col[3].trim()
 
 
+
             });
 
 
@@ -108,13 +79,6 @@ fetch("menu.csv")
 
     });
 
-
-
-
-    console.log(
-        "Menu Loaded:",
-        window.menuData.length
-    );
 
 
 
@@ -134,71 +98,28 @@ fetch("menu.csv")
 
 
 
-// ==============================
-// OPEN CATEGORY
-// ==============================
+
+// ================================
+// CATEGORY LOAD
+// ================================
 
 
-window.openCategory=function(){
+window.loadCategory=function(){
 
 
 
-let categoryBox =
-document.getElementById(
+let box=document.getElementById(
 "categoryBox"
 );
 
 
 
-let itemBox =
-document.getElementById(
-"itemBox"
-);
+if(!box)return;
 
 
 
 
-let popular =
-document.getElementById(
-"popularSection"
-);
-
-
-
-
-
-if(categoryBox){
-
-
-    categoryBox.style.display="block";
-
-
-    categoryBox.innerHTML="";
-
-
-}
-
-
-
-if(itemBox){
-
-
-    itemBox.innerHTML="";
-
-
-}
-
-
-
-if(popular){
-
-
-    popular.style.display="none";
-
-
-}
-
-
+box.innerHTML="";
 
 
 
@@ -206,11 +127,7 @@ let categories=[
 
 ...new Set(
 
-window.menuData.map(function(item){
-
-return item.category;
-
-})
+menuData.map(item=>item.category)
 
 )
 
@@ -220,28 +137,35 @@ return item.category;
 
 
 
-categories.forEach(function(category){
+categories.forEach(function(cat){
 
 
 
-categoryBox.innerHTML += `
+let btn=document.createElement("button");
 
 
-<button
 
-class="category"
-
-
-onclick="showItems('${escapeText(category)}')">
+btn.className="category-btn";
 
 
-${category}
+
+btn.innerHTML=cat;
 
 
-</button>
+
+btn.onclick=function(){
 
 
-`;
+
+selectCategory(cat);
+
+
+
+};
+
+
+
+box.appendChild(btn);
 
 
 
@@ -257,41 +181,87 @@ ${category}
 
 
 
-// ==============================
-// SHOW ITEMS BY CATEGORY
-// ==============================
+// ================================
+// SELECT CATEGORY
+// ================================
 
 
-window.showItems=function(category){
+window.selectCategory=function(category){
 
 
 
-let categoryBox =
-document.getElementById(
+selectedCategory=category;
+
+
+
+currentView="category";
+
+
+
+let box=document.getElementById(
 "categoryBox"
 );
 
 
 
-let itemBox =
-document.getElementById(
+if(box){
+
+
+box.style.display="none";
+
+
+}
+
+
+
+
+let popular=document.getElementById(
+"popularSection"
+);
+
+
+
+if(popular){
+
+
+popular.style.display="none";
+
+
+}
+
+
+
+
+
+showCategoryItems(category);
+
+
+
+};
+
+
+
+
+
+
+
+
+// ================================
+// SHOW CATEGORY ITEMS
+// ================================
+
+
+window.showCategoryItems=function(category){
+
+
+
+let itemBox=document.getElementById(
 "itemBox"
 );
 
 
 
-
-
-// Hide category list
-
-if(categoryBox){
-
-
-categoryBox.style.display="none";
-
-
-}
-
+if(!itemBox)return;
 
 
 
@@ -301,17 +271,15 @@ itemBox.innerHTML="";
 
 
 
-let items = window.menuData.filter(function(item){
+let items=menuData.filter(function(item){
 
 
 
-return item.category === category;
+return item.category===category;
 
 
 
 });
-
-
 
 
 
@@ -321,65 +289,7 @@ items.forEach(function(item){
 
 
 
-let price =
-
-(window.selectedType=="DINE IN")
-
-?
-
-item.dine
-
-:
-
-item.takeaway;
-
-
-
-
-
-
-itemBox.innerHTML += `
-
-
-
-<div class="item">
-
-
-
-<div>
-
-
-<b>${item.name}</b>
-
-
-<br>
-
-
-<span>${price}</span>
-
-
-</div>
-
-
-
-
-<button
-
-onclick="addCart('${escapeText(item.name)}','${price}')">
-
-
-ADD
-
-
-</button>
-
-
-
-</div>
-
-
-
-`;
+createItemCard(item,itemBox);
 
 
 
@@ -395,113 +305,84 @@ ADD
 
 
 
-// ==============================
+
+
+// ================================
 // POPULAR ITEMS
-// ==============================
+// ================================
 
 
 window.showPopularItems=function(){
 
 
 
-let box =
-document.getElementById(
+currentView="popular";
+
+
+
+
+let itemBox=document.getElementById(
+"itemBox"
+);
+
+
+
+if(itemBox){
+
+
+itemBox.innerHTML="";
+
+
+}
+
+
+
+
+let popular=document.getElementById(
+"popularSection"
+);
+
+
+
+if(popular){
+
+
+popular.style.display="block";
+
+
+}
+
+
+
+
+
+let popularBox=document.getElementById(
 "popularItems"
 );
 
 
 
-if(!box)return;
+if(!popularBox)return;
 
 
 
-box.innerHTML="";
-
-
-
-
-
-let popular =
-
-window.menuData.slice(0,15);
+popularBox.innerHTML="";
 
 
 
 
+// Top 15 items
 
-
-popular.forEach(function(item){
-
-
-
-let price =
-
-(window.selectedType=="DINE IN")
-
-?
-
-item.dine
-
-:
-
-item.takeaway;
+let popularItems=menuData.slice(0,15);
 
 
 
 
-
-box.innerHTML += `
-
-
-
-<div class="popular-card">
+popularItems.forEach(function(item){
 
 
 
-<img
-
-src="images/${item.name}.jpg"
-
-onerror="this.style.display='none'"
-
->
-
-
-
-<b>
-
-${item.name}
-
-</b>
-
-
-
-<p>
-
-${price}
-
-</p>
-
-
-
-
-<button
-
-onclick="addCart('${escapeText(item.name)}','${price}')">
-
-
-ADD
-
-
-</button>
-
-
-
-</div>
-
-
-
-`;
+createPopularCard(item,popularBox);
 
 
 
@@ -517,19 +398,270 @@ ADD
 
 
 
-// ==============================
-// ESCAPE TEXT
-// ==============================
 
 
-function escapeText(text){
+// ================================
+// RESTORE VIEW
+// ================================
 
 
-return text
+window.restoreMenuView=function(){
 
-.replace(/'/g,"\\'")
 
-.replace(/"/g,'\\"');
+
+if(currentView==="category"){
+
+
+
+showCategoryItems(
+selectedCategory
+);
+
 
 
 }
+
+else{
+
+
+
+showPopularItems();
+
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
+// CREATE ITEM CARD
+// ================================
+
+
+function createItemCard(item,box){
+
+
+
+let div=document.createElement("div");
+
+
+div.className="menu-item";
+
+
+
+let price = 
+localStorage.getItem("orderType")
+==="TAKE AWAY"
+?
+item.takeaway
+:
+item.dine;
+
+
+
+
+div.innerHTML=`
+
+
+<h3>${item.name}</h3>
+
+
+<p>
+RM ${price}
+</p>
+
+
+<button onclick="addToCart('${item.name}','${price}')">
+
+ADD ITEM
+
+</button>
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ================================
+// POPULAR CARD
+// ================================
+
+
+function createPopularCard(item,box){
+
+
+
+let div=document.createElement("div");
+
+
+div.className="popular-card";
+
+
+
+let price =
+item.dine;
+
+
+
+
+div.innerHTML=`
+
+
+<h3>⭐ ${item.name}</h3>
+
+
+<p>
+RM ${price}
+</p>
+
+
+<button onclick="addToCart('${item.name}','${price}')">
+
+ADD ITEM
+
+</button>
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ================================
+// ADD ITEM
+// ================================
+
+
+window.addToCart=function(name,price){
+
+
+
+let cart =
+JSON.parse(
+localStorage.getItem("cart")
+)
+|| [];
+
+
+
+
+cart.push({
+
+
+name:name,
+
+
+price:price
+
+
+});
+
+
+
+
+localStorage.setItem(
+
+"cart",
+
+JSON.stringify(cart)
+
+);
+
+
+
+
+
+if(typeof updateCartCount==="function"){
+
+
+updateCartCount();
+
+
+}
+
+
+
+
+
+showToast(
+
+"Hameed's Bistro says "+name+" Added"
+
+);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
+// AUTO LOAD
+// ================================
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+function(){
+
+
+if(
+document.getElementById("menuPage")
+){
+
+
+loadCSV();
+
+
+}
+
+
+
+}
+
+);
