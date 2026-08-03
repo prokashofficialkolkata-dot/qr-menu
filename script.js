@@ -39,6 +39,25 @@ let selectedType = "";
 let selectedLanguage = "en";
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let popularItems = [
+{
+name:"Chicken Tandoori",
+image:"images/chicken-tandoori.jpg",
+price:"RM 12.00"
+},
+{
+name:"Nasi Lemak Ayam Goreng",
+image:"images/nasi-lemak.jpg",
+price:"RM 10.00"
+},
+{
+name:"Naan Cheese Mozzarella",
+image:"images/naan-cheese.jpg",
+price:"RM 15.00"
+}
+];
+
 // Page Navigation
 
 let pageHistory = ["welcome"];
@@ -117,6 +136,37 @@ function setLanguage(lang){
 }
 
 
+//Popular items 
+function showPopularItems(){
+
+let box=document.getElementById("popularItems");
+
+box.innerHTML="";
+
+
+popularItems.forEach(item=>{
+
+box.innerHTML+=`
+
+<div class="popular-card">
+
+<img src="${item.image}">
+
+<b>${item.name}</b>
+
+<p>${item.price}</p>
+
+<button onclick="addCart('${item.name}','${item.price}')">
+ADD
+</button>
+
+</div>
+
+`;
+
+});
+
+}
 
 // Start Menu
 
