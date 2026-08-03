@@ -183,6 +183,7 @@ takeaway:col[3].trim()
 });
 
 openCategory();
+showPopularItems();
 
 });
 
@@ -194,25 +195,43 @@ openCategory();
 
 function openCategory(){
 
-let box=document.getElementById("categoryBox");
+let box = document.getElementById("categoryBox");
+
+let popular = document.getElementById("popularItems");
 
 
+// যদি Category আগে থেকে খোলা থাকে তাহলে বন্ধ করবে
 if(box.innerHTML !== ""){
-    box.innerHTML="";
+
+    box.innerHTML = "";
+
+    if(popular){
+        popular.style.display = "grid";
+    }
+
     return;
+
 }
 
 
-box.innerHTML="";
+// Category খোলার সময় Popular বন্ধ হবে
+if(popular){
+    popular.style.display = "none";
+}
 
 
-let all=document.createElement("button");
+box.innerHTML = "";
 
-all.innerHTML="ALL CATEGORY";
 
-all.className="category";
 
-all.onclick=function(){
+let all = document.createElement("button");
+
+all.innerHTML = "ALL CATEGORY";
+
+all.className = "category";
+
+
+all.onclick = function(){
 
 showItems("ALL");
 
@@ -223,20 +242,20 @@ box.appendChild(all);
 
 
 
-let cats=[...new Set(menuData.map(x=>x.category))];
+let cats = [...new Set(menuData.map(x=>x.category))];
 
 
 cats.forEach(cat=>{
 
 
-let btn=document.createElement("button");
+let btn = document.createElement("button");
 
-btn.innerHTML=cat;
+btn.innerHTML = cat;
 
-btn.className="category";
+btn.className = "category";
 
 
-btn.onclick=function(){
+btn.onclick = function(){
 
 showItems(cat);
 
@@ -256,6 +275,8 @@ box.appendChild(btn);
 // Show Items
 
 function showItems(category){
+
+document.getElementById("popularItems").style.display="none";
 
 // Mobile-এ Category List বন্ধ হবে
 document.getElementById("categoryBox").innerHTML="";
