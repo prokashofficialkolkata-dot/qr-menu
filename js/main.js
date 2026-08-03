@@ -67,7 +67,24 @@ page
 };
 
 
+window.customerAction=function(){
 
+let user =
+localStorage.getItem("loggedIn");
+
+
+if(user==="yes"){
+
+openProfile();
+
+}
+else{
+
+checkout();
+
+}
+
+};
 
 
 
