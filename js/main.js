@@ -4,9 +4,12 @@
 // =====================================
 
 
-let currentPage = localStorage.getItem("currentPage") || "welcome";
+let currentPage =
+localStorage.getItem("currentPage") || "welcome";
 
-let historyPage = [];
+
+let historyPage=[];
+
 
 
 
@@ -19,11 +22,14 @@ window.showPage=function(page){
 
 
 const pages=[
+
 "welcome",
 "menuPage",
 "cartPage",
 "checkoutPage"
+
 ];
+
 
 
 pages.forEach(function(id){
@@ -46,6 +52,7 @@ el.style.display="none";
 let target=document.getElementById(page);
 
 
+
 if(target){
 
 target.style.display="block";
@@ -64,27 +71,272 @@ page
 
 
 
+window.scrollTo(0,0);
+
+
+
 };
+
+
+
+
+
+
+
+
+
+// ================================
+// CUSTOMER BUTTON
+// ================================
 
 
 window.customerAction=function(){
 
-let user =
+
+
+let login=
 localStorage.getItem("loggedIn");
 
 
-if(user==="yes"){
+
+if(login==="yes"){
+
 
 openProfile();
 
+
 }
+
 else{
+
 
 checkout();
 
+
 }
 
+
+
 };
+
+
+
+
+
+
+
+
+
+// ================================
+// UPDATE CUSTOMER BUTTON
+// ================================
+
+
+window.updateCustomerButton=function(){
+
+
+
+let btn=document.getElementById(
+"customerBtn"
+);
+
+
+
+if(!btn)return;
+
+
+
+let login=
+localStorage.getItem("loggedIn");
+
+
+
+
+if(login==="yes"){
+
+
+btn.innerHTML=
+"👤 Customer Profile";
+
+
+}
+
+else{
+
+
+btn.innerHTML=
+"👤 Customer Login";
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
+// OPEN PROFILE
+// ================================
+
+
+window.openProfile=async function(){
+
+
+
+showPage("checkoutPage");
+
+
+
+
+let loginBox=
+document.getElementById("loginBox");
+
+
+let createBox=
+document.getElementById("createBox");
+
+
+let profileBox=
+document.getElementById("profileBox");
+
+
+let checkoutForm=
+document.getElementById("checkoutForm");
+
+
+
+
+if(loginBox)
+loginBox.style.display="none";
+
+
+if(createBox)
+createBox.style.display="none";
+
+
+if(checkoutForm)
+checkoutForm.style.display="none";
+
+
+
+if(profileBox)
+profileBox.style.display="block";
+
+
+
+
+
+
+let uid=
+localStorage.getItem("uid");
+
+
+
+if(!uid)return;
+
+
+
+try{
+
+
+const {
+
+doc,
+getDoc
+
+}=await import(
+"https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js"
+);
+
+
+
+const {
+
+db
+
+}=await import(
+"./firebase.js"
+);
+
+
+
+let ref=
+doc(
+db,
+"customers",
+uid
+);
+
+
+
+let snap=
+await getDoc(ref);
+
+
+
+
+if(snap.exists()){
+
+
+
+let data=snap.data();
+
+
+
+document.getElementById(
+"profileName"
+).innerHTML =
+data.name || "";
+
+
+
+document.getElementById(
+"profileEmail"
+).innerHTML =
+data.email || "";
+
+
+
+document.getElementById(
+"profilePhone"
+).innerHTML =
+data.phone || "";
+
+
+
+}
+
+
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
 
 
 
@@ -92,6 +344,7 @@ checkout();
 // ================================
 // HOME
 // ================================
+
 
 window.goHome=function(){
 
@@ -102,7 +355,15 @@ historyPage=[];
 showPage("welcome");
 
 
+updateCustomerButton();
+
+
+
 };
+
+
+
+
 
 
 
@@ -114,14 +375,18 @@ showPage("welcome");
 // BACK
 // ================================
 
+
 window.goBack=function(){
 
 
-let old=historyPage.pop();
+
+let old=
+historyPage.pop();
 
 
 
 if(old){
+
 
 showPage(old);
 
@@ -146,12 +411,14 @@ showPage("welcome");
 
 
 
+
 // ================================
 // START MENU
 // ================================
 
 
 window.startMenu=function(type){
+
 
 
 localStorage.setItem(
@@ -190,24 +457,16 @@ loadCSV();
 
 
 
+
 // ================================
-// REAL REFRESH
+// REFRESH
 // ================================
 
 
 window.refreshPage=function(){
 
 
-
-localStorage.setItem(
-"currentPage",
-currentPage
-);
-
-
-
 location.reload();
-
 
 
 };
@@ -220,8 +479,10 @@ location.reload();
 
 
 
+
+
 // ================================
-// CATEGORY TOGGLE
+// CATEGORY
 // ================================
 
 
@@ -229,7 +490,8 @@ window.openCategory=function(){
 
 
 
-let box=document.getElementById(
+let box=
+document.getElementById(
 "categoryBox"
 );
 
@@ -239,10 +501,8 @@ if(!box)return;
 
 
 
-
 if(
-box.style.display==="grid" ||
-box.style.display==="flex"
+box.style.display==="grid"
 ){
 
 
@@ -253,9 +513,7 @@ box.style.display="none";
 
 if(typeof restoreMenuView==="function"){
 
-
 restoreMenuView();
-
 
 }
 
@@ -283,7 +541,6 @@ loadCategory();
 }
 
 
-
 };
 
 
@@ -307,17 +564,15 @@ showPage("menuPage");
 
 
 
-let box=document.getElementById(
+let box=
+document.getElementById(
 "categoryBox"
 );
 
 
 
-if(box){
-
+if(box)
 box.style.display="none";
-
-}
 
 
 
@@ -338,55 +593,78 @@ showPopularItems();
 
 
 
+
+
+
+
+
+// ================================
+// CREATE ACCOUNT SWITCH
+// ================================
+
+
 window.showCreateAccount=function(){
 
 
-let login=document.getElementById("loginBox");
 
-let create=document.getElementById("createBox");
+let login=
+document.getElementById("loginBox");
 
 
-if(login){
+let create=
+document.getElementById("createBox");
 
+
+
+if(login)
 login.style.display="none";
 
-}
 
 
-if(create){
-
+if(create)
 create.style.display="block";
 
-}
 
 
 };
+
+
+
+
 
 
 
 window.showLogin=function(){
 
 
-let login=document.getElementById("loginBox");
 
-let create=document.getElementById("createBox");
+let login=
+document.getElementById("loginBox");
 
 
-if(create){
+let create=
+document.getElementById("createBox");
 
+
+
+if(create)
 create.style.display="none";
 
-}
 
 
-if(login){
-
+if(login)
 login.style.display="block";
 
-}
 
 
 };
+
+
+
+
+
+
+
 
 
 // ================================
@@ -395,7 +673,6 @@ login.style.display="block";
 
 
 window.showCart=function(){
-
 
 
 historyPage.push(currentPage);
@@ -427,7 +704,7 @@ displayCart();
 
 
 // ================================
-// LOGIN
+// CHECKOUT LOGIN
 // ================================
 
 
@@ -463,6 +740,8 @@ showLogin();
 
 
 
+
+
 // ================================
 // TOAST
 // ================================
@@ -472,9 +751,8 @@ window.showToast=function(message){
 
 
 
-let toast=document.getElementById(
-"toast"
-);
+let toast=
+document.getElementById("toast");
 
 
 
@@ -501,7 +779,7 @@ toast.classList.add("show");
 
 
 
-setTimeout(function(){
+setTimeout(()=>{
 
 
 toast.classList.remove("show");
@@ -512,6 +790,9 @@ toast.classList.remove("show");
 
 
 };
+
+
+
 
 
 
@@ -536,18 +817,22 @@ localStorage.getItem(
 
 
 
-let buttons=[
+let btns=[
+
 "logoutBtn",
-"logoutBtnCart"
+"logoutBtnCart",
+"logoutProfileBtn"
+
 ];
 
 
 
-buttons.forEach(function(id){
+btns.forEach(function(id){
 
 
 
-let btn=document.getElementById(id);
+let btn=
+document.getElementById(id);
 
 
 
@@ -570,6 +855,9 @@ login==="yes"
 
 
 
+updateCustomerButton();
+
+
 };
 
 
@@ -579,8 +867,11 @@ login==="yes"
 
 
 
+
+
+
 // ================================
-// START LOAD
+// LOAD
 // ================================
 
 
@@ -589,14 +880,11 @@ window.addEventListener(
 function(){
 
 
-
 showPage(currentPage);
-
 
 
 checkLoginStatus();
 
 
 
-}
-);
+});
