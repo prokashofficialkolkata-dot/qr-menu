@@ -1,123 +1,329 @@
-import { db } from "./firebase.js";
+// =====================================
+// RESTORAN HAMEED'S BISTRO
+// CHECKOUT.JS FINAL
+// =====================================
+
 
 import {
+
+db,
+auth
+
+} from "./firebase.js";
+
+
+
+import {
+
+doc,
+getDoc,
+addDoc,
 collection,
-addDoc
+serverTimestamp
+
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
-// Checkout Form Open
 
-window.openCheckoutForm = function(){
 
-document.getElementById("loginBox").style.display="none";
-document.getElementById("createBox").style.display="none";
-document.getElementById("phoneBox").style.display="none";
+// ================================
+// LOAD CUSTOMER DETAILS
+// ================================
 
-document.getElementById("checkoutForm").style.display="block";
 
-document.getElementById("customerName").value =
-localStorage.getItem("customerName") || "";
+async function loadCustomerData(){
 
-document.getElementById("phone").value =
-localStorage.getItem("customerPhone") || "";
 
-document.getElementById("customerName").readOnly=true;
-document.getElementById("phone").readOnly=true;
+let user = auth.currentUser;
 
-if(selectedType=="DINE IN"){
 
-document.getElementById("tableInput").innerHTML=`
+if(!user)return;
 
-<input
-id="tableNumber"
-placeholder="Enter Table Number"
-required>
 
-`;
 
-}else{
+let ref =
+doc(
+db,
+"customers",
+user.uid
+);
 
-document.getElementById("tableInput").innerHTML=`
 
-<b>TAKE AWAY</b>
 
-`;
+let snap =
+await getDoc(ref);
+
+
+
+if(snap.exists()){
+
+
+let data=snap.data();
+
+
+
+let name =
+document.getElementById(
+"customerName"
+);
+
+
+let phone =
+document.getElementById(
+"phone"
+);
+
+
+
+if(name)
+
+name.value =
+data.name || "";
+
+
+
+if(phone)
+
+phone.value =
+data.phone || "";
+
+
 
 }
 
-};
 
 
-// Place Order
+}
+
+
+
+
+
+
+
+// ================================
+// PLACE ORDER
+// ================================
+
 
 window.placeOrder = async function(){
 
+
+
+let user =
+auth.currentUser;
+
+
+
+if(!user){
+
+
+showToast(
+"Please Login First"
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+let table =
+document.getElementById(
+"tableNumber"
+).value.trim();
+
+
+
+
+
+let cart =
+JSON.parse(
+localStorage.getItem("cart")
+)
+|| [];
+
+
+
+
+
+if(cart.length===0){
+
+
+showToast(
+"Cart Empty"
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
 let customerName =
-document.getElementById("customerName").value.trim();
+document.getElementById(
+"customerName"
+).value;
+
+
+
 
 let phone =
-document.getElementById("phone").value.trim();
+document.getElementById(
+"phone"
+).value;
 
-let table="TAKE AWAY";
 
-if(selectedType=="DINE IN"){
 
-let tableInput =
-document.getElementById("tableNumber");
 
-if(!tableInput || tableInput.value.trim()==""){
 
-alert("Please Enter Table Number");
 
-return;
-
-}
-
-table=tableInput.value.trim();
-
-}
-
-if(cart.length==0){
-
-alert("Cart Empty");
-
-return;
-
-}
 
 try{
 
-await addDoc(collection(db,"orders"),{
 
-customerName,
+await addDoc(
 
-phone,
+collection(
+db,
+"orders"
+),
+
+{
+
+
+customerId:user.uid,
+
+
+customerName:customerName,
+
+
+phone:phone,
+
 
 tableNumber:table,
 
-type:selectedType,
+
+orderType:
+localStorage.getItem("orderType")
+|| "",
+
+
 
 items:cart,
 
-status:"NEW",
 
-time:new Date()
+status:"Pending",
 
-});
 
-alert("Order Sent Successfully");
+createdAt:
+serverTimestamp()
 
-cart=[];
 
-localStorage.removeItem("cart");
-
-goHome();
-
-}catch(error){
-
-alert(error.message);
 
 }
 
+
+);
+
+
+
+
+
+localStorage.removeItem(
+"cart"
+);
+
+
+
+
+
+if(typeof updateCartCount==="function"){
+
+updateCartCount();
+
+}
+
+
+
+
+showToast(
+"Order Placed Successfully"
+);
+
+
+
+
+
+setTimeout(()=>{
+
+
+goHome();
+
+
+},1500);
+
+
+
+
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+showToast(
+error.message
+);
+
+
+}
+
+
+
 };
+
+
+
+
+
+
+
+
+
+// ================================
+// AUTH CHANGE
+// ================================
+
+
+auth.onAuthStateChanged(
+
+(user)=>{
+
+
+if(user){
+
+
+loadCustomerData();
+
+
+}
+
+
+}
+
+);
