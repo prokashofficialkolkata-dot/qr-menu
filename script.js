@@ -1004,16 +1004,20 @@ alert(error.message);
 //Google Login
 async function googleLogin(){
 
-let provider=new GoogleAuthProvider();
-
+let provider = new GoogleAuthProvider();
 
 try{
 
-let result =
-await signInWithPopup(auth,provider);
+let result = await signInWithPopup(auth,provider);
+
+let user = result.user;
 
 
-alert("Google Login Successful");
+// Google থেকে data save
+
+localStorage.setItem("customerName", user.displayName || "");
+
+localStorage.setItem("customerEmail", user.email || "");
 
 
 document.getElementById("loginBox").style.display="none";
@@ -1028,92 +1032,131 @@ alert(error.message);
 }
 
 }
-
+//Google Phone
 async function saveGooglePhone(){
 
-    let phone = document.getElementById("googlePhone").value.trim();
+let phone =
+document.getElementById("googlePhone").value.trim();
 
 
-    if(phone === ""){
-        alert("Please enter phone number");
-        return;
-    }
+if(phone==""){
 
-
-    let user = auth.currentUser;
-
-
-    if(!user){
-        alert("User not logged in");
-        return;
-    }
-
-
-    try{
-
-        await addDoc(collection(db,"customers"),{
-
-            uid:user.uid,
-
-            name:user.displayName,
-
-            email:user.email,
-
-            phone:phone,
-
-            loginType:"Google",
-
-            createdAt:new Date()
-
-        });
-
-
-        alert("Profile Completed Successfully");
-
-
-        document.getElementById("phoneBox").style.display="none";
-
-
-        // Checkout আবার দেখাবে
-        showPage("checkoutPage");
-
-
-    }
-    catch(error){
-
-        console.log(error);
-
-        alert(error.message);
-
-    }
+alert("Phone Number Required");
+return;
 
 }
 
+
+localStorage.setItem("customerPhone",phone);
+
+
+document.getElementById("phoneBox").style.display="none";
+
+
+// Checkout দেখাবে
+
+showPage("checkoutPage");
+
+
+// Auto fill
+
+document.getElementById("customerName").value =
+localStorage.getItem("customerName") || "";
+
+
+document.getElementById("phone").value =
+localStorage.getItem("customerPhone") || "";
+
+
+alert("Profile Completed");
+
+
+}
 // Place Order Final
 
 async function placeOrder(){
 
 
-let customerName = 
+let customerName =
 document.getElementById("customerName").value.trim();
 
 
-let phone = 
+let phone =
 document.getElementById("phone").value.trim();
 
 
 
-let table = "TAKE AWAY";
-
-
-
-// Customer Name Check
-
-if(customerName === ""){
+if(customerName==""){
 
 alert("Customer Name Required");
-
 return;
+
+}
+
+
+if(phone==""){
+
+alert("Phone Number Required");
+return;
+
+}
+
+
+
+let table="TAKE AWAY";
+
+
+if(selectedType=="DINE IN"){
+
+
+table =
+document.getElementById("tableNumber").value.trim();
+
+
+
+if(table==""){
+
+alert("Table Number Required");
+return;
+
+}
+
+
+}
+
+
+
+
+await addDoc(collection(db,"orders"),{
+
+
+type:selectedType,
+
+tableNumber:table,
+
+customerName:customerName,
+
+phone:phone,
+
+items:cart,
+
+time:new Date(),
+
+status:"NEW"
+
+
+});
+
+
+
+alert("Order Sent Successfully");
+
+
+
+cart=[];
+
+localStorage.removeItem("cart");
+
 
 }
 
