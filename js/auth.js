@@ -1,13 +1,12 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// AUTH.JS FINAL
-// Firebase Authentication + Firestore
+// AUTH.JS FINAL FIXED
 // =====================================
 
 
 import { 
-    auth, 
-    db 
+    auth,
+    db
 } from "./firebase.js";
 
 
@@ -15,17 +14,11 @@ import {
 import {
 
     createUserWithEmailAndPassword,
-
     signInWithEmailAndPassword,
-
     GoogleAuthProvider,
-
     signInWithPopup,
-
     signOut,
-
     onAuthStateChanged
-
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
@@ -34,13 +27,9 @@ import {
 import {
 
     doc,
-
     setDoc,
-
     getDoc,
-
     serverTimestamp
-
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -48,12 +37,8 @@ import {
 
 
 
-// ===============================
-// GOOGLE PROVIDER
-// ===============================
-
-
-const provider = new GoogleAuthProvider();
+const provider =
+new GoogleAuthProvider();
 
 
 
@@ -61,13 +46,13 @@ const provider = new GoogleAuthProvider();
 
 
 
-// ===============================
+
+// =====================================
 // CREATE ACCOUNT
-// ===============================
+// =====================================
 
 
 window.createAccount = async function(){
-
 
 
 let name =
@@ -93,11 +78,18 @@ document.getElementById("confirmPassword").value.trim();
 
 
 
-if(!name || !phone || !email || !password){
+if(
+!name ||
+!phone ||
+!email ||
+!password
+){
 
-    showToast("Please fill all details");
+showToast(
+"Please fill all details"
+);
 
-    return;
+return;
 
 }
 
@@ -107,9 +99,13 @@ if(!name || !phone || !email || !password){
 
 if(password !== confirm){
 
-    showToast("Password not match");
 
-    return;
+showToast(
+"Password not match"
+);
+
+
+return;
 
 }
 
@@ -119,12 +115,16 @@ if(password !== confirm){
 
 if(password.length < 8){
 
-    showToast("Password minimum 8 characters");
 
-    return;
+showToast(
+"Password minimum 8 characters"
+);
+
+
+return;
+
 
 }
-
 
 
 
@@ -133,7 +133,7 @@ if(password.length < 8){
 try{
 
 
-const result =
+let result =
 await createUserWithEmailAndPassword(
 
 auth,
@@ -146,9 +146,7 @@ password
 
 
 
-
-const user=result.user;
-
+let user=result.user;
 
 
 
@@ -164,7 +162,6 @@ user.uid
 
 {
 
-
 name:name,
 
 phone:phone,
@@ -175,9 +172,7 @@ loginType:"Email",
 
 createdAt:serverTimestamp()
 
-
 }
-
 
 );
 
@@ -192,7 +187,6 @@ localStorage.setItem(
 );
 
 
-
 localStorage.setItem(
 "uid",
 user.uid
@@ -201,12 +195,9 @@ user.uid
 
 
 
-
 showToast(
 "Account Created"
 );
-
-
 
 
 
@@ -219,7 +210,9 @@ openProfile();
 catch(error){
 
 
-showToast(error.message);
+showToast(
+error.message
+);
 
 
 }
@@ -236,10 +229,9 @@ showToast(error.message);
 
 
 
-// ===============================
+// =====================================
 // EMAIL LOGIN
-// ===============================
-
+// =====================================
 
 
 window.loginUser = async function(){
@@ -260,7 +252,7 @@ document.getElementById("loginPassword").value.trim();
 try{
 
 
-const result =
+let result =
 
 await signInWithEmailAndPassword(
 
@@ -274,8 +266,7 @@ password
 
 
 
-const user=result.user;
-
+let user=result.user;
 
 
 
@@ -286,12 +277,10 @@ localStorage.setItem(
 );
 
 
-
 localStorage.setItem(
 "uid",
 user.uid
 );
-
 
 
 
@@ -305,7 +294,9 @@ openProfile();
 catch(error){
 
 
-showToast(error.message);
+showToast(
+error.message
+);
 
 
 }
@@ -322,10 +313,9 @@ showToast(error.message);
 
 
 
-// ===============================
+// =====================================
 // GOOGLE LOGIN
-// ===============================
-
+// =====================================
 
 
 window.googleLogin = async function(){
@@ -335,7 +325,7 @@ window.googleLogin = async function(){
 try{
 
 
-const result =
+let result =
 
 await signInWithPopup(
 
@@ -347,15 +337,14 @@ provider
 
 
 
-
-const user=result.user;
-
+let user=result.user;
 
 
 
 
+let ref =
 
-const userRef = doc(
+doc(
 
 db,
 
@@ -368,12 +357,9 @@ user.uid
 
 
 
+let snap =
 
-const snap =
-
-await getDoc(userRef);
-
-
+await getDoc(ref);
 
 
 
@@ -383,9 +369,7 @@ await getDoc(userRef);
 if(snap.exists()){
 
 
-
 // OLD CUSTOMER
-
 
 
 localStorage.setItem(
@@ -410,22 +394,26 @@ openProfile();
 else{
 
 
-
-// NEW GOOGLE CUSTOMER
-
-
-
-document.getElementById(
-"loginBox"
-).style.display="none";
+// NEW CUSTOMER
 
 
 
+resetAuthPage();
+
+
+
+let profileBox =
 document.getElementById(
 "profileBox"
-).style.display="block";
+);
 
 
+
+if(profileBox){
+
+profileBox.style.display="block";
+
+}
 
 
 
@@ -444,9 +432,7 @@ user.email || "";
 
 
 
-
 }
-
 
 
 
@@ -456,11 +442,12 @@ user.email || "";
 catch(error){
 
 
-showToast(error.message);
+showToast(
+error.message
+);
 
 
 }
-
 
 
 
@@ -474,17 +461,17 @@ showToast(error.message);
 
 
 
-// ===============================
+// =====================================
 // SAVE GOOGLE PROFILE
-// ===============================
-
+// =====================================
 
 
 window.saveGoogleProfile = async function(){
 
 
 
-let user=auth.currentUser;
+let user =
+auth.currentUser;
 
 
 
@@ -493,15 +480,17 @@ if(!user)return;
 
 
 
-
 let name =
-document.getElementById("googleName").value.trim();
+document.getElementById(
+"googleName"
+).value.trim();
 
 
 
 let phone =
-document.getElementById("googlePhone").value.trim();
-
+document.getElementById(
+"googlePhone"
+).value.trim();
 
 
 
@@ -517,9 +506,7 @@ showToast(
 
 return;
 
-
 }
-
 
 
 
@@ -534,7 +521,6 @@ user.uid
 
 {
 
-
 name:name,
 
 email:user.email,
@@ -545,12 +531,9 @@ loginType:"Google",
 
 createdAt:serverTimestamp()
 
-
 }
 
-
 );
-
 
 
 
@@ -567,8 +550,6 @@ localStorage.setItem(
 "uid",
 user.uid
 );
-
-
 
 
 
@@ -587,22 +568,27 @@ openProfile();
 
 
 
-// ===============================
+// =====================================
 // LOGOUT
-// ===============================
+// =====================================
 
 
 window.logoutUser = async function(){
 
 
 
+try{
+
+
 await signOut(auth);
+
 
 
 
 localStorage.removeItem(
 "loggedIn"
 );
+
 
 
 localStorage.removeItem(
@@ -612,8 +598,22 @@ localStorage.removeItem(
 
 
 
+if(
+typeof resetAuthPage==="function"
+){
 
-showPage("welcome");
+
+resetAuthPage();
+
+
+}
+
+
+
+
+showPage(
+"welcome"
+);
 
 
 
@@ -627,6 +627,18 @@ showToast(
 
 
 
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+}
+
+
+
 };
 
 
@@ -637,22 +649,20 @@ showToast(
 
 
 
-// ===============================
-// AUTH CHECK
-// ===============================
-
+// =====================================
+// FIREBASE LOGIN STATE
+// =====================================
 
 
 onAuthStateChanged(
 
 auth,
 
-async function(user){
+function(user){
 
 
 
 if(user){
-
 
 
 localStorage.setItem(
@@ -661,15 +671,14 @@ localStorage.setItem(
 );
 
 
-
 localStorage.setItem(
 "uid",
 user.uid
 );
 
 
-
 }
+
 else{
 
 
@@ -678,9 +687,12 @@ localStorage.removeItem(
 );
 
 
+localStorage.removeItem(
+"uid"
+);
+
 
 }
-
 
 
 
