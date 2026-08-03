@@ -3,9 +3,12 @@
 // ==============================
 
 
+// PAGE HISTORY
+
 window.pageHistory = [];
 
 window.currentPage = "welcome";
+
 
 
 
@@ -14,37 +17,62 @@ window.currentPage = "welcome";
 // SHOW PAGE
 // ==============================
 
+
 window.showPage = function(page){
 
 
-    document.querySelectorAll("body > div").forEach(function(div){
+    window.currentPage = page;
 
-        if(
-            div.id === "welcome" ||
-            div.id === "menuPage" ||
-            div.id === "cartPage" ||
-            div.id === "checkoutPage"
-        ){
 
-            div.style.display="none";
+    localStorage.setItem(
+        "currentPage",
+        page
+    );
+
+
+
+    let pages = [
+
+        "welcome",
+
+        "menuPage",
+
+        "cartPage",
+
+        "checkoutPage"
+
+    ];
+
+
+
+    pages.forEach(function(id){
+
+
+        let el = document.getElementById(id);
+
+
+        if(el){
+
+            el.style.display = "none";
 
         }
+
 
     });
 
 
 
-    let target=document.getElementById(page);
+
+    let target =
+    document.getElementById(page);
+
 
 
     if(target){
 
         target.style.display="block";
 
-        window.currentPage=page;
-
     }
-
 
 
 };
@@ -54,9 +82,12 @@ window.showPage = function(page){
 
 
 
+
+
 // ==============================
-// HOME
+// HOME BUTTON
 // ==============================
+
 
 window.goHome=function(){
 
@@ -75,24 +106,29 @@ window.goHome=function(){
 
 
 
+
 // ==============================
-// BACK
+// BACK BUTTON
 // ==============================
+
 
 window.goBack=function(){
 
 
-    if(pageHistory.length>0){
+
+    if(pageHistory.length > 0){
 
 
-        let lastPage =
+        let previous =
         pageHistory.pop();
 
 
-        showPage(lastPage);
+
+        showPage(previous);
 
 
     }
+
     else{
 
 
@@ -102,6 +138,7 @@ window.goBack=function(){
     }
 
 
+
 };
 
 
@@ -109,17 +146,91 @@ window.goBack=function(){
 
 
 
+
+
 // ==============================
-// REFRESH
+// REFRESH BUTTON
 // ==============================
 
+
 window.refreshPage=function(){
+
+
+
+    let page =
+    localStorage.getItem(
+        "currentPage"
+    );
+
+
+
+    if(!page){
+
+        page="welcome";
+
+    }
+
+
+
+
+    localStorage.setItem(
+        "refreshPage",
+        page
+    );
+
 
 
     location.reload();
 
 
+
 };
+
+
+
+
+
+
+
+
+// ==============================
+// RESTORE PAGE AFTER REFRESH
+// ==============================
+
+
+window.addEventListener(
+"load",
+function(){
+
+
+
+let savedPage =
+localStorage.getItem(
+"refreshPage"
+);
+
+
+
+if(savedPage){
+
+
+    showPage(savedPage);
+
+
+}
+
+else{
+
+
+    showPage("welcome");
+
+
+}
+
+
+
+});
+
 
 
 
@@ -131,13 +242,23 @@ window.refreshPage=function(){
 // LANGUAGE
 // ==============================
 
-window.selectedLanguage="en";
+
+window.selectedLanguage =
+localStorage.getItem(
+"language"
+)
+||
+"en";
+
+
 
 
 window.setLanguage=function(lang){
 
 
-    window.selectedLanguage=lang;
+
+    window.selectedLanguage = lang;
+
 
 
     localStorage.setItem(
@@ -146,13 +267,17 @@ window.setLanguage=function(lang){
     );
 
 
+
     console.log(
-        "Language:",
+        "Language Changed:",
         lang
     );
 
 
+
 };
+
+
 
 
 
@@ -167,37 +292,52 @@ window.setLanguage=function(lang){
 window.updateCartCount=function(){
 
 
-    let count=0;
 
-
-    if(
-        typeof cart !== "undefined"
-    ){
-
-        count=cart.length;
-
-    }
+let count = 0;
 
 
 
-    let boxes=[
-        document.getElementById("cartCount"),
-        document.getElementById("cartCount2")
-    ];
+if(
+Array.isArray(window.cart)
+){
+
+
+count =
+window.cart.length;
+
+
+}
 
 
 
-    boxes.forEach(function(box){
+
+let cart1 =
+document.getElementById(
+"cartCount"
+);
 
 
-        if(box){
+let cart2 =
+document.getElementById(
+"cartCount2"
+);
 
-            box.innerHTML=count;
-
-        }
 
 
-    });
+
+if(cart1){
+
+cart1.innerHTML=count;
+
+}
+
+
+
+if(cart2){
+
+cart2.innerHTML=count;
+
+}
 
 
 
@@ -209,22 +349,29 @@ window.updateCartCount=function(){
 
 
 
+
 // ==============================
-// LOGIN / LOGOUT DISPLAY
+// LOGIN DISPLAY
 // ==============================
+
 
 
 window.showLogout=function(){
 
 
-let area=document.getElementById("logoutArea");
+
+let box =
+document.getElementById(
+"logoutArea"
+);
 
 
-if(!area)return;
+
+if(!box)return;
 
 
 
-area.innerHTML=`
+box.innerHTML = `
 
 
 <button onclick="logoutUser()">
@@ -244,15 +391,23 @@ Logout
 
 
 
+
+
+
 window.hideLogout=function(){
 
 
-let area=document.getElementById("logoutArea");
+
+let box =
+document.getElementById(
+"logoutArea"
+);
 
 
-if(area){
 
-area.innerHTML="";
+if(box){
+
+box.innerHTML="";
 
 }
 
@@ -265,14 +420,60 @@ area.innerHTML="";
 
 
 
-// LOAD SAVED LANGUAGE
 
-let savedLanguage =
-localStorage.getItem("language");
+// ==============================
+// CHECK LOGIN STATUS
+// ==============================
 
 
-if(savedLanguage){
+window.checkLogin=function(){
 
-window.selectedLanguage=savedLanguage;
+
+
+let user =
+localStorage.getItem(
+"customerEmail"
+);
+
+
+
+if(user){
+
+
+showLogout();
+
 
 }
+
+else{
+
+
+hideLogout();
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+// START
+
+window.onload=function(){
+
+
+checkLogin();
+
+
+
+updateCartCount();
+
+
+
+};
