@@ -7,7 +7,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Restoran Hameed's Bistro</title>
+<title>
+Restoran Hameed's Bistro
+</title>
 
 <link rel="icon" href="images/logo.png">
 
@@ -15,644 +17,1228 @@
 
 </head>
 
+
 <body>
 
-<!-- ===================================== -->
-<!-- WELCOME PAGE -->
-<!-- ===================================== -->
+
+<!-- =====================================
+WELCOME PAGE
+===================================== -->
+
 
 <div id="welcome">
 
-    <!-- TOP BAR -->
 
-    <div class="top-bar">
-
-        <button onclick="refreshPage()">
-            🔄 Refresh
-        </button>
-
-        <button onclick="showCart()">
-            🛒 Cart (<span id="cartCount">0</span>)
-        </button>
-
-    </div>
+<div class="top-bar">
 
 
-    <!-- LOGO -->
+<button onclick="refreshPage()">
 
-    <div class="logo-circle">
+🔄 Refresh
 
-        <img
-        src="images/logo.png"
-        class="logo">
-
-    </div>
+</button>
 
 
-    <h1>
-        Restoran Hameed's Bistro
-    </h1>
+<button onclick="showCart()">
 
-    <h2>
-        QR Menu & Ordering System
-    </h2>
+🛒 Cart
 
+(<span id="cartCount">0</span>)
 
-    <!-- LANGUAGE -->
+</button>
 
-    <div class="languages">
-
-        <button onclick="setLanguage('en')">English</button>
-
-        <button onclick="setLanguage('ms')">Malay</button>
-
-        <button onclick="setLanguage('ta')">Tamil</button>
-
-        <button onclick="setLanguage('zh')">Chinese</button>
-
-        <button onclick="setLanguage('hi')">Hindi</button>
-
-        <button onclick="setLanguage('bn')">Bangla</button>
-
-    </div>
-
-
-    <!-- ORDER TYPE -->
-
-    <div class="order-type">
-
-        <button
-        class="dine-btn"
-        onclick="startMenu('DINE IN')">
-
-            🍽 DINE IN
-
-        </button>
-
-
-        <button
-        class="take-btn"
-        onclick="startMenu('TAKE AWAY')">
-
-            🥡 TAKE AWAY
-
-        </button>
-
-    </div>
-
-
-    <!-- CUSTOMER BUTTON -->
-
-    <div class="welcome-login">
-
-        <button
-        id="customerBtn"
-        class="login-btn"
-        onclick="customerAction()">
-
-            👤 Customer Login
-
-        </button>
-
-    </div>
 
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- MENU PAGE -->
-<!-- ===================================== -->
+
+<div class="logo-circle">
+
+<img 
+src="images/logo.png"
+class="logo">
+
+</div>
+
+
+
+<h1>
+
+Restoran Hameed's Bistro
+
+</h1>
+
+
+
+<h2>
+
+QR Menu & Ordering System
+
+</h2>
+
+
+
+
+
+<div class="languages">
+
+
+<button onclick="setLanguage('en')">
+English
+</button>
+
+
+<button onclick="setLanguage('ms')">
+Malay
+</button>
+
+
+<button onclick="setLanguage('ta')">
+Tamil
+</button>
+
+
+<button onclick="setLanguage('zh')">
+Chinese
+</button>
+
+
+<button onclick="setLanguage('hi')">
+Hindi
+</button>
+
+
+<button onclick="setLanguage('bn')">
+Bangla
+</button>
+
+
+</div>
+
+
+
+
+
+
+<div class="order-type">
+
+
+<button
+
+class="dine-btn"
+
+onclick="startMenu('DINE IN')">
+
+🍽 DINE IN
+
+
+</button>
+
+
+
+<button
+
+class="take-btn"
+
+onclick="startMenu('TAKE AWAY')">
+
+
+🥡 TAKE AWAY
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="welcome-login">
+
+
+<button
+
+id="customerBtn"
+
+class="login-btn"
+
+onclick="customerAction()">
+
+
+👤 Customer Login
+
+
+</button>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<!-- =====================================
+MENU PAGE
+===================================== -->
+
 
 <div
+
 id="menuPage"
+
 style="display:none;">
 
 
-    <!-- TOP BAR -->
-
-    <div class="top-bar">
-
-        <button onclick="goBack()">
-
-            ⬅ Back
-
-        </button>
 
 
-        <button onclick="goHome()">
 
-            🏠 Home
-
-        </button>
+<div class="top-bar">
 
 
-        <button onclick="showPopular()">
 
-            ⭐ Popular
+<button onclick="goBack()">
 
-        </button>
+⬅ Back
 
-
-        <button onclick="refreshPage()">
-
-            🔄 Refresh
-
-        </button>
+</button>
 
 
-        <button onclick="showCart()">
 
-            🛒 Cart
-            (<span id="cartCount2">0</span>)
+<button onclick="goHome()">
 
-        </button>
+🏠 Home
 
-
-        <button
-        id="logoutBtn"
-        onclick="logoutUser()"
-        style="display:none;">
-
-            🚪 Logout
-
-        </button>
-
-    </div>
+</button>
 
 
-    <!-- LANGUAGE -->
 
-    <div class="languages small-language">
+<button onclick="showPopular()">
 
-        <button onclick="setLanguage('en')">English</button>
+⭐ Popular
 
-        <button onclick="setLanguage('ms')">Malay</button>
-
-        <button onclick="setLanguage('ta')">Tamil</button>
-
-        <button onclick="setLanguage('zh')">Chinese</button>
-
-        <button onclick="setLanguage('hi')">Hindi</button>
-
-        <button onclick="setLanguage('bn')">Bangla</button>
-
-    </div>
+</button>
 
 
-    <!-- CATEGORY BUTTON -->
 
-    <button
-    class="main-btn"
-    onclick="openCategory()">
+<button onclick="refreshPage()">
 
-        📋 SELECT CATEGORY
+🔄 Refresh
 
-    </button>
+</button>
 
 
-    <!-- CATEGORY LIST -->
 
-    <div
-    id="categoryBox"
-    style="display:none;">
+<button onclick="showCart()">
 
-    </div>
+🛒 Cart
 
+(<span id="cartCount2">0</span>)
 
-    <!-- POPULAR -->
-
-    <div id="popularSection">
-
-        <h2>
-
-            ⭐ Popular Items
-
-        </h2>
-
-        <div id="popularItems">
-
-        </div>
-
-    </div>
+</button>
 
 
-    <!-- MENU ITEMS -->
 
-    <div id="itemBox">
+<button
 
-    </div>
+id="logoutBtn"
+
+onclick="logoutUser()"
+
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
 
 </div>
-<!-- ===================================== -->
-<!-- CART PAGE -->
-<!-- ===================================== -->
+
+
+
+
+
+
+
+<div class="languages small-language">
+
+
+<button onclick="setLanguage('en')">
+English
+</button>
+
+
+<button onclick="setLanguage('ms')">
+Malay
+</button>
+
+
+<button onclick="setLanguage('ta')">
+Tamil
+</button>
+
+
+<button onclick="setLanguage('zh')">
+Chinese
+</button>
+
+
+<button onclick="setLanguage('hi')">
+Hindi
+</button>
+
+
+<button onclick="setLanguage('bn')">
+Bangla
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+<button
+
+class="main-btn"
+
+onclick="openCategory()">
+
+
+
+📋 SELECT CATEGORY
+
+
+
+</button>
+
+
+
+
+
+
 
 <div
+
+id="categoryBox"
+
+style="display:none;">
+
+
+</div>
+
+
+
+
+
+
+
+
+<div id="popularSection">
+
+
+<h2>
+
+⭐ Popular Items
+
+</h2>
+
+
+<div id="popularItems">
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div id="itemBox">
+
+
+</div>
+
+
+
+
+
+
+</div>
+<!-- =====================================
+CART PAGE
+===================================== -->
+
+
+<div
+
 id="cartPage"
+
 style="display:none;">
 
-    <div class="top-bar">
-
-        <button onclick="goBack()">
-            ⬅ Back
-        </button>
-
-        <button onclick="goHome()">
-            🏠 Home
-        </button>
-
-        <button onclick="refreshPage()">
-            🔄 Refresh
-        </button>
-
-        <button
-        id="logoutBtnCart"
-        onclick="logoutUser()"
-        style="display:none;">
-
-            🚪 Logout
-
-        </button>
-
-    </div>
 
 
-    <h2>
-        🛒 Your Cart
-    </h2>
-
-    <div id="cartItems">
-
-    </div>
+<div class="top-bar">
 
 
-    <h3 id="total">
 
-        Total : RM 0.00
+<button onclick="goBack()">
 
-    </h3>
+⬅ Back
+
+</button>
 
 
-    <button
-    class="main-btn"
-    onclick="checkout()">
 
-        ✅ CHECKOUT
+<button onclick="goHome()">
 
-    </button>
+🏠 Home
+
+</button>
+
+
+
+<button onclick="refreshPage()">
+
+🔄 Refresh
+
+</button>
+
+
+
+<button onclick="showCart()">
+
+🛒 Cart
+
+(<span id="cartCount3">0</span>)
+
+</button>
+
+
+
+
+<button
+
+id="logoutBtnCart"
+
+onclick="logoutUser()"
+
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
 
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- CHECKOUT / LOGIN PAGE -->
-<!-- ===================================== -->
+
+
+<h2>
+
+🛒 Your Cart
+
+</h2>
+
+
+
+
+<div id="cartItems">
+
+
+</div>
+
+
+
+
+<h3 id="total">
+
+Total : RM 0.00
+
+</h3>
+
+
+
+
+
+<button
+
+class="main-btn"
+
+onclick="checkout()">
+
+
+
+✅ CHECKOUT
+
+
+
+</button>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+CHECKOUT / LOGIN / PROFILE PAGE
+===================================== -->
+
 
 <div
+
 id="checkoutPage"
+
 style="display:none;">
 
-    <!-- TOP BAR -->
-
-    <div class="top-bar">
-
-        <button onclick="goBack()">
-            ⬅ Back
-        </button>
-
-        <button onclick="goHome()">
-            🏠 Home
-        </button>
-
-    </div>
 
 
-    <!-- LOGIN BOX -->
-
-    <div
-    id="loginBox"
-    class="auth-box">
-
-        <div class="logo-circle">
-
-            <img
-            src="images/logo.png"
-            class="logo">
-
-        </div>
-
-        <h2>
-
-            Restoran Hameed's Bistro Login
-
-        </h2>
 
 
-        <input
-        id="loginEmail"
-        type="email"
-        placeholder="Email Address">
+<!-- COMMON TOP BAR -->
+
+<div class="top-bar">
 
 
-        <input
-        id="loginPassword"
-        type="password"
-        placeholder="Password">
+
+<button onclick="goBack()">
+
+⬅ Back
+
+</button>
 
 
-        <button
-        class="login-btn"
-        onclick="loginUser()">
 
-            LOGIN
+<button onclick="goHome()">
 
-        </button>
+🏠 Home
 
-
-        <button
-        class="google-btn"
-        onclick="googleLogin()">
-
-            🌐 Sign In With Google
-
-        </button>
+</button>
 
 
-        <p
-        class="link"
-        onclick="showCreateAccount()">
 
-            Create Account
+<button
 
-        </p>
+id="logoutCheckoutBtn"
 
-    </div>
+onclick="logoutUser()"
+
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
+
 </div>
-<!-- ===================================== -->
-<!-- CREATE ACCOUNT -->
-<!-- ===================================== -->
+
+
+
+
+
+
+
+<!-- =====================================
+LOGIN BOX
+===================================== -->
+
 
 <div
+
+id="loginBox"
+
+class="auth-box">
+
+
+
+<div class="logo-circle">
+
+
+<img
+
+src="images/logo.png"
+
+class="logo">
+
+
+</div>
+
+
+
+
+
+<h2>
+
+Restoran Hameed's Bistro Login
+
+</h2>
+
+
+
+
+
+
+<input
+
+id="loginEmail"
+
+type="email"
+
+placeholder="Email Address">
+
+
+
+
+
+<input
+
+id="loginPassword"
+
+type="password"
+
+placeholder="Password">
+
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="loginUser()">
+
+
+
+LOGIN
+
+
+
+</button>
+
+
+
+
+
+
+
+<button
+
+class="google-btn"
+
+onclick="googleLogin()">
+
+
+
+🌐 Sign In With Google
+
+
+
+</button>
+
+
+
+
+
+
+
+
+<p
+
+class="link"
+
+onclick="showCreateAccount()">
+
+
+
+Create Account
+
+
+
+</p>
+
+
+
+
+</div>
+<!-- =====================================
+CREATE ACCOUNT BOX
+===================================== -->
+
+
+<div
+
 id="createBox"
+
 class="auth-box"
+
 style="display:none;">
 
-    <div class="logo-circle">
 
-        <img
-        src="images/logo.png"
-        class="logo">
 
-    </div>
+<div class="logo-circle">
 
-    <h2>
-        Create Account
-    </h2>
+<img
 
-    <input
-    id="createName"
-    placeholder="Customer Name">
+src="images/logo.png"
 
-    <input
-    id="createPhone"
-    placeholder="Phone Number">
+class="logo">
 
-    <input
-    id="createEmail"
-    type="email"
-    placeholder="Email Address">
-
-    <input
-    id="createPassword"
-    type="password"
-    placeholder="Password">
-
-    <input
-    id="confirmPassword"
-    type="password"
-    placeholder="Confirm Password">
-
-    <button
-    class="login-btn"
-    onclick="createAccount()">
-
-        CREATE ACCOUNT
-
-    </button>
-
-    <p
-    class="link"
-    onclick="showLogin()">
-
-        ← Back To Login
-
-    </p>
 
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- GOOGLE COMPLETE PROFILE -->
-<!-- ===================================== -->
+
+
+<h2>
+
+Create Account
+
+</h2>
+
+
+
+
+
+
+<input
+
+id="createName"
+
+placeholder="Customer Name">
+
+
+
+
+
+<input
+
+id="createPhone"
+
+placeholder="Phone Number">
+
+
+
+
+
+
+<input
+
+id="createEmail"
+
+type="email"
+
+placeholder="Email Address">
+
+
+
+
+
+
+<input
+
+id="createPassword"
+
+type="password"
+
+placeholder="Password">
+
+
+
+
+
+<input
+
+id="confirmPassword"
+
+type="password"
+
+placeholder="Confirm Password">
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="createAccount()">
+
+
+
+CREATE ACCOUNT
+
+
+
+</button>
+
+
+
+
+
+
+
+<p
+
+class="link"
+
+onclick="showLogin()">
+
+
+
+← Back To Login
+
+
+
+</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+GOOGLE COMPLETE PROFILE
+===================================== -->
+
 
 <div
+
 id="googleProfileBox"
+
 class="auth-box"
+
 style="display:none;">
 
-    <div class="logo-circle">
 
-        <img
-        src="images/logo.png"
-        class="logo">
 
-    </div>
+<div class="logo-circle">
 
-    <h2>
-        Complete Your Profile
-    </h2>
+<img
 
-    <input
-    id="googleName"
-    placeholder="Customer Name">
+src="images/logo.png"
 
-    <input
-    id="googleEmail"
-    readonly>
-
-    <input
-    id="googlePhone"
-    placeholder="Phone Number">
-
-    <button
-    class="login-btn"
-    onclick="saveGoogleProfile()">
-
-        SAVE PROFILE
-
-    </button>
+class="logo">
 
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- CUSTOMER PROFILE -->
-<!-- ===================================== -->
+
+
+<h2>
+
+Complete Your Profile
+
+</h2>
+
+
+
+
+
+
+<input
+
+id="googleName"
+
+placeholder="Customer Name">
+
+
+
+
+
+
+<input
+
+id="googleEmail"
+
+readonly>
+
+
+
+
+
+
+<input
+
+id="googlePhone"
+
+placeholder="Phone Number">
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="saveGoogleProfile()">
+
+
+
+SAVE PROFILE
+
+
+
+</button>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+CUSTOMER PROFILE
+===================================== -->
+
 
 <div
+
 id="customerProfileBox"
+
 class="auth-box"
+
 style="display:none;">
 
-    <div class="top-bar">
 
-        <button onclick="goBack()">
-            ⬅ Back
-        </button>
 
-        <button onclick="goHome()">
-            🏠 Home
-        </button>
 
-        <button
-        id="logoutProfileBtn"
-        onclick="logoutUser()">
 
-            🚪 Logout
 
-        </button>
+<div class="logo-circle">
 
-    </div>
+<img
 
-    <div class="logo-circle">
+src="images/logo.png"
 
-        <img
-        src="images/logo.png"
-        class="logo">
+class="logo">
 
-    </div>
-
-    <h2>
-
-        Customer Details
-
-    </h2>
-
-    <p><b>Customer Name</b></p>
-
-    <h3 id="profileName"></h3>
-
-    <p><b>Email Address</b></p>
-
-    <h3 id="profileEmail"></h3>
-
-    <p><b>Phone Number</b></p>
-
-    <h3 id="profilePhone"></h3>
-
-    <button
-    class="login-btn"
-    onclick="goHome()">
-
-        CLOSE
-
-    </button>
 
 </div>
 
 
 
-<!-- ===================================== -->
-<!-- CHECKOUT FORM -->
-<!-- ===================================== -->
+
+
+
+
+<h2>
+
+Customer Details
+
+</h2>
+
+
+
+
+
+
+<p>
+
+<b>
+Customer Name
+</b>
+
+</p>
+
+
+
+<h3 id="profileName">
+
+</h3>
+
+
+
+
+
+
+
+
+<p>
+
+<b>
+Email Address
+</b>
+
+</p>
+
+
+
+<h3 id="profileEmail">
+
+</h3>
+
+
+
+
+
+
+
+
+<p>
+
+<b>
+Phone Number
+</b>
+
+</p>
+
+
+
+<h3 id="profilePhone">
+
+</h3>
+
+
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="goHome()">
+
+
+
+CLOSE
+
+
+
+</button>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+CHECKOUT FORM
+===================================== -->
+
 
 <div
+
 id="checkoutForm"
+
 class="auth-box"
+
 style="display:none;">
 
-    <div class="logo-circle">
 
-        <img
-        src="images/logo.png"
-        class="logo">
 
-    </div>
+<div class="logo-circle">
 
-    <h2>
+<img
 
-        Checkout
+src="images/logo.png"
 
-    </h2>
-
-    <input
-    id="customerName"
-    readonly>
-
-    <input
-    id="phone"
-    readonly>
-
-    <input
-    id="tableNumber"
-    placeholder="Table Number">
-
-    <button
-    class="login-btn"
-    onclick="placeOrder()">
-
-        PLACE ORDER
-
-    </button>
+class="logo">
 
 </div>
-<!-- ===================================== -->
-<!-- FOOTER -->
-<!-- ===================================== -->
+
+
+
+
+
+
+<h2>
+
+Checkout
+
+</h2>
+
+
+
+
+
+
+
+
+<input
+
+id="customerName"
+
+readonly>
+
+
+
+
+
+
+
+
+<input
+
+id="phone"
+
+readonly>
+
+
+
+
+
+
+
+
+<input
+
+id="tableNumber"
+
+placeholder="Table Number">
+
+
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="placeOrder()">
+
+
+
+PLACE ORDER
+
+
+
+</button>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+<!-- END CHECKOUT PAGE -->
+
+
+
+
+
+
+
+<!-- =====================================
+FOOTER
+===================================== -->
+
 
 <footer>
 
-    © 2026 Prakash Rakhit. All Rights Reserved.
 
-    &nbsp; | &nbsp;
+© 2026 Prakash Rakhit. All Rights Reserved.
 
-    Version 1.0.0
+&nbsp; | &nbsp;
+
+Version 1.0.0
+
 
 </footer>
 
 
 
-<!-- ===================================== -->
-<!-- JAVASCRIPT -->
-<!-- ===================================== -->
 
-<!-- Firebase -->
+
+
+
+<!-- =====================================
+JAVASCRIPT
+===================================== -->
+
 
 <script type="module" src="js/firebase.js"></script>
 
-<!-- Authentication -->
-
 <script type="module" src="js/auth.js"></script>
-
-<!-- Main -->
 
 <script src="js/main.js"></script>
 
-<!-- Menu -->
-
 <script src="js/menu.js"></script>
-
-<!-- Cart -->
 
 <script src="js/cart.js"></script>
 
-<!-- Checkout -->
-
 <script type="module" src="js/checkout.js"></script>
+
+
 
 </body>
 
