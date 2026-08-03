@@ -306,3 +306,17 @@ font-size:14px;
 
 
 }
+#popularItems{
+    display:grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap:15px;
+}
+
+
+.popular-card{
+    display:block;
+    background:white;
+    border-radius:12px;
+    padding:10px;
+    text-align:center;
+}
