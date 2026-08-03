@@ -1,92 +1,177 @@
 <!DOCTYPE html>
-<html>
-<head>
-<link rel="icon" href="images/logo.png">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Restoran Hameed's Bistro</title>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Restoran Hameed's Bistro
+
+</title>
+
+<link rel="icon" href="images/logo.png">
 
 <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
 
+<!-- ========================= -->
 
-<!-- Welcome Page -->
+<!-- WELCOME PAGE -->
+
+<!-- ========================= -->
 
 <div id="welcome">
 
 <div class="top-bar">
 
-<button id="refreshBtn" onclick="refreshPage()">
+<button onclick="refreshPage()">
+
 🔄 Refresh
+
 </button>
 
-<button id="cartBtnTop" onclick="showCart()">
-🛒 Show Cart (<span id="cartCount">0</span>)
+<button onclick="showCart()">
+
+🛒 Cart
+
+(<span id="cartCount">0</span>)
+
 </button>
 
 </div>
 
-<img src="images/logo.png" class="logo">
+<img
 
+src="images/logo.png"
 
-<h1>Restoran Hameed's Bistro</h1>
+class="logo"
 
-<h2>Ordering System & Digital Menu</h2>
+>
 
+<h1>
+
+Restoran Hameed's Bistro
+
+</h1>
+
+<h2>
+
+QR Ordering System
+
+</h2>
+
+<!-- Language -->
 
 <div class="languages">
 
-<button onclick="setLanguage('en')">🇬🇧<br>English</button>
+<button onclick="setLanguage('en')">
 
-<button onclick="setLanguage('ms')">🇲🇾<br>Malay</button>
+🇬🇧
 
-<button onclick="setLanguage('ta')">🇮🇳<br>Tamil</button>
+English
 
-<button onclick="setLanguage('zh')">🇨🇳<br>Chinese</button>
+</button>
 
-<button onclick="setLanguage('hi')">🇮🇳<br>Hindi</button>
+<button onclick="setLanguage('ms')">
 
-<button onclick="setLanguage('bn')">🇧🇩<br>Bangla</button>
+🇲🇾
+
+Malay
+
+</button>
+
+<button onclick="setLanguage('ta')">
+
+🇮🇳
+
+Tamil
+
+</button>
+
+<button onclick="setLanguage('zh')">
+
+🇨🇳
+
+Chinese
+
+</button>
+
+<button onclick="setLanguage('hi')">
+
+🇮🇳
+
+Hindi
+
+</button>
+
+<button onclick="setLanguage('bn')">
+
+🇧🇩
+
+Bangla
+
+</button>
 
 </div>
 
+<!-- Order Type -->
 
 <div class="order-type">
 
 <button onclick="startMenu('DINE IN')">
-DINE IN
-</button>
 
+🍽️ DINE IN
+
+</button>
 
 <button onclick="startMenu('TAKE AWAY')">
-TAKE AWAY
+
+🥡 TAKE AWAY
+
 </button>
 
 </div>
 
+<!-- Customer Login -->
+
+<div class="welcome-login">
+
+<button
+
+class="main-btn"
+
+onclick="checkout()">
+
+👤 Customer Login
+
+</button>
 
 </div>
 
-
-
-
-
-<!-- Menu Page -->
+</div>
+<!-- ========================= -->
+<!-- MENU PAGE -->
+<!-- ========================= -->
 
 <div id="menuPage" style="display:none;">
 
 <div class="top-bar">
 
-<button id="backBtn" onclick="goBack()">
+<button onclick="goBack()">
 ⬅ Back
 </button>
 
-<button id="homeBtn" onclick="goHome()">
+<button onclick="goHome()">
 🏠 Home
 </button>
 
@@ -95,206 +180,315 @@ TAKE AWAY
 </button>
 
 <button onclick="showCart()">
-🛒 Show Cart (<span id="cartCount2">0</span>)
+🛒 Cart
+(<span id="cartCount2">0</span>)
 </button>
 
 </div>
 
-<button onclick="openCategory()" class="main-btn">
-SELECT CATEGORY
-</button>
+<button
+class="main-btn"
+onclick="openCategory()">
 
+📋 SELECT CATEGORY
+
+</button>
 
 <div id="categoryBox"></div>
 
+<!-- Popular Items -->
+
 <div id="popularSection">
 
-<h3>⭐ POPULAR ITEMS</h3>
+<h2>
 
-<div id="popularItems"></div>
+⭐ Popular Items
+
+</h2>
+
+<div id="popularItems">
+
+</div>
+
+</div>
+
+<!-- Menu Items -->
+
+<div id="itemBox">
+
+</div>
 
 </div>
 
 
-<div id="itemBox"></div>
 
 
 
-
-</div>
-
-
-
-
-
-<!-- Cart Page -->
+<!-- ========================= -->
+<!-- CART PAGE -->
+<!-- ========================= -->
 
 <div id="cartPage" style="display:none;">
 
-
 <h2>
-YOUR CART
+
+🛒 Your Cart
+
 </h2>
 
-
-<div id="cartItems"></div>
-
-
-<h3 id="total"></h3>
-
-
-<button onclick="checkout()" class="main-btn">
-CHECKOUT
-</button>
-
-
-<button onclick="goBack()" class="back-btn">
-⬅ BACK
-</button>
-
-<button onclick="goHome()" class="main-btn">
-🏠 HOME
-</button>
-
-<button onclick="refreshPage()" class="main-btn">
-🔄 REFRESH
-</button>
-
+<div id="cartItems">
 
 </div>
 
+<h3 id="total">
 
+Total : RM 0.00
 
+</h3>
 
+<div class="cart-buttons">
 
-<!-- Checkout Page -->
+<button
+class="main-btn"
+onclick="checkout()">
+
+✅ CHECKOUT
+
+</button>
+
+<button
+class="back-btn"
+onclick="goBack()">
+
+⬅ BACK
+
+</button>
+
+<button
+class="main-btn"
+onclick="goHome()">
+
+🏠 HOME
+
+</button>
+
+<button
+class="main-btn"
+onclick="refreshPage()">
+
+🔄 REFRESH
+
+</button>
+
+</div>
+
+</div>
+<!-- ========================= -->
+<!-- CHECKOUT PAGE -->
+<!-- ========================= -->
 
 <div id="checkoutPage" style="display:none;">
 
+<!-- ========================= -->
+<!-- LOGIN BOX -->
+<!-- ========================= -->
 
-<h2>
-CHECKOUT
-</h2>
-
-
-<div id="tableInput"></div>
-
-
-<input id="customerName" placeholder="Customer Name">
-
-
-<input id="phone" placeholder="Phone Number">
-
-
-
-<button onclick="placeOrder()" class="main-btn">
-PLACE ORDER
-</button>
-<button onclick="goBack()" class="back-btn">
-⬅ BACK
-</button>
-
-<button onclick="goHome()" class="main-btn">
-🏠 HOME
-</button>
-
-<button onclick="refreshPage()" class="main-btn">
-🔄 REFRESH
-</button>
-
-</div>
-
-
-
-
-
-<script type="module" src="script.js"></script>
+<div id="loginBox">
 <div id="loginBox" style="display:none;">
 
 <h2>Customer Login</h2>
 
-<input id="loginEmail" 
-placeholder="Email ID">
+<input
+id="loginEmail"
+type="email"
+placeholder="Email Address">
 
-<input id="loginPassword" 
+<input
+id="loginPassword"
 type="password"
 placeholder="Password">
 
+<button
+class="main-btn"
+onclick="loginUser()">
 
-<input id="loginPhone"
-placeholder="Phone Number"
-style="display:none;">
-
-
-<button onclick="loginUser()">
 LOGIN
+
 </button>
 
+<button
+class="google-btn"
+onclick="googleLogin()">
 
-<button onclick="googleLogin()">
 Sign in with Google
+
 </button>
 
+<p class="link"
 
-<p onclick="showCreateAccount()">
+onclick="showCreateAccount()">
+
 Create Account
+
 </p>
 
-
 </div>
+
+
+
+<!-- ========================= -->
+<!-- CREATE ACCOUNT -->
+<!-- ========================= -->
+
 <div id="createBox" style="display:none;">
 
 <h2>Create Account</h2>
 
-
-<input id="createName"
+<input
+id="createName"
 placeholder="Customer Name">
 
-
-<input id="createPhone"
+<input
+id="createPhone"
 placeholder="Phone Number">
 
+<input
+id="createEmail"
+type="email"
+placeholder="Email Address">
 
-<input id="createEmail"
-placeholder="Email ID">
-
-
-<input id="createPassword"
+<input
+id="createPassword"
 type="password"
 placeholder="Password">
 
-
-<input id="confirmPassword"
+<input
+id="confirmPassword"
 type="password"
 placeholder="Confirm Password">
 
+<button
+class="main-btn"
+onclick="createAccount()">
 
-<button onclick="createAccount()">
 CREATE ACCOUNT
+
 </button>
 
+<p class="link"
 
-<p onclick="showLogin()">
+onclick="showLogin()">
+
 Back To Login
+
 </p>
 
-
 </div>
+
+
+
+<!-- ========================= -->
+<!-- COMPLETE PROFILE -->
+<!-- ========================= -->
+
 <div id="phoneBox" style="display:none;">
 
-<h2>Complete Profile</h2>
+<h2>
 
+Complete Profile
 
-<input id="googlePhone"
+</h2>
+
+<p>
+
+Please enter your phone number.
+
+</p>
+
+<input
+id="googlePhone"
 placeholder="Phone Number">
 
+<button
+class="main-btn"
+onclick="saveGooglePhone()">
 
-<button onclick="saveGooglePhone()">
 SAVE
+
 </button>
 
+</div>
+
+
+
+<!-- ========================= -->
+<!-- CHECKOUT FORM -->
+<!-- ========================= -->
+
+<div
+id="checkoutForm"
+style="display:none;">
+
+<h2>
+
+Checkout
+
+</h2>
+
+<div id="tableInput">
 
 </div>
+
+<input
+id="customerName"
+placeholder="Customer Name"
+readonly>
+
+<input
+id="phone"
+placeholder="Phone Number"
+readonly>
+
+<button
+class="main-btn"
+onclick="placeOrder()">
+
+PLACE ORDER
+
+</button>
+
+<button
+class="back-btn"
+onclick="goBack()">
+
+⬅ BACK
+
+</button>
+
+<button
+class="main-btn"
+onclick="goHome()">
+
+🏠 HOME
+
+</button>
+
+<button
+class="main-btn"
+onclick="refreshPage()">
+
+🔄 REFRESH
+
+</button>
+
+</div>
+
+</div>
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script type="module" src="script.js"></script>
 
 </body>
 
