@@ -8,6 +8,8 @@ body{
 }
 
 
+/* Welcome Page */
+
 #welcome{
     min-height:100vh;
     padding-top:20px;
@@ -35,16 +37,22 @@ h2{
 }
 
 
+
+/* Language Buttons */
+
 .languages{
+
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
     gap:10px;
     margin:25px;
+
 }
 
 
 .languages button{
+
     width:90px;
     height:70px;
     border:none;
@@ -52,10 +60,15 @@ h2{
     background:white;
     color:#064b9b;
     font-weight:bold;
+
 }
 
 
+
+/* Order Button */
+
 .order-type button{
+
     width:160px;
     height:55px;
     margin:10px;
@@ -65,10 +78,12 @@ h2{
     color:#064b9b;
     font-size:18px;
     font-weight:bold;
+
 }
 
 
 
+/* Pages */
 
 #menuPage,
 #cartPage,
@@ -82,6 +97,8 @@ h2{
 }
 
 
+
+/* Top Buttons */
 
 .main-btn,
 .back-btn,
@@ -99,28 +116,39 @@ h2{
 
 
 
+/* Category */
+
 .category{
 
     display:block;
     width:90%;
     margin:10px auto;
     padding:15px;
+
     background:#064b9b;
     color:white;
+
+    border:none;
     border-radius:10px;
+
     font-size:17px;
 
 }
 
 
 
+/* Menu Items */
+
 .item{
 
     background:#f1f1f1;
     color:#222;
+
     padding:15px;
     margin:10px;
+
     border-radius:10px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -133,190 +161,178 @@ h2{
 
     background:green;
     color:white;
+
     border:none;
     padding:8px 15px;
+
     border-radius:8px;
 
 }
 
 
 
-.cart-item{
+/* ======================
+   POPULAR ITEMS GRID
+====================== */
 
-    background:#eee;
+
+#popularSection{
+
+    width:100%;
+
+}
+
+
+#popularItems{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    width:100%;
+
+    margin-top:15px;
+
+}
+
+
+
+.popular-card{
+
+    background:white;
+
     color:#222;
-    padding:15px;
-    margin:10px;
+
+    border-radius:12px;
+
+    padding:10px;
+
+    text-align:center;
+
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+
+}
+
+
+
+.popular-card img{
+
+    width:100%;
+
+    height:120px;
+
+    object-fit:cover;
+
     border-radius:10px;
 
 }
 
 
 
-.qty button{
+.popular-card b{
 
-    padding:5px 12px;
+    display:block;
+
+    font-size:16px;
+
+    margin-top:8px;
+
+}
+
+
+
+.popular-card p{
+
+    font-size:15px;
+
+    font-weight:bold;
+
     margin:5px;
 
 }
 
 
 
+.popular-card button{
+
+    background:green;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 15px;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+}
+
+
+
+/* Cart */
+
+.cart-item{
+
+    background:#eee;
+
+    color:#222;
+
+    padding:15px;
+
+    margin:10px;
+
+    border-radius:10px;
+
+}
+
+
+
+/* Input */
+
 input{
 
     width:85%;
+
     padding:15px;
+
     margin:10px;
+
     font-size:16px;
+
     border-radius:8px;
+
     border:1px solid #ccc;
 
 }
-/* Popular Items Grid */
-
-#popularItems{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:15px;
-
-width:100%;
-
-margin-top:15px;
-
-}
 
 
 
-/* Popular Card */
-
-.popular-card{
-
-background:white;
-
-border-radius:12px;
-
-padding:10px;
-
-text-align:center;
-
-box-shadow:0 2px 8px rgba(0,0,0,0.15);
-
-overflow:hidden;
-
-}
-
-
-
-/* Popular Image */
-
-.popular-card img{
-
-width:100%;
-
-height:120px;
-
-object-fit:cover;
-
-border-radius:10px;
-
-}
-
-
-
-/* Item Name */
-
-.popular-card b{
-
-display:block;
-
-font-size:18px;
-
-margin-top:8px;
-
-}
-
-
-
-/* Price */
-
-.popular-card p{
-
-font-size:16px;
-
-font-weight:bold;
-
-margin:5px;
-
-}
-
-
-
-/* Add Button */
-
-.popular-card button{
-
-background:#008000;
-
-color:white;
-
-border:none;
-
-padding:8px 18px;
-
-border-radius:8px;
-
-font-size:16px;
-
-cursor:pointer;
-
-}
-
-
-
-
-
-/* Mobile Responsive */
+/* Mobile */
 
 @media(max-width:600px){
 
-#popularItems{
+    #popularItems{
 
-grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
 
-gap:10px;
-
-}
+    }
 
 
-.popular-card img{
+    .popular-card img{
 
-height:100px;
+        height:100px;
 
-}
-
-
-.popular-card b{
-
-font-size:14px;
-
-}
+    }
 
 
-}
-#popularItems{
-    display:grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap:15px;
-}
+    .popular-card b{
 
+        font-size:14px;
 
-.popular-card{
-    display:block;
-    background:white;
-    border-radius:12px;
-    padding:10px;
-    text-align:center;
+    }
+
 }
