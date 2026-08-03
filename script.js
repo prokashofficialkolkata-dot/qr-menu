@@ -465,9 +465,9 @@ goBack();
 // Checkout
 
 function checkout(){
-    
+
     pageHistory.push("checkoutPage");
-    
+
     showPage("checkoutPage");
 
 
@@ -477,9 +477,7 @@ function checkout(){
     if(selectedType=="DINE IN"){
 
         box.innerHTML=`
-
         <input id="tableNumber" placeholder="Table Number">
-
         `;
 
     }else{
@@ -489,7 +487,6 @@ function checkout(){
     }
 
 }
-
 
 
 // Place Order
