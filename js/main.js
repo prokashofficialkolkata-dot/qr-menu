@@ -1,90 +1,69 @@
-// =================================
-// MAIN.JS
-// =================================
-
+// =====================================
+// RESTORAN HAMEED'S BISTRO
+// MAIN.JS FINAL
+// =====================================
 
 
 let currentPage = "welcome";
 
-let previousPage = [];
-
-let orderType = "";
+let historyPage = [];
 
 
 
 
 // ================================
-// PAGE SHOW SYSTEM
+// SHOW PAGE
 // ================================
-
 
 window.showPage = function(page){
 
 
-
-// save previous page
-
-if(currentPage !== page){
-
-previousPage.push(currentPage);
-
-}
+    const pages = [
+        "welcome",
+        "menuPage",
+        "cartPage",
+        "checkoutPage"
+    ];
 
 
-
-document.querySelectorAll(
-
-"body > div"
-
-).forEach(function(div){
+    pages.forEach(function(id){
 
 
-if(
-div.id &&
-div.id !== "toast"
-){
-
-div.style.display="none";
-
-}
+        let el = document.getElementById(id);
 
 
-});
+        if(el){
+
+            el.style.display = "none";
+
+        }
+
+
+    });
 
 
 
-
-let target = document.getElementById(page);
-
-
-
-if(target){
-
-target.style.display="block";
-
-currentPage = page;
-
-
-}
+    let target = document.getElementById(page);
 
 
 
+    if(target){
 
-window.scrollTo({
+        target.style.display = "block";
 
-top:0,
-
-behavior:"smooth"
-
-});
+    }
 
 
+    currentPage = page;
 
 
-// update logout
+    window.scrollTo({
 
-checkLoginStatus();
+        top:0,
 
+        behavior:"smooth"
+
+    });
 
 
 };
@@ -95,21 +74,17 @@ checkLoginStatus();
 
 
 
-
-
 // ================================
-// HOME
+// HOME BUTTON
 // ================================
 
-
-window.goHome=function(){
-
+window.goHome = function(){
 
 
-previousPage=[];
+    historyPage=[];
 
 
-showPage("welcome");
+    showPage("welcome");
 
 
 };
@@ -120,113 +95,34 @@ showPage("welcome");
 
 
 
-
-
-
 // ================================
-// BACK
+// BACK BUTTON
 // ================================
 
-
-window.goBack=function(){
-
+window.goBack = function(){
 
 
-let last = previousPage.pop();
+    if(historyPage.length > 0){
 
 
-
-if(last){
-
-
-showPage(last);
+        let oldPage = historyPage.pop();
 
 
-}
-
-else{
+        showPage(oldPage);
 
 
-showPage("welcome");
+    }
+
+    else{
 
 
-}
+        showPage("welcome");
 
+
+    }
 
 
 };
-
-
-
-
-
-
-
-
-
-// ================================
-// REFRESH SAME PAGE
-// ================================
-
-
-window.refreshPage=function(){
-
-
-
-let page=currentPage;
-
-
-
-if(page==="welcome"){
-
-location.reload();
-
-return;
-
-}
-
-
-
-
-showPage(page);
-
-
-
-
-// reload menu data
-
-if(
-typeof loadCSV === "function"
-){
-
-loadCSV();
-
-
-}
-
-
-
-
-if(
-typeof displayCart === "function"
-){
-
-displayCart();
-
-
-}
-
-
-
-showToast(
-"Hameed's Bistro Refreshed"
-);
-
-
-
-};
-
-
 
 
 
@@ -238,41 +134,177 @@ showToast(
 // START MENU
 // ================================
 
-
-window.startMenu=function(type){
-
-
-
-orderType=type;
-
-
-localStorage.setItem(
-
-"orderType",
-
-type
-
-);
+window.startMenu = function(type){
 
 
 
-showPage("menuPage");
+    localStorage.setItem(
+        "orderType",
+        type
+    );
 
 
 
-if(
-typeof loadCSV === "function"
-){
+    historyPage.push(currentPage);
 
-loadCSV();
 
-}
+
+    showPage("menuPage");
+
+
+
+    // default view
+
+    if(typeof loadCSV === "function"){
+
+
+        loadCSV();
+
+
+    }
 
 
 
 };
 
 
+
+
+
+
+
+// ================================
+// REFRESH
+// SAME PAGE KEEP
+// ================================
+
+
+window.refreshPage=function(){
+
+
+
+    let stayPage=currentPage;
+
+
+
+    showPage(stayPage);
+
+
+
+    if(stayPage==="menuPage"){
+
+
+        if(typeof loadCSV==="function"){
+
+
+            loadCSV();
+
+
+        }
+
+
+    }
+
+
+
+
+    if(stayPage==="cartPage"){
+
+
+        if(typeof displayCart==="function"){
+
+
+            displayCart();
+
+
+        }
+
+
+    }
+
+
+
+    showToast(
+        "Hameed's Bistro Refresh"
+    );
+
+
+
+};
+
+
+
+
+
+
+
+// ================================
+// SELECT CATEGORY BUTTON
+// ================================
+
+
+window.openCategory=function(){
+
+
+
+    let box=document.getElementById(
+        "categoryBox"
+    );
+
+
+
+    if(!box) return;
+
+
+
+
+    if(box.style.display==="flex"){
+
+
+
+        // close category
+
+        box.style.display="none";
+
+
+
+        // restore previous view
+
+        if(typeof restoreMenuView==="function"){
+
+
+            restoreMenuView();
+
+
+        }
+
+
+
+    }
+
+    else{
+
+
+
+        box.style.display="flex";
+
+
+
+        if(typeof loadCategory==="function"){
+
+
+            loadCategory();
+
+
+        }
+
+
+
+    }
+
+
+
+};
 
 
 
@@ -289,51 +321,40 @@ window.showPopular=function(){
 
 
 
-showPage("menuPage");
+    if(currentPage!=="menuPage"){
+
+
+        showPage("menuPage");
+
+
+    }
 
 
 
-setTimeout(function(){
 
-
-let section=
-
-document.getElementById(
-
-"popularSection"
-
-);
+    let categoryBox=document.getElementById(
+        "categoryBox"
+    );
 
 
 
-if(section){
+    if(categoryBox){
 
 
-section.scrollIntoView({
-
-behavior:"smooth"
-
-});
+        categoryBox.style.display="none";
 
 
-}
+    }
 
 
 
-if(
-typeof showPopularItems === "function"
-
-){
+    if(typeof showPopularItems==="function"){
 
 
-showPopularItems();
+        showPopularItems();
 
 
-}
-
-
-
-},200);
+    }
 
 
 
@@ -345,10 +366,41 @@ showPopularItems();
 
 
 
+// ================================
+// CART
+// ================================
+
+
+window.showCart=function(){
+
+
+
+    historyPage.push(currentPage);
+
+
+    showPage("cartPage");
+
+
+
+    if(typeof displayCart==="function"){
+
+
+        displayCart();
+
+
+    }
+
+
+};
+
+
+
+
+
 
 
 // ================================
-// CUSTOMER LOGIN
+// CHECKOUT LOGIN
 // ================================
 
 
@@ -356,25 +408,81 @@ window.checkout=function(){
 
 
 
-showPage("checkoutPage");
+    historyPage.push(currentPage);
 
 
 
-if(
-typeof showLogin === "function"
-
-){
+    showPage("checkoutPage");
 
 
-showLogin();
+
+    if(typeof showLogin==="function"){
 
 
-}
+        showLogin();
 
+
+    }
 
 
 };
 
+
+
+
+
+
+
+// ================================
+// TOAST
+// ================================
+
+
+window.showToast=function(message){
+
+
+
+    let toast=document.getElementById(
+        "toast"
+    );
+
+
+
+    if(!toast){
+
+
+        toast=document.createElement("div");
+
+        toast.id="toast";
+
+        document.body.appendChild(toast);
+
+
+    }
+
+
+
+
+    toast.innerHTML=message;
+
+
+
+    toast.classList.add("show");
+
+
+
+
+    setTimeout(function(){
+
+
+        toast.classList.remove("show");
+
+
+    },1000);
+
+
+
+};
 
 
 
@@ -392,96 +500,51 @@ window.checkLoginStatus=function(){
 
 
 
-let login=
-
-localStorage.getItem(
-
-"loggedIn"
-
-);
+    let login =
+    localStorage.getItem(
+        "loggedIn"
+    );
 
 
 
+    let logoutButtons=[
 
-let buttons=
+        "logoutBtn",
+        "logoutBtnCart"
 
-[
-
-"logoutBtn",
-
-"logoutBtnCart"
-
-];
+    ];
 
 
 
-
-buttons.forEach(function(id){
-
-
-let btn=document.getElementById(id);
+    logoutButtons.forEach(function(id){
 
 
-
-if(btn){
+        let btn=document.getElementById(id);
 
 
 
-if(login==="yes"){
-
-
-btn.style.display="block";
-
-
-}
-
-else{
-
-
-btn.style.display="none";
-
-
-}
+        if(btn){
 
 
 
-}
+            btn.style.display =
+            login==="yes"
+            ?
+            "block"
+            :
+            "none";
 
 
 
-});
+        }
+
+
+
+    });
 
 
 
 };
-
-
-
-
-
-
-
-
-
-// ================================
-// DINE / TAKE ORDER TYPE GET
-// ================================
-
-
-window.getOrderType=function(){
-
-
-
-return localStorage.getItem(
-
-"orderType"
-
-) || "";
-
-
-
-};
-
 
 
 
@@ -497,24 +560,10 @@ return localStorage.getItem(
 window.onload=function(){
 
 
-
-currentPage="welcome";
-
+    showPage("welcome");
 
 
-checkLoginStatus();
-
-
-
-if(
-typeof updateCartCount === "function"
-){
-
-updateCartCount();
-
-
-}
-
+    checkLoginStatus();
 
 
 };
