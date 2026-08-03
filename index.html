@@ -1026,7 +1026,92 @@ class="login-btn"
 
 onclick="placeOrder()">
 
+<!-- ========================= -->
+<!-- CUSTOMER PROFILE -->
+<!-- ========================= -->
 
+<div id="profileBox" class="auth-box" style="display:none;">
+
+
+<div class="top-bar">
+
+<button onclick="goBack()">
+⬅ Back
+</button>
+
+
+<button onclick="goHome()">
+🏠 Home
+</button>
+
+
+<button 
+id="logoutProfileBtn"
+onclick="logoutUser()">
+
+🚪 Logout
+
+</button>
+
+</div>
+
+
+
+<div class="logo-circle">
+
+<img 
+src="images/logo.png"
+class="logo">
+
+</div>
+
+
+
+<h2>
+Customer Details
+</h2>
+
+
+
+<p>
+👤 Name:
+</p>
+
+<h3 id="profileName">
+</h3>
+
+
+
+<p>
+📧 Email:
+</p>
+
+<h3 id="profileEmail">
+</h3>
+
+
+
+<p>
+📱 Phone:
+</p>
+
+<h3 id="profilePhone">
+</h3>
+
+
+
+
+<button 
+class="login-btn"
+onclick="goHome()">
+
+CLOSE
+
+</button>
+
+
+
+</div>
 
 PLACE ORDER
 
