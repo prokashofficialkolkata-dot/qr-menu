@@ -128,6 +128,9 @@ pageHistory.push("menuPage");
 
 showPage("menuPage");
 
+document.getElementById("categoryBox").innerHTML="";
+document.getElementById("itemBox").innerHTML="";
+
 loadCSV();
 
 }
@@ -180,7 +183,6 @@ takeaway:col[3].trim()
 });
 
 openCategory();
-showItems("ALL");
 
 });
 
@@ -192,8 +194,13 @@ showItems("ALL");
 
 function openCategory(){
 
-
 let box=document.getElementById("categoryBox");
+
+
+if(box.innerHTML !== ""){
+    box.innerHTML="";
+    return;
+}
 
 
 box.innerHTML="";
