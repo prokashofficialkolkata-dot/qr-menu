@@ -296,8 +296,11 @@ itemBox.innerHTML = "";
 
 if(popular){
 
-popular.style.display = "block";
+    popular.style.display = "block";
 
+    showPopularItems();
+
+}
 }
 
 
