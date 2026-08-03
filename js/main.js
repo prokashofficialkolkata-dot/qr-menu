@@ -743,7 +743,6 @@ displayCart();
 window.checkout=function(){
 
 
-
 historyPage.push(currentPage);
 
 
@@ -752,9 +751,34 @@ showPage("checkoutPage");
 
 
 
-if(typeof showLogin==="function"){
+let login =
+localStorage.getItem("loggedIn");
+
+
+
+if(login==="yes"){
+
+
+if(typeof openCheckoutForm==="function"){
+
+openCheckoutForm();
+
+}
+else{
+
+openProfile();
+
+}
+
+
+
+}
+
+else{
+
 
 showLogin();
+
 
 }
 
