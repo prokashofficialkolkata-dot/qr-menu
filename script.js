@@ -1035,40 +1035,36 @@ alert(error.message);
 //Google Phone
 async function saveGooglePhone(){
 
-let phone =
-document.getElementById("googlePhone").value.trim();
+let phone = document.getElementById("googlePhone").value;
 
 
 if(phone==""){
-
 alert("Phone Number Required");
 return;
-
 }
 
 
-localStorage.setItem("customerPhone",phone);
+let user = auth.currentUser;
+
+
+await setDoc(
+doc(db,"customers",user.uid),
+{
+name:user.displayName,
+email:user.email,
+phone:phone,
+uid:user.uid
+}
+);
+
+
+alert("Profile Completed");
 
 
 document.getElementById("phoneBox").style.display="none";
 
 
-// Checkout দেখাবে
-
 showPage("checkoutPage");
-
-
-// Auto fill
-
-document.getElementById("customerName").value =
-localStorage.getItem("customerName") || "";
-
-
-document.getElementById("phone").value =
-localStorage.getItem("customerPhone") || "";
-
-
-alert("Profile Completed");
 
 
 }
@@ -1085,10 +1081,36 @@ let phone =
 document.getElementById("phone").value.trim();
 
 
+let table="TAKE AWAY";
+
+
+if(selectedType=="DINE IN"){
+
+
+let tableInput =
+document.getElementById("tableNumber");
+
+
+if(!tableInput || tableInput.value.trim()==""){
+
+alert("Table Number Required");
+
+return;
+
+}
+
+
+table=tableInput.value.trim();
+
+
+}
+
+
 
 if(customerName==""){
 
 alert("Customer Name Required");
+
 return;
 
 }
@@ -1097,198 +1119,43 @@ return;
 if(phone==""){
 
 alert("Phone Number Required");
-return;
-
-}
-
-
-
-let table="TAKE AWAY";
-
-
-if(selectedType=="DINE IN"){
-
-
-table =
-document.getElementById("tableNumber").value.trim();
-
-
-
-if(table==""){
-
-alert("Table Number Required");
-return;
-
-}
-
-
-}
-
-
-
-
-await addDoc(collection(db,"orders"),{
-
-
-type:selectedType,
-
-tableNumber:table,
-
-customerName:customerName,
-
-phone:phone,
-
-items:cart,
-
-time:new Date(),
-
-status:"NEW"
-
-
-});
-
-
-
-alert("Order Sent Successfully");
-
-
-
-cart=[];
-
-localStorage.removeItem("cart");
-
-
-}
-
-
-
-// Phone Check
-
-if(phone === ""){
-
-alert("Phone Number Required");
 
 return;
 
 }
 
-
-
-
-// Dine In Table Check
-
-if(selectedType === "DINE IN"){
-
-
-let tableInput = document.getElementById("tableNumber");
-
-
-if(!tableInput || tableInput.value.trim()===""){
-
-
-alert("Table Number Required");
-
-return;
-
-
-}
-
-
-table = tableInput.value.trim();
-
-
-}
-
-
-
-
-// Cart Check
-
-if(cart.length === 0){
-
-
-alert("Cart is Empty");
-
-return;
-
-
-}
-
-
-
-
-
-try{
 
 
 await addDoc(
 collection(db,"orders"),
 {
 
-
 type:selectedType,
-
 
 tableNumber:table,
 
-
 customerName:customerName,
-
 
 phone:phone,
 
-
 items:cart,
-
 
 time:new Date(),
 
-
 status:"NEW"
-
 
 });
 
 
-
 alert("Order Sent Successfully");
 
-
-
-// Clear Cart
 
 cart=[];
 
 localStorage.removeItem("cart");
 
 
-
-// Go Home
-
-goHome();
-
-
-
 }
-
-
-catch(error){
-
-
-console.log(error);
-
-alert("Order Failed");
-
-
-}
-
-
-
-}
-
-
-
-
 
 // Export Functions
 
