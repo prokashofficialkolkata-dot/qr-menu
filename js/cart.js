@@ -1,27 +1,36 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// CART.JS FINAL
+// CART.JS FINAL WITH QUANTITY
 // =====================================
 
 
 
-// ================================
 // GET CART
-// ================================
 
 function getCart(){
 
-
-let cart = JSON.parse(
-localStorage.getItem("cart")
-)
-|| [];
-
-
-return cart;
-
+    return JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
 }
+
+
+
+
+
+
+// SAVE CART
+
+function saveCart(cart){
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+}
+
 
 
 
@@ -36,47 +45,121 @@ return cart;
 window.updateCartCount=function(){
 
 
-
-let cart=getCart();
-
+    let cart=getCart();
 
 
-let count=cart.length;
+    let count=0;
 
 
+    cart.forEach(function(item){
 
-let ids=[
+        count += Number(item.qty) || 0;
 
-"cartCount",
-
-"cartCount2",
-
-"cartCount3"
-
-];
+    });
 
 
 
-
-ids.forEach(function(id){
-
-
-
-let el=document.getElementById(id);
-
+    [
+        "cartCount",
+        "cartCount2",
+        "cartCount3"
+    ].forEach(function(id){
 
 
-if(el){
+        let el=document.getElementById(id);
 
 
-el.innerHTML=count;
+        if(el){
+
+            el.innerHTML=count;
+
+        }
 
 
-}
+    });
+
+
+};
 
 
 
-});
+
+
+
+
+
+
+// ================================
+// ADD ITEM
+// ================================
+
+
+window.addToCart=function(name,price){
+
+
+
+    let cart=getCart();
+
+
+
+    let found=cart.find(function(item){
+
+
+        return item.name===name;
+
+
+    });
+
+
+
+
+
+    if(found){
+
+
+        found.qty += 1;
+
+
+    }
+
+    else{
+
+
+        cart.push({
+
+            name:name,
+
+            price:Number(price),
+
+            qty:1
+
+        });
+
+
+    }
+
+
+
+
+
+    saveCart(cart);
+
+
+
+    updateCartCount();
+
+
+
+
+    showToast(
+
+    "Hameed's Bistro says "
+    +
+    name
+    +
+    " Added"
+
+    );
 
 
 
@@ -99,114 +182,152 @@ window.displayCart=function(){
 
 
 
-let cart=getCart();
+    let cart=getCart();
 
 
 
-let box=document.getElementById(
-"cartItems"
-);
+    let box=document.getElementById(
+        "cartItems"
+    );
 
 
 
-if(!box) return;
+    if(!box) return;
 
 
 
-box.innerHTML="";
+    box.innerHTML="";
 
 
 
 
 
-if(cart.length===0){
+    if(cart.length===0){
 
 
+        box.innerHTML=
 
-box.innerHTML=`
+        `
+        <h3 style="text-align:center">
+        🛒 Cart Empty
+        </h3>
+        `;
 
-<h3 style="text-align:center">
 
-🛒 Cart Empty
+        updateTotal();
 
-</h3>
 
-`;
+        updateCartCount();
 
 
+        return;
 
-updateCartCount();
 
+    }
 
 
-updateTotal();
 
 
 
-return;
 
 
-}
 
+    cart.forEach(function(item,index){
 
 
 
+        let div=document.createElement(
+            "div"
+        );
 
 
 
-cart.forEach(function(item,index){
+        div.className="cart-item";
 
 
 
-let div=document.createElement("div");
 
 
+        div.innerHTML=
 
-div.className="cart-item";
 
+        `
 
+        <div>
 
+        <b>${item.name}</b>
 
-div.innerHTML=`
+        <br>
 
-<div>
+        RM ${Number(item.price).toFixed(2)}
 
-<b>${item.name}</b>
+        </div>
 
-<br>
 
-RM ${Number(item.price).toFixed(2)}
 
-</div>
+        <div>
 
 
+        <button onclick="decreaseQty(${index})">
 
-<button onclick="removeCartItem(${index})">
+        -
 
-❌
+        </button>
 
-</button>
 
-`;
 
+        <b style="padding:10px">
 
+        ${item.qty}
 
+        </b>
 
-box.appendChild(div);
 
 
+        <button onclick="increaseQty(${index})">
 
-});
+        +
 
+        </button>
 
 
 
+        <br><br>
 
-updateCartCount();
 
 
+        <button 
+        onclick="removeCartItem(${index})">
 
-updateTotal();
+        ❌ Remove
+
+        </button>
+
+
+
+        </div>
+
+
+        `;
+
+
+
+
+
+        box.appendChild(div);
+
+
+
+    });
+
+
+
+
+
+    updateTotal();
+
+
+    updateCartCount();
 
 
 
@@ -221,7 +342,93 @@ updateTotal();
 
 
 // ================================
-// REMOVE ITEM
+// INCREASE
+// ================================
+
+
+window.increaseQty=function(index){
+
+
+
+    let cart=getCart();
+
+
+
+    cart[index].qty += 1;
+
+
+
+    saveCart(cart);
+
+
+
+    displayCart();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
+// DECREASE
+// ================================
+
+
+window.decreaseQty=function(index){
+
+
+
+    let cart=getCart();
+
+
+
+    if(cart[index].qty>1){
+
+
+        cart[index].qty -=1;
+
+
+    }
+
+    else{
+
+
+        cart.splice(index,1);
+
+
+    }
+
+
+
+
+
+    saveCart(cart);
+
+
+
+    displayCart();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ================================
+// REMOVE
 // ================================
 
 
@@ -229,34 +436,27 @@ window.removeCartItem=function(index){
 
 
 
-let cart=getCart();
+    let cart=getCart();
 
 
 
-cart.splice(index,1);
+    cart.splice(index,1);
 
 
 
-localStorage.setItem(
-
-"cart",
-
-JSON.stringify(cart)
-
-);
+    saveCart(cart);
 
 
 
-
-displayCart();
-
+    displayCart();
 
 
-showToast(
 
-"Item Removed"
+    showToast(
 
-);
+    "Item Removed"
+
+    );
 
 
 
@@ -271,7 +471,7 @@ showToast(
 
 
 // ================================
-// TOTAL WITH SST
+// TOTAL + SST
 // ================================
 
 
@@ -279,139 +479,79 @@ window.updateTotal=function(){
 
 
 
-let cart=getCart();
+    let cart=getCart();
 
 
 
-let subtotal=0;
+    let subtotal=0;
 
 
 
-cart.forEach(function(item){
+    cart.forEach(function(item){
 
 
 
-subtotal += Number(item.price) || 0;
+        subtotal +=
 
+        Number(item.price)
 
+        *
 
-});
+        Number(item.qty);
 
 
 
+    });
 
 
-let sst = subtotal * 0.06;
 
 
 
-let total = subtotal + sst;
+    let sst=
 
+    subtotal * 0.06;
 
 
 
 
+    let total=
 
-let totalBox=document.getElementById(
-"total"
-);
+    subtotal + sst;
 
 
 
-if(totalBox){
 
 
 
-totalBox.innerHTML=
 
-`
+    let box=document.getElementById(
+        "total"
+    );
 
-Subtotal : RM ${subtotal.toFixed(2)}
 
-<br>
 
-6% SST : RM ${sst.toFixed(2)}
+    if(box){
 
-<hr>
 
-Total : RM ${total.toFixed(2)}
 
-`;
+        box.innerHTML=
 
+        `
 
+        Subtotal : RM ${subtotal.toFixed(2)}
 
-}
+        <br>
 
+        6% SST : RM ${sst.toFixed(2)}
 
+        <hr>
 
-};
+        Total : RM ${total.toFixed(2)}
 
+        `;
 
 
-
-
-
-
-
-
-// ================================
-// ADD ITEM
-// ================================
-
-
-window.addToCart=function(name,price){
-
-
-
-let cart=getCart();
-
-
-
-
-cart.push({
-
-
-name:name,
-
-
-price:Number(price)
-
-
-});
-
-
-
-
-
-localStorage.setItem(
-
-"cart",
-
-JSON.stringify(cart)
-
-);
-
-
-
-
-
-
-updateCartCount();
-
-
-
-
-
-showToast(
-
-"Hameed's Bistro says " 
-+
-name
-+
-" Added"
-
-);
-
+    }
 
 
 
@@ -427,7 +567,7 @@ name
 
 
 // ================================
-// PAGE LOAD
+// LOAD
 // ================================
 
 
@@ -438,9 +578,7 @@ document.addEventListener(
 function(){
 
 
-
-updateCartCount();
-
+    updateCartCount();
 
 
 }
