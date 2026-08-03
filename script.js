@@ -367,10 +367,11 @@ alert("Added to Cart");
 
 function showCart(){
 
-pageHistory.push("cartPage");
+if(pageHistory[pageHistory.length-1] !== "cartPage"){
+    pageHistory.push("cartPage");
+}
 
 showPage("cartPage");
-
 
 let box=document.getElementById("cartItems");
 
