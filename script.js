@@ -266,230 +266,111 @@ itemBox.innerHTML = "";
 
 function openCategory(){
 
-let box = document.getElementById("categoryBox");
+    let box = document.getElementById("categoryBox");
+    let popular = document.getElementById("popularSection");
+    let itemBox = document.getElementById("itemBox");
 
-let popular = document.getElementById("popularSection");
+    // যদি Category আগে থেকেই খোলা থাকে
+    if(box.innerHTML !== ""){
 
-let itemBox = document.getElementById("itemBox");
+        box.innerHTML = "";
+        itemBox.innerHTML = "";
 
+        if(popular){
+            popular.style.display = "block";
+            showPopularItems();
+        }
 
+        return;
+    }
 
-// যদি Category আগে থেকেই খোলা থাকে
-// তাহলে বন্ধ করবে
+    // Category খোলার সময়
+    if(popular){
+        popular.style.display = "none";
+    }
 
-if(box.innerHTML !== ""){
+    itemBox.innerHTML = "";
+    box.innerHTML = "";
 
+    // ALL CATEGORY Button
+    let all = document.createElement("button");
+    all.innerHTML = "ALL CATEGORY";
+    all.className = "category";
+    all.onclick = function(){
+        showItems("ALL");
+    };
+    box.appendChild(all);
 
-box.innerHTML = "";
+    // Category List
+    let cats = [...new Set(menuData.map(x=>x.category))];
 
+    cats.forEach(cat=>{
 
-// আগের Category item মুছে দেবে
+        let btn = document.createElement("button");
 
-itemBox.innerHTML = "";
+        btn.innerHTML = cat;
+        btn.className = "category";
 
+        btn.onclick = function(){
+            showItems(cat);
+        };
 
-// Popular আবার দেখাবে
-
-if(popular){
-
-    popular.style.display = "block";
-
-    showPopularItems();
-
-}
-}
-
-
-return;
-
-}
-
-
-
-// Category খোলার সময়
-// Popular এবং Item লুকাবে
-
-if(popular){
-
-popular.style.display = "none";
-
-}
-
-
-itemBox.innerHTML = "";
-
-box.innerHTML = "";
-
-
-
-
-// ALL CATEGORY Button
-
-let all = document.createElement("button");
-
-all.innerHTML = "ALL CATEGORY";
-
-all.className = "category";
-
-
-all.onclick = function(){
-
-showItems("ALL");
-
-};
-
-
-box.appendChild(all);
-
-
-
-
-
-// Category List তৈরি
-
-let cats = [...new Set(menuData.map(x=>x.category))];
-
-
-cats.forEach(cat=>{
-
-
-let btn = document.createElement("button");
-
-
-btn.innerHTML = cat;
-
-btn.className = "category";
-
-
-
-btn.onclick = function(){
-
-showItems(cat);
-
-};
-
-
-
-box.appendChild(btn);
-
-
-});
-
+        box.appendChild(btn);
+    });
 
 }
 
 
-
-// Show Items
-
+//show category 
+    
 function showItems(category){
 
-document.getElementById("popularItems").style.display="none";
+    // Popular Items লুকাবে
+    let popularSection = document.getElementById("popularSection");
+    if(popularSection){
+        popularSection.style.display = "none";
+    }
 
-// Mobile-এ Category List বন্ধ হবে
-document.getElementById("categoryBox").innerHTML="";
-document.activeElement.blur();
+    // Category List বন্ধ করবে
+    document.getElementById("categoryBox").innerHTML = "";
+    document.activeElement.blur();
 
-let box=document.getElementById("itemBox");
+    // Item Box পরিষ্কার করবে
+    let box = document.getElementById("itemBox");
+    box.innerHTML = "";
 
-box.innerHTML="";
+    let items;
 
+    if(category == "ALL"){
+        items = menuData;
+    }else{
+        items = menuData.filter(x => x.category == category);
+    }
 
-let items;
+    items.forEach(item => {
 
-// Show Items
+        let price = (selectedType == "DINE IN")
+            ? item.dine
+            : item.takeaway;
 
-function showItems(category){
+        let div = document.createElement("div");
+        div.className = "item";
 
+        div.innerHTML = `
+            <div>
+                <b>${item.name}</b><br>
+                ${price}
+            </div>
 
-// Popular Items পুরো লুকাবে
+            <button class="add-btn"
+                onclick="addCart('${item.name}','${price}')">
+                ADD
+            </button>
+        `;
 
-let popularSection = document.getElementById("popularSection");
+        box.appendChild(div);
 
-if(popularSection){
-
-popularSection.style.display = "none";
-
-}
-
-
-// Category list বন্ধ হবে
-
-document.getElementById("categoryBox").innerHTML="";
-
-
-// Item Box পরিষ্কার করবে
-
-let box=document.getElementById("itemBox");
-
-box.innerHTML="";
-
-
-
-let items;
-
-
-
-if(category=="ALL"){
-
-items = menuData;
-
-}else{
-
-items = menuData.filter(x=>x.category==category);
-
-}
-
-
-
-
-items.forEach(item=>{
-
-
-let price;
-
-
-if(selectedType=="DINE IN"){
-
-price=item.dine;
-
-}else{
-
-price=item.takeaway;
-
-}
-
-
-
-
-let div=document.createElement("div");
-
-
-div.className="item";
-
-
-div.innerHTML=`
-
-<div>
-<b>${item.name}</b><br>
-${price}
-</div>
-
-
-<button class="add-btn"
-onclick="addCart('${item.name}','${price}')">
-ADD
-</button>
-
-`;
-
-
-
-box.appendChild(div);
-
-
-});
-
+    });
 
 }
 
