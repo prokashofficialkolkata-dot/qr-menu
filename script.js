@@ -455,41 +455,27 @@ goBack();
 
 function checkout(){
 
-
     pageHistory.push("checkoutPage");
 
     showPage("checkoutPage");
 
-    // বাকি আপনার আগের checkout code থাকবে
 
-    
-document.getElementById("cartPage").style.display="none";
-
-document.getElementById("checkoutPage").style.display="block";
+    let box=document.getElementById("tableInput");
 
 
+    if(selectedType=="DINE IN"){
 
-let box=document.getElementById("tableInput");
+        box.innerHTML=`
 
+        <input id="tableNumber" placeholder="Table Number">
 
-if(selectedType=="DINE IN"){
+        `;
 
+    }else{
 
-box.innerHTML=`
+        box.innerHTML="Table: TAKE AWAY";
 
-<input id="tableNumber" placeholder="Table Number">
-
-`;
-
-}else{
-
-
-box.innerHTML="Table: TAKE AWAY";
-
-
-}
-
-
+    }
 
 }
 
