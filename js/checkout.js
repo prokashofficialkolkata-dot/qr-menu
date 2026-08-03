@@ -97,7 +97,48 @@ data.phone || "";
 
 
 
+window.openCheckoutForm=function(){
 
+
+let loginBox=document.getElementById("loginBox");
+
+let createBox=document.getElementById("createBox");
+
+let googleBox=document.getElementById("googleProfileBox");
+
+let profileBox=document.getElementById("customerProfileBox");
+
+let checkoutForm=document.getElementById("checkoutForm");
+
+
+
+if(loginBox)
+loginBox.style.display="none";
+
+
+if(createBox)
+createBox.style.display="none";
+
+
+if(googleBox)
+googleBox.style.display="none";
+
+
+
+if(profileBox)
+profileBox.style.display="none";
+
+
+
+if(checkoutForm)
+checkoutForm.style.display="block";
+
+
+
+loadCustomerData();
+
+
+};
 
 
 
