@@ -50,18 +50,31 @@ function showPage(pageId){
         page.style.display="none";
     });
 
+
     document.getElementById(pageId).style.display="block";
 
-    if(pageId !== "welcome"){
-        document.getElementById("backBtn").style.display="inline-block";
-        document.getElementById("homeBtn").style.display="inline-block";
-    }else{
-        document.getElementById("backBtn").style.display="none";
-        document.getElementById("homeBtn").style.display="none";
+
+    let back = document.getElementById("backBtn");
+    let home = document.getElementById("homeBtn");
+
+
+    if(back && home){
+
+        if(pageId !== "welcome"){
+
+            back.style.display="inline-block";
+            home.style.display="inline-block";
+
+        }else{
+
+            back.style.display="none";
+            home.style.display="none";
+
+        }
+
     }
 
 }
-
 
 function goBack(){
 
