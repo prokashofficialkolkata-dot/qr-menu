@@ -554,5 +554,7 @@ window.checkout = checkout;
 window.backMenu = backMenu;
 window.placeOrder = placeOrder;
 window.changeQty = changeQty;
-
+window.goBack = goBack;
+window.goHome = goHome;
+window.refreshPage = refreshPage;
     
