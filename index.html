@@ -7,11 +7,17 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Restoran Hameed's Bistro</title>
+
+<title>
+Restoran Hameed's Bistro
+</title>
+
 
 <link rel="icon" href="images/logo.png">
 
+
 <link rel="stylesheet" href="style.css">
+
 
 </head>
 
@@ -19,23 +25,35 @@
 <body>
 
 
+
 <!-- ========================= -->
-<!-- HEADER -->
+<!-- WELCOME PAGE -->
 <!-- ========================= -->
+
+
+<div id="welcome">
+
+
 
 <div class="top-bar">
 
+
 <button onclick="refreshPage()">
+
 🔄 Refresh
+
 </button>
+
 
 
 <button onclick="showCart()">
-🛒 Cart (<span id="cartCount">0</span>)
+
+🛒 Cart
+
+(<span id="cartCount">0</span>)
+
 </button>
 
-
-<span id="logoutArea"></span>
 
 </div>
 
@@ -43,14 +61,8 @@
 
 
 
-<!-- ========================= -->
-<!-- HOME PAGE -->
-<!-- ========================= -->
 
-<div id="welcome">
-
-
-<div class="logo-box">
+<div class="logo-circle">
 
 <img src="images/logo.png" class="logo">
 
@@ -58,14 +70,23 @@
 
 
 
+
+
 <h1>
+
 Restoran Hameed's Bistro
+
 </h1>
 
 
+
 <h2>
-QR Ordering, QR Menu & Ordering System
+
+QR Menu & Ordering System
+
 </h2>
+
+
 
 
 
@@ -77,36 +98,37 @@ QR Ordering, QR Menu & Ordering System
 
 
 <button onclick="setLanguage('en')">
-🇬🇧 English
+English
 </button>
 
 
 <button onclick="setLanguage('ms')">
-🇲🇾 Malay
+Malay
 </button>
 
 
 <button onclick="setLanguage('ta')">
-🇮🇳 Tamil
+Tamil
 </button>
 
 
 <button onclick="setLanguage('zh')">
-🇨🇳 Chinese
+Chinese
 </button>
 
 
 <button onclick="setLanguage('hi')">
-🇮🇳 Hindi
+Hindi
 </button>
 
 
 <button onclick="setLanguage('bn')">
-🇧🇩 বাংলা
+Bangla
 </button>
 
 
 </div>
+
 
 
 
@@ -143,12 +165,16 @@ QR Ordering, QR Menu & Ordering System
 
 
 
-<!-- LOGIN -->
+
+<!-- CUSTOMER LOGIN -->
+
 
 <div class="welcome-login">
 
 
-<button class="main-btn" onclick="openLogin()">
+<button
+class="login-btn"
+onclick="checkout()">
 
 👤 Customer Login
 
@@ -159,7 +185,11 @@ QR Ordering, QR Menu & Ordering System
 
 
 
+
+
 </div>
+
+
 
 
 
@@ -171,53 +201,61 @@ QR Ordering, QR Menu & Ordering System
 <!-- MENU PAGE -->
 <!-- ========================= -->
 
+
 <div id="menuPage" style="display:none;">
 
 
 
-<div class="navigation">
+
+
+<div class="top-bar">
+
 
 
 <button onclick="goBack()">
+
 ⬅ Back
+
 </button>
+
 
 
 <button onclick="goHome()">
+
 🏠 Home
+
 </button>
+
+
+
+
+<button onclick="showPopular()">
+
+⭐ Popular
+
+</button>
+
+
 
 
 <button onclick="refreshPage()">
+
 🔄 Refresh
+
 </button>
+
+
 
 
 <button onclick="showCart()">
-🛒 Cart (<span id="cartCount2">0</span>)
+
+🛒 Cart
+
+(<span id="cartCount2">0</span>)
+
 </button>
 
 
-</div>
-
-
-
-
-
-<div class="languages small">
-
-
-<button onclick="setLanguage('en')">EN</button>
-
-<button onclick="setLanguage('ms')">BM</button>
-
-<button onclick="setLanguage('ta')">TA</button>
-
-<button onclick="setLanguage('zh')">中文</button>
-
-<button onclick="setLanguage('hi')">HI</button>
-
-<button onclick="setLanguage('bn')">BN</button>
 
 
 </div>
@@ -226,7 +264,10 @@ QR Ordering, QR Menu & Ordering System
 
 
 
-<button class="main-btn" onclick="openCategory()">
+
+
+<button class="main-btn"
+onclick="openCategory()">
 
 📋 SELECT CATEGORY
 
@@ -234,30 +275,63 @@ QR Ordering, QR Menu & Ordering System
 
 
 
-<div id="categoryBox"></div>
 
 
+
+
+<div id="categoryBox">
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- POPULAR -->
 
 <div id="popularSection">
 
 
 <h2>
+
 ⭐ Popular Items
+
 </h2>
 
 
-<div id="popularItems"></div>
+<div id="popularItems">
+
+
+</div>
 
 
 </div>
 
 
 
-<div id="itemBox"></div>
+
+
+
+
+<!-- ITEMS -->
+
+<div id="itemBox">
+
+
+</div>
+
+
+
 
 
 
 </div>
+
+
 
 
 
@@ -273,14 +347,56 @@ QR Ordering, QR Menu & Ordering System
 <div id="cartPage" style="display:none;">
 
 
+
+<div class="top-bar">
+
+
+<button onclick="goBack()">
+
+⬅ Back
+
+</button>
+
+
+<button onclick="goHome()">
+
+🏠 Home
+
+</button>
+
+
+
+<button onclick="refreshPage()">
+
+🔄 Refresh
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
 <h2>
+
 🛒 Your Cart
+
 </h2>
+
+
+
 
 
 <div id="cartItems">
 
 </div>
+
+
+
 
 
 <h3 id="total">
@@ -291,9 +407,17 @@ Total : RM 0.00
 
 
 
-<button onclick="checkout()">
-✅ CHECKOUT
+
+
+
+
+<button class="main-btn"
+onclick="checkout()">
+
+CHECKOUT
+
 </button>
+
 
 
 </div>
@@ -304,8 +428,10 @@ Total : RM 0.00
 
 
 
+
+
 <!-- ========================= -->
-<!-- CHECKOUT + LOGIN -->
+<!-- CHECKOUT PAGE -->
 <!-- ========================= -->
 
 
@@ -315,12 +441,16 @@ Total : RM 0.00
 
 
 
-<div id="loginBox" style="display:none;">
+<div id="loginBox">
 
 
 <h2>
+
 Customer Login
+
 </h2>
+
+
 
 
 <input id="loginEmail"
@@ -328,9 +458,15 @@ type="email"
 placeholder="Email Address">
 
 
+
+
+
 <input id="loginPassword"
 type="password"
 placeholder="Password">
+
+
+
 
 
 
@@ -342,11 +478,14 @@ LOGIN
 
 
 
+
+
 <button onclick="googleLogin()">
 
 Sign in with Google
 
 </button>
+
 
 
 
@@ -367,11 +506,17 @@ Create Account
 
 
 
+
+<!-- CREATE ACCOUNT -->
+
+
 <div id="createBox" style="display:none;">
 
 
 <h2>
+
 Create Account
+
 </h2>
 
 
@@ -380,13 +525,14 @@ Create Account
 placeholder="Customer Name">
 
 
+
 <input id="createPhone"
 placeholder="Phone Number">
 
 
+
 <input id="createEmail"
-type="email"
-placeholder="Email Address">
+placeholder="Email">
 
 
 
@@ -402,19 +548,14 @@ placeholder="Confirm Password">
 
 
 
+
+
 <button onclick="createAccount()">
 
 CREATE ACCOUNT
 
 </button>
 
-
-
-<p onclick="showLogin()">
-
-Back To Login
-
-</p>
 
 
 </div>
@@ -426,11 +567,16 @@ Back To Login
 
 
 
+<!-- GOOGLE PROFILE -->
+
+
 <div id="phoneBox" style="display:none;">
 
 
 <h2>
+
 Complete Profile
+
 </h2>
 
 
@@ -446,6 +592,7 @@ SAVE
 </button>
 
 
+
 </div>
 
 
@@ -455,17 +602,25 @@ SAVE
 
 
 
+
+<!-- CHECKOUT FORM -->
+
+
 <div id="checkoutForm" style="display:none;">
 
 
 <h2>
+
 Checkout
+
 </h2>
+
 
 
 
 <input id="customerName"
 readonly>
+
 
 
 <input id="phone"
@@ -481,9 +636,6 @@ PLACE ORDER
 </button>
 
 
-</div>
-
-
 
 
 </div>
@@ -491,16 +643,30 @@ PLACE ORDER
 
 
 
+</div>
 
 
 
 
+
+
+
+
+
+<!-- ========================= -->
 <!-- FOOTER -->
+<!-- ========================= -->
 
 
 <footer>
 
-© 2023 Prokash Rakkhit. All Rights Reserved. | Version 1.0.0
+
+© 2023 Prakash Rakhit. All Rights Reserved.
+
+&nbsp; | &nbsp;
+
+Version 1.0.0
+
 
 </footer>
 
@@ -510,18 +676,32 @@ PLACE ORDER
 
 
 
+<!-- ========================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================= -->
+
+
 <script type="module" src="js/firebase.js"></script>
+
 
 <script type="module" src="js/auth.js"></script>
 
-<script type="module" src="js/checkout.js"></script>
 
 
 <script src="js/main.js"></script>
 
+
 <script src="js/menu.js"></script>
 
+
 <script src="js/cart.js"></script>
+
+
+
+<script type="module" src="js/checkout.js"></script>
+
+
+
 
 
 </body>
