@@ -14,9 +14,10 @@ let historyPage=[];
 
 
 
-// ================================
+// =====================================
 // SHOW PAGE
-// ================================
+// =====================================
+
 
 window.showPage=function(page){
 
@@ -49,6 +50,7 @@ el.style.display="none";
 
 
 
+
 let target=document.getElementById(page);
 
 
@@ -62,6 +64,7 @@ target.style.display="block";
 
 
 currentPage=page;
+
 
 
 localStorage.setItem(
@@ -85,9 +88,58 @@ window.scrollTo(0,0);
 
 
 
-// ================================
+// =====================================
+// RESET LOGIN AREA
+// =====================================
+
+
+window.resetAuthPage=function(){
+
+
+
+let boxes=[
+
+"loginBox",
+"createBox",
+"profileBox",
+"checkoutForm"
+
+];
+
+
+
+boxes.forEach(function(id){
+
+
+let box=document.getElementById(id);
+
+
+
+if(box){
+
+box.style.display="none";
+
+}
+
+
+
+});
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
 // CUSTOMER BUTTON
-// ================================
+// =====================================
 
 
 window.customerAction=function(){
@@ -127,9 +179,11 @@ checkout();
 
 
 
-// ================================
+
+
+// =====================================
 // UPDATE CUSTOMER BUTTON
-// ================================
+// =====================================
 
 
 window.updateCustomerButton=function(){
@@ -148,7 +202,6 @@ if(!btn)return;
 
 let login=
 localStorage.getItem("loggedIn");
-
 
 
 
@@ -182,56 +235,39 @@ btn.innerHTML=
 
 
 
-// ================================
+
+
+// =====================================
 // OPEN PROFILE
-// ================================
+// =====================================
 
 
 window.openProfile=async function(){
 
 
 
-showPage("checkoutPage");
+showPage(
+"checkoutPage"
+);
 
 
 
-
-let loginBox=
-document.getElementById("loginBox");
-
-
-let createBox=
-document.getElementById("createBox");
-
-
-let profileBox=
-document.getElementById("profileBox");
-
-
-let checkoutForm=
-document.getElementById("checkoutForm");
+resetAuthPage();
 
 
 
-
-if(loginBox)
-loginBox.style.display="none";
-
-
-if(createBox)
-createBox.style.display="none";
-
-
-if(checkoutForm)
-checkoutForm.style.display="none";
+let profile=
+document.getElementById(
+"profileBox"
+);
 
 
 
-if(profileBox)
-profileBox.style.display="block";
+if(profile){
 
+profile.style.display="block";
 
-
+}
 
 
 
@@ -253,7 +289,9 @@ doc,
 getDoc
 
 }=await import(
+
 "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js"
+
 );
 
 
@@ -268,6 +306,8 @@ db
 
 
 
+
+
 let ref=
 doc(
 db,
@@ -277,8 +317,10 @@ uid
 
 
 
+
 let snap=
 await getDoc(ref);
+
 
 
 
@@ -291,29 +333,45 @@ let data=snap.data();
 
 
 
+let n=
 document.getElementById(
 "profileName"
-).innerHTML =
-data.name || "";
+);
 
 
-
+let e=
 document.getElementById(
 "profileEmail"
-).innerHTML =
-data.email || "";
+);
 
 
-
+let p=
 document.getElementById(
 "profilePhone"
-).innerHTML =
-data.phone || "";
+);
+
+
+
+
+if(n)
+n.innerHTML=
+"Name : "+(data.name || "");
+
+
+
+if(e)
+e.innerHTML=
+"Email : "+(data.email || "");
+
+
+
+if(p)
+p.innerHTML=
+"Phone : "+(data.phone || "");
 
 
 
 }
-
 
 
 
@@ -341,18 +399,22 @@ console.log(error);
 
 
 
-// ================================
+// =====================================
 // HOME
-// ================================
+// =====================================
 
 
 window.goHome=function(){
 
 
+
 historyPage=[];
 
 
-showPage("welcome");
+showPage(
+"welcome"
+);
+
 
 
 updateCustomerButton();
@@ -371,9 +433,9 @@ updateCustomerButton();
 
 
 
-// ================================
+// =====================================
 // BACK
-// ================================
+// =====================================
 
 
 window.goBack=function(){
@@ -402,6 +464,7 @@ showPage("welcome");
 }
 
 
+
 };
 
 
@@ -412,9 +475,11 @@ showPage("welcome");
 
 
 
-// ================================
+
+
+// =====================================
 // START MENU
-// ================================
+// =====================================
 
 
 window.startMenu=function(type){
@@ -428,11 +493,15 @@ type
 
 
 
-historyPage.push(currentPage);
+historyPage.push(
+currentPage
+);
 
 
 
-showPage("menuPage");
+showPage(
+"menuPage"
+);
 
 
 
@@ -458,9 +527,9 @@ loadCSV();
 
 
 
-// ================================
+// =====================================
 // REFRESH
-// ================================
+// =====================================
 
 
 window.refreshPage=function(){
@@ -481,9 +550,9 @@ location.reload();
 
 
 
-// ================================
+// =====================================
 // CATEGORY
-// ================================
+// =====================================
 
 
 window.openCategory=function(){
@@ -501,9 +570,7 @@ if(!box)return;
 
 
 
-if(
-box.style.display==="grid"
-){
+if(box.style.display==="grid"){
 
 
 
@@ -513,7 +580,9 @@ box.style.display="none";
 
 if(typeof restoreMenuView==="function"){
 
+
 restoreMenuView();
+
 
 }
 
@@ -541,6 +610,7 @@ loadCategory();
 }
 
 
+
 };
 
 
@@ -551,16 +621,20 @@ loadCategory();
 
 
 
-// ================================
+
+
+// =====================================
 // POPULAR
-// ================================
+// =====================================
 
 
 window.showPopular=function(){
 
 
 
-showPage("menuPage");
+showPage(
+"menuPage"
+);
 
 
 
@@ -571,8 +645,11 @@ document.getElementById(
 
 
 
-if(box)
+if(box){
+
 box.style.display="none";
+
+}
 
 
 
@@ -596,33 +673,83 @@ showPopularItems();
 
 
 
+// =====================================
+// LOGIN PAGE
+// =====================================
 
 
-// ================================
-// CREATE ACCOUNT SWITCH
-// ================================
+window.checkout=function(){
+
+
+
+historyPage.push(
+currentPage
+);
+
+
+
+showPage(
+"checkoutPage"
+);
+
+
+
+resetAuthPage();
+
+
+
+let login=
+document.getElementById(
+"loginBox"
+);
+
+
+
+if(login){
+
+login.style.display="block";
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+// =====================================
+// CREATE ACCOUNT
+// =====================================
 
 
 window.showCreateAccount=function(){
 
 
 
-let login=
-document.getElementById("loginBox");
-
-
-let create=
-document.getElementById("createBox");
+resetAuthPage();
 
 
 
-if(login)
-login.style.display="none";
+let box=
+document.getElementById(
+"createBox"
+);
 
 
 
-if(create)
-create.style.display="block";
+if(box){
+
+box.style.display="block";
+
+}
 
 
 
@@ -632,28 +759,37 @@ create.style.display="block";
 
 
 
+
+
+
+
+
+
+// =====================================
+// BACK TO LOGIN
+// =====================================
 
 
 window.showLogin=function(){
 
 
 
-let login=
-document.getElementById("loginBox");
-
-
-let create=
-document.getElementById("createBox");
+resetAuthPage();
 
 
 
-if(create)
-create.style.display="none";
+let box=
+document.getElementById(
+"loginBox"
+);
 
 
 
-if(login)
-login.style.display="block";
+if(box){
+
+box.style.display="block";
+
+}
 
 
 
@@ -667,19 +803,24 @@ login.style.display="block";
 
 
 
-// ================================
+// =====================================
 // CART
-// ================================
+// =====================================
 
 
 window.showCart=function(){
 
 
-historyPage.push(currentPage);
+
+historyPage.push(
+currentPage
+);
 
 
 
-showPage("cartPage");
+showPage(
+"cartPage"
+);
 
 
 
@@ -703,48 +844,9 @@ displayCart();
 
 
 
-// ================================
-// CHECKOUT LOGIN
-// ================================
-
-
-window.checkout=function(){
-
-
-
-historyPage.push(currentPage);
-
-
-
-showPage("checkoutPage");
-
-
-
-if(typeof showLogin==="function"){
-
-
-showLogin();
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// ================================
+// =====================================
 // TOAST
-// ================================
+// =====================================
 
 
 window.showToast=function(message){
@@ -752,14 +854,18 @@ window.showToast=function(message){
 
 
 let toast=
-document.getElementById("toast");
+document.getElementById(
+"toast"
+);
 
 
 
 if(!toast){
 
 
-toast=document.createElement("div");
+toast=document.createElement(
+"div"
+);
 
 
 toast.id="toast";
@@ -772,14 +878,16 @@ document.body.appendChild(toast);
 
 
 
+
 toast.innerHTML=message;
+
 
 
 toast.classList.add("show");
 
 
 
-setTimeout(()=>{
+setTimeout(function(){
 
 
 toast.classList.remove("show");
@@ -799,11 +907,9 @@ toast.classList.remove("show");
 
 
 
-
-
-// ================================
-// LOGIN STATUS
-// ================================
+// =====================================
+// CHECK LOGIN
+// =====================================
 
 
 window.checkLoginStatus=function(){
@@ -855,7 +961,9 @@ login==="yes"
 
 
 
+
 updateCustomerButton();
+
 
 
 };
@@ -868,11 +976,9 @@ updateCustomerButton();
 
 
 
-
-
-// ================================
+// =====================================
 // LOAD
-// ================================
+// =====================================
 
 
 window.addEventListener(
@@ -880,7 +986,11 @@ window.addEventListener(
 function(){
 
 
-showPage(currentPage);
+
+showPage(
+currentPage
+);
+
 
 
 checkLoginStatus();
