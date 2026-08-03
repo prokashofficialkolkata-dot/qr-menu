@@ -38,7 +38,7 @@ let selectedType = "";
 
 let selectedLanguage = "en";
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 // Page Navigation
 
 let pageHistory = ["welcome"];
@@ -351,7 +351,7 @@ price:price,
 qty:1
 
 });
-
+localStorage.setItem("cart", JSON.stringify(cart));
 
 }
 
@@ -445,6 +445,8 @@ cart.splice(index,1);
 
 }
 
+localStorage.setItem("cart", JSON.stringify(cart));
+
 
 showCart();
 
@@ -537,6 +539,8 @@ alert("Order Sent Successfully");
 
 
 cart=[];
+
+localStorage.removeItem("cart");
 
 
 }
