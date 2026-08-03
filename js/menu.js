@@ -6,10 +6,9 @@
 
 let menuData = [];
 
-let currentView = "popular";
+let currentView = localStorage.getItem("menuView") || "popular";
 
-let selectedCategory = "";
-
+let selectedCategory = localStorage.getItem("selectedCategory") || "";
 
 
 
@@ -18,71 +17,47 @@ let selectedCategory = "";
 // LOAD CSV
 // ================================
 
-
 window.loadCSV=function(){
-
 
 
 fetch("menu.csv")
 
-
 .then(response=>response.text())
-
 
 .then(data=>{
 
 
-
-    let rows=data.split("\n");
-
-
-    menuData=[];
+let rows=data.split("\n");
 
 
-
-    rows.slice(1).forEach(row=>{
-
+menuData=[];
 
 
-        let col=row.split(",");
+rows.slice(1).forEach(row=>{
+
+
+let col=row.split(",");
 
 
 
-        if(col.length>=4){
+if(col.length>=4){
 
 
+menuData.push({
 
-            menuData.push({
+category:col[0].trim(),
 
+name:col[1].trim(),
 
+dine:col[2].trim(),
 
-                category:col[0].trim(),
-
-
-                name:col[1].trim(),
-
-
-                dine:col[2].trim(),
+takeaway:col[3].trim()
 
 
-                takeaway:col[3].trim()
+});
 
 
-
-            });
-
-
-
-        }
-
-
-
-    });
-
-
-
-
-    showPopularItems();
+}
 
 
 
@@ -90,7 +65,31 @@ fetch("menu.csv")
 
 
 
+// restore previous view
+
+
+if(currentView==="category" && selectedCategory){
+
+
+showCategoryItems(selectedCategory);
+
+
+}
+
+else{
+
+
+showPopularItems();
+
+
+}
+
+
+
+});
+
 };
+
 
 
 
@@ -103,9 +102,7 @@ fetch("menu.csv")
 // CATEGORY LOAD
 // ================================
 
-
 window.loadCategory=function(){
-
 
 
 let box=document.getElementById(
@@ -113,13 +110,15 @@ let box=document.getElementById(
 );
 
 
-
 if(!box)return;
 
 
 
-
 box.innerHTML="";
+
+
+
+box.style.display="grid";
 
 
 
@@ -135,18 +134,13 @@ menuData.map(item=>item.category)
 
 
 
-
-
 categories.forEach(function(cat){
-
 
 
 let btn=document.createElement("button");
 
 
-
 btn.className="category-btn";
-
 
 
 btn.innerHTML=cat;
@@ -156,9 +150,7 @@ btn.innerHTML=cat;
 btn.onclick=function(){
 
 
-
 selectCategory(cat);
-
 
 
 };
@@ -172,8 +164,9 @@ box.appendChild(btn);
 });
 
 
-
 };
+
+
 
 
 
@@ -185,7 +178,6 @@ box.appendChild(btn);
 // SELECT CATEGORY
 // ================================
 
-
 window.selectCategory=function(category){
 
 
@@ -193,8 +185,20 @@ window.selectCategory=function(category){
 selectedCategory=category;
 
 
-
 currentView="category";
+
+
+
+localStorage.setItem(
+"menuView",
+"category"
+);
+
+
+localStorage.setItem(
+"selectedCategory",
+category
+);
 
 
 
@@ -203,15 +207,11 @@ let box=document.getElementById(
 );
 
 
-
 if(box){
-
 
 box.style.display="none";
 
-
 }
-
 
 
 
@@ -220,16 +220,11 @@ let popular=document.getElementById(
 );
 
 
-
 if(popular){
-
 
 popular.style.display="none";
 
-
 }
-
-
 
 
 
@@ -246,10 +241,10 @@ showCategoryItems(category);
 
 
 
-// ================================
-// SHOW CATEGORY ITEMS
-// ================================
 
+// ================================
+// CATEGORY ITEMS
+// ================================
 
 window.showCategoryItems=function(category){
 
@@ -269,28 +264,20 @@ itemBox.innerHTML="";
 
 
 
-
-
 let items=menuData.filter(function(item){
 
 
-
 return item.category===category;
-
 
 
 });
 
 
 
-
-
 items.forEach(function(item){
 
 
-
 createItemCard(item,itemBox);
-
 
 
 });
@@ -308,9 +295,8 @@ createItemCard(item,itemBox);
 
 
 // ================================
-// POPULAR ITEMS
+// POPULAR
 // ================================
-
 
 window.showPopularItems=function(){
 
@@ -319,6 +305,11 @@ window.showPopularItems=function(){
 currentView="popular";
 
 
+localStorage.setItem(
+"menuView",
+"popular"
+);
+
 
 
 let itemBox=document.getElementById(
@@ -326,15 +317,11 @@ let itemBox=document.getElementById(
 );
 
 
-
 if(itemBox){
-
 
 itemBox.innerHTML="";
 
-
 }
-
 
 
 
@@ -346,13 +333,9 @@ let popular=document.getElementById(
 
 if(popular){
 
-
 popular.style.display="block";
 
-
 }
-
-
 
 
 
@@ -370,20 +353,14 @@ popularBox.innerHTML="";
 
 
 
-
-// Top 15 items
-
 let popularItems=menuData.slice(0,15);
-
 
 
 
 popularItems.forEach(function(item){
 
 
-
 createPopularCard(item,popularBox);
-
 
 
 });
@@ -404,19 +381,14 @@ createPopularCard(item,popularBox);
 // RESTORE VIEW
 // ================================
 
-
 window.restoreMenuView=function(){
 
 
 
-if(currentView==="category"){
+if(currentView==="category" && selectedCategory){
 
 
-
-showCategoryItems(
-selectedCategory
-);
-
+showCategoryItems(selectedCategory);
 
 
 }
@@ -424,9 +396,7 @@ selectedCategory
 else{
 
 
-
 showPopularItems();
-
 
 
 }
@@ -444,9 +414,8 @@ showPopularItems();
 
 
 // ================================
-// CREATE ITEM CARD
+// ITEM CARD
 // ================================
-
 
 function createItemCard(item,box){
 
@@ -459,12 +428,16 @@ div.className="menu-item";
 
 
 
-let price = 
-localStorage.getItem("orderType")
-==="TAKE AWAY"
+let price=
+
+localStorage.getItem("orderType")==="TAKE AWAY"
+
 ?
+
 item.takeaway
+
 :
+
 item.dine;
 
 
@@ -472,13 +445,9 @@ item.dine;
 
 div.innerHTML=`
 
-
 <h3>${item.name}</h3>
 
-
-<p>
-RM ${price}
-</p>
+<p>RM ${price}</p>
 
 
 <button onclick="addToCart('${item.name}','${price}')">
@@ -510,7 +479,6 @@ box.appendChild(div);
 // POPULAR CARD
 // ================================
 
-
 function createPopularCard(item,box){
 
 
@@ -522,24 +490,14 @@ div.className="popular-card";
 
 
 
-let price =
-item.dine;
-
-
-
-
 div.innerHTML=`
-
 
 <h3>⭐ ${item.name}</h3>
 
-
-<p>
-RM ${price}
-</p>
+<p>RM ${item.dine}</p>
 
 
-<button onclick="addToCart('${item.name}','${price}')">
+<button onclick="addToCart('${item.name}','${item.dine}')">
 
 ADD ITEM
 
@@ -565,34 +523,30 @@ box.appendChild(div);
 
 
 // ================================
-// ADD ITEM
+// ADD CART
 // ================================
-
 
 window.addToCart=function(name,price){
 
 
 
-let cart =
+let cart=
+
 JSON.parse(
 localStorage.getItem("cart")
 )
-|| [];
 
+|| [];
 
 
 
 cart.push({
 
-
 name:name,
-
 
 price:price
 
-
 });
-
 
 
 
@@ -606,8 +560,6 @@ JSON.stringify(cart)
 
 
 
-
-
 if(typeof updateCartCount==="function"){
 
 
@@ -615,8 +567,6 @@ updateCartCount();
 
 
 }
-
-
 
 
 
@@ -650,9 +600,7 @@ document.addEventListener(
 function(){
 
 
-if(
-document.getElementById("menuPage")
-){
+if(document.getElementById("menuPage")){
 
 
 loadCSV();
@@ -662,6 +610,4 @@ loadCSV();
 
 
 
-}
-
-);
+});
