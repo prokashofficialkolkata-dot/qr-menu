@@ -1,31 +1,29 @@
 // ==============================
-// MENU.JS
+// MAIN.JS
 // ==============================
 
 
-window.menuData = [];
+window.pageHistory = [];
 
-window.selectedLanguage = "en";
-
-window.selectedType = "";
+window.currentPage = "welcome";
 
 
-// Language
-window.setLanguage = function(lang){
+// Refresh
+window.refreshPage = function(){
 
-    window.selectedLanguage = lang;
+    location.reload();
 
 };
 
 
+
 // Start Menu
+
 window.startMenu = function(type){
 
     window.selectedType = type;
 
-    if(typeof pageHistory !== "undefined"){
-        pageHistory.push("menuPage");
-    }
+    pageHistory.push("welcome");
 
     showPage("menuPage");
 
@@ -35,168 +33,89 @@ window.startMenu = function(type){
 
 
 
-// Load CSV
-window.loadCSV = function(){
 
-fetch("menu.csv")
+// Show Page
 
-.then(res=>res.text())
+window.showPage = function(page){
 
-.then(data=>{
+    document.getElementById("welcome").style.display="none";
 
+    document.getElementById("menuPage").style.display="none";
 
-let rows=data.split("\n");
+    document.getElementById("cartPage").style.display="none";
 
-
-window.menuData=[];
+    document.getElementById("checkoutPage").style.display="none";
 
 
-rows.slice(1).forEach(row=>{
+    let target=document.getElementById(page);
 
 
-let col=row.split(",");
+    if(target){
 
+        target.style.display="block";
 
-if(col.length>=4){
+        currentPage=page;
 
-
-menuData.push({
-
-category: col[0].trim(),
-
-name: col[1].trim(),
-
-dine: col[2].trim(),
-
-takeaway: col[3].trim()
-
-});
-
-
-}
-
-
-});
-
-
-showPopularItems();
-
-
-});
-
+    }
 
 };
 
 
 
 
-// Category
-window.openCategory=function(){
+// Home
 
+window.goHome=function(){
 
-let box=document.getElementById("categoryBox");
+    pageHistory=[];
 
-let itemBox=document.getElementById("itemBox");
-
-
-document.getElementById("popularSection").style.display="none";
-
-
-box.innerHTML="";
-
-itemBox.innerHTML="";
-
-
-
-let categories=[...new Set(menuData.map(x=>x.category))];
-
-
-
-categories.forEach(cat=>{
-
-
-box.innerHTML+=`
-
-<button class="category"
-onclick="showItems('${cat.replace(/'/g,"\\'")}')">
-
-${cat}
-
-</button>
-
-
-`;
-
-
-});
-
+    showPage("welcome");
 
 };
 
 
 
 
-// Show Items
-window.showItems=function(category){
+
+// Back
+
+window.goBack=function(){
+
+    let previous = pageHistory.pop();
 
 
-let itemBox=document.getElementById("itemBox");
+    if(previous){
 
+        showPage(previous);
 
-itemBox.innerHTML="";
+    }
 
+    else{
 
+        goHome();
 
-let list=menuData.filter(x=>x.category==category);
+    }
 
-
-
-list.forEach(item=>{
-
-
-let price=(selectedType=="DINE IN")
-
-? item.dine
-
-: item.takeaway;
-
-
-
-itemBox.innerHTML+=`
-
-<div class="item">
-
-
-<div>
-
-<b>${item.name}</b>
-
-<br>
-
-<span>${price}</span>
-
-
-</div>
+};
 
 
 
-<button
-
-onclick="addCart('${item.name.replace(/'/g,"\\'")}','${price}')">
-
-ADD
-
-</button>
 
 
+// Open Login
 
-</div>
+window.openLogin=function(){
+
+    showPage("checkoutPage");
 
 
-`;
+    document.getElementById("loginBox").style.display="block";
 
+    document.getElementById("createBox").style.display="none";
 
-});
+    document.getElementById("phoneBox").style.display="none";
+
+    document.getElementById("checkoutForm").style.display="none";
 
 
 };
@@ -205,79 +124,90 @@ ADD
 
 
 
-// Popular Items
 
-window.showPopularItems=function(){
+// Cart Count
 
+window.updateCartCount=function(){
 
-
-let section=document.getElementById("popularSection");
-
-
-if(!section) return;
+    let count=0;
 
 
+    if(window.cart){
 
-section.style.display="block";
+        cart.forEach(item=>{
 
+            count += item.qty;
 
+        });
 
-let box=document.getElementById("popularItems");
-
-
-if(!box) return;
+    }
 
 
 
-box.innerHTML="";
+    let a=document.getElementById("cartCount");
+
+    let b=document.getElementById("cartCount2");
+
+
+    if(a){
+
+        a.innerHTML=count;
+
+    }
+
+
+    if(b){
+
+        b.innerHTML=count;
+
+    }
+
+
+};
 
 
 
-if(typeof popularItems=="undefined"){
-
-return;
-
-}
 
 
+// Language
 
-popularItems.forEach(item=>{
-
-
-
-box.innerHTML+=`
-
-<div class="popular-card">
+window.selectedLanguage="en";
 
 
-<img src="${item.image}">
+window.setLanguage=function(lang){
+
+    window.selectedLanguage=lang;
 
 
-<b>${item.name}</b>
+    console.log("Language:",lang);
 
 
-<p>${item.price}</p>
+    // পরে language.js connect হবে
+
+};
 
 
 
-<button
 
-onclick="addCart('${item.name.replace(/'/g,"\\'")}','${item.price}')">
+// User Logout Button
 
-ADD
+window.showLogout=function(){
 
-</button>
-
+    let box=document.getElementById("logoutArea");
 
 
-</div>
+    if(box){
 
+        box.innerHTML=`
 
-`;
+        <button onclick="logoutUser()">
 
+        Logout
 
+        </button>
 
-});
+        `;
 
+    }
 
 };
