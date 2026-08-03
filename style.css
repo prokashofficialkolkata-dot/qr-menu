@@ -1,5 +1,5 @@
 /* =========================
-   GLOBAL
+GLOBAL
 ========================= */
 
 *{
@@ -27,8 +27,26 @@ body{
 
 
 
+button{
+
+    cursor:pointer;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 15px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+}
+
+
+
 /* =========================
-   TOP BAR
+TOP BAR
 ========================= */
 
 
@@ -36,15 +54,15 @@ body{
 
     width:100%;
 
+    background:#052c65;
+
     padding:10px;
 
     display:flex;
 
-    justify-content:space-between;
-
     gap:10px;
 
-    background:#0755b5;
+    justify-content:space-between;
 
 }
 
@@ -54,19 +72,9 @@ body{
 
     flex:1;
 
-    padding:10px;
-
-    border:none;
-
-    border-radius:10px;
-
     background:white;
 
-    color:#0755b5;
-
-    font-weight:bold;
-
-    cursor:pointer;
+    color:#052c65;
 
 }
 
@@ -74,8 +82,9 @@ body{
 
 
 
+
 /* =========================
-   HOME
+HOME PAGE
 ========================= */
 
 
@@ -91,15 +100,15 @@ body{
 
 .logo-box{
 
-    width:220px;
+    width:190px;
 
-    height:220px;
+    height:190px;
 
     background:white;
 
     border-radius:50%;
 
-    margin:30px auto;
+    margin:25px auto;
 
     display:flex;
 
@@ -109,16 +118,17 @@ body{
 
     overflow:hidden;
 
-    box-shadow:0 5px 25px rgba(0,0,0,.3);
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
 
 }
 
 
+
 .logo{
 
-    width:200px;
+    width:160px;
 
-    height:200px;
+    height:160px;
 
     object-fit:cover;
 
@@ -127,11 +137,12 @@ body{
 }
 
 
+
 h1{
 
     color:white;
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
@@ -139,6 +150,14 @@ h1{
 
 h2{
 
+    color:#052c65;
+
+}
+
+
+
+#welcome h2{
+
     color:white;
 
 }
@@ -147,8 +166,9 @@ h2{
 
 
 
+
 /* =========================
-   LANGUAGE
+LANGUAGE
 ========================= */
 
 
@@ -170,17 +190,13 @@ h2{
 
 .languages button{
 
-    padding:8px 12px;
+    background:white;
 
-    border:none;
+    color:#052c65;
 
     border-radius:20px;
 
-    background:white;
-
-    color:#0755b5;
-
-    font-weight:bold;
+    padding:8px 14px;
 
 }
 
@@ -198,8 +214,10 @@ h2{
 
 
 
+
+
 /* =========================
- ORDER BUTTON
+ORDER BUTTON
 ========================= */
 
 
@@ -211,8 +229,6 @@ h2{
 
     gap:15px;
 
-    margin:20px 0;
-
 }
 
 
@@ -221,38 +237,28 @@ h2{
 
     width:45%;
 
-    padding:18px;
+    max-width:250px;
 
-    border:none;
-
-    border-radius:15px;
-
-    background:#0755b5;
+    background:#052c65;
 
     color:white;
 
+    padding:18px;
+
     font-size:18px;
 
-    font-weight:bold;
-
 }
+
+
 
 
 
 
 .main-btn{
 
-    background:#0755b5;
+    background:#052c65;
 
     color:white;
-
-    padding:14px 20px;
-
-    border:none;
-
-    border-radius:12px;
-
-    cursor:pointer;
 
 }
 
@@ -260,8 +266,39 @@ h2{
 
 
 
+
 /* =========================
-   NAVIGATION
+PAGE CONTAINER
+========================= */
+
+
+#menuPage,
+#cartPage,
+#checkoutPage{
+
+    background:white;
+
+    width:95%;
+
+    max-width:1100px;
+
+    margin:15px auto;
+
+    padding:15px;
+
+    border-radius:20px;
+
+    min-height:70vh;
+
+}
+
+
+
+
+
+
+/* =========================
+NAVIGATION
 ========================= */
 
 
@@ -273,9 +310,11 @@ h2{
 
     gap:8px;
 
+    background:#052c65;
+
     padding:10px;
 
-    background:#0755b5;
+    border-radius:15px;
 
 }
 
@@ -285,11 +324,9 @@ h2{
 
     flex:1;
 
-    padding:10px;
+    background:white;
 
-    border:none;
-
-    border-radius:8px;
+    color:#052c65;
 
 }
 
@@ -297,22 +334,19 @@ h2{
 
 
 
+
 /* =========================
-   MENU
+CATEGORY
 ========================= */
 
 
-#menuPage,
-#cartPage,
-#checkoutPage{
+#categoryBox{
 
-    background:white;
+    display:grid;
 
-    min-height:80vh;
+    grid-template-columns:repeat(3,1fr);
 
-    border-radius:20px 20px 0 0;
-
-    padding:15px;
+    gap:10px;
 
 }
 
@@ -320,17 +354,7 @@ h2{
 
 #categoryBox button{
 
-    width:100%;
-
-    margin:5px 0;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#0755b5;
+    background:#052c65;
 
     color:white;
 
@@ -338,7 +362,95 @@ h2{
 
 
 
+
+
+
+
+/* =========================
+POPULAR ITEMS
+========================= */
+
+
+#popularSection h2{
+
+    color:#052c65;
+
+    text-align:center;
+
+}
+
+
+
+#popularItems{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:12px;
+
+}
+
+
+
+
+.popular-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:10px;
+
+    text-align:center;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+
+}
+
+
+
+.popular-card img{
+
+    width:100%;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+}
+
+
+
+.popular-card b{
+
+    color:#052c65;
+
+    display:block;
+
+    margin:8px 0;
+
+}
+
+
+
+
+
+
+/* =========================
+MENU ITEM
+========================= */
+
+
 .item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
 
     background:#eef5ff;
 
@@ -348,11 +460,13 @@ h2{
 
     border-radius:12px;
 
-    display:flex;
+}
 
-    justify-content:space-between;
 
-    align-items:center;
+
+.item b{
+
+    color:#052c65;
 
 }
 
@@ -364,20 +478,15 @@ h2{
 
     color:white;
 
-    border:none;
-
-    padding:10px;
-
-    border-radius:8px;
-
 }
 
 
 
 
 
+
 /* =========================
- CART
+CART LOGIN
 ========================= */
 
 
@@ -390,40 +499,6 @@ h2{
     margin:10px 0;
 
     border-radius:12px;
-
-}
-
-
-
-.cart-buttons button{
-
-    width:100%;
-
-    margin:5px 0;
-
-}
-
-
-
-
-
-/* =========================
- LOGIN
-========================= */
-
-
-#loginBox,
-#createBox,
-#phoneBox,
-#checkoutForm{
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:15px;
-
-    text-align:center;
 
 }
 
@@ -447,8 +522,9 @@ input{
 
 
 
+
 /* =========================
- FOOTER
+FOOTER
 ========================= */
 
 
@@ -460,49 +536,106 @@ footer{
 
     padding:15px;
 
-    font-size:13px;
-
     color:white;
 
+    font-size:13px;
+
 }
+
 
 
 
 
 
 /* =========================
- PC
+MOBILE
 ========================= */
 
 
-@media(min-width:768px){
+@media(max-width:600px){
 
 
-#welcome{
+h1{
 
-    max-width:700px;
-
-    margin:auto;
+    font-size:24px;
 
 }
 
 
-.order-type button{
 
-    max-width:250px;
+.logo-box{
+
+    width:160px;
+
+    height:160px;
 
 }
 
 
-#menuPage,
-#cartPage,
-#checkoutPage{
+.logo{
+
+    width:135px;
+
+    height:135px;
+
+}
+
+
+
+.navigation button{
+
+    font-size:12px;
+
+    padding:8px;
+
+}
+
+
+
+#popularItems{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+
+
+.popular-card img{
+
+    height:80px;
+
+}
+
+
+
+.popular-card b{
+
+    font-size:12px;
+
+}
+
+
+}
+
+
+
+
+/* =========================
+DESKTOP
+========================= */
+
+
+@media(min-width:1000px){
+
+
+#popularItems{
 
     max-width:900px;
 
     margin:auto;
 
 }
+
 
 
 }
