@@ -1038,19 +1038,16 @@ async function saveGooglePhone(){
 
     let phone = document.getElementById("googlePhone").value.trim();
 
-
-    if(phone === ""){
+    if(phone==""){
 
         alert("Please enter phone number");
         return;
 
     }
 
-
     try{
 
         let user = auth.currentUser;
-
 
         if(!user){
 
@@ -1059,47 +1056,74 @@ async function saveGooglePhone(){
 
         }
 
-
         await setDoc(
             doc(db,"customers",user.uid),
             {
 
-            uid:user.uid,
-            name:user.displayName || "",
-            email:user.email || "",
-            phone:phone,
-            loginType:"Google",
-            createdAt:new Date()
+                uid:user.uid,
+                name:user.displayName || "",
+                email:user.email || "",
+                phone:phone,
+                loginType:"Google",
+                createdAt:new Date()
 
             }
         );
 
-
+        // Save Local
+        localStorage.setItem("customerName",user.displayName || "");
         localStorage.setItem("customerPhone",phone);
-        localStorage.setItem("customerName",user.displayName);
+        localStorage.setItem("customerEmail",user.email || "");
 
-
-
-        alert("Phone Saved Successfully");
-
-
+        // Hide Login
+        document.getElementById("loginBox").style.display="none";
         document.getElementById("phoneBox").style.display="none";
 
-
+        // Open Checkout Page
         showPage("checkoutPage");
 
+        // Show Checkout Fields
+        document.getElementById("tableInput").style.display="block";
+        document.getElementById("customerName").style.display="block";
+        document.getElementById("phone").style.display="block";
+
+        // Auto Fill
+        document.getElementById("customerName").value = user.displayName || "";
+        document.getElementById("phone").value = phone;
+
+        // Read Only
+        document.getElementById("customerName").readOnly = true;
+        document.getElementById("phone").readOnly = true;
+
+        // Create Table Number Field
+        if(selectedType=="DINE IN"){
+
+            document.getElementById("tableInput").innerHTML = `
+                <input
+                    id="tableNumber"
+                    placeholder="Enter Table Number"
+                    required>
+            `;
+
+        }else{
+
+            document.getElementById("tableInput").innerHTML =
+            "<b>TAKE AWAY</b>";
+
+        }
+
+        alert("Phone Saved Successfully");
 
     }
     catch(error){
 
-        console.log("SAVE PHONE ERROR:",error);
+        console.log(error);
 
         alert(error.message);
 
     }
 
 }
-
 
 // Place Order Final
 console.log(document.getElementById("tableNumber"));
