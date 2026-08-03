@@ -32,13 +32,16 @@ const app = initializeApp(firebaseConfig);
 
 
 const db = getFirestore(app);
+
 let menuData = [];
 
 let selectedType = "";
 
 let selectedLanguage = "en";
 
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 
 let popularItems = [
 {
@@ -246,32 +249,59 @@ function openCategory(){
 
 let box = document.getElementById("categoryBox");
 
-let popular = document.getElementById("popularItems");
+let popular = document.getElementById("popularSection");
+
+let itemBox = document.getElementById("itemBox");
 
 
-// যদি Category আগে থেকে খোলা থাকে তাহলে বন্ধ করবে
+// যদি Category আগে থেকেই খোলা থাকে
+// তাহলে বন্ধ করবে এবং Popular দেখাবে
+
 if(box.innerHTML !== ""){
-
-    box.innerHTML = "";
-
-    if(popular){
-        popular.style.display = "grid";
-    }
-
-    return;
-
-}
-
-
-// Category খোলার সময় Popular বন্ধ হবে
-if(popular){
-    popular.style.display = "none";
-}
 
 
 box.innerHTML = "";
 
 
+// আগের Category item মুছে দেবে
+
+itemBox.innerHTML = "";
+
+
+// Popular আবার দেখাবে
+
+if(popular){
+
+popular.style.display = "block";
+
+}
+
+
+return;
+
+}
+
+
+
+// Category খোলার সময়
+// Popular এবং আগের item লুকাবে
+
+if(popular){
+
+popular.style.display = "none";
+
+}
+
+
+itemBox.innerHTML = "";
+
+
+
+box.innerHTML = "";
+
+
+
+// ALL CATEGORY Button
 
 let all = document.createElement("button");
 
@@ -291,6 +321,9 @@ box.appendChild(all);
 
 
 
+
+// সব Category তৈরি করবে
+
 let cats = [...new Set(menuData.map(x=>x.category))];
 
 
@@ -299,9 +332,11 @@ cats.forEach(cat=>{
 
 let btn = document.createElement("button");
 
+
 btn.innerHTML = cat;
 
 btn.className = "category";
+
 
 
 btn.onclick = function(){
@@ -311,7 +346,9 @@ showItems(cat);
 };
 
 
+
 box.appendChild(btn);
+
 
 
 });
