@@ -1,8 +1,8 @@
-
-// =====================================
-// ADMIN.JS FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// ADMIN PANEL V2
+// PART 1
+// ==========================================
 
 
 import { auth, db } from "./firebase.js";
@@ -11,12 +11,9 @@ import { auth, db } from "./firebase.js";
 
 import {
 
-
 signInWithEmailAndPassword,
 
-
 signOut
-
 
 }
 
@@ -28,24 +25,9 @@ from
 
 import {
 
-
 collection,
 
-
-getDocs,
-
-
-addDoc,
-
-
-deleteDoc,
-
-
-doc,
-
-
-setDoc
-
+getDocs
 
 }
 
@@ -61,39 +43,39 @@ from
 
 
 
-let adminUser = null;
-
-
-
-
-
-
-
-
-// =====================================
+// ==========================================
 // ADMIN LOGIN
-// =====================================
+// ==========================================
 
 
 window.adminLogin = async function(){
 
 
 
-let email=document.getElementById(
+let email =
 
+document.getElementById(
 "adminEmail"
-
 ).value;
 
 
 
 
-let password=document.getElementById(
+let password =
 
+document.getElementById(
 "adminPassword"
-
 ).value;
 
+
+
+
+
+let msg =
+
+document.getElementById(
+"adminMessage"
+);
 
 
 
@@ -102,8 +84,9 @@ let password=document.getElementById(
 try{
 
 
+let result =
 
-let result = await signInWithEmailAndPassword(
+await signInWithEmailAndPassword(
 
 auth,
 
@@ -112,13 +95,6 @@ email,
 password
 
 );
-
-
-
-
-
-adminUser=result.user;
-
 
 
 
@@ -136,11 +112,8 @@ localStorage.setItem(
 
 
 
-
 document.getElementById(
-
 "adminLoginPage"
-
 ).style.display="none";
 
 
@@ -148,26 +121,19 @@ document.getElementById(
 
 
 document.getElementById(
-
 "adminDashboard"
-
 ).style.display="block";
 
 
 
 
 
+
 showToast(
-
-"Admin Login Success"
-
+"Admin Login Successful"
 );
 
 
-
-
-
-loadDashboard();
 
 
 
@@ -176,18 +142,16 @@ loadDashboard();
 catch(error){
 
 
-
 console.error(error);
 
 
 
-document.getElementById(
+if(msg){
 
-"adminMessage"
-
-).innerHTML=
-
+msg.innerHTML =
 "Login Failed";
+
+}
 
 
 
@@ -205,9 +169,9 @@ document.getElementById(
 
 
 
-// =====================================
+// ==========================================
 // ADMIN LOGOUT
-// =====================================
+// ==========================================
 
 
 window.adminLogout=function(){
@@ -219,11 +183,8 @@ signOut(auth);
 
 
 localStorage.removeItem(
-
 "adminLogin"
-
 );
-
 
 
 
@@ -241,67 +202,24 @@ location.reload();
 
 
 
+// ==========================================
+// OPEN ADMIN SECTION
+// ==========================================
 
 
-// =====================================
-// DASHBOARD LOAD
-// =====================================
-
-
-async function loadDashboard(){
-
-
-
-loadOrders();
-
-
-
-loadSales();
-
-
-
-loadMenuList();
-
-
-
-loadStaff();
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// SHOW SECTION
-// =====================================
-
-
-window.openAdminSection=function(id){
+window.openAdminSection=function(section){
 
 
 
 let sections=[
 
+"ordersSection",
 
-"orderHistorySection",
+"salesSection",
 
+"menuSection",
 
-"salesReportSection",
-
-
-"menuUpdateSection",
-
-
-"staffManagementSection"
-
-
+"staffSection"
 
 ];
 
@@ -309,18 +227,18 @@ let sections=[
 
 
 
-sections.forEach(x=>{
+sections.forEach(id=>{
+
+
+let box =
+document.getElementById(id);
 
 
 
-let el=document.getElementById(x);
+if(box){
 
 
-
-if(el){
-
-
-el.style.display="none";
+box.style.display="none";
 
 
 }
@@ -335,7 +253,9 @@ el.style.display="none";
 
 
 
-let target=document.getElementById(id);
+let target =
+
+document.getElementById(section);
 
 
 
@@ -351,131 +271,168 @@ target.style.display="block";
 
 };
 
-// =====================================
-// ORDER HISTORY
-// =====================================
-
-
-async function loadOrders(){
 
 
 
-let box=document.getElementById(
 
-"orderHistoryTable"
+
+
+
+
+// ==========================================
+// PAGE LOAD CHECK
+// ==========================================
+
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+
+let login =
+
+localStorage.getItem(
+"adminLogin"
+);
+
+
+
+
+
+if(login==="yes"){
+
+
+document.getElementById(
+"adminLoginPage"
+).style.display="none";
+
+
+
+document.getElementById(
+"adminDashboard"
+).style.display="block";
+
+
+
+}
+
+
+
+}
 
 );
 
 
 
-if(!box)return;
 
 
 
 
 
-box.innerHTML="";
+
+// ==========================================
+// TOAST
+// ==========================================
+
+
+window.showToast =
+
+window.showToast ||
+
+function(text){
 
 
 
+let toast =
+
+document.getElementById(
+"toast"
+);
+
+
+
+if(!toast)return;
+
+
+
+toast.innerHTML=text;
+
+
+
+toast.classList.add(
+"show"
+);
+
+
+
+setTimeout(()=>{
+
+
+toast.classList.remove(
+"show"
+);
+
+
+
+},2000);
+
+
+
+};
+// ==========================================
+// ORDER HISTORY LOAD
+// ==========================================
+
+
+let adminOrders = [];
+
+
+
+
+
+async function loadOrderHistory(){
 
 
 try{
 
 
+let snap = await getDocs(
 
-const snap = await getDocs(
-
-collection(db,"orders")
+collection(
+db,
+"orders"
+)
 
 );
 
 
 
 
-
-snap.forEach(item=>{
-
-
-
-let d=item.data();
+adminOrders=[];
 
 
 
+snap.forEach(doc=>{
 
 
-box.innerHTML += `
+adminOrders.push({
 
+id:doc.id,
 
+...doc.data()
 
-<tr>
-
-
-
-<td>
-
-${d.customerName || ""}
-
-</td>
-
-
-
-<td>
-
-${d.phone || ""}
-
-</td>
-
-
-
-<td>
-
-${d.tableNumber || ""}
-
-</td>
-
-
-
-
-<td>
-
-${d.orderType || ""}
-
-</td>
-
-
-
-
-<td>
-
-RM ${(d.total || 0).toFixed(2)}
-
-</td>
-
-
-
-
-<td>
-
-${d.status || "NEW"}
-
-</td>
-
-
-
-
-</tr>
-
-
-
-`;
-
+});
 
 
 });
 
 
 
+
+
+displayOrders();
 
 
 
@@ -486,7 +443,7 @@ catch(error){
 
 console.error(
 
-"ORDER LOAD ERROR",
+"Order Load Error",
 
 error
 
@@ -507,190 +464,163 @@ error
 
 
 
-// =====================================
-// SALES REPORT
-// =====================================
+// ==========================================
+// DISPLAY ORDERS
+// ==========================================
 
 
-async function loadSales(){
-
-
-
-let totalBox=document.getElementById(
-
-"totalSales"
-
-);
+function displayOrders(){
 
 
 
-let itemBox=document.getElementById(
+let box =
 
-"topItemsTable"
+document.getElementById(
+
+"orderHistoryList"
 
 );
 
 
 
-let categoryBox=document.getElementById(
+if(!box)return;
 
-"categorySalesTable"
 
-);
 
+box.innerHTML="";
 
 
 
 
 
-let totalSales=0;
 
+let search =
 
-let items={};
+(
 
+document.getElementById(
 
-let categories={};
+"orderSearch"
 
+)?.value
 
+|| ""
 
+).toLowerCase();
 
 
 
 
 
 
-try{
+let status =
 
+document.getElementById(
 
+"orderStatusFilter"
 
-const snap = await getDocs(
+)?.value
 
-collection(db,"orders")
+|| "ALL";
 
-);
 
 
 
 
 
 
+let data =
 
-snap.forEach(order=>{
+adminOrders.filter(order=>{
 
 
 
-let data=order.data();
+let text =
 
+(
 
-
-
-
-
-let total = Number(
-
-data.total || 0
-
-);
-
-
-
-totalSales += total;
-
-
-
-
-
-
-
-
-if(data.items){
-
-
-
-data.items.forEach(item=>{
-
-
-
-// TOP ITEMS
-
-
-if(!items[item.name]){
-
-
-items[item.name]=0;
-
-
-}
-
-
-
-items[item.name]+=Number(
-
-item.qty || 0
-
-);
-
-
-
-
-
-
-// CATEGORY
-
-let cat=item.category || "Others";
-
-
-
-if(!categories[cat]){
-
-
-categories[cat]=0;
-
-
-}
-
-
-
-categories[cat]+=
-
-Number(item.qty || 0);
-
-
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-});
-
-
-
-
-
-
-
-
-// TOTAL SALES
-
-
-if(totalBox){
-
-
-totalBox.innerHTML =
-
-"RM "
+order.customerName
 
 +
 
-totalSales.toFixed(2);
+order.tableNumber
+
++
+
+order.id
+
+)
+
+.toLowerCase();
+
+
+
+
+
+
+let matchSearch =
+
+text.includes(search);
+
+
+
+
+
+
+let matchStatus =
+
+status==="ALL"
+
+?
+
+true
+
+:
+
+order.status===status;
+
+
+
+
+
+return (
+
+matchSearch
+
+&&
+
+matchStatus
+
+);
+
+
+
+});
+
+
+
+
+
+
+
+
+
+if(data.length===0){
+
+
+box.innerHTML=
+
+`
+
+<h3>
+
+No Orders Found
+
+</h3>
+
+`;
+
+return;
 
 
 }
@@ -703,54 +633,43 @@ totalSales.toFixed(2);
 
 
 
-// TOP 50
-
-
-if(itemBox){
+data.forEach(order=>{
 
 
 
-itemBox.innerHTML="";
+let items="";
 
 
 
-Object.entries(items)
 
-.sort(
 
-(a,b)=>b[1]-a[1]
+(order.items || [])
 
-)
-
-.slice(0,50)
-
-.forEach(x=>{
+.forEach(item=>{
 
 
 
-itemBox.innerHTML +=`
+items += `
 
 
-
-<tr>
-
-
-<td>
-
-${x[0]}
-
-</td>
+<div class="order-item">
 
 
-<td>
+<span>
 
-${x[1]}
+${item.name}
 
-</td>
+</span>
 
 
-</tr>
+<b>
 
+x${item.qty}
+
+</b>
+
+
+</div>
 
 
 `;
@@ -761,62 +680,72 @@ ${x[1]}
 
 
 
-}
 
 
 
 
 
+box.innerHTML += `
+
+
+<div class="order-card">
+
+
+<h3>
+
+Order #${order.id.substring(0,6)}
+
+</h3>
+
+
+
+<p>
+
+Customer:
+
+${order.customerName || "-"}
+
+</p>
+
+
+
+<p>
+
+Table:
+
+${order.tableNumber || "-"}
+
+</p>
+
+
+
+<p>
+
+Type:
+
+${order.orderType || "-"}
+
+</p>
 
 
 
 
-// CATEGORY SALES
 
-
-if(categoryBox){
-
-
-
-categoryBox.innerHTML="";
+${items}
 
 
 
-Object.entries(categories)
+<h4>
 
-.sort(
+Status:
 
-(a,b)=>b[1]-a[1]
+${order.status || "NEW"}
 
-)
-
-.forEach(x=>{
+</h4>
 
 
 
-categoryBox.innerHTML +=`
-
-
-
-<tr>
-
-
-<td>
-
-${x[0]}
-
-</td>
-
-
-<td>
-
-${x[1]}
-
-</td>
-
-
-</tr>
-
+</div>
 
 
 `;
@@ -827,8 +756,169 @@ ${x[1]}
 
 
 
+
 }
 
+
+
+
+
+
+
+
+
+// ==========================================
+// SEARCH EVENTS
+// ==========================================
+
+
+document.addEventListener(
+
+"input",
+
+(e)=>{
+
+
+if(e.target.id==="orderSearch"){
+
+
+displayOrders();
+
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+// ==========================================
+// STATUS FILTER
+// ==========================================
+
+
+document.addEventListener(
+
+"change",
+
+(e)=>{
+
+
+if(e.target.id==="orderStatusFilter"){
+
+
+displayOrders();
+
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+// ==========================================
+// START
+// ==========================================
+
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+
+if(
+
+localStorage.getItem(
+"adminLogin"
+)==="yes"
+
+){
+
+
+loadOrderHistory();
+
+
+}
+
+
+}
+
+);
+// ==========================================
+// MENU LOAD
+// ==========================================
+
+
+let adminMenu=[];
+
+
+
+
+async function loadAdminMenu(){
+
+
+
+try{
+
+
+
+let snap = await getDocs(
+
+collection(
+
+db,
+
+"menus"
+
+)
+
+);
+
+
+
+
+adminMenu=[];
+
+
+
+
+snap.forEach(doc=>{
+
+
+adminMenu.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+
+});
+
+
+
+
+
+displayAdminMenu();
 
 
 
@@ -839,10 +929,9 @@ ${x[1]}
 catch(error){
 
 
-
 console.error(
 
-"SALES ERROR",
+"Menu Load Error",
 
 error
 
@@ -856,26 +945,34 @@ error
 
 }
 
-// =====================================
-// LOAD MENU LIST
-// =====================================
-
-
-async function loadMenuList(){
 
 
 
-let box=document.getElementById(
 
-"menuUpdateTable"
+
+
+
+
+// ==========================================
+// DISPLAY MENU
+// ==========================================
+
+
+function displayAdminMenu(){
+
+
+
+let box =
+
+document.getElementById(
+
+"adminMenuList"
 
 );
 
 
 
 if(!box)return;
-
-
 
 
 
@@ -886,26 +983,8 @@ box.innerHTML="";
 
 
 
-try{
 
-
-
-const snap = await getDocs(
-
-collection(db,"menus")
-
-);
-
-
-
-
-
-
-snap.forEach(item=>{
-
-
-
-let d=item.data();
+adminMenu.forEach(item=>{
 
 
 
@@ -915,77 +994,50 @@ box.innerHTML += `
 
 
 
-<tr>
+<div class="menu-row">
+
+
+<div>
+
+${item["Item Name"] || ""}
+
+</div>
 
 
 
-<td>
+<div>
 
-${d.category || ""}
+${item.category || ""}
 
-</td>
-
-
-
-
-<td>
-
-${d["Item Name"] || d.itemName || ""}
-
-</td>
+</div>
 
 
 
-
-<td>
+<div>
 
 RM ${Number(
 
-d["Dine in price"] || 0
+item["Dine in price"] || 0
 
 ).toFixed(2)}
 
-</td>
+</div>
 
 
 
-
-<td>
+<div>
 
 RM ${Number(
 
-d["Take away Price"] || 0
+item["Take away Price"] || 0
 
 ).toFixed(2)}
 
-</td>
+</div>
 
 
 
-
-<td>
-
-
-
-<button
-
-class="delete-btn"
-
-onclick="deleteMenu('${item.id}')">
-
-
-DELETE
-
-
-</button>
-
-
-
-</td>
-
-
-
-</tr>
+</div>
 
 
 
@@ -993,33 +1045,11 @@ DELETE
 
 
 
+
 });
 
 
 
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(
-
-"MENU LOAD ERROR",
-
-error
-
-);
-
-
-
-}
-
-
-
 }
 
 
@@ -1030,258 +1060,23 @@ error
 
 
 
-
-
-// =====================================
-// DELETE MENU ITEM
-// =====================================
-
-
-window.deleteMenu = async function(id){
-
-
-
-if(!confirm(
-
-"Delete this item?"
-
-)){
-
-
-return;
-
-
-}
-
-
-
-
-
-
-try{
-
-
-
-await deleteDoc(
-
-doc(
-
-db,
-
-"menus",
-
-id
-
-)
-
-);
-
-
-
-
-
-showToast(
-
-"Menu Deleted"
-
-);
-
-
-
-
-
-loadMenuList();
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(error);
-
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// ADD SINGLE MENU ITEM
-// =====================================
-
-
-window.addMenuItem = async function(){
-
-
-
-let category=document.getElementById(
-
-"menuCategory"
-
-).value;
-
-
-
-let name=document.getElementById(
-
-"menuName"
-
-).value;
-
-
-
-let dine=document.getElementById(
-
-"menuDinePrice"
-
-).value;
-
-
-
-let takeaway=document.getElementById(
-
-"menuTakePrice"
-
-).value;
-
-
-
-
-
-
-
-if(!name){
-
-
-
-showToast(
-
-"Enter Item Name"
-
-);
-
-
-
-return;
-
-
-}
-
-
-
-
-
-
-try{
-
-
-
-await addDoc(
-
-collection(db,"menus"),
-
-{
-
-
-
-category:category,
-
-
-
-"Item Name":name,
-
-
-
-"Dine in price":Number(dine),
-
-
-
-"Take away Price":Number(takeaway),
-
-
-
-sold:0
-
-
-
-}
-
-
-
-);
-
-
-
-
-
-
-showToast(
-
-"Menu Added"
-
-);
-
-
-
-
-
-
-loadMenuList();
-
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(error);
-
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
+// ==========================================
 // CSV UPLOAD
-// =====================================
+// ==========================================
 
 
-window.uploadCSV = async function(event){
+window.uploadMenuCSV = async function(){
 
 
 
-let file = event.target.files[0];
+let file =
+
+document.getElementById(
+
+"csvFile"
+
+).files[0];
+
 
 
 
@@ -1289,6 +1084,13 @@ let file = event.target.files[0];
 if(!file){
 
 
+showToast(
+
+"Select CSV File"
+
+);
+
+
 return;
 
 
@@ -1299,19 +1101,30 @@ return;
 
 
 
-let text = await file.text();
+
+let text =
+
+await file.text();
 
 
 
 
 
-let rows=text.split("\n");
+
+
+let rows =
+
+text.split("\n");
 
 
 
 
 
-let headers=rows[0]
+
+
+let headers =
+
+rows[0]
 
 .split(",")
 
@@ -1324,234 +1137,46 @@ let headers=rows[0]
 
 
 
+
 for(let i=1;i<rows.length;i++){
 
 
 
-let data=rows[i].split(",");
+let values =
 
+rows[i]
 
+.split(",")
 
+.map(x=>x.trim());
 
 
-if(data.length<4)continue;
 
 
 
 
 
+if(values.length<2)
 
-let item={
+continue;
 
 
 
 
 
-category:data[0],
 
 
 
+let data={};
 
 
-"Item Name":data[1],
 
 
 
+headers.forEach((h,index)=>{
 
 
-"Dine in price":
-
-Number(data[2] || 0),
-
-
-
-
-
-"Take away Price":
-
-Number(data[3] || 0),
-
-
-
-
-
-sold:0
-
-
-
-
-
-};
-
-
-
-
-
-
-
-await addDoc(
-
-collection(db,"menus"),
-
-item
-
-);
-
-
-
-
-
-
-}
-
-
-
-
-
-
-showToast(
-
-"CSV Upload Complete"
-
-);
-
-
-
-
-
-loadMenuList();
-
-
-
-};
-
-// =====================================
-// STAFF MANAGEMENT
-// =====================================
-
-
-async function loadStaff(){
-
-
-
-let box=document.getElementById(
-
-"staffTable"
-
-);
-
-
-
-if(!box)return;
-
-
-
-
-
-box.innerHTML="";
-
-
-
-
-
-
-try{
-
-
-
-const snap = await getDocs(
-
-collection(db,"staff")
-
-);
-
-
-
-
-
-
-
-snap.forEach(item=>{
-
-
-
-let d=item.data();
-
-
-
-
-
-
-box.innerHTML += `
-
-
-
-<tr>
-
-
-
-<td>
-
-${d.name || ""}
-
-</td>
-
-
-
-<td>
-
-${d.email || ""}
-
-</td>
-
-
-
-<td>
-
-${d.phone || ""}
-
-</td>
-
-
-
-
-<td>
-
-${d.role || "staff"}
-
-</td>
-
-
-
-
-<td>
-
-
-
-<button
-
-class="delete-btn"
-
-onclick="deleteStaff('${item.id}')">
-
-
-DELETE
-
-
-</button>
-
-
-
-</td>
-
-
-
-</tr>
-
-
-
-`;
-
+data[h]=values[index] || "";
 
 
 });
@@ -1561,101 +1186,6 @@ DELETE
 
 
 
-}
-
-catch(error){
-
-
-
-console.error(
-
-"STAFF LOAD ERROR",
-
-error
-
-);
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// ADD STAFF
-// =====================================
-
-
-window.addStaff = async function(){
-
-
-
-let name=document.getElementById(
-
-"staffName"
-
-).value;
-
-
-
-let email=document.getElementById(
-
-"staffEmail"
-
-).value;
-
-
-
-let phone=document.getElementById(
-
-"staffPhone"
-
-).value;
-
-
-
-let role=document.getElementById(
-
-"staffRole"
-
-).value;
-
-
-
-
-
-
-if(!name || !email){
-
-
-
-showToast(
-
-"Enter Staff Details"
-
-);
-
-
-
-return;
-
-
-}
-
-
-
-
-
 
 
 try{
@@ -1664,139 +1194,17 @@ try{
 
 await addDoc(
 
-collection(db,"staff"),
-
-{
-
-
-name:name,
-
-
-email:email,
-
-
-phone:phone,
-
-
-role:role || "staff",
-
-
-createdAt:new Date()
-
-
-}
-
-
-
-);
-
-
-
-
-
-
-showToast(
-
-"Staff Added"
-
-);
-
-
-
-
-
-loadStaff();
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(error);
-
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// DELETE STAFF
-// =====================================
-
-
-window.deleteStaff = async function(id){
-
-
-
-if(!confirm(
-
-"Delete Staff?"
-
-)){
-
-
-return;
-
-
-}
-
-
-
-
-
-
-try{
-
-
-
-await deleteDoc(
-
-doc(
+collection(
 
 db,
 
-"staff",
+"menus"
 
-id
+),
 
-)
-
-);
-
-
-
-
-
-
-showToast(
-
-"Staff Deleted"
+data
 
 );
-
-
-
-
-
-loadStaff();
-
-
 
 
 
@@ -1805,8 +1213,12 @@ loadStaff();
 catch(error){
 
 
-
 console.error(error);
+
+
+}
+
+
 
 
 
@@ -1814,45 +1226,23 @@ console.error(error);
 
 
 
-};
 
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// REFRESH ADMIN DATA
-// =====================================
-
-
-window.refreshAdmin=function(){
-
-
-
-loadOrders();
-
-
-loadSales();
-
-
-loadMenuList();
-
-
-loadStaff();
 
 
 
 showToast(
 
-"Updated"
+"Menu Uploaded"
 
 );
+
+
+
+
+
+loadAdminMenu();
+
+
 
 
 
@@ -1868,77 +1258,35 @@ showToast(
 
 
 
-// =====================================
-// TOAST
-// =====================================
+// ==========================================
+// INITIAL LOAD
+// ==========================================
 
 
-window.showToast = function(message){
+window.addEventListener(
 
+"load",
 
-
-let box=document.getElementById(
-
-"toast"
-
-);
+()=>{
 
 
 
-if(!box){
+if(
+
+localStorage.getItem(
+
+"adminLogin"
+
+)==="yes"
+
+){
 
 
-
-box=document.createElement(
-
-"div"
-
-);
-
-
-
-box.id="toast";
-
-
-
-document.body.appendChild(box);
-
+loadAdminMenu();
 
 
 }
 
 
 
-
-
-box.innerHTML=message;
-
-
-
-box.classList.add(
-
-"show"
-
-);
-
-
-
-
-
-setTimeout(()=>{
-
-
-
-box.classList.remove(
-
-"show"
-
-);
-
-
-
-},2000);
-
-
-
-};
+});
