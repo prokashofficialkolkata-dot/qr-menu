@@ -1,192 +1,298 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// CHECKOUT.JS (PART 1)
+// CHECKOUT.JS V2
+// PART 1
 // =====================================
 
-import { db, auth } from "./firebase.js";
 
 import {
-  doc,
-  getDoc,
-  addDoc,
-  collection,
-  serverTimestamp
+    db,
+    auth
+} from "./firebase.js";
+
+
+import {
+
+    collection,
+    addDoc,
+    serverTimestamp
+
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+
 
 
 // =====================================
 // OPEN CHECKOUT FORM
 // =====================================
 
-window.openCheckoutForm = async function () {
+window.openCheckoutForm=function(){
 
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("createBox").style.display = "none";
-  document.getElementById("googleProfileBox").style.display = "none";
-  document.getElementById("customerProfileBox").style.display = "none";
-  document.getElementById("checkoutForm").style.display = "block";
 
-  await loadCustomerData();
+const form =
+document.getElementById(
+"checkoutForm"
+);
+
+
+
+const profile =
+document.getElementById(
+"customerProfileBox"
+);
+
+
+
+if(form){
+
+form.style.display="block";
+
+}
+
+
+
+if(profile){
+
+profile.style.display="none";
+
+}
+
+
 
 };
 
 
-// =====================================
-// LOAD CUSTOMER DATA
-// =====================================
 
-async function loadCustomerData() {
 
-  const user = auth.currentUser;
-
-  if (!user) return;
-
-  try {
-
-    const snap = await getDoc(
-      doc(db, "customers", user.uid)
-    );
-
-    if (snap.exists()) {
-
-      const data = snap.data();
-
-      document.getElementById("customerName").value =
-        data.name || "";
-
-      document.getElementById("phone").value =
-        data.phone || "";
-
-    }
-
-  } catch (error) {
-
-    console.log(error);
-
-  }
-
-}
 
 // =====================================
 // PLACE ORDER
 // =====================================
 
-window.placeOrder = async function () {
+window.placeOrder = async function(){
 
-  try {
 
-    const user = auth.currentUser;
+try{
 
-    if (!user) {
-      showToast("Please login first");
-      return;
-    }
 
-    const tableNumber = document
-      .getElementById("tableNumber")
-      .value
-      .trim();
+const user =
+auth.currentUser;
 
-    const customerName = document
-      .getElementById("customerName")
-      .value
-      .trim();
 
-    const phone = document
-      .getElementById("phone")
-      .value
-      .trim();
 
-    const cart =
-      JSON.parse(localStorage.getItem("cart")) || [];
+if(!user){
 
-    if (cart.length === 0) {
-      showToast("Your cart is empty");
-      return;
-    }
 
-    let subtotal = 0;
+showToast(
+"Please login first"
+);
 
-    cart.forEach(item => {
-      subtotal += Number(item.price) * Number(item.qty);
-    });
 
-    const sst = subtotal * 0.06;
-    const total = subtotal + sst;
+return;
 
-    await addDoc(
-      collection(db, "orders"),
-      {
-        customerId: user.uid,
-        customerName: customerName,
-        phone: phone,
-        tableNumber: tableNumber,
-        orderType: localStorage.getItem("orderType") || "",
-        items: cart,
-        subtotal: subtotal,
-        sst: sst,
-        total: total,
-        status: "Pending",
-        createdAt: serverTimestamp()
-      }
-    );
 
-    localStorage.removeItem("cart");
+}
 
-    if (typeof updateCartCount === "function") {
-      updateCartCount();
-    }
 
-    showToast("Order Placed Successfully");
 
-    setTimeout(() => {
-      goHome();
-    }, 1500);
+const name =
+document.getElementById(
+"orderName"
+).value.trim();
 
-  } catch (error) {
 
-    console.log(error);
-    showToast(error.message);
 
-  }
+const phone =
+document.getElementById(
+"orderPhone"
+).value.trim();
+
+
+
+const table =
+document.getElementById(
+"tableNumber"
+)?.value || "";
+
+
+
+if(!name || !phone){
+
+
+showToast(
+"Please enter details"
+);
+
+
+return;
+
+
+}
+
+
+
+const cart =
+JSON.parse(
+localStorage.getItem("cart")
+) || [];
+
+
+
+if(cart.length===0){
+
+
+showToast(
+"Cart empty"
+);
+
+
+return;
+
+
+}
+// =====================================
+// CALCULATE TOTAL
+// =====================================
+
+
+let total = 0;
+
+
+
+cart.forEach((item)=>{
+
+
+total += Number(item.price) * Number(item.qty || 1);
+
+
+});
+
+
+
+
+// =====================================
+// SAVE ORDER TO FIRESTORE
+// =====================================
+
+
+const orderData = {
+
+
+customerId:user.uid,
+
+
+customerName:name,
+
+
+phone:phone,
+
+
+tableNumber:table,
+
+
+orderType:
+localStorage.getItem("orderType") || "Dine In",
+
+
+
+items:cart,
+
+
+
+totalAmount:total,
+
+
+
+status:"Pending",
+
+
+
+createdAt:serverTimestamp()
+
+
 
 };
 
+
+
+
+
+const orderRef =
+await addDoc(
+
+collection(
+db,
+"orders"
+),
+
+orderData
+
+);
+
+
+
+
+
+console.log(
+"Order ID:",
+orderRef.id
+);
+
+
+
+
+
 // =====================================
-// AUTH STATE CHANGE
+// ORDER SUCCESS
 // =====================================
 
-onAuthStateChanged(auth, async (user) => {
 
-  if (!user) return;
-
-  try {
-
-    await loadCustomerData();
-
-  } catch (error) {
-
-    console.log(error);
-
-  }
-
-});
+localStorage.removeItem(
+"cart"
+);
 
 
-// =====================================
-// PAGE LOAD
-// =====================================
 
-window.addEventListener("load", () => {
+showToast(
+"Order Placed Successfully"
+);
 
-  if (auth.currentUser) {
 
-    loadCustomerData();
 
-  }
+setTimeout(()=>{
 
-});
+
+showPage("welcome");
+
+
+
+},1500);
+
+
+
+
+
+}
+
+
+catch(error){
+
+
+
+console.log(
+"Order Error:",
+error
+);
+
+
+
+showToast(
+error.message
+);
+
+
+
+}
+
+
+};
