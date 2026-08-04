@@ -1,3 +1,8 @@
+// =====================================
+// KITCHEN DISPLAY V2
+// =====================================
+
+
 body{
 
 margin:0;
@@ -8,17 +13,20 @@ background:#111;
 
 color:white;
 
+overflow-x:hidden;
+
 }
+
 
 
 
 header{
 
-text-align:center;
-
 background:#0057b8;
 
-padding:20px;
+text-align:center;
+
+padding:25px;
 
 }
 
@@ -26,7 +34,7 @@ padding:20px;
 
 header h1{
 
-font-size:40px;
+font-size:45px;
 
 margin:0;
 
@@ -41,14 +49,20 @@ margin:0;
 
 display:grid;
 
-grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+grid-template-columns:
 
-gap:20px;
+repeat(auto-fit,minmax(420px,1fr));
 
-padding:20px;
+
+gap:25px;
+
+
+padding:25px;
 
 
 }
+
+
 
 
 
@@ -59,11 +73,11 @@ padding:20px;
 
 background:#222;
 
-border-radius:15px;
+border-radius:20px;
 
 padding:25px;
 
-font-size:28px;
+box-shadow:0 0 15px #000;
 
 
 }
@@ -74,21 +88,33 @@ font-size:28px;
 .kitchenCard h2{
 
 
-font-size:40px;
+font-size:45px;
 
-margin-top:0;
+margin:10px 0;
 
 
 }
 
 
 
+.kitchenCard h3{
 
 
-.kitchenCard p{
+font-size:35px;
 
 
-font-size:30px;
+}
+
+
+
+.foodItem{
+
+
+font-size:32px;
+
+padding:10px 0;
+
+border-bottom:1px solid #555;
 
 
 }
@@ -100,17 +126,87 @@ font-size:30px;
 .kitchenCard button{
 
 
-font-size:25px;
+font-size:28px;
 
 padding:15px 25px;
 
-margin:5px;
+margin:8px;
+
+border-radius:12px;
 
 border:none;
 
-border-radius:10px;
-
 cursor:pointer;
+
+}
+
+
+
+
+
+/* Pending */
+
+
+.kitchenCard.Pending{
+
+
+border:5px solid orange;
+
+}
+
+
+
+
+
+/* Preparing */
+
+
+.kitchenCard.Preparing{
+
+
+border:5px solid yellow;
+
+}
+
+
+
+
+
+/* Ready */
+
+
+.kitchenCard.Ready{
+
+
+border:5px solid lime;
+
+}
+
+
+
+
+
+/* Mobile / Tablet */
+
+
+@media(max-width:700px){
+
+
+
+.kitchenCard h2{
+
+font-size:35px;
+
+}
+
+
+
+.foodItem{
+
+font-size:25px;
+
+}
+
 
 
 }
