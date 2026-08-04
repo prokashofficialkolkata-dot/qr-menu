@@ -1,44 +1,40 @@
 // =====================================
-// CART SYSTEM V5
+// cart.js FINAL V5
 // Restoran Hameed's Bistro
 // =====================================
 
 
-let cart = [];
 
-
-
-
-// Load cart from memory
-
-if(localStorage.getItem("cart")){
-
-
-cart = JSON.parse(
+let cart = JSON.parse(
 
 localStorage.getItem("cart")
 
-);
+)
+
+|| [];
 
 
-}
+
+
 
 
 
 
 
 // =====================================
-// ADD ITEM TO CART
+// ADD TO CART
 // =====================================
 
 
-window.addToCart = function(id){
+window.addToCart=function(id){
 
 
 
-let item = menuData.find(
+let item =
 
-x => x.id === id
+menuData.find(
+
+x=>x.id===id
 
 );
 
@@ -46,7 +42,11 @@ x => x.id === id
 
 if(!item){
 
-console.log("Item not found");
+console.log(
+
+"Item not found"
+
+);
 
 return;
 
@@ -55,20 +55,40 @@ return;
 
 
 
-let existing = cart.find(
+let price =
 
-x => x.id === id
+localStorage.getItem("orderType")
+
+==="TAKE AWAY"
+
+?
+
+item.takeAwayPrice
+
+:
+
+item.dineInPrice;
+
+
+
+
+
+let old =
+
+cart.find(
+
+x=>x.id===id
 
 );
 
 
 
 
-if(existing){
+
+if(old){
 
 
-existing.qty += 1;
-
+old.qty++;
 
 }
 
@@ -77,15 +97,18 @@ else{
 
 cart.push({
 
+
 id:item.id,
+
 
 name:item.name,
 
-category:item.category,
 
-price:getCartPrice(item),
+price:Number(price),
+
 
 qty:1
+
 
 
 });
@@ -96,68 +119,22 @@ qty:1
 
 
 
+
 saveCart();
 
 
 
 showToast(
 
-item.name + " added"
+item.name+
+
+" Added"
 
 );
 
 
 
 };
-
-
-
-
-
-
-
-
-
-// =====================================
-// PRICE FOR CART
-// =====================================
-
-
-function getCartPrice(item){
-
-
-let type =
-
-localStorage.getItem("orderType")
-
-|| "DINE IN";
-
-
-
-
-if(type==="TAKE AWAY"){
-
-
-return Number(
-
-item.takeAwayPrice || 0
-
-);
-
-
-}
-
-
-
-return Number(
-
-item.dineInPrice || 0
-
-);
-
-
-
-}
 
 
 
@@ -197,6 +174,7 @@ updateCartCount();
 
 
 
+
 // =====================================
 // CART COUNT
 // =====================================
@@ -206,11 +184,11 @@ function updateCartCount(){
 
 
 
-let total = cart.reduce(
+let count =
 
-(sum,item)=>
+cart.reduce(
 
-sum + item.qty,
+(a,b)=>a+b.qty,
 
 0
 
@@ -219,7 +197,8 @@ sum + item.qty,
 
 
 
-let ids=[
+
+[
 
 "cartCount",
 
@@ -227,12 +206,10 @@ let ids=[
 
 "cartCount3"
 
-];
+]
 
+.forEach(id=>{
 
-
-
-ids.forEach(id=>{
 
 
 let el=
@@ -243,8 +220,7 @@ document.getElementById(id);
 
 if(el){
 
-el.innerHTML=total;
-
+el.innerHTML=count;
 
 }
 
@@ -253,17 +229,22 @@ el.innerHTML=total;
 });
 
 
+
 }
 
 
 
-updateCartCount();
+
+
+
+
+
 // =====================================
-// SHOW CART PAGE
+// SHOW CART
 // =====================================
 
 
-window.showCart = function(){
+window.showCart=function(){
 
 
 
@@ -273,11 +254,6 @@ document.getElementById("welcome")
 
 
 document.getElementById("menuPage")
-.style.display="none";
-
-
-
-document.getElementById("checkoutPage")
 .style.display="none";
 
 
@@ -310,18 +286,22 @@ function displayCart(){
 
 
 
-let box =
+let box=
 
-document.getElementById("cartItems");
+document.getElementById(
+
+"cartItems"
+
+);
 
 
 
-if(!box) return;
-
+if(!box)return;
 
 
 
 box.innerHTML="";
+
 
 
 
@@ -331,20 +311,9 @@ if(cart.length===0){
 
 box.innerHTML=
 
-`
-
-<h3>
-
-Your cart is empty
-
-</h3>
-
-`;
-
-
+"<h3>Cart Empty</h3>";
 
 updateTotal();
-
 
 return;
 
@@ -359,12 +328,12 @@ return;
 cart.forEach(item=>{
 
 
-box.innerHTML +=
 
-`
+box.innerHTML +=`
+
+
 
 <div class="cart-item">
-
 
 
 <div>
@@ -377,6 +346,7 @@ ${item.name}
 </h3>
 
 
+
 <p>
 
 RM ${item.price.toFixed(2)}
@@ -384,9 +354,7 @@ RM ${item.price.toFixed(2)}
 </p>
 
 
-
 </div>
-
 
 
 
@@ -394,34 +362,26 @@ RM ${item.price.toFixed(2)}
 <div>
 
 
-<button
-
-onclick="minusQty('${item.id}')">
-
+<button onclick="minusQty('${item.id}')">
 
 ➖
-
 
 </button>
 
 
 
-<span>
+<b>
 
 ${item.qty}
 
-</span>
+</b>
 
 
 
 
-<button
-
-onclick="plusQty('${item.id}')">
-
+<button onclick="plusQty('${item.id}')">
 
 ➕
-
 
 </button>
 
@@ -430,23 +390,20 @@ onclick="plusQty('${item.id}')">
 <br>
 
 
-<button
 
-onclick="removeItem('${item.id}')">
-
+<button onclick="removeItem('${item.id}')">
 
 🗑 Remove
-
 
 </button>
 
 
-
 </div>
 
 
 
 </div>
+
 
 
 `;
@@ -480,8 +437,9 @@ updateTotal();
 window.plusQty=function(id){
 
 
+let item=
 
-let item = cart.find(
+cart.find(
 
 x=>x.id===id
 
@@ -491,7 +449,6 @@ x=>x.id===id
 
 if(item){
 
-
 item.qty++;
 
 }
@@ -500,9 +457,7 @@ item.qty++;
 
 saveCart();
 
-
 displayCart();
-
 
 
 };
@@ -523,8 +478,9 @@ displayCart();
 window.minusQty=function(id){
 
 
+let item=
 
-let item = cart.find(
+cart.find(
 
 x=>x.id===id
 
@@ -537,13 +493,11 @@ if(item && item.qty>1){
 
 item.qty--;
 
-
 }
 
 
 
 saveCart();
-
 
 displayCart();
 
@@ -558,8 +512,9 @@ displayCart();
 
 
 
+
 // =====================================
-// REMOVE ITEM
+// REMOVE
 // =====================================
 
 
@@ -567,7 +522,9 @@ window.removeItem=function(id){
 
 
 
-cart = cart.filter(
+cart =
+
+cart.filter(
 
 x=>x.id!==id
 
@@ -576,7 +533,6 @@ x=>x.id!==id
 
 
 saveCart();
-
 
 displayCart();
 
@@ -601,13 +557,15 @@ function updateTotal(){
 
 
 
-let total = cart.reduce(
+let total =
+
+cart.reduce(
 
 (sum,item)=>
 
-sum +
+sum+
 
-(item.price * item.qty),
+(item.price*item.qty),
 
 0
 
@@ -617,17 +575,20 @@ sum +
 
 
 
-let totalBox =
+let box=
 
-document.getElementById("total");
+document.getElementById(
+
+"total"
+
+);
 
 
 
-if(totalBox){
+if(box){
 
 
-totalBox.innerHTML =
-
+box.innerHTML=
 
 "Total : RM "
 
@@ -640,28 +601,6 @@ total.toFixed(2);
 }
 
 
-}
-// =====================================
-// CHECKOUT BUTTON
-// =====================================
-
-
-window.checkout = function(){
-
-
-
-if(cart.length===0){
-
-
-showToast(
-
-"Cart is empty"
-
-);
-
-
-return;
-
 
 }
 
@@ -669,358 +608,8 @@ return;
 
 
 
-document.getElementById("cartPage")
 
-.style.display="none";
 
+// initial
 
-
-document.getElementById("checkoutPage")
-
-.style.display="block";
-
-
-
-
-
-loadCustomerCheckout();
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// LOAD CUSTOMER DETAILS
-// =====================================
-
-
-function loadCustomerCheckout(){
-
-
-
-let user =
-
-JSON.parse(
-
-localStorage.getItem("customer")
-
-);
-
-
-
-
-
-let name =
-
-document.getElementById("customerName");
-
-
-
-let phone =
-
-document.getElementById("phone");
-
-
-
-
-
-if(user){
-
-
-if(name)
-
-name.value=user.name || "";
-
-
-
-if(phone)
-
-phone.value=user.phone || "";
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// PLACE ORDER
-// =====================================
-
-
-window.placeOrder = async function(){
-
-
-
-let table =
-
-document.getElementById("tableNumber").value;
-
-
-
-
-
-if(!table){
-
-
-showToast(
-
-"Please enter table number"
-
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-let order = {
-
-
-customer:
-
-document.getElementById("customerName").value,
-
-
-phone:
-
-document.getElementById("phone").value,
-
-
-
-tableNumber:table,
-
-
-
-orderType:
-
-localStorage.getItem("orderType")
-
-|| "DINE IN",
-
-
-
-items:cart,
-
-
-
-status:"NEW",
-
-
-
-createdAt:
-
-new Date()
-
-
-
-
-};
-
-
-
-
-
-
-try{
-
-
-
-await saveOrder(order);
-
-
-
-
-
-showToast(
-
-"Order Sent Successfully"
-
-);
-
-
-
-
-
-cart=[];
-
-
-
-saveCart();
-
-
-
-
-
-setTimeout(()=>{
-
-
-goHome();
-
-
-
-},1500);
-
-
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(error);
-
-
-showToast(
-
-"Order Failed"
-
-);
-
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// SAVE ORDER FIREBASE
-// =====================================
-
-
-async function saveOrder(order){
-
-
-const {
-
-db
-
-}= await import("./firebase.js");
-
-
-
-const {
-
-collection,
-
-addDoc,
-
-serverTimestamp
-
-}= await import(
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
-
-);
-
-
-
-
-
-await addDoc(
-
-collection(db,"orders"),
-
-
-{
-
-...order,
-
-createdAt:
-
-serverTimestamp()
-
-
-}
-
-
-);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// TOAST
-// =====================================
-
-
-window.showToast=function(msg){
-
-
-
-let toast=
-
-document.getElementById("toast");
-
-
-
-if(!toast) return;
-
-
-
-toast.innerHTML=msg;
-
-
-
-toast.classList.add("show");
-
-
-
-
-setTimeout(()=>{
-
-
-toast.classList.remove("show");
-
-
-},2500);
-
-
-
-};
+updateCartCount();
