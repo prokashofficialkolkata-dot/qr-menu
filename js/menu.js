@@ -1,17 +1,18 @@
 // =====================================
-// MENU SYSTEM V5
+// menu.js FINAL V5
 // Restoran Hameed's Bistro
+// Firebase Dynamic Menu
 // =====================================
 
 
 import { db } from "./firebase.js";
 
+
 import {
+
 collection,
-getDocs,
-query,
-orderBy,
-limit
+getDocs
+
 }
 
 from
@@ -24,7 +25,12 @@ from
 
 let menuData = [];
 
-let currentOrderType = "DINE IN";
+let selectedOrderType = 
+localStorage.getItem("orderType")
+||
+"DINE IN";
+
+
 
 
 
@@ -38,17 +44,24 @@ let currentOrderType = "DINE IN";
 
 window.startMenu = function(type){
 
-currentOrderType = type;
+
+selectedOrderType = type;
 
 
 localStorage.setItem(
+
 "orderType",
+
 type
+
 );
+
+
 
 
 document.getElementById("welcome")
 .style.display="none";
+
 
 
 document.getElementById("menuPage")
@@ -56,19 +69,10 @@ document.getElementById("menuPage")
 
 
 
-let display =
-document.getElementById("orderTypeDisplay");
-
-
-if(display){
-
-display.innerHTML = type;
-
-}
-
 
 
 loadMenu();
+
 
 
 };
@@ -79,8 +83,9 @@ loadMenu();
 
 
 
+
 // =====================================
-// LOAD MENU FROM FIRESTORE
+// LOAD MENU FROM FIREBASE
 // =====================================
 
 
@@ -90,10 +95,12 @@ async function loadMenu(){
 try{
 
 
-const snapshot =
-await getDocs(
+const snapshot = await getDocs(
+
 collection(db,"menus")
+
 );
+
 
 
 
@@ -104,16 +111,65 @@ menuData=[];
 snapshot.forEach(doc=>{
 
 
+let d = doc.data();
+
+
+
 menuData.push({
+
 
 id:doc.id,
 
-...doc.data()
+
+category:
+
+d.category || "",
+
+
+
+name:
+
+d["Item Name"] || "",
+
+
+
+dineInPrice:
+
+Number(
+
+d["Dine in price"] || 0
+
+),
+
+
+
+takeAwayPrice:
+
+Number(
+
+d["Take away Price"] || 0
+
+),
+
+
+
+sold:
+
+Number(
+
+d.sold || 0
+
+)
+
+
 
 });
 
 
+
 });
+
+
 
 
 
@@ -121,7 +177,8 @@ id:doc.id,
 showPopular();
 
 
-showAllMenu();
+
+showMenu();
 
 
 
@@ -131,26 +188,74 @@ catch(error){
 
 
 console.error(
-"Menu Load Error:",
+
+"MENU LOAD ERROR",
+
 error
+
 );
 
 
+
+}
+
+
+
 }
 
 
 
+
+
+
+
+
+// =====================================
+// GET PRICE
+// =====================================
+
+
+function getPrice(item){
+
+
+if(selectedOrderType==="TAKE AWAY"){
+
+
+return item.takeAwayPrice;
+
+
 }
+
+
+return item.dineInPrice;
+
+
+}
+
+
+
+
+
+
+
+
+
 // =====================================
-// SHOW TOP 15 POPULAR ITEMS
+// TOP 15 POPULAR
 // =====================================
 
 
-window.showPopular = function(){
+function showPopular(){
 
 
-let box = 
-document.getElementById("popularItems");
+
+let box =
+
+document.getElementById(
+
+"popularItems"
+
+);
 
 
 
@@ -158,19 +263,20 @@ if(!box) return;
 
 
 
-box.innerHTML = "";
+
+box.innerHTML="";
 
 
 
+let popular =
 
-// Sort by selling count
-
-let popular = 
 [...menuData]
 
-.sort((a,b)=>
+.sort(
 
-(b.sold || 0) - (a.sold || 0)
+(a,b)=>
+
+b.sold-a.sold
 
 )
 
@@ -183,7 +289,10 @@ let popular =
 popular.forEach(item=>{
 
 
+
 box.innerHTML += `
+
+
 
 <div class="popular-card">
 
@@ -198,15 +307,13 @@ ${item.name}
 
 <p>
 
-RM ${getPrice(item)}
+RM ${getPrice(item).toFixed(2)}
 
 </p>
 
 
 
-<button
-
-onclick="addToCart('${item.id}')">
+<button onclick="addToCart('${item.id}')">
 
 
 ➕ ADD
@@ -219,6 +326,7 @@ onclick="addToCart('${item.id}')">
 </div>
 
 
+
 `;
 
 
@@ -227,8 +335,7 @@ onclick="addToCart('${item.id}')">
 
 
 
-};
-
+}
 
 
 
@@ -238,19 +345,26 @@ onclick="addToCart('${item.id}')">
 
 
 // =====================================
-// SHOW ALL MENU ITEMS
+// ALL MENU
 // =====================================
 
 
-function showAllMenu(){
-
-
-let box = 
-document.getElementById("itemBox");
+function showMenu(){
 
 
 
-if(!box) return;
+let box =
+
+document.getElementById(
+
+"itemBox"
+
+);
+
+
+
+if(!box)return;
+
 
 
 
@@ -263,10 +377,12 @@ box.innerHTML="";
 menuData.forEach(item=>{
 
 
+box.innerHTML +=`
 
-box.innerHTML += `
+
 
 <div class="menu-item">
+
 
 
 <h3>
@@ -287,19 +403,17 @@ ${item.category}
 
 <p>
 
-RM ${getPrice(item)}
+RM ${getPrice(item).toFixed(2)}
 
 </p>
 
 
 
 
-<button
-
-onclick="addToCart('${item.id}')">
+<button onclick="addToCart('${item.id}')">
 
 
-➕ ADD TO CART
+ADD TO CART
 
 
 </button>
@@ -307,6 +421,7 @@ onclick="addToCart('${item.id}')">
 
 
 </div>
+
 
 
 `;
@@ -328,70 +443,15 @@ onclick="addToCart('${item.id}')">
 
 
 // =====================================
-// PRICE SWITCH
-// =====================================
-
-
-function getPrice(item){
-
-
-
-let type =
-
-localStorage.getItem("orderType")
-
-|| currentOrderType;
-
-
-
-
-
-if(type==="TAKE AWAY"){
-
-
-return Number(
-
-item.takeAwayPrice || 0
-
-)
-
-.toFixed(2);
-
-
-
-}
-
-
-
-return Number(
-
-item.dineInPrice || 0
-
-)
-
-.toFixed(2);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
 // CHANGE ORDER TYPE
 // =====================================
 
 
-window.changeOrderType = function(type){
+window.changeOrderType=function(type){
 
 
-currentOrderType = type;
+selectedOrderType=type;
+
 
 
 localStorage.setItem(
@@ -406,164 +466,8 @@ type
 
 showPopular();
 
-showAllMenu();
+showMenu();
 
-
-
-}
-// =====================================
-// REFRESH MENU
-// =====================================
-
-
-window.refreshMenu = function(){
-
-loadMenu();
-
-};
-
-
-
-
-
-
-
-// =====================================
-// BACK TO HOME
-// =====================================
-
-
-window.goHome = function(){
-
-
-document.getElementById("welcome")
-.style.display="block";
-
-
-document.getElementById("menuPage")
-.style.display="none";
-
-
-document.getElementById("cartPage")
-.style.display="none";
-
-
-document.getElementById("checkoutPage")
-.style.display="none";
 
 
 };
-
-
-
-
-
-
-
-
-// =====================================
-// BACK BUTTON
-// =====================================
-
-
-window.goBack = function(){
-
-
-document.getElementById("cartPage")
-.style.display="none";
-
-
-document.getElementById("checkoutPage")
-.style.display="none";
-
-
-document.getElementById("menuPage")
-.style.display="block";
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// ADD TO CART CONNECTOR
-// =====================================
-
-
-window.addMenuItem = function(id){
-
-
-addToCart(id);
-
-
-};
-
-
-
-
-
-
-
-
-// =====================================
-// ORDER TYPE CHECK
-// =====================================
-
-
-let savedType =
-
-localStorage.getItem("orderType");
-
-
-
-if(savedType){
-
-currentOrderType = savedType;
-
-}
-
-
-
-
-
-
-
-// =====================================
-// AUTO LOAD MENU IF PAGE OPEN
-// =====================================
-
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-()=>{
-
-
-let menu =
-
-document.getElementById("menuPage");
-
-
-
-if(menu && 
-
-menu.style.display==="block"){
-
-
-loadMenu();
-
-
-}
-
-
-
-}
-
-);
