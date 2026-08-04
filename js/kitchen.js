@@ -1,9 +1,8 @@
-
-// =====================================
-// KITCHEN.JS FINAL V5
-// Restoran Hameed's Bistro
-// Kitchen Display System
-// =====================================
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// KITCHEN DISPLAY SYSTEM V2
+// Firebase Live Kitchen
+// ==========================================
 
 
 import { db } from "./firebase.js";
@@ -12,16 +11,11 @@ import { db } from "./firebase.js";
 import {
 
 collection,
-
 query,
-
 orderBy,
-
 onSnapshot,
-
-doc,
-
-updateDoc
+updateDoc,
+doc
 
 }
 
@@ -33,63 +27,135 @@ from
 
 
 
+let kitchenOrders = [];
 
-
-
-
-let kitchenOrders=[];
-
-
-
+let autoRefresh = true;
 
 
 
 
 
-
-// =====================================
-// LOAD LIVE ORDERS
-// =====================================
+// ==========================================
+// LOAD ORDERS LIVE
+// ==========================================
 
 
 function loadKitchenOrders(){
 
 
-
-let box=document.getElementById(
-
-"kitchenOrders"
-
-);
-
-
-
-if(!box)return;
-
-
-
-
-
-const q=query(
+const q = query(
 
 collection(db,"orders"),
 
 orderBy(
-
 "createdAt",
-
 "desc"
-
 )
 
 );
 
 
 
-
-
-
 onSnapshot(q,(snapshot)=>{
+
+
+kitchenOrders=[];
+
+
+
+snapshot.forEach((item)=>{
+
+
+let data=item.data();
+
+
+kitchenOrders.push({
+
+id:item.id,
+
+...data
+
+
+});
+
+
+});
+
+
+
+renderOrders();
+
+updateSummary();
+
+
+
+playNewOrderSound();
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+// ==========================================
+// START
+// ==========================================
+
+
+window.addEventListener(
+"load",
+()=>{
+
+
+loadKitchenOrders();
+
+
+startClock();
+
+
+setupButtons();
+
+
+}
+
+);
+// ==========================================
+// RENDER ORDERS
+// ==========================================
+
+
+function renderOrders(){
+
+
+let box =
+document.getElementById(
+"kitchenOrders"
+);
+
+
+
+let loading =
+document.getElementById(
+"loadingScreen"
+);
+
+
+
+if(loading){
+
+loading.style.display="none";
+
+}
+
+
+
+if(!box)return;
 
 
 
@@ -99,29 +165,71 @@ box.innerHTML="";
 
 
 
-kitchenOrders=[];
+let search =
+(document.getElementById("searchOrder")?.value || "")
+.toLowerCase();
+
+
+
+let filter =
+document.getElementById("statusFilter")?.value
+||
+"ALL";
 
 
 
 
 
-
-snapshot.forEach(item=>{
-
-
-
-let data=item.data();
+let filtered =
+kitchenOrders.filter(order=>{
 
 
+let text =
+
+(
+
+order.customerName
+||
+""
+
++
+
+order.tableNumber
+||
+""
+
+).toLowerCase();
 
 
-kitchenOrders.push({
 
 
-id:item.id,
+
+let statusMatch =
+
+filter==="ALL"
+
+?
+
+true
+
+:
+
+order.status===filter;
 
 
-...data
+
+
+
+return (
+
+text.includes(search)
+
+&&
+
+statusMatch
+
+);
+
 
 
 });
@@ -130,85 +238,24 @@ id:item.id,
 
 
 
-box.innerHTML += `
+
+if(filtered.length===0){
 
 
+box.innerHTML=
 
-<div class="kitchen-card">
+`
 
+<div class="empty-orders">
 
-
-<h2>
-
-Order #${item.id.slice(0,5)}
-
-</h2>
-
-
-
-
-<h3>
-
-Table:
-
-${data.tableNumber || "-"}
-
-</h3>
-
-
-
-
-<p>
-
-${data.orderType || ""}
-
-</p>
-
-
-
-
-
-<hr>
-
-
-
-
-
-
-${
-
-(data.items || [])
-
-.map(food=>`
-
-
-
-<div class="food-item">
-
-
-<b>
-
-${food.name}
-
-</b>
-
-
-<br>
-
-
-Qty:
-
-${food.qty}
-
-
+🍽 No Orders Found
 
 </div>
 
+`;
 
+return;
 
-`)
-
-.join("")
 
 }
 
@@ -218,29 +265,167 @@ ${food.qty}
 
 
 
+filtered.forEach(order=>{
+
+
+
+
+
+let statusClass =
+
+order.status==="READY"
+
+?
+
+"status-ready"
+
+:
+
+order.status==="COOKING"
+
+?
+
+"status-cooking"
+
+:
+
+"status-new";
+
+
+
+
+
+
+
+
+let itemsHTML="";
+
+
+
+
+(order.items || []).forEach(item=>{
+
+
+itemsHTML += `
+
+
+<div class="food-item">
+
+
+<b>
+
+${item.name}
+
+</b>
+
+
+
+<span>
+
+x ${item.qty}
+
+</span>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+
+
+box.innerHTML += `
+
+
+<div class="kitchen-card">
+
+
+
+<div class="order-time">
+
+${getOrderTime(order.createdAt)}
+
+</div>
+
+
+
+
+<h2>
+
+Order #${order.id.substring(0,5)}
+
+</h2>
+
+
 
 <h3>
 
-Status:
-
-${data.status || "NEW"}
+Table : ${order.tableNumber || "-"}
 
 </h3>
 
 
 
+<p>
+
+Customer :
+
+${order.customerName || "Walk In"}
+
+</p>
 
 
+
+<p>
+
+Type :
+
+${order.orderType || "DINE IN"}
+
+</p>
+
+
+
+
+<hr>
+
+
+
+
+${itemsHTML}
+
+
+
+
+
+<div class="status-badge ${statusClass}">
+
+${order.status || "NEW"}
+
+</div>
+
+
+
+
+
+<div class="order-actions">
 
 
 
 <button
 
-onclick="changeOrderStatus('${item.id}','COOKING')">
+class="btn-cooking"
 
+onclick="changeStatus('${order.id}','COOKING')">
 
-🍳 COOKING
-
+🍳 Cooking
 
 </button>
 
@@ -248,19 +433,32 @@ onclick="changeOrderStatus('${item.id}','COOKING')">
 
 
 
-
 <button
 
-onclick="changeOrderStatus('${item.id}','READY')">
+class="btn-ready"
 
+onclick="changeStatus('${order.id}','READY')">
 
-✅ READY
-
+✅ Ready
 
 </button>
 
 
 
+
+<button
+
+class="btn-complete"
+
+onclick="changeStatus('${order.id}','COMPLETED')">
+
+✔ Done
+
+</button>
+
+
+
+</div>
 
 
 
@@ -273,31 +471,7 @@ onclick="changeOrderStatus('${item.id}','READY')">
 
 
 
-
-
 });
-
-
-
-
-
-if(snapshot.empty){
-
-
-
-box.innerHTML=
-
-"<h2>No Orders</h2>";
-
-
-
-}
-
-
-
-});
-
-
 
 
 
@@ -309,40 +483,26 @@ box.innerHTML=
 
 
 
+// ==========================================
+// SEARCH
+// ==========================================
 
 
+document.addEventListener(
+
+"input",
+
+(e)=>{
 
 
-
-// =====================================
-// UPDATE STATUS
-// =====================================
+if(e.target.id==="searchOrder"){
 
 
-window.changeOrderStatus = async function(id,status){
+renderOrders();
 
 
+}
 
-try{
-
-
-
-await updateDoc(
-
-doc(
-
-db,
-
-"orders",
-
-id
-
-),
-
-{
-
-
-status:status
 
 
 }
@@ -350,6 +510,71 @@ status:status
 );
 
 
+
+
+
+
+
+
+// ==========================================
+// FILTER
+// ==========================================
+
+
+document.addEventListener(
+
+"change",
+
+(e)=>{
+
+
+if(e.target.id==="statusFilter"){
+
+
+renderOrders();
+
+
+}
+
+
+}
+
+);
+// ==========================================
+// CHANGE ORDER STATUS
+// ==========================================
+
+
+window.changeStatus = async function(id,status){
+
+
+try{
+
+
+await updateDoc(
+
+doc(
+db,
+"orders",
+id
+),
+
+{
+
+status:status
+
+}
+
+);
+
+
+
+
+showToast(
+
+"Order " + status
+
+);
 
 
 
@@ -358,15 +583,15 @@ status:status
 catch(error){
 
 
-
 console.error(
-
-"STATUS ERROR",
-
+"Status Update Error",
 error
-
 );
 
+
+showToast(
+"Update Failed"
+);
 
 
 }
@@ -383,23 +608,445 @@ error
 
 
 
+// ==========================================
+// UPDATE SUMMARY
+// ==========================================
 
 
-// =====================================
-// START
-// =====================================
+function updateSummary(){
 
 
-window.addEventListener(
 
-"load",
+let pending = 0;
 
-()=>{
+let cooking = 0;
+
+let ready = 0;
 
 
-loadKitchenOrders();
+
+kitchenOrders.forEach(order=>{
+
+
+if(
+order.status==="COOKING"
+){
+
+cooking++;
+
+}
+
+else if(
+order.status==="READY"
+){
+
+ready++;
+
+}
+
+else{
+
+pending++;
+
+}
+
+
+
+});
+
+
+
+
+
+let p =
+document.getElementById(
+"pendingCount"
+);
+
+
+let c =
+document.getElementById(
+"cookingCount"
+);
+
+
+let r =
+document.getElementById(
+"readyCount"
+);
+
+
+
+
+if(p)
+p.innerHTML=pending;
+
+
+if(c)
+c.innerHTML=cooking;
+
+
+if(r)
+r.innerHTML=ready;
+
 
 
 }
 
+
+
+
+
+
+
+
+
+// ==========================================
+// LIVE CLOCK
+// ==========================================
+
+
+function startClock(){
+
+
+setInterval(()=>{
+
+
+let clock =
+document.getElementById(
+"liveClock"
 );
+
+
+
+if(clock){
+
+
+let now =
+new Date();
+
+
+
+clock.innerHTML =
+
+now.toLocaleTimeString();
+
+
+
+}
+
+
+
+},1000);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// ORDER TIME
+// ==========================================
+
+
+function getOrderTime(timestamp){
+
+
+
+if(!timestamp)return "";
+
+
+
+let date;
+
+
+
+if(timestamp.toDate){
+
+
+date =
+timestamp.toDate();
+
+
+}
+
+else{
+
+
+date =
+new Date(timestamp);
+
+
+}
+
+
+
+
+
+let diff =
+
+Math.floor(
+
+(
+new Date()
+
+-
+date
+
+)
+
+/
+
+60000
+
+);
+
+
+
+
+
+if(diff<1){
+
+return "Just Now";
+
+}
+
+
+
+return diff+" min ago";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// NEW ORDER SOUND
+// ==========================================
+
+
+function playNewOrderSound(){
+
+
+
+let sound =
+document.getElementById(
+"newOrderSound"
+);
+
+
+
+if(sound && autoRefresh){
+
+
+sound.play()
+.catch(()=>{});
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// BUTTON SETUP
+// ==========================================
+
+
+function setupButtons(){
+
+
+
+let refresh =
+document.getElementById(
+"refreshBtn"
+);
+
+
+
+if(refresh){
+
+
+refresh.onclick=function(){
+
+
+renderOrders();
+
+
+showToast(
+"Refreshed"
+);
+
+
+};
+
+
+}
+
+
+
+
+
+let full =
+document.getElementById(
+"fullscreenBtn"
+);
+
+
+
+if(full){
+
+
+full.onclick=function(){
+
+
+
+if(
+!document.fullscreenElement
+){
+
+
+document.documentElement.requestFullscreen();
+
+
+}
+
+else{
+
+
+document.exitFullscreen();
+
+
+}
+
+
+
+};
+
+
+
+}
+
+
+
+
+
+
+let auto =
+document.getElementById(
+"autoRefreshBtn"
+);
+
+
+
+if(auto){
+
+
+
+auto.onclick=function(){
+
+
+
+autoRefresh =
+!autoRefresh;
+
+
+
+auto.innerHTML =
+
+autoRefresh
+
+?
+
+"🟢 Auto Refresh"
+
+:
+
+"🔴 Paused";
+
+
+
+};
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// TOAST
+// ==========================================
+
+
+window.showToast=function(text){
+
+
+
+let toast =
+document.getElementById(
+"toast"
+);
+
+
+
+if(!toast)return;
+
+
+
+toast.innerHTML=text;
+
+
+toast.classList.add(
+"show"
+);
+
+
+
+setTimeout(()=>{
+
+
+toast.classList.remove(
+"show"
+);
+
+
+
+},2000);
+
+
+
+};
