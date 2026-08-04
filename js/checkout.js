@@ -1,8 +1,8 @@
+
 // =====================================
-// checkout.js FINAL V5
+// CHECKOUT.JS FINAL V5
 // Restoran Hameed's Bistro
 // =====================================
-
 
 
 import { db } from "./firebase.js";
@@ -28,8 +28,119 @@ from
 
 
 
+
+
 // =====================================
 // OPEN CHECKOUT
+// =====================================
+
+
+window.openCheckoutForm=function(){
+
+
+
+let customer = JSON.parse(
+
+localStorage.getItem("customer")
+
+)
+
+|| {};
+
+
+
+
+
+let name=document.getElementById(
+
+"customerName"
+
+);
+
+
+
+let phone=document.getElementById(
+
+"phone"
+
+);
+
+
+
+
+
+
+if(name){
+
+
+name.value = customer.name || "";
+
+
+}
+
+
+
+if(phone){
+
+
+phone.value = customer.phone || "";
+
+
+}
+
+
+
+
+
+
+let form=document.getElementById(
+
+"checkoutForm"
+
+);
+
+
+
+let login=document.getElementById(
+
+"loginBox"
+
+);
+
+
+
+if(form){
+
+
+form.style.display="block";
+
+
+}
+
+
+
+if(login){
+
+
+login.style.display="none";
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// CHECKOUT BUTTON
 // =====================================
 
 
@@ -49,14 +160,11 @@ localStorage.getItem("cart")
 
 
 
+
 if(cart.length===0){
 
 
-showToast(
-
-"Cart is empty"
-
-);
+showToast("Cart Empty");
 
 
 return;
@@ -68,15 +176,29 @@ return;
 
 
 
+
 document.getElementById("cartPage")
 
 .style.display="none";
 
 
 
+
 document.getElementById("checkoutPage")
 
 .style.display="block";
+
+
+
+
+
+if(window.openCheckoutForm){
+
+
+openCheckoutForm();
+
+
+}
 
 
 
@@ -111,9 +233,24 @@ localStorage.getItem("cart")
 
 
 
-let name =
+if(cart.length===0){
 
-document.getElementById(
+
+showToast("Cart Empty");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+let name=document.getElementById(
 
 "customerName"
 
@@ -122,9 +259,8 @@ document.getElementById(
 
 
 
-let phone =
 
-document.getElementById(
+let phone=document.getElementById(
 
 "phone"
 
@@ -133,13 +269,13 @@ document.getElementById(
 
 
 
-let table =
 
-document.getElementById(
+let table=document.getElementById(
 
 "tableNumber"
 
 ).value;
+
 
 
 
@@ -169,8 +305,26 @@ return;
 
 
 
-let order = {
 
+let total = cart.reduce(
+
+(sum,item)=>
+
+sum+(item.price*item.qty),
+
+0
+
+);
+
+
+
+
+
+
+
+
+
+let order = {
 
 
 customerName:name,
@@ -205,9 +359,12 @@ items:cart,
 
 
 
+total:total,
+
+
+
 
 status:"NEW",
-
 
 
 
@@ -229,6 +386,7 @@ serverTimestamp()
 
 
 try{
+
 
 
 await addDoc(
@@ -253,6 +411,8 @@ showToast(
 
 
 
+
+
 localStorage.removeItem(
 
 "cart"
@@ -270,7 +430,13 @@ setTimeout(()=>{
 goHome();
 
 
+location.reload();
+
+
 },1500);
+
+
+
 
 
 
@@ -282,6 +448,8 @@ catch(error){
 
 
 console.error(
+
+"ORDER ERROR",
 
 error
 
@@ -301,7 +469,6 @@ showToast(
 
 
 
-
 };
 
 
@@ -317,13 +484,11 @@ showToast(
 // =====================================
 
 
-window.showToast=function(text){
+window.showToast = window.showToast || function(msg){
 
 
 
-let box=
-
-document.getElementById(
+let t=document.getElementById(
 
 "toast"
 
@@ -331,34 +496,29 @@ document.getElementById(
 
 
 
-if(!box)return;
+if(t){
 
 
 
-box.innerHTML=text;
+t.innerHTML=msg;
 
 
 
-box.classList.add(
-
-"show"
-
-);
-
+t.classList.add("show");
 
 
 
 setTimeout(()=>{
 
 
-box.classList.remove(
-
-"show"
-
-);
+t.classList.remove("show");
 
 
-},2500);
+},2000);
+
+
+
+}
 
 
 
