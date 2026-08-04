@@ -1,14 +1,19 @@
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// CART SYSTEM V6 FINAL
+// PART 1
+// ==========================================
 
-// =====================================
-// CART.JS FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
 
+let cart =
 
+JSON.parse(
 
-let cart = JSON.parse(
+localStorage.getItem(
 
-localStorage.getItem("cart")
+"cart"
+
+)
 
 )
 
@@ -19,20 +24,26 @@ localStorage.getItem("cart")
 
 
 
-// =====================================
+
+
+
+// ==========================================
 // ADD TO CART
-// =====================================
+// ==========================================
 
 
 window.addToCart=function(id){
 
 
 
-let item = window.menuData.find(
+let item =
+
+menuData.find(
 
 x=>x.id===id
 
 );
+
 
 
 
@@ -41,10 +52,17 @@ x=>x.id===id
 if(!item){
 
 
-showToast("Item Not Found");
+
+showToast(
+
+"Item Not Found"
+
+);
+
 
 
 return;
+
 
 
 }
@@ -53,13 +71,21 @@ return;
 
 
 
-let orderType =
 
-localStorage.getItem("orderType")
 
-||
 
-"DINE IN";
+let type =
+
+localStorage.getItem(
+
+"orderType"
+
+)
+
+|| "DINE IN";
+
+
+
 
 
 
@@ -68,15 +94,15 @@ localStorage.getItem("orderType")
 
 let price =
 
-orderType==="TAKE AWAY"
+type==="TAKE AWAY"
 
 ?
 
-item.takeAwayPrice
+Number(item.takeAwayPrice)
 
 :
 
-item.dineInPrice;
+Number(item.dineInPrice);
 
 
 
@@ -85,7 +111,10 @@ item.dineInPrice;
 
 
 
-let exist = cart.find(
+
+let old =
+
+cart.find(
 
 x=>x.id===id
 
@@ -95,10 +124,13 @@ x=>x.id===id
 
 
 
-if(exist){
 
 
-exist.qty++;
+
+if(old){
+
+
+old.qty++;
 
 
 }
@@ -110,13 +142,21 @@ else{
 cart.push({
 
 
+
 id:item.id,
+
 
 
 name:item.name,
 
 
-price:Number(price),
+
+category:item.category || "Other",
+
+
+
+price:price,
+
 
 
 qty:1
@@ -126,7 +166,10 @@ qty:1
 });
 
 
+
 }
+
+
 
 
 
@@ -138,9 +181,12 @@ saveCart();
 
 
 
+
 showToast(
 
-item.name+" Added"
+item.name+
+
+" Added"
 
 );
 
@@ -156,9 +202,9 @@ item.name+" Added"
 
 
 
-// =====================================
+// ==========================================
 // SAVE CART
-// =====================================
+// ==========================================
 
 
 function saveCart(){
@@ -175,38 +221,35 @@ JSON.stringify(cart)
 
 
 
+
+
 updateCartCount();
 
 
 
 }
-
-
-
-
-
-
-
-
-
-// =====================================
+// ==========================================
 // CART COUNT
-// =====================================
+// ==========================================
 
 
 function updateCartCount(){
 
 
 
-let count = cart.reduce(
+let count =
 
-(total,item)=>
+cart.reduce(
 
-total+item.qty,
+(sum,item)=>
+
+sum + item.qty,
 
 0
 
 );
+
+
 
 
 
@@ -225,7 +268,10 @@ total+item.qty,
 .forEach(id=>{
 
 
-let el=document.getElementById(id);
+
+let el =
+
+document.getElementById(id);
 
 
 
@@ -249,36 +295,44 @@ el.innerHTML=count;
 
 
 
-window.updateCartCount=updateCartCount;
 
 
 
 
-
-
-
-
-
-// =====================================
-// OPEN CART
-// =====================================
+// ==========================================
+// SHOW CART
+// ==========================================
 
 
 window.showCart=function(){
 
 
 
-document.getElementById("welcome").style.display="none";
+document.getElementById(
+
+"welcome"
+
+).style.display="none";
 
 
-document.getElementById("menuPage").style.display="none";
 
 
-document.getElementById("checkoutPage").style.display="none";
+document.getElementById(
+
+"menuPage"
+
+).style.display="none";
 
 
 
-document.getElementById("cartPage").style.display="block";
+
+document.getElementById(
+
+"cartPage"
+
+).style.display="block";
+
+
 
 
 
@@ -298,16 +352,18 @@ displayCart();
 
 
 
-// =====================================
+// ==========================================
 // DISPLAY CART
-// =====================================
+// ==========================================
 
 
-window.displayCart=function(){
+function displayCart(){
 
 
 
-let box=document.getElementById(
+let box =
+
+document.getElementById(
 
 "cartItems"
 
@@ -315,7 +371,10 @@ let box=document.getElementById(
 
 
 
+
+
 if(!box)return;
+
 
 
 
@@ -328,13 +387,22 @@ box.innerHTML="";
 
 
 
+
 if(cart.length===0){
 
 
 
 box.innerHTML=
 
-"<h3>Cart Empty</h3>";
+`
+
+<h3>
+
+Cart Empty
+
+</h3>
+
+`;
 
 
 
@@ -345,7 +413,12 @@ updateTotal();
 return;
 
 
+
 }
+
+
+
+
 
 
 
@@ -362,6 +435,7 @@ box.innerHTML += `
 <div class="cart-item">
 
 
+
 <div>
 
 
@@ -375,15 +449,13 @@ ${item.name}
 
 <p>
 
-RM ${item.price.toFixed(2)}
+RM ${Number(item.price).toFixed(2)}
 
 </p>
 
 
 
 </div>
-
-
 
 
 
@@ -415,15 +487,13 @@ ${item.qty}
 
 
 
-
 <br>
+
 
 
 <button onclick="removeItem('${item.id}')">
 
-
 🗑 Remove
-
 
 </button>
 
@@ -436,11 +506,13 @@ ${item.qty}
 </div>
 
 
+
 `;
 
 
 
 });
+
 
 
 
@@ -460,20 +532,24 @@ updateTotal();
 
 
 
-// =====================================
-// PLUS
-// =====================================
+// ==========================================
+// PLUS QUANTITY
+// ==========================================
 
 
 window.plusQty=function(id){
 
 
 
-let item=cart.find(
+let item =
+
+cart.find(
 
 x=>x.id===id
 
 );
+
+
 
 
 
@@ -487,6 +563,9 @@ item.qty++;
 
 
 
+
+
+
 saveCart();
 
 
@@ -504,16 +583,18 @@ displayCart();
 
 
 
-// =====================================
-// MINUS
-// =====================================
+// ==========================================
+// MINUS QUANTITY
+// ==========================================
 
 
 window.minusQty=function(id){
 
 
 
-let item=cart.find(
+let item =
+
+cart.find(
 
 x=>x.id===id
 
@@ -521,13 +602,22 @@ x=>x.id===id
 
 
 
+
+
+
+
 if(item && item.qty>1){
+
 
 
 item.qty--;
 
 
+
 }
+
+
+
 
 
 
@@ -548,16 +638,18 @@ displayCart();
 
 
 
-// =====================================
-// REMOVE
-// =====================================
+// ==========================================
+// REMOVE ITEM
+// ==========================================
 
 
 window.removeItem=function(id){
 
 
 
-cart = cart.filter(
+cart =
+
+cart.filter(
 
 x=>x.id!==id
 
@@ -565,6 +657,9 @@ x=>x.id!==id
 
 
 
+
+
+
 saveCart();
 
 
@@ -582,20 +677,32 @@ displayCart();
 
 
 
-// =====================================
+// ==========================================
 // TOTAL
-// =====================================
+// ==========================================
 
 
 function updateTotal(){
 
 
 
-let total = cart.reduce(
+let total =
+
+cart.reduce(
 
 (sum,item)=>
 
-sum+(item.price*item.qty),
+sum +
+
+(
+
+Number(item.price)
+
+*
+
+Number(item.qty)
+
+),
 
 0
 
@@ -606,7 +713,10 @@ sum+(item.price*item.qty),
 
 
 
-let box=document.getElementById(
+
+let box =
+
+document.getElementById(
 
 "total"
 
@@ -614,7 +724,11 @@ let box=document.getElementById(
 
 
 
+
+
+
 if(box){
+
 
 
 box.innerHTML=
@@ -639,6 +753,11 @@ total.toFixed(2);
 
 
 
-// START
+
+
+// ==========================================
+// INITIAL
+// ==========================================
+
 
 updateCartCount();
