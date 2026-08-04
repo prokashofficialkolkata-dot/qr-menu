@@ -1,11 +1,15 @@
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// FIREBASE CONFIG V6 FINAL
+// ==========================================
 
-// =====================================
-// FIREBASE CONFIG FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
 
 
-import { initializeApp }
+import {
+
+initializeApp
+
+}
 
 from
 
@@ -13,15 +17,13 @@ from
 
 
 
-import { getFirestore }
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
+import {
 
-import { getAuth }
+getAuth
+
+}
 
 from
 
@@ -31,9 +33,33 @@ from
 
 
 
-// Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAZEby6MscIOcgp94iMqAMehOJooyo8LQk",
+import {
+
+getFirestore
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+
+
+// ==========================================
+// FIREBASE CONFIG
+// ==========================================
+
+
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAZEby6MscIOcgp94iMqAMehOJooyo8LQk",
     authDomain: "hameeds-bistro.firebaseapp.com",
     projectId: "hameeds-bistro",
     storageBucket: "hameeds-bistro.firebasestorage.app",
@@ -47,24 +73,42 @@ from
 
 
 
-// =====================================
-// INITIALIZE FIREBASE
-// =====================================
 
 
-const app = initializeApp(firebaseConfig);
+// ==========================================
+// INITIALIZE
+// ==========================================
+
+
+const app =
+
+initializeApp(
+
+firebaseConfig
+
+);
 
 
 
 
 
 
-// =====================================
-// EXPORT
-// =====================================
 
 
-export const db = getFirestore(app);
+
+// ==========================================
+// SERVICES
+// ==========================================
 
 
-export const auth = getAuth(app);
+export const auth =
+
+getAuth(app);
+
+
+
+
+
+export const db =
+
+getFirestore(app);
