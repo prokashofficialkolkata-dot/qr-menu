@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -8,14 +7,14 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>
-Hameed Bistro Admin
+Restoran Hameed's Bistro Admin
 </title>
 
 
-<link rel="stylesheet" href="admin.css">
+<link rel="icon" href="images/logo.png">
 
+<link rel="stylesheet" href="admin.css">
 
 </head>
 
@@ -23,12 +22,25 @@ Hameed Bistro Admin
 <body>
 
 
+<!-- ==========================
+ADMIN LOGIN PAGE
+========================== -->
 
 
+<div id="adminLoginPage">
 
-<!-- LOGIN -->
 
-<div id="loginBox" class="loginBox">
+<div class="admin-box">
+
+
+<div class="logo-circle">
+
+<img 
+src="images/logo.png"
+class="logo">
+
+</div>
+
 
 
 <h1>
@@ -42,39 +54,37 @@ Admin Login
 
 
 
-<input
 
+<input
 id="adminEmail"
-
 type="email"
-
-placeholder="Admin Email"
-
->
+placeholder="Admin Email">
 
 
 
 <input
-
 id="adminPassword"
-
 type="password"
-
-placeholder="Password"
-
->
+placeholder="Password">
 
 
 
-<button onclick="adminLogin()">
 
-Login
+
+<button
+onclick="adminLogin()">
+
+LOGIN
 
 </button>
 
 
 
-<p id="loginMessage"></p>
+
+<p id="adminMessage"></p>
+
+
+</div>
 
 
 </div>
@@ -85,31 +95,51 @@ Login
 
 
 
+<!-- ==========================
+ADMIN DASHBOARD
+========================== -->
 
 
-<!-- DASHBOARD -->
-
-
-<div id="dashboard" style="display:none;">
-
-
+<div id="adminDashboard" style="display:none;">
 
 
 
 <header>
 
 
-<h1>
-Hameed Bistro Admin Panel
-</h1>
-
+<div class="top-bar">
 
 
 <button onclick="adminLogout()">
 
-Logout
+🚪 Logout
 
 </button>
+
+
+</div>
+
+
+
+
+<div class="logo-circle">
+
+<img 
+src="images/logo.png"
+class="logo">
+
+</div>
+
+
+
+<h1>
+Restoran Hameed's Bistro
+</h1>
+
+
+<h2>
+Admin Dashboard
+</h2>
 
 
 </header>
@@ -118,6 +148,333 @@ Logout
 
 
 
+<!-- DASHBOARD BUTTONS -->
+
+
+<div class="admin-menu">
+
+
+
+<button onclick="showOrders()">
+
+📦 Order History
+
+</button>
+
+
+
+
+
+<button onclick="showSalesReport()">
+
+📊 Sales Report
+
+</button>
+
+
+
+
+
+<button onclick="showMenuUpdate()">
+
+🍽 Menu Update
+
+</button>
+
+
+
+
+
+<button onclick="showStaffManagement()">
+
+👥 Staff Management
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<!-- CONTENT AREA -->
+
+
+<div id="adminContent">
+
+
+<h3>
+Welcome Admin
+</h3>
+
+
+<p>
+Select an option above
+</p>
+
+
+</div>
+<!-- ==========================
+ORDER HISTORY SECTION
+========================== -->
+
+
+<section 
+id="orderHistorySection"
+style="display:none;">
+
+
+
+<h2>
+📦 Order History
+</h2>
+
+
+
+
+<div class="table-box">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Customer</th>
+
+<th>Phone</th>
+
+<th>Type</th>
+
+<th>Table</th>
+
+<th>Items</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="orderHistoryTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+SALES REPORT SECTION
+========================== -->
+
+
+<section
+id="salesReportSection"
+style="display:none;">
+
+
+
+<h2>
+📊 Sales Report
+</h2>
+
+
+
+
+<div class="sales-card">
+
+
+<h3>
+Total Sales
+</h3>
+
+
+<h1 id="totalSales">
+
+RM 0.00
+
+</h1>
+
+
+</div>
+
+
+
+
+
+<div class="sales-card">
+
+
+<h3>
+Today Sales
+</h3>
+
+
+<h1 id="todaySales">
+
+RM 0.00
+
+</h1>
+
+
+</div>
+
+
+
+
+
+
+<h2>
+🔥 Top 50 Selling Items
+</h2>
+
+
+
+
+<div class="table-box">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Rank</th>
+
+<th>Item</th>
+
+<th>Category</th>
+
+<th>Qty Sold</th>
+
+<th>Amount</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="topSellingTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+<h2>
+Category Wise Sales
+</h2>
+
+
+
+
+<div class="table-box">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Category</th>
+
+<th>Total Qty</th>
+
+<th>Total Sales</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="categorySalesTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+MENU UPDATE SECTION
+========================== -->
+
+
+<section
+id="menuUpdateSection"
+style="display:none;">
+
+
+
+<h2>
+🍽 Menu Update
+</h2>
+
 
 
 
@@ -125,26 +482,12 @@ Logout
 <!-- CSV UPLOAD -->
 
 
-<section>
+<div class="upload-box">
 
 
-<h2>
-Upload Menu CSV
-</h2>
-
-
-
-<p>
-
-Format:
-
-<br>
-
-Category, Item Name, Dine in price, Take away Price
-
-</p>
-
-
+<h3>
+Upload CSV Menu
+</h3>
 
 
 
@@ -154,27 +497,29 @@ type="file"
 
 id="csvFile"
 
-accept=".csv"
-
->
+accept=".csv">
 
 
 
-<button onclick="uploadCSV()">
 
-Upload CSV
+
+<button
+
+onclick="uploadCSV()">
+
+
+📤 Upload CSV
+
 
 </button>
 
 
 
-
-<p id="uploadStatus"></p>
-
+<p id="csvMessage"></p>
 
 
-</section>
 
+</div>
 
 
 
@@ -183,73 +528,58 @@ Upload CSV
 
 
 
-<!-- ADD MENU -->
+<!-- ADD ITEM -->
 
 
-<section>
+<div class="add-item-box">
 
 
-<h2>
-Add Menu Item
-</h2>
-
-
-
-
-<input
-
-id="itemCategory"
-
-placeholder="Category"
-
->
+<h3>
+Add New Item
+</h3>
 
 
 
 <input
-
-id="itemName"
-
-placeholder="Item Name"
-
->
+id="menuCategory"
+placeholder="Category">
 
 
 
 <input
-
-id="itemDinePrice"
-
-placeholder="Dine In Price"
-
-type="number"
-
->
+id="menuItemName"
+placeholder="Item Name">
 
 
 
 <input
-
-id="itemTakePrice"
-
-placeholder="Take Away Price"
-
-type="number"
-
->
+id="menuDinePrice"
+placeholder="Dine In Price">
 
 
 
+<input
+id="menuTakePrice"
+placeholder="Take Away Price">
 
-<button onclick="addMenuItem()">
 
-Add Item
+
+
+
+<button
+
+onclick="addMenuItem()">
+
+
+
+➕ Add Item
+
 
 </button>
 
 
 
-</section>
+</div>
 
 
 
@@ -259,27 +589,77 @@ Add Item
 
 
 
-<!-- MENU LIST -->
-
-
-<section>
+<!-- MENU TABLE -->
 
 
 <h2>
-Menu List
+Full Menu List
 </h2>
 
 
 
-<div id="menuList">
 
-Loading...
+<div class="table-box">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Category</th>
+
+<th>Item Name</th>
+
+<th>Dine In</th>
+
+<th>Take Away</th>
+
+<th>Action</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="menuTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
 
 </div>
 
 
 
 </section>
+<!-- ==========================
+STAFF MANAGEMENT SECTION
+========================== -->
+
+
+<section
+
+id="staffManagementSection"
+
+style="display:none;">
+
+
+
+<h2>
+👥 Staff Management
+</h2>
 
 
 
@@ -287,9 +667,233 @@ Loading...
 
 
 
+<!-- ADD STAFF -->
+
+
+<div class="staff-add-box">
+
+
+<h3>
+Add New Staff
+</h3>
+
+
+
+
+
+<input
+
+id="staffName"
+
+placeholder="Staff Name">
+
+
+
+
+
+
+<input
+
+id="staffEmail"
+
+type="email"
+
+placeholder="Staff Email">
+
+
+
+
+
+
+<input
+
+id="staffRole"
+
+placeholder="Role (Kitchen/Cashier/Waiter)">
+
+
+
+
+
+<input
+
+id="staffPassword"
+
+type="password"
+
+placeholder="Password">
+
+
+
+
+
+
+<button
+
+onclick="addStaff()">
+
+
+
+➕ Add Staff
+
+
+
+</button>
+
+
+
+
+<p id="staffMessage"></p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- STAFF LIST -->
+
+
+<h2>
+Staff List
+</h2>
+
+
+
+
+
+<div class="table-box">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+
+<th>Name</th>
+
+
+<th>Email</th>
+
+
+<th>Role</th>
+
+
+<th>Status</th>
+
+
+<th>Action</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="staffTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+</div>
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+BACK BUTTON
+========================== -->
+
+
+<div class="back-area">
+
+
+<button
+
+onclick="backDashboard()">
+
+
+
+⬅ Back Dashboard
+
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+FOOTER
+========================== -->
+
+
+<footer>
+
+
+Copyright 2026 | Rudranshi Rakshit | All Right Reserved
+
+
+</footer>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+JAVASCRIPT
+========================== -->
+
+
+
+<script type="module" src="js/firebase.js"></script>
 
 
 <script type="module" src="js/admin.js"></script>
+
 
 
 
