@@ -1,40 +1,21 @@
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// STAFF LOGIN SYSTEM V1
+// STAFF.JS FINAL V5
+// Restoran Hameed's Bistro
 // =====================================
 
+import { auth, db } from "./firebase.js";
 
 import {
-
-auth,
-db
-
-} from "./firebase.js";
-
-
+    signInWithEmailAndPassword,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-
-signInWithEmailAndPassword
-
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-
-
-
-import {
-
-doc,
-getDoc,
-setDoc,
-collection,
-addDoc,
-serverTimestamp
-
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
-
-
-
-
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
@@ -42,305 +23,125 @@ serverTimestamp
 // STAFF LOGIN
 // =====================================
 
+window.staffLogin = async function () {
 
-window.staffLogin = async function(){
+    const email = document.getElementById("staffEmail").value.trim();
+    const password = document.getElementById("staffPassword").value;
 
+    const msg = document.getElementById("staffMessage");
+    msg.innerHTML = "";
 
-try{
+    if (!email || !password) {
+        msg.innerHTML = "Enter Email & Password";
+        return;
+    }
 
+    try {
 
-const email =
-document
-.getElementById("staffEmail")
-.value
-.trim();
+        const result = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
+        const uid = result.user.uid;
 
+        const snap = await getDoc(
+            doc(db, "staff", uid)
+        );
 
-const password =
-document
-.getElementById("staffPassword")
-.value
-.trim();
+        if (!snap.exists()) {
 
+            await signOut(auth);
 
+            msg.innerHTML = "Staff Not Found";
 
+            return;
 
+        }
 
-if(!email || !password){
+        const staff = snap.data();
 
+        localStorage.setItem("staffLogin", "yes");
+        localStorage.setItem("staffUID", uid);
+        localStorage.setItem("staffName", staff.name || "");
+        localStorage.setItem("staffRole", staff.role || "staff");
 
-showStaffMessage(
-"Enter email and password"
-);
 
 
-return;
+        // Attendance
 
+        const today = new Date().toISOString().substring(0, 10);
 
-}
+        await setDoc(
 
+            doc(db, "attendance", uid + "_" + today),
 
+            {
 
+                uid: uid,
 
+                name: staff.name,
 
+                role: staff.role,
 
-const result =
+                loginTime: serverTimestamp(),
 
-await signInWithEmailAndPassword(
+                date: today
 
-auth,
+            },
 
-email,
+            { merge: true }
 
-password
+        );
 
-);
 
 
+        msg.innerHTML = "Login Successful";
 
 
 
-const user =
-result.user;
+        // redirect
 
+        if (staff.role === "cashier") {
 
+            location.href = "cashier.html";
 
+        }
 
+        else {
 
+            location.href = "kitchen.html";
 
+        }
 
-// CHECK STAFF PROFILE
+    }
 
+    catch (error) {
 
-const staffRef =
-doc(
+        console.error(error);
 
-db,
+        msg.innerHTML = "Login Failed";
 
-"staff",
-
-user.uid
-
-);
-
-
-
-
-
-const staffSnap =
-await getDoc(
-staffRef
-);
-
-
-
-
-
-
-if(!staffSnap.exists()){
-
-
-showStaffMessage(
-"Staff account not found"
-);
-
-
-
-return;
-
-
-}
-
-
-
-
-
-
-const staffData =
-staffSnap.data();
-
-
-
-
-
-
-
-
-// SAVE LOGIN
-
-
-localStorage.setItem(
-
-"staffLogin",
-
-"yes"
-
-);
-
-
-
-localStorage.setItem(
-
-"staffUid",
-
-user.uid
-
-);
-
-
-
-
-
-localStorage.setItem(
-
-"staffName",
-
-staffData.name || ""
-
-);
-
-
-
-
-
-
-
-
-
-// CREATE ATTENDANCE
-
-
-await addDoc(
-
-collection(
-
-db,
-
-"attendance"
-
-),
-
-{
-
-
-staffId:user.uid,
-
-
-staffName:
-
-staffData.name || "",
-
-
-loginTime:
-
-serverTimestamp(),
-
-
-
-status:
-
-"Present"
-
-
-
-}
-
-);
-
-
-
-
-
-
-
-
-showStaffMessage(
-
-"Login Successful"
-
-);
-
-
-
-
-
-setTimeout(()=>{
-
-
-window.location.href="cashier.html";
-
-
-},1000);
-
-
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(
-error
-);
-
-
-
-showStaffMessage(
-
-error.message
-
-);
-
-
-
-}
-
-
+    }
 
 };
 
 
 
-
-
-
-
-
-
-
-
 // =====================================
-// MESSAGE
+// STAFF LOGOUT
 // =====================================
 
+window.staffLogout = async function () {
 
-function showStaffMessage(message){
+    await signOut(auth);
 
+    localStorage.removeItem("staffLogin");
+    localStorage.removeItem("staffUID");
+    localStorage.removeItem("staffName");
+    localStorage.removeItem("staffRole");
 
-const box =
-document.getElementById(
-"staffMessage"
-);
+    location.href = "staff.html";
 
-
-
-if(box){
-
-box.innerHTML =
-message;
-
-}
-
-
-
-}
-
-
-
-window.showStaffMessage =
-showStaffMessage;
+};
