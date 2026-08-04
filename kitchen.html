@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Hameed Bistro Kitchen
+</title>
+
+
+<link rel="stylesheet" href="kitchen.css">
+
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>
+🍳 Restoran Hameed's Bistro Kitchen
+</h1>
+
+
+</header>
+
+
+
+
+
+<div id="kitchenOrders">
+
+
+Loading Orders...
+
+
+</div>
+
+
+
+
+
+<script type="module" src="js/kitchen.js"></script>
+
+
+<script>
+
+
+window.onload=function(){
+
+
+if(typeof loadKitchenOrders==="function"){
+
+loadKitchenOrders();
+
+}
+
+
+};
+
+
+</script>
+
+
+
+</body>
+
+
+</html>
