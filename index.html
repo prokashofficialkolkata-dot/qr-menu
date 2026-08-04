@@ -21,9 +21,9 @@ Restoran Hameed's Bistro
 <body>
 
 
-<!-- =====================================
+<!-- ==============================
 WELCOME PAGE
-===================================== -->
+============================== -->
 
 
 <div id="welcome">
@@ -53,6 +53,7 @@ WELCOME PAGE
 
 
 
+
 <div class="logo-circle">
 
 <img 
@@ -60,6 +61,8 @@ src="images/logo.png"
 class="logo">
 
 </div>
+
+
 
 
 
@@ -76,6 +79,8 @@ Restoran Hameed's Bistro
 QR Menu & Ordering System
 
 </h2>
+
+
 
 
 
@@ -121,6 +126,7 @@ Bangla
 
 
 
+
 <div class="order-type">
 
 
@@ -130,10 +136,13 @@ class="dine-btn"
 
 onclick="startMenu('DINE IN')">
 
+
 🍽 DINE IN
 
 
 </button>
+
+
 
 
 
@@ -150,8 +159,8 @@ onclick="startMenu('TAKE AWAY')">
 </button>
 
 
-
 </div>
+
 
 
 
@@ -177,21 +186,15 @@ onclick="customerAction()">
 </button>
 
 
-</div>
-
-
-
 
 </div>
 
 
 
-
-
-
-<!-- =====================================
+</div>
+<!-- ==============================
 MENU PAGE
-===================================== -->
+============================== -->
 
 
 <div
@@ -250,6 +253,7 @@ style="display:none;">
 
 
 
+
 <button
 
 id="logoutBtn"
@@ -274,36 +278,49 @@ style="display:none;">
 
 
 
+
 <div class="languages small-language">
 
 
 <button onclick="setLanguage('en')">
+
 English
+
 </button>
 
 
 <button onclick="setLanguage('ms')">
+
 Malay
+
 </button>
 
 
 <button onclick="setLanguage('ta')">
+
 Tamil
+
 </button>
 
 
 <button onclick="setLanguage('zh')">
+
 Chinese
+
 </button>
 
 
 <button onclick="setLanguage('hi')">
+
 Hindi
+
 </button>
 
 
 <button onclick="setLanguage('bn')">
+
 Bangla
+
 </button>
 
 
@@ -352,6 +369,7 @@ style="display:none;">
 
 
 
+
 <div id="popularSection">
 
 
@@ -360,6 +378,8 @@ style="display:none;">
 ⭐ Popular Items
 
 </h2>
+
+
 
 
 <div id="popularItems">
@@ -377,6 +397,7 @@ style="display:none;">
 
 
 
+
 <div id="itemBox">
 
 
@@ -386,11 +407,10 @@ style="display:none;">
 
 
 
-
 </div>
-<!-- =====================================
+<!-- ==============================
 CART PAGE
-===================================== -->
+============================== -->
 
 
 <div
@@ -440,6 +460,7 @@ style="display:none;">
 
 
 
+
 <button
 
 id="logoutBtnCart"
@@ -462,11 +483,14 @@ style="display:none;">
 
 
 
+
+
 <h2>
 
 🛒 Your Cart
 
 </h2>
+
 
 
 
@@ -479,11 +503,14 @@ style="display:none;">
 
 
 
+
 <h3 id="total">
 
 Total : RM 0.00
 
 </h3>
+
+
 
 
 
@@ -506,6 +533,7 @@ onclick="checkout()">
 
 
 
+
 </div>
 
 
@@ -514,9 +542,11 @@ onclick="checkout()">
 
 
 
-<!-- =====================================
-CHECKOUT / LOGIN / PROFILE PAGE
-===================================== -->
+
+
+<!-- ==============================
+CHECKOUT PAGE
+============================== -->
 
 
 <div
@@ -529,7 +559,6 @@ style="display:none;">
 
 
 
-<!-- COMMON TOP BAR -->
 
 <div class="top-bar">
 
@@ -548,6 +577,8 @@ style="display:none;">
 🏠 Home
 
 </button>
+
+
 
 
 
@@ -575,9 +606,9 @@ style="display:none;">
 
 
 
-<!-- =====================================
-LOGIN BOX
-===================================== -->
+
+
+<!-- LOGIN BOX -->
 
 
 <div
@@ -588,8 +619,9 @@ class="auth-box">
 
 
 
-<div class="logo-circle">
 
+
+<div class="logo-circle">
 
 <img
 
@@ -597,8 +629,8 @@ src="images/logo.png"
 
 class="logo">
 
-
 </div>
+
 
 
 
@@ -609,6 +641,7 @@ class="logo">
 Restoran Hameed's Bistro Login
 
 </h2>
+
 
 
 
@@ -639,8 +672,6 @@ placeholder="Password">
 
 
 
-
-
 <button
 
 class="login-btn"
@@ -654,6 +685,7 @@ LOGIN
 
 
 </button>
+
 
 
 
@@ -681,7 +713,6 @@ onclick="googleLogin()">
 
 
 
-
 <p
 
 class="link"
@@ -699,10 +730,19 @@ Create Account
 
 
 
+
+
 </div>
-<!-- =====================================
-CREATE ACCOUNT BOX
-===================================== -->
+
+
+
+
+
+
+
+
+
+<!-- CREATE ACCOUNT -->
 
 
 <div
@@ -715,6 +755,8 @@ style="display:none;">
 
 
 
+
+
 <div class="logo-circle">
 
 <img
@@ -723,8 +765,9 @@ src="images/logo.png"
 
 class="logo">
 
-
 </div>
+
+
 
 
 
@@ -735,6 +778,7 @@ class="logo">
 Create Account
 
 </h2>
+
 
 
 
@@ -799,7 +843,6 @@ placeholder="Confirm Password">
 
 
 
-
 <button
 
 class="login-btn"
@@ -813,6 +856,7 @@ CREATE ACCOUNT
 
 
 </button>
+
 
 
 
@@ -837,19 +881,12 @@ onclick="showLogin()">
 
 
 
+
 </div>
 
-
-
-
-
-
-
-
-
-<!-- =====================================
+<!-- ==============================
 GOOGLE COMPLETE PROFILE
-===================================== -->
+============================== -->
 
 
 <div
@@ -936,7 +973,6 @@ SAVE PROFILE
 
 
 
-
 </div>
 
 
@@ -947,9 +983,9 @@ SAVE PROFILE
 
 
 
-<!-- =====================================
+<!-- ==============================
 CUSTOMER PROFILE
-===================================== -->
+============================== -->
 
 
 <div
@@ -973,7 +1009,6 @@ src="images/logo.png"
 
 class="logo">
 
-
 </div>
 
 
@@ -996,7 +1031,9 @@ Customer Details
 <p>
 
 <b>
+
 Customer Name
+
 </b>
 
 </p>
@@ -1017,7 +1054,9 @@ Customer Name
 <p>
 
 <b>
+
 Email Address
+
 </b>
 
 </p>
@@ -1038,7 +1077,9 @@ Email Address
 <p>
 
 <b>
+
 Phone Number
+
 </b>
 
 </p>
@@ -1073,6 +1114,7 @@ CLOSE
 
 
 
+
 </div>
 
 
@@ -1083,9 +1125,9 @@ CLOSE
 
 
 
-<!-- =====================================
+<!-- ==============================
 CHECKOUT FORM
-===================================== -->
+============================== -->
 
 
 <div
@@ -1095,6 +1137,8 @@ id="checkoutForm"
 class="auth-box"
 
 style="display:none;">
+
+
 
 
 
@@ -1113,12 +1157,12 @@ class="logo">
 
 
 
+
 <h2>
 
 Checkout
 
 </h2>
-
 
 
 
@@ -1138,13 +1182,11 @@ readonly>
 
 
 
-
 <input
 
 id="phone"
 
 readonly>
-
 
 
 
@@ -1189,8 +1231,11 @@ PLACE ORDER
 
 
 
-</div>
-<!-- END CHECKOUT PAGE -->
+
+
+<!-- TOAST MESSAGE -->
+
+<div id="toast"></div>
 
 
 
@@ -1198,9 +1243,11 @@ PLACE ORDER
 
 
 
-<!-- =====================================
+
+
+<!-- ==============================
 FOOTER
-===================================== -->
+============================== -->
 
 
 <footer>
@@ -1221,22 +1268,24 @@ Version 1.0.0
 
 
 
-<!-- =====================================
-JAVASCRIPT
-===================================== -->
+
+<!-- ==============================
+JAVASCRIPT LOAD
+============================== -->
 
 
 <script type="module" src="js/firebase.js"></script>
 
 <script type="module" src="js/auth.js"></script>
 
+<script type="module" src="js/checkout.js"></script>
+
+
 <script src="js/main.js"></script>
 
 <script src="js/menu.js"></script>
 
 <script src="js/cart.js"></script>
-
-<script type="module" src="js/checkout.js"></script>
 
 
 
