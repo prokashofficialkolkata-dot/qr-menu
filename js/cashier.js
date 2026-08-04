@@ -1,19 +1,10 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// CASHIER POS V3 FINAL
+// CASHIER POS FINAL V4
 // =====================================
 
-import {
 
-saveSales
-
-} from "./sales.js";
-
-import {
-
-db
-
-} from "./firebase.js";
+import { db } from "./firebase.js";
 
 
 import {
@@ -27,13 +18,24 @@ serverTimestamp
 
 
 
+import {
+
+saveSales
+
+} from "./sales.js";
 
 
-let selectedTable = "";
+
+
+
+
+let menuItems = [];
 
 let orderItems = [];
 
-let menuItems = [];
+let selectedTable = "";
+
+let priceType = "dine";
 
 let paymentMethod = "Cash";
 
@@ -53,6 +55,7 @@ function loadTables(){
 
 
 const box =
+
 document.getElementById(
 "tableList"
 );
@@ -68,30 +71,28 @@ box.innerHTML="";
 
 
 
-
 for(let i=1;i<=30;i++){
 
 
 
-let btn =
+let button =
+
 document.createElement(
 "button"
 );
 
 
 
-btn.className =
-"tableBtn";
+button.className="tableBtn";
 
 
 
-btn.innerHTML =
+button.innerHTML =
 "Table " + i;
 
 
 
-
-btn.onclick = function(){
+button.onclick=function(){
 
 
 selectTable(
@@ -103,7 +104,8 @@ selectTable(
 
 
 
-box.appendChild(btn);
+
+box.appendChild(button);
 
 
 
@@ -129,22 +131,24 @@ box.appendChild(btn);
 window.selectTable=function(table){
 
 
-selectedTable =
-table;
+
+selectedTable = table;
 
 
 
 document.getElementById(
+
 "selectedTable"
-).innerHTML =
 
-table;
+).innerHTML = table;
 
 
 
 
 document.getElementById(
+
 "orderSection"
+
 ).style.display="block";
 
 
@@ -167,7 +171,9 @@ document.getElementById(
 async function loadMenu(){
 
 
+
 const box =
+
 document.getElementById(
 "cashierMenu"
 );
@@ -178,12 +184,20 @@ if(!box)return;
 
 
 
+box.innerHTML="";
+
+
+
+
+
 const snap =
+
 await getDocs(
 
 collection(
 db,
 "menus"
+
 )
 
 );
@@ -192,9 +206,9 @@ db,
 
 
 
-box.innerHTML="";
 
 menuItems=[];
+
 
 
 
@@ -202,18 +216,15 @@ menuItems=[];
 snap.forEach((doc)=>{
 
 
-let item =
-doc.data();
-
-
-
-
-
 menuItems.push({
 
 id:doc.id,
 
-...item
+...doc.data()
+
+});
+
+
 
 });
 
@@ -221,38 +232,100 @@ id:doc.id,
 
 
 
+displayMenu();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================
+// DISPLAY MENU
+// =====================================
+
+
+function displayMenu(){
+
+
+
+const box =
+
+document.getElementById(
+"cashierMenu"
+);
+
+
+
+box.innerHTML="";
+
+
+
+
+
+menuItems.forEach(item=>{
+
+
+let price =
+
+priceType==="dine"
+
+?
+
+item.dineInPrice
+
+:
+
+item.takeAwayPrice;
+
+
+
+
+
+
 let div =
+
 document.createElement(
 "div"
 );
 
 
 
-div.className =
-"menuCard";
+div.className="menuCard";
 
 
 
 
-
-div.innerHTML = `
+div.innerHTML=`
 
 
 <h3>
+
 ${item.name}
+
 </h3>
 
 
 <p>
-RM ${Number(item.price).toFixed(2)}
+
+RM ${Number(price).toFixed(2)}
+
 </p>
 
 
-<button onclick="addCashierItem('${doc.id}')">
+
+<button onclick="addItem('${item.id}')">
 
 ADD
 
 </button>
+
 
 
 `;
@@ -278,15 +351,41 @@ box.appendChild(div);
 
 
 // =====================================
+// CHANGE PRICE TYPE
+// =====================================
+
+
+window.changePriceType=function(type){
+
+
+priceType = type;
+
+
+displayMenu();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
 // ADD ITEM
 // =====================================
 
 
-window.addCashierItem=function(id){
+window.addItem=function(id){
 
 
 
 let item =
+
 menuItems.find(
 
 x=>x.id===id
@@ -298,11 +397,30 @@ x=>x.id===id
 
 
 let exist =
+
 orderItems.find(
 
 x=>x.id===id
 
 );
+
+
+
+
+
+
+let price =
+
+priceType==="dine"
+
+?
+
+item.dineInPrice
+
+:
+
+item.takeAwayPrice;
+
 
 
 
@@ -321,13 +439,19 @@ else{
 
 orderItems.push({
 
+
 id:id,
+
 
 name:item.name,
 
-price:Number(item.price),
+
+price:Number(price),
+
 
 qty:1
+
+
 
 });
 
@@ -358,14 +482,21 @@ updateBill();
 function updateBill(){
 
 
-const box =
+
+let box =
+
 document.getElementById(
 "billItems"
 );
 
 
 
+if(!box)return;
+
+
+
 box.innerHTML="";
+
 
 
 
@@ -380,7 +511,9 @@ orderItems.forEach((item,index)=>{
 
 
 let amount =
+
 item.price *
+
 item.qty;
 
 
@@ -392,19 +525,18 @@ total += amount;
 
 
 let div =
+
 document.createElement(
 "div"
 );
 
 
 
-div.className =
-"billRow";
+div.className="billRow";
 
 
 
-
-div.innerHTML = `
+div.innerHTML=`
 
 
 <b>
@@ -421,7 +553,9 @@ RM ${amount.toFixed(2)}
 </button>
 
 
+
 ${item.qty}
+
 
 
 <button onclick="changeQty(${index},1)">
@@ -435,7 +569,6 @@ ${item.qty}
 ❌
 
 </button>
-
 
 
 `;
@@ -452,8 +585,11 @@ box.appendChild(div);
 
 
 
+
 document.getElementById(
+
 "orderTotal"
+
 ).innerHTML =
 
 "Total: RM "
@@ -482,7 +618,9 @@ total.toFixed(2);
 window.changeQty=function(index,value){
 
 
+
 orderItems[index].qty += value;
+
 
 
 
@@ -509,6 +647,7 @@ updateBill();
 
 
 
+
 // =====================================
 // REMOVE ITEM
 // =====================================
@@ -517,13 +656,7 @@ updateBill();
 window.removeItem=function(index){
 
 
-orderItems.splice(
-
-index,
-
-1
-
-);
+orderItems.splice(index,1);
 
 
 
@@ -555,9 +688,10 @@ paymentMethod = type;
 
 alert(
 
-"Payment: " + type
+"Payment: "+type
 
 );
+
 
 
 };
@@ -571,7 +705,7 @@ alert(
 
 
 // =====================================
-// SEND TO KITCHEN
+// SEND ORDER TO KITCHEN
 // =====================================
 
 
@@ -583,7 +717,7 @@ if(!selectedTable){
 
 
 alert(
-"Select Table"
+"Please Select Table"
 );
 
 
@@ -591,6 +725,7 @@ return;
 
 
 }
+
 
 
 
@@ -599,7 +734,7 @@ if(orderItems.length===0){
 
 
 alert(
-"Add Item"
+"No Items Added"
 );
 
 
@@ -607,7 +742,6 @@ return;
 
 
 }
-
 
 
 
@@ -628,7 +762,6 @@ item.price *
 item.qty;
 
 
-
 });
 
 
@@ -638,11 +771,16 @@ item.qty;
 
 
 
+
+// SAVE KITCHEN ORDER
+
+
 await addDoc(
 
 collection(
 db,
 "orders"
+
 ),
 
 {
@@ -651,18 +789,13 @@ db,
 table:selectedTable,
 
 
-customerName:"Walk In",
-
-
 items:orderItems,
 
 
 totalAmount:total,
 
 
-payment:
-
-paymentMethod,
+paymentMethod:paymentMethod,
 
 
 status:"Pending",
@@ -679,12 +812,32 @@ serverTimestamp()
 );
 
 
-await saveSales(orderItems);
+
+
+
+
+
+
+// SAVE SALES
+
+
+await saveSales(
+
+orderItems
+
+);
+
+
+
+
+
 
 
 
 alert(
-"Order Sent Kitchen"
+
+"Order Sent To Kitchen"
+
 );
 
 
@@ -726,184 +879,7 @@ loadTables();
 
 
 loadMenu();
-// =====================================
-// SPLIT BILL
-// =====================================
 
-
-window.splitBill=function(){
-
-
-if(orderItems.length===0){
-
-alert("No items");
-
-return;
-
-}
-
-
-
-let total =
-0;
-
-
-orderItems.forEach(item=>{
-
-
-total += item.price * item.qty;
-
-
-});
-
-
-
-let people =
-prompt(
-"Number of people?"
-);
-
-
-
-if(!people || people<=0){
-
-return;
-
-}
-
-
-
-let each =
-total / Number(people);
-
-
-
-alert(
-
-"Each Person: RM "
-
-+
-
-each.toFixed(2)
-
-);
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// COMBINE TABLE
-// =====================================
-
-
-window.combineTable=function(){
-
-
-let table =
-prompt(
-
-"Enter table number to combine"
-
-);
-
-
-
-if(!table){
-
-return;
-
-}
-
-
-
-alert(
-
-"Combine with Table " + table
-
-);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// PRINT RECEIPT
-// =====================================
-
-
-window.printReceipt=function(){
-
-
-
-let receipt =
-
-"RESTORAN HAMEED'S BISTRO\n\n";
-
-
-
-
-
-orderItems.forEach(item=>{
-
-
-receipt +=
-
-item.name +
-
-" x " +
-
-item.qty +
-
-"\n";
-
-
-});
-
-
-
-
-
-receipt +=
-
-"\nTotal: "
-
-+
-
-document.getElementById(
-
-"orderTotal"
-
-).innerText;
-
-
-
-
-
-console.log(receipt);
-
-
-
-window.print();
-
-
-
-};
 
 
 }
