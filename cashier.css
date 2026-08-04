@@ -1,12 +1,33 @@
+// =====================================
+// HAMEED BISTRO CASHIER POS V2
+// =====================================
+
+
+*{
+
+box-sizing:border-box;
+
+}
+
+
+
 body{
 
 margin:0;
 
-font-family:Arial;
+font-family:Arial, sans-serif;
 
-background:#f5f5f5;
+background:#f2f2f2;
+
+color:#222;
+
 
 }
+
+
+
+
+
 
 
 header{
@@ -21,72 +42,354 @@ display:flex;
 
 justify-content:space-between;
 
+align-items:center;
+
+
 }
+
+
+
+header h1{
+
+font-size:32px;
+
+margin:0;
+
+
+}
+
+
+
+header h2{
+
+margin:0;
+
+}
+
+
+
+
+
+
+
+button{
+
+font-size:18px;
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+background:#0057b8;
+
+color:white;
+
+
+}
+
+
+
+
+
+
+section{
+
+background:white;
+
+margin:20px;
+
+padding:20px;
+
+border-radius:15px;
+
+box-shadow:0 0 10px #ccc;
+
+
+}
+
+
+
+
 
 
 #tableList{
 
+
 display:grid;
 
-grid-template-columns:repeat(auto-fit,120px);
+grid-template-columns:
+
+repeat(auto-fit,minmax(120px,1fr));
+
 
 gap:15px;
 
-padding:20px;
 
 }
+
+
 
 
 
 .tableBtn{
 
-font-size:25px;
+
+background:#fff;
+
+color:#0057b8;
+
+border:2px solid #0057b8;
+
+font-size:22px;
 
 padding:25px;
 
-border-radius:10px;
-
-border:none;
-
-background:white;
-
-box-shadow:0 0 5px #aaa;
 
 }
+
+
 
 
 
 #cashierMenu{
 
+
 display:grid;
 
-grid-template-columns:repeat(auto-fit,200px);
+grid-template-columns:
+
+repeat(auto-fit,minmax(200px,1fr));
+
 
 gap:15px;
 
-padding:20px;
 
 }
+
+
+
+
 
 
 
 .menuCard{
 
-background:white;
+
+background:#fafafa;
+
+border-radius:12px;
+
+padding:15px;
+
+text-align:center;
+
+border:1px solid #ddd;
+
+
+}
+
+
+
+
+.menuCard h3{
+
+font-size:22px;
+
+
+}
+
+
+
+
+
+
+
+
+#billItems{
+
+
+background:#fafafa;
 
 padding:15px;
 
 border-radius:10px;
 
+
 }
 
 
-button{
 
-padding:12px;
 
-font-size:18px;
 
-border-radius:8px;
+.billRow{
+
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+background:white;
+
+margin:10px 0;
+
+padding:15px;
+
+border-radius:10px;
+
+
+}
+
+
+
+.billRow button{
+
+
+padding:8px 15px;
+
+font-size:20px;
+
+
+}
+
+
+
+
+
+
+
+#orderTotal{
+
+
+font-size:32px;
+
+color:#0057b8;
+
+
+}
+
+
+
+
+
+
+.paymentBox{
+
+
+display:flex;
+
+gap:15px;
+
+margin:20px 0;
+
+
+}
+
+
+
+.paymentBox button{
+
+
+flex:1;
+
+background:#008000;
+
+
+}
+
+
+
+
+
+.sendBtn{
+
+
+width:100%;
+
+font-size:28px;
+
+background:#ff6600;
+
+padding:20px;
+
+
+}
+
+
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+
+header{
+
+display:block;
+
+text-align:center;
+
+
+}
+
+
+
+header button{
+
+margin-top:15px;
+
+}
+
+
+
+section{
+
+margin:10px;
+
+padding:15px;
+
+
+}
+
+
+
+.billRow{
+
+display:block;
+
+text-align:center;
+
+
+}
+
+
+
+.paymentBox{
+
+display:block;
+
+
+}
+
+
+
+.paymentBox button{
+
+width:100%;
+
+margin:5px 0;
+
+
+}
+
+
 
 }
