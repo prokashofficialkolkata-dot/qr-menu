@@ -1,57 +1,32 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// ADMIN.JS V2 FINAL
-// PART 1
+// ADMIN JS FINAL V3
 // =====================================
 
 
+import { auth, db } from "./firebase.js";
 
-// FIREBASE
-
-import {
-
-auth,
-db
-
-} from "./firebase.js";
-
-
-
-
-
-// AUTH
 
 import {
 
 signInWithEmailAndPassword,
-signOut,
-onAuthStateChanged
+signOut
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
-
-
-
-
-// FIRESTORE
 
 import {
 
 collection,
 getDocs,
+addDoc,
 doc,
 updateDoc,
 deleteDoc,
-setDoc,
-getDoc,
-serverTimestamp,
-query,
-orderBy
+writeBatch,
+serverTimestamp
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
-
-
-
 
 
 
@@ -68,37 +43,13 @@ window.adminLogin = async function(){
 try{
 
 
-const email =
-document
-.getElementById("adminEmail")
-.value
-.trim();
+let email =
+document.getElementById("adminEmail").value;
 
 
 
-const password =
-document
-.getElementById("adminPassword")
-.value
-.trim();
-
-
-
-
-
-if(!email || !password){
-
-
-showAdminMessage(
-"Enter Email and Password"
-);
-
-
-return;
-
-}
-
-
+let password =
+document.getElementById("adminPassword").value;
 
 
 
@@ -116,110 +67,24 @@ password
 
 
 
-document
-.getElementById("loginBox")
-.style.display="none";
+document.getElementById("loginBox").style.display="none";
+
+
+document.getElementById("dashboard").style.display="block";
 
 
 
-
-document
-.getElementById("dashboard")
-.style.display="block";
-
-
-
-
-
-showAdminMessage(
-"Login Successful"
-);
-
-
-
-
-
-loadOrders();
-
-loadMenu();
+loadMenuAdmin();
 
 
 
 }
-
-
 
 catch(error){
 
 
-console.log(
-error
-);
-
-
-
-showAdminMessage(
-error.message
-);
-
-
-
-}
-
-
-};
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// ADMIN LOGOUT
-// =====================================
-
-
-window.adminLogout = async function(){
-
-
-try{
-
-
-await signOut(auth);
-
-
-
-
-document
-.getElementById("dashboard")
-.style.display="none";
-
-
-
-document
-.getElementById("loginBox")
-.style.display="block";
-
-
-
-showAdminMessage(
-"Logout Successful"
-);
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(error);
+document.getElementById("loginMessage").innerHTML =
+error.message;
 
 
 }
@@ -235,68 +100,21 @@ console.log(error);
 
 
 
-
-
 // =====================================
-// AUTH CHECK
+// LOGOUT
 // =====================================
 
 
-onAuthStateChanged(
-
-auth,
-
-(user)=>{
+window.adminLogout=function(){
 
 
-if(user){
+signOut(auth);
 
 
-
-document
-.getElementById("loginBox")
-.style.display="none";
+location.reload();
 
 
-
-document
-.getElementById("dashboard")
-.style.display="block";
-
-
-
-loadOrders();
-
-loadMenu();
-
-
-
-}
-
-else{
-
-
-
-document
-.getElementById("loginBox")
-.style.display="block";
-
-
-
-document
-.getElementById("dashboard")
-.style.display="none";
-
-
-
-}
-
-
-
-}
-
-);
-
+};
 
 
 
@@ -307,550 +125,16 @@ document
 
 
 // =====================================
-// MESSAGE
+// LOAD MENU
 // =====================================
 
 
-window.showAdminMessage=function(message){
+async function loadMenuAdmin(){
+
 
 
 let box =
-document.getElementById(
-"loginMessage"
-);
-
-
-
-if(box){
-
-box.innerHTML =
-message;
-
-}
-
-
-
-};
-// =====================================
-// LOAD ORDERS
-// =====================================
-
-
-window.loadOrders = async function(){
-
-
-try{
-
-
-const ordersBox =
-document.getElementById(
-"ordersList"
-);
-
-
-
-if(!ordersBox)return;
-
-
-
-ordersBox.innerHTML =
-"Loading Orders...";
-
-
-
-
-
-const q = query(
-
-collection(
-db,
-"orders"
-),
-
-orderBy(
-"createdAt",
-"desc"
-)
-
-);
-
-
-
-
-
-const snapshot =
-await getDocs(q);
-
-
-
-
-ordersBox.innerHTML="";
-
-
-
-
-
-
-if(snapshot.empty){
-
-
-ordersBox.innerHTML =
-"No Orders Found";
-
-
-return;
-
-
-}
-
-
-
-
-
-snapshot.forEach((item)=>{
-
-
-
-const order =
-item.data();
-
-
-
-
-const div =
-document.createElement(
-"div"
-);
-
-
-
-div.className =
-"orderCard";
-
-
-
-
-
-div.innerHTML = `
-
-
-<h3>
-Order ID:
-${item.id}
-</h3>
-
-
-
-<p>
-Customer:
-${order.customerName || ""}
-</p>
-
-
-
-<p>
-Phone:
-${order.phone || ""}
-</p>
-
-
-
-<p>
-Order Type:
-${order.orderType || ""}
-</p>
-
-
-
-<p>
-Items:
-</p>
-
-
-
-<p>
-${JSON.stringify(order.items || [])}
-</p>
-
-
-
-<p>
-Total:
-RM ${Number(order.totalAmount || 0).toFixed(2)}
-</p>
-
-
-
-<p>
-Status:
-<b>
-${order.status || "Pending"}
-</b>
-</p>
-
-
-
-
-
-<button onclick="updateOrderStatus('${item.id}','Preparing')">
-
-Preparing
-
-</button>
-
-
-
-<button onclick="updateOrderStatus('${item.id}','Ready')">
-
-Ready
-
-</button>
-
-
-
-<button onclick="updateOrderStatus('${item.id}','Completed')">
-
-Completed
-
-</button>
-
-
-
-`;
-
-
-
-
-ordersBox.appendChild(div);
-
-
-
-});
-
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(
-"Orders Load Error:",
-error
-);
-
-
-
-showAdminMessage(
-error.message
-);
-
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// UPDATE ORDER STATUS
-// =====================================
-
-
-window.updateOrderStatus = async function(
-orderId,
-status
-){
-
-
-try{
-
-
-await updateDoc(
-
-doc(
-db,
-"orders",
-orderId
-),
-
-{
-
-status:status,
-
-updatedAt:
-serverTimestamp()
-
-}
-
-);
-
-
-
-
-
-showAdminMessage(
-"Order Status Updated"
-);
-
-
-
-
-
-loadOrders();
-
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(
-error
-);
-
-
-
-showAdminMessage(
-error.message
-);
-
-
-
-}
-
-
-
-};
-// =====================================
-// MENU CSV UPLOAD
-// =====================================
-
-
-window.uploadMenuCSV = async function(){
-
-
-try{
-
-
-const fileInput =
-document.getElementById(
-"csvFile"
-);
-
-
-
-const file =
-fileInput.files[0];
-
-
-
-if(!file){
-
-
-showAdminMessage(
-"Please select CSV file"
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-const text =
-await file.text();
-
-
-
-
-
-const rows =
-text
-.split("\n")
-.map(row=>row.trim())
-.filter(row=>row);
-
-
-
-
-
-// HEADER REMOVE
-
-const headers =
-rows[0]
-.split(",");
-
-
-
-const dataRows =
-rows.slice(1);
-
-
-
-
-
-let count=0;
-
-
-
-
-
-for(let row of dataRows){
-
-
-
-const values =
-row.split(",");
-
-
-
-
-const menuId =
-values[0]
-||
-Date.now().toString();
-
-
-
-
-
-await setDoc(
-
-doc(
-db,
-"menus",
-menuId
-),
-
-{
-
-
-id:menuId,
-
-
-name:
-values[1] || "",
-
-
-category:
-values[2] || "",
-
-
-price:
-Number(values[3]) || 0,
-
-
-image:
-values[4] || "",
-
-
-popular:
-values[5] || "no",
-
-
-
-updatedAt:
-serverTimestamp()
-
-
-
-}
-
-
-
-);
-
-
-
-count++;
-
-
-
-}
-
-
-
-
-
-
-document.getElementById(
-"uploadStatus"
-).innerHTML =
-count +
-" Menu Uploaded Successfully";
-
-
-
-
-
-loadMenu();
-
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(
-"CSV Upload Error:",
-error
-);
-
-
-
-showAdminMessage(
-error.message
-);
-
-
-
-}
-
-
-
-};
-// =====================================
-// LOAD MENU FROM FIRESTORE
-// =====================================
-
-
-window.loadMenu = async function(){
-
-
-try{
-
-
-const box =
-document.getElementById(
-"menuList"
-);
+document.getElementById("menuList");
 
 
 
@@ -858,102 +142,64 @@ if(!box)return;
 
 
 
-box.innerHTML =
-"Loading Menu...";
-
-
-
-
-
-const snapshot =
-await getDocs(
-
-collection(
-db,
-"menus"
-)
-
-);
-
-
-
-
-
 box.innerHTML="";
 
 
 
+const snap =
 
+await getDocs(
 
-if(snapshot.empty){
+collection(db,"menus")
 
-
-box.innerHTML =
-"No Menu Found";
-
-
-return;
-
-
-}
-
-
-
-
-
-snapshot.forEach((item)=>{
-
-
-
-const menu =
-item.data();
-
-
-
-
-const div =
-document.createElement(
-"div"
 );
 
 
 
-div.className =
-"menuCard";
+
+
+snap.forEach((item)=>{
+
+
+let data=item.data();
 
 
 
+let div=document.createElement("div");
 
 
-div.innerHTML = `
+div.className="menuAdminCard";
+
+
+
+div.innerHTML=`
 
 
 <h3>
-${menu.name}
+${data.name}
 </h3>
 
 
 <p>
 Category:
-${menu.category}
+${data.category}
 </p>
 
 
 <p>
-Price:
-RM ${Number(menu.price).toFixed(2)}
+Dine In:
+RM ${Number(data.dineInPrice).toFixed(2)}
 </p>
 
 
 <p>
-Popular:
-${menu.popular}
+Take Away:
+RM ${Number(data.takeAwayPrice).toFixed(2)}
 </p>
 
 
 
-
-<button onclick="editMenu('${item.id}')">
+<button onclick="editMenuItem('${item.id}')">
 
 Edit
 
@@ -961,16 +207,17 @@ Edit
 
 
 
-<button onclick="deleteMenu('${item.id}')">
+<button onclick="deleteMenuItem('${item.id}')">
 
 Delete
 
 </button>
 
 
+<hr>
+
 
 `;
-
 
 
 
@@ -982,35 +229,155 @@ box.appendChild(div);
 
 
 
-
-
 }
 
 
 
-catch(error){
-
-
-console.log(
-"Menu Load Error:",
-error
-);
 
 
 
-showAdminMessage(
-error.message
-);
 
+
+// =====================================
+// ADD MENU ITEM
+// =====================================
+
+
+window.addMenuItem = async function(){
+
+
+let category =
+document.getElementById("itemCategory").value;
+
+
+let name =
+document.getElementById("itemName").value;
+
+
+let dine =
+document.getElementById("itemDinePrice").value;
+
+
+let takeaway =
+document.getElementById("itemTakePrice").value;
+
+
+
+
+
+
+await addDoc(
+
+collection(db,"menus"),
+
+{
+
+
+category:category,
+
+
+name:name,
+
+
+dineInPrice:Number(dine),
+
+
+takeAwayPrice:Number(takeaway),
+
+
+createdAt:serverTimestamp()
 
 
 }
 
+);
+
+
+
+
+alert("Menu Added");
+
+
+
+loadMenuAdmin();
 
 
 };
 
 
+
+
+
+
+
+
+
+// =====================================
+// EDIT MENU
+// =====================================
+
+
+window.editMenuItem = async function(id){
+
+
+
+let name =
+prompt("Item Name");
+
+
+
+let category =
+prompt("Category");
+
+
+
+let dine =
+prompt("Dine In Price");
+
+
+
+let take =
+prompt("Take Away Price");
+
+
+
+
+
+await updateDoc(
+
+doc(db,"menus",id),
+
+{
+
+
+name:name,
+
+
+category:category,
+
+
+dineInPrice:Number(dine),
+
+
+takeAwayPrice:Number(take)
+
+
+
+}
+
+);
+
+
+
+
+alert("Updated");
+
+
+loadMenuAdmin();
+
+
+
+};
 
 
 
@@ -1025,33 +392,25 @@ error.message
 // =====================================
 
 
-window.deleteMenu = async function(id){
+window.deleteMenuItem = async function(id){
 
 
 
-try{
-
-
-const confirmDelete =
+let ok =
 confirm(
 "Delete this item?"
 );
 
 
 
-if(!confirmDelete)return;
-
+if(!ok)return;
 
 
 
 
 await deleteDoc(
 
-doc(
-db,
-"menus",
-id
-)
+doc(db,"menus",id)
 
 );
 
@@ -1059,33 +418,10 @@ id
 
 
 
-showAdminMessage(
-"Menu Deleted"
-);
+alert("Deleted");
 
 
-
-loadMenu();
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(error);
-
-
-showAdminMessage(
-error.message
-);
-
-
-
-}
+loadMenuAdmin();
 
 
 
@@ -1099,170 +435,35 @@ error.message
 
 
 
-
-
 // =====================================
-// EDIT MENU (START)
+// CSV UPLOAD
+// FORMAT:
+// Category,Item Name,Dine in price,Take away Price
 // =====================================
 
 
-window.editMenu = async function(id){
+window.uploadCSV = async function(){
 
 
 
-const ref =
-doc(
-db,
-"menus",
-id
+const file =
+
+document
+.getElementById("csvFile")
+.files[0];
+
+
+
+
+
+if(!file){
+
+alert(
+"Select CSV File"
 );
-
-
-
-const snap =
-await getDoc(ref);
-
-
-
-
-
-if(!snap.exists()){
-
 
 return;
 
-
-}
-
-
-
-
-
-const data =
-snap.data();
-
-
-
-
-
-document.getElementById(
-"menuName"
-).value =
-data.name || "";
-
-
-
-document.getElementById(
-"menuCategory"
-).value =
-data.category || "";
-
-
-
-document.getElementById(
-"menuPrice"
-).value =
-data.price || "";
-
-
-
-document.getElementById(
-"menuImage"
-).value =
-data.image || "";
-
-
-
-document.getElementById(
-"menuPopular"
-).value =
-data.popular || "no";
-
-
-
-
-
-localStorage.setItem(
-"editMenuId",
-id
-);
-
-
-
-
-
-showAdminMessage(
-"Edit Mode"
-);
-
-
-
-};
-// =====================================
-// ADD / UPDATE MENU ITEM
-// =====================================
-
-
-window.addMenuItem = async function(){
-
-
-try{
-
-
-const name =
-document
-.getElementById("menuName")
-.value
-.trim();
-
-
-
-const category =
-document
-.getElementById("menuCategory")
-.value
-.trim();
-
-
-
-const price =
-Number(
-document
-.getElementById("menuPrice")
-.value
-);
-
-
-
-const image =
-document
-.getElementById("menuImage")
-.value
-.trim();
-
-
-
-const popular =
-document
-.getElementById("menuPopular")
-.value;
-
-
-
-
-
-if(!name || !category || !price){
-
-
-showAdminMessage(
-"Please fill menu details"
-);
-
-
-
-return;
-
-
 }
 
 
@@ -1271,115 +472,108 @@ return;
 
 
 
-const editId =
-localStorage.getItem(
-"editMenuId"
-);
+const text =
+
+await file.text();
+
+
+
+
+
+const rows =
+
+text
+.trim()
+.split("\n");
 
 
 
 
 
 
+const batch =
 
-if(editId){
-
-
-// UPDATE EXISTING ITEM
+writeBatch(db);
 
 
-await updateDoc(
+
+
+
+
+for(let i=1;i<rows.length;i++){
+
+
+
+let row =
+
+rows[i]
+.split(",");
+
+
+
+
+
+
+let category =
+row[0]?.trim() || "";
+
+
+
+let name =
+row[1]?.trim() || "";
+
+
+
+let dine =
+Number(row[2]) || 0;
+
+
+
+let take =
+Number(row[3]) || 0;
+
+
+
+
+
+
+let ref =
 
 doc(
-db,
-"menus",
-editId
-),
+
+collection(db,"menus")
+
+);
+
+
+
+
+
+
+batch.set(
+
+ref,
 
 {
 
-name:name,
 
 category:category,
 
-price:price,
-
-image:image,
-
-popular:popular,
-
-updatedAt:
-serverTimestamp()
-
-}
-
-);
-
-
-
-localStorage.removeItem(
-"editMenuId"
-);
-
-
-
-showAdminMessage(
-"Menu Updated"
-);
-
-
-
-}
-
-else{
-
-
-// CREATE NEW ITEM
-
-
-const id =
-Date.now()
-.toString();
-
-
-
-
-
-await setDoc(
-
-doc(
-db,
-"menus",
-id
-),
-
-{
-
-id:id,
 
 name:name,
 
-category:category,
 
-price:price,
+dineInPrice:dine,
 
-image:image,
 
-popular:popular,
+takeAwayPrice:take,
 
-createdAt:
-serverTimestamp()
+
+createdAt:serverTimestamp()
+
 
 }
 
-);
-
-
-
-
-
-showAdminMessage(
-"Menu Added"
 );
 
 
@@ -1390,55 +584,27 @@ showAdminMessage(
 
 
 
-// CLEAR FORM
+await batch.commit();
 
 
-document.getElementById(
-"menuName"
-).value="";
-
-
-document.getElementById(
-"menuCategory"
-).value="";
-
-
-document.getElementById(
-"menuPrice"
-).value="";
-
-
-document.getElementById(
-"menuImage"
-).value="";
 
 
 
 
-loadMenu();
+document.getElementById(
+
+"uploadStatus"
+
+).innerHTML =
+
+"CSV Menu Updated Successfully";
 
 
 
-}
 
 
 
-catch(error){
-
-
-console.log(
-error
-);
-
-
-
-showAdminMessage(
-error.message
-);
-
-
-
-}
+loadMenuAdmin();
 
 
 
@@ -1449,235 +615,30 @@ error.message
 
 
 
-
-
-
 // =====================================
-// SALES REPORT
+// AUTO LOAD
 // =====================================
 
 
-window.loadSales = async function(){
+window.addEventListener(
+
+"load",
+
+()=>{
 
 
-try{
+const dash =
+document.getElementById("dashboard");
 
 
-const box =
-document.getElementById(
-"salesReport"
-);
+if(dash){
 
-
-
-if(!box)return;
-
-
-
-
-const snap =
-await getDocs(
-
-collection(
-db,
-"orders"
-)
-
-);
-
-
-
-
-
-let total=0;
-
-let count=0;
-
-
-
-
-
-snap.forEach((item)=>{
-
-
-const data =
-item.data();
-
-
-
-total +=
-Number(
-data.totalAmount || 0
-);
-
-
-
-count++;
-
-
-
-});
-
-
-
-
-
-box.innerHTML = `
-
-
-<h3>
-Total Orders:
-${count}
-</h3>
-
-
-<h3>
-Total Sales:
-RM ${total.toFixed(2)}
-</h3>
-
-
-`;
-
-
-
+dash.style.display="none";
 
 }
 
 
 
-catch(error){
-
-
-console.log(error);
-
-
-
 }
 
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// ORDER HISTORY
-// =====================================
-
-
-window.loadHistory = async function(){
-
-
-
-try{
-
-
-const box =
-document.getElementById(
-"historyList"
 );
-
-
-
-if(!box)return;
-
-
-
-box.innerHTML =
-"Loading...";
-
-
-
-
-
-const snap =
-await getDocs(
-
-collection(
-db,
-"orders"
-)
-
-);
-
-
-
-
-
-box.innerHTML="";
-
-
-
-
-
-snap.forEach((item)=>{
-
-
-const order =
-item.data();
-
-
-
-
-const div =
-document.createElement(
-"div"
-);
-
-
-
-div.className =
-"orderCard";
-
-
-
-div.innerHTML = `
-
-<p>
-${order.customerName || ""}
-</p>
-
-
-<p>
-RM ${Number(order.totalAmount || 0).toFixed(2)}
-</p>
-
-
-<p>
-${order.status || ""}
-</p>
-
-`;
-
-
-
-box.appendChild(div);
-
-
-
-});
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.log(error);
-
-
-}
-
-
-
-};
