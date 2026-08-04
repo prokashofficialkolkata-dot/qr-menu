@@ -24,12 +24,19 @@ from
 
 
 let menuData = [];
-window.menuData = menuData;
-let selectedOrderType = 
+
+let selectedOrderType =
 localStorage.getItem("orderType")
 ||
 "DINE IN";
 
+
+
+
+
+// Make global
+
+window.menuData = menuData;
 
 
 
@@ -58,16 +65,28 @@ type
 
 
 
-
-document.getElementById("welcome")
-.style.display="none";
-
+let welcome =
+document.getElementById("welcome");
 
 
-document.getElementById("menuPage")
-.style.display="block";
+let menuPage =
+document.getElementById("menuPage");
 
 
+
+if(welcome){
+
+welcome.style.display="none";
+
+}
+
+
+
+if(menuPage){
+
+menuPage.style.display="block";
+
+}
 
 
 
@@ -84,12 +103,14 @@ loadMenu();
 
 
 
+
 // =====================================
-// LOAD MENU FROM FIREBASE
+// LOAD MENU FIREBASE
 // =====================================
 
 
 async function loadMenu(){
+
 
 
 try{
@@ -104,11 +125,13 @@ collection(db,"menus")
 
 
 
-menuData=[];
+menuData.length = 0;
 
 
 
-snapshot.forEach(doc=>{
+
+snapshot.forEach((doc)=>{
+
 
 
 let d = doc.data();
@@ -173,12 +196,20 @@ d.sold || 0
 
 
 
+// update global
+
+window.menuData = menuData;
+
+
+
+
 
 showPopular();
 
 
-
 showMenu();
+
+
 
 
 
@@ -196,12 +227,20 @@ error
 );
 
 
+showToast(
+
+"Menu Loading Failed"
+
+);
+
 
 }
 
 
 
+
 }
+
 
 
 
@@ -241,7 +280,7 @@ return item.dineInPrice;
 
 
 // =====================================
-// TOP 15 POPULAR
+// POPULAR TOP 15
 // =====================================
 
 
@@ -259,12 +298,13 @@ document.getElementById(
 
 
 
-if(!box) return;
-
+if(!box)return;
 
 
 
 box.innerHTML="";
+
+
 
 
 
@@ -286,11 +326,12 @@ b.sold-a.sold
 
 
 
+
 popular.forEach(item=>{
 
 
 
-box.innerHTML += `
+box.innerHTML +=`
 
 
 
@@ -304,7 +345,6 @@ ${item.name}
 </h3>
 
 
-
 <p>
 
 RM ${getPrice(item).toFixed(2)}
@@ -315,9 +355,7 @@ RM ${getPrice(item).toFixed(2)}
 
 <button onclick="addToCart('${item.id}')">
 
-
 ➕ ADD
-
 
 </button>
 
@@ -326,12 +364,12 @@ RM ${getPrice(item).toFixed(2)}
 </div>
 
 
-
 `;
 
 
 
 });
+
 
 
 
@@ -344,8 +382,9 @@ RM ${getPrice(item).toFixed(2)}
 
 
 
+
 // =====================================
-// ALL MENU
+// ALL MENU SHOW
 // =====================================
 
 
@@ -367,7 +406,6 @@ if(!box)return;
 
 
 
-
 box.innerHTML="";
 
 
@@ -377,12 +415,12 @@ box.innerHTML="";
 menuData.forEach(item=>{
 
 
+
 box.innerHTML +=`
 
 
 
 <div class="menu-item">
-
 
 
 <h3>
@@ -412,9 +450,7 @@ RM ${getPrice(item).toFixed(2)}
 
 <button onclick="addToCart('${item.id}')">
 
-
 ADD TO CART
-
 
 </button>
 
@@ -429,6 +465,7 @@ ADD TO CART
 
 
 });
+
 
 
 
@@ -450,7 +487,8 @@ ADD TO CART
 window.changeOrderType=function(type){
 
 
-selectedOrderType=type;
+
+selectedOrderType = type;
 
 
 
@@ -468,6 +506,217 @@ showPopular();
 
 showMenu();
 
+
+
+};
+
+
+
+
+
+
+
+
+// =====================================
+// CATEGORY FILTER
+// =====================================
+
+
+window.openCategory=function(){
+
+
+
+let box =
+
+document.getElementById(
+
+"categoryBox"
+
+);
+
+
+
+if(!box)return;
+
+
+
+box.style.display="grid";
+
+
+
+box.innerHTML="";
+
+
+
+
+let categories =
+
+[
+
+...new Set(
+
+menuData.map(
+
+x=>x.category
+
+)
+
+)
+
+];
+
+
+
+
+categories.forEach(cat=>{
+
+
+
+box.innerHTML +=`
+
+
+
+<button class="category-btn"
+
+onclick="filterCategory('${cat}')">
+
+
+${cat}
+
+
+</button>
+
+
+`;
+
+
+
+});
+
+
+
+};
+
+
+
+
+
+
+
+
+
+window.filterCategory=function(cat){
+
+
+
+let box =
+
+document.getElementById(
+
+"itemBox"
+
+);
+
+
+
+if(!box)return;
+
+
+
+box.innerHTML="";
+
+
+
+
+menuData
+
+.filter(
+
+x=>x.category===cat
+
+)
+
+.forEach(item=>{
+
+
+
+box.innerHTML +=`
+
+
+
+<div class="menu-item">
+
+
+<h3>${item.name}</h3>
+
+
+<p>
+
+RM ${getPrice(item).toFixed(2)}
+
+</p>
+
+
+
+<button onclick="addToCart('${item.id}')">
+
+ADD TO CART
+
+</button>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// TOAST SAFE
+// =====================================
+
+
+window.showToast = window.showToast || function(msg){
+
+
+let t = document.getElementById("toast");
+
+
+if(t){
+
+
+t.innerHTML=msg;
+
+
+t.classList.add("show");
+
+
+setTimeout(()=>{
+
+t.classList.remove("show");
+
+},2000);
+
+
+
+}
 
 
 };
