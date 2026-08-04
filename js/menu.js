@@ -1,18 +1,25 @@
+
 // ==========================================
 // RESTORAN HAMEED'S BISTRO
-// MENU SYSTEM V7 OPTIMIZED FINAL
+// MENU SYSTEM V8 ULTRA FAST
 // ==========================================
 
 
 let menuData = [];
 
-let currentLanguage = "en";
-
 let menuLoaded = false;
+
+let currentIndex = 0;
+
+const ITEMS_PER_LOAD = 20;
+
+
+
+
 
 
 // ==========================================
-// LOAD CSV MENU
+// LOAD CSV
 // ==========================================
 
 
@@ -26,19 +33,25 @@ return;
 }
 
 
+
 try{
 
 
-let response = await fetch("menu.csv");
+let response = await fetch(
+"menu.csv"
+);
+
 
 
 let text = await response.text();
 
 
+
 parseCSV(text);
 
 
-menuLoaded = true;
+
+menuLoaded=true;
 
 
 
@@ -48,21 +61,18 @@ catch(error){
 
 
 console.error(
-"Menu CSV Error",
+"CSV Error",
 error
 );
 
 
-showToast(
-"Menu Loading Failed"
-);
-
-
 }
 
 
 
 }
+
+
 
 
 
@@ -78,14 +88,13 @@ showToast(
 function parseCSV(text){
 
 
-
-let rows = text
-.trim()
-.split("\n");
+let rows =
+text.trim().split("\n");
 
 
 
-let headers = rows[0]
+let headers =
+rows[0]
 .split(",")
 .map(x=>x.trim());
 
@@ -95,18 +104,17 @@ menuData=[];
 
 
 
-
 for(let i=1;i<rows.length;i++){
 
 
-
-let values = rows[i]
+let values =
+rows[i]
 .split(",")
 .map(x=>x.trim());
 
 
 
-if(values.length < 2){
+if(values.length<2){
 
 continue;
 
@@ -167,11 +175,9 @@ type
 
 
 
-
 document.getElementById(
 "welcome"
 ).style.display="none";
-
 
 
 
@@ -185,17 +191,16 @@ document.getElementById(
 
 
 
-let status =
+let display =
 document.getElementById(
 "orderTypeDisplay"
 );
 
 
 
+if(display){
 
-if(status){
-
-status.innerHTML = type;
+display.innerHTML=type;
 
 }
 
@@ -203,23 +208,26 @@ status.innerHTML = type;
 
 
 
-// QUICK OPEN
-
-setTimeout(async()=>{
-
-
 await loadCSV();
 
 
 
+
+
+currentIndex=0;
+
+
+document.getElementById(
+"itemBox"
+).innerHTML="";
+
+
+
+loadMoreMenu();
+
+
+
 displayPopular();
-
-
-displayMenu();
-
-
-
-},50);
 
 
 
@@ -234,11 +242,11 @@ displayMenu();
 
 
 // ==========================================
-// DISPLAY MENU
+// LOAD MORE MENU
 // ==========================================
 
 
-function displayMenu(){
+window.loadMoreMenu=function(){
 
 
 
@@ -257,11 +265,6 @@ return;
 
 
 
-box.innerHTML="";
-
-
-
-
 
 
 let type =
@@ -275,9 +278,23 @@ localStorage.getItem(
 
 
 
+let next =
+currentIndex + ITEMS_PER_LOAD;
 
 
-menuData.forEach(item=>{
+
+let items =
+menuData.slice(
+currentIndex,
+next
+);
+
+
+
+
+
+
+items.forEach(item=>{
 
 
 
@@ -315,31 +332,25 @@ src="images/${item.image || 'food.png'}"
 
 <h3>
 
-${item.name || ""}
+${item.name}
 
 </h3>
 
 
 
-
 <p>
 
-RM ${Number(price || 0).toFixed(2)}
+RM ${Number(price||0).toFixed(2)}
 
 </p>
 
 
 
-
-
-<button
-
-onclick="addToCart(${item.id})">
+<button onclick="addToCart(${item.id})">
 
 ADD
 
 </button>
-
 
 
 
@@ -351,13 +362,55 @@ ADD
 
 
 
-
-
 });
 
 
 
+
+
+
+currentIndex=next;
+
+
+
+
+
+
+let btn =
+document.getElementById(
+"loadMoreBtn"
+);
+
+
+
+if(btn){
+
+
+
+if(currentIndex>=menuData.length){
+
+
+
+btn.style.display="none";
+
+
 }
+
+else{
+
+
+btn.style.display="block";
+
+
+}
+
+
+
+}
+
+
+
+};
 
 
 
@@ -368,7 +421,7 @@ ADD
 
 
 // ==========================================
-// POPULAR ITEMS
+// POPULAR ITEM
 // ==========================================
 
 
@@ -391,21 +444,17 @@ return;
 
 
 
-
-
 box.innerHTML="";
-
 
 
 
 
 let popular =
 menuData
-.filter(item=>
-item.popular==="YES"
+.filter(
+item=>item.popular==="YES"
 )
-.slice(0,15);
-
+.slice(0,10);
 
 
 
@@ -413,32 +462,6 @@ item.popular==="YES"
 
 
 popular.forEach(item=>{
-
-
-
-let type =
-localStorage.getItem(
-"orderType"
-)
-||
-"DINE IN";
-
-
-
-
-let price =
-type==="TAKE AWAY"
-
-?
-
-item.takeAwayPrice
-
-:
-
-item.dineInPrice;
-
-
-
 
 
 
@@ -458,7 +481,6 @@ src="images/${item.image || 'food.png'}"
 
 
 
-
 <h3>
 
 ${item.name}
@@ -467,25 +489,11 @@ ${item.name}
 
 
 
-
-
-<p>
-
-RM ${Number(price || 0).toFixed(2)}
-
-</p>
-
-
-
-
-<button
-
-onclick="addToCart(${item.id})">
+<button onclick="addToCart(${item.id})">
 
 ADD
 
 </button>
-
 
 
 
@@ -512,35 +520,45 @@ ADD
 
 
 // ==========================================
-// LANGUAGE
+// CATEGORY FILTER
 // ==========================================
 
 
-window.setLanguage=function(lang){
+window.filterCategory=function(category){
 
 
 
-currentLanguage=lang;
-
-
-
-localStorage.setItem(
-"language",
-lang
+let box =
+document.getElementById(
+"itemBox"
 );
 
 
 
-if(menuLoaded){
+box.innerHTML="";
 
 
-displayMenu();
 
 
-displayPopular();
+let filter =
+menuData.filter(
+item=>item.category===category
+);
 
 
-}
+
+
+
+currentIndex=0;
+
+
+
+menuData =
+filter;
+
+
+
+loadMoreMenu();
 
 
 
@@ -555,7 +573,7 @@ displayPopular();
 
 
 // ==========================================
-// LOAD FIRST TIME
+// INITIAL
 // ==========================================
 
 
@@ -564,18 +582,7 @@ window.addEventListener(
 ()=>{
 
 
-let lang =
-localStorage.getItem(
-"language"
-);
-
-
-
-if(lang){
-
-currentLanguage=lang;
-
-}
+loadCSV();
 
 
 
