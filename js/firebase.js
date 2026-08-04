@@ -28,4 +28,6 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
+auth.languageCode = "en";
+
 export { app, db, auth };
