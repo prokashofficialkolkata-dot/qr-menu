@@ -1,6 +1,6 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// KITCHEN DISPLAY SYSTEM V2
+// KITCHEN DISPLAY SYSTEM V3
 // =====================================
 
 
@@ -27,20 +27,12 @@ serverTimestamp
 
 
 
-let firstLoad=true;
-
-
-
-
-
-
-
 // =====================================
-// LIVE ORDERS
+// LIVE KITCHEN ORDERS
 // =====================================
 
 
-window.loadKitchenOrders=function(){
+function loadKitchenOrders(){
 
 
 const box =
@@ -54,9 +46,8 @@ if(!box)return;
 
 
 
-
-
-const q = query(
+const q =
+query(
 
 collection(
 db,
@@ -81,19 +72,12 @@ q,
 (snapshot)=>{
 
 
-
 box.innerHTML="";
 
 
 
-let newOrder=false;
-
-
-
-
-
-
 snapshot.forEach((item)=>{
+
 
 
 const order =
@@ -103,9 +87,7 @@ item.data();
 
 
 
-if(
-order.status==="Completed"
-){
+if(order.status==="Completed"){
 
 return;
 
@@ -115,102 +97,15 @@ return;
 
 
 
-if(
-firstLoad===false
-&&
-order.status==="Pending"
-
-){
-
-newOrder=true;
-
-
-}
-
-
-
-
-
-
-createOrderCard(
-
-item.id,
-
-order,
-
-box
-
-);
-
-
-
-});
-
-
-
-
-
-if(newOrder){
-
-
-playAlert();
-
-
-}
-
-
-
-firstLoad=false;
-
-
-
-}
-
-
-
-);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// CREATE CARD
-// =====================================
-
-
-function createOrderCard(
-
-id,
-
-order,
-
-box
-
-){
-
-
-
-const div =
+const card =
 document.createElement(
 "div"
 );
 
 
 
-div.className =
-"kitchenCard " 
-+
+card.className =
+"kitchenCard " +
 (order.status || "Pending");
 
 
@@ -218,29 +113,23 @@ div.className =
 
 
 
-let itemHTML="";
-
+let items="";
 
 
 
 (order.items || [])
-.forEach(item=>{
+.forEach((food)=>{
 
 
-itemHTML += `
-
+items += `
 
 <div class="foodItem">
 
-${item.name}
+${food.name}
 
-×
-
-${item.qty}
-
+× ${food.qty}
 
 </div>
-
 
 `;
 
@@ -253,8 +142,7 @@ ${item.qty}
 
 
 
-div.innerHTML=`
-
+card.innerHTML = `
 
 
 <h2>
@@ -262,18 +150,12 @@ ORDER
 </h2>
 
 
-
 <h3>
-${order.customerName || ""}
+${order.customerName || "Customer"}
 </h3>
 
 
-
-<div>
-
-${itemHTML}
-
-</div>
+${items}
 
 
 
@@ -284,7 +166,7 @@ ${order.status || "Pending"}
 
 
 
-<button onclick="changeKitchenStatus('${id}','Preparing')">
+<button onclick="changeKitchenStatus('${item.id}','Preparing')">
 
 Preparing
 
@@ -292,7 +174,7 @@ Preparing
 
 
 
-<button onclick="changeKitchenStatus('${id}','Ready')">
+<button onclick="changeKitchenStatus('${item.id}','Ready')">
 
 Ready
 
@@ -300,21 +182,30 @@ Ready
 
 
 
-<button onclick="changeKitchenStatus('${id}','Completed')">
+<button onclick="changeKitchenStatus('${item.id}','Completed')">
 
 Done
 
 </button>
 
 
-
 `;
 
 
 
+box.appendChild(card);
 
 
-box.appendChild(div);
+
+});
+
+
+
+}
+
+
+
+);
 
 
 
@@ -326,21 +217,18 @@ box.appendChild(div);
 
 
 
-
-
 // =====================================
-// UPDATE STATUS
+// CHANGE STATUS
 // =====================================
 
 
-window.changeKitchenStatus=async function(
+window.changeKitchenStatus = async function(
 
 id,
 
 status
 
 ){
-
 
 
 await updateDoc(
@@ -353,14 +241,10 @@ id
 
 {
 
-
 status:status,
-
 
 updatedAt:
 serverTimestamp()
-
-
 
 }
 
@@ -376,29 +260,27 @@ serverTimestamp()
 
 
 
+// START
+
+window.addEventListener(
+
+"load",
+
+()=>{
 
 
-// =====================================
-// SOUND ALERT
-// =====================================
+loadKitchenOrders();
 
 
-function playAlert(){
-
-
-
-let audio =
-new Audio(
-
-"sound/new-order.mp3"
+}
 
 );
 
 
 
-audio.play()
-.catch(()=>{});
 
+export {
 
+loadKitchenOrders
 
-}
+};
