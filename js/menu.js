@@ -1,66 +1,137 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// MENU.JS V2
-// PART 1
+// MENU.JS V3 FINAL
+// FIRESTORE + TOP SELLING ITEMS
 // =====================================
 
 
+import {
 
-let menuData = [];
+db
+
+} from "./firebase.js";
+
+
+import {
+
+collection,
+getDocs,
+query,
+orderBy
+
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+
+
+
+
+let allMenuItems = [];
+
+let sellingRank = [];
+
+
+
 
 
 
 
 // =====================================
-// LOAD CSV MENU
+// LOAD MENU
 // =====================================
 
-window.loadCSV = async function(){
+
+window.loadMenu = async function(){
 
 
 try{
 
 
-const response =
-await fetch(
-"data/menu.csv"
+const box =
+document.getElementById(
+"menuContainer"
 );
 
 
 
-const text =
-await response.text();
+if(!box)return;
 
 
 
-menuData =
-parseCSV(text);
+box.innerHTML =
+"Loading Menu...";
 
 
 
-displayMenu(menuData);
+
+
+const q =
+query(
+
+collection(
+db,
+"menus"
+),
+
+orderBy(
+"name"
+)
+
+);
+
+
+
+const snap =
+await getDocs(q);
+
+
+
+allMenuItems=[];
+
+
+
+
+snap.forEach((item)=>{
+
+
+allMenuItems.push({
+
+id:item.id,
+
+...item.data()
+
+});
+
+
+});
+
+
+
+
+displayMenu(
+allMenuItems
+);
+
+
+
+loadCategory();
 
 
 
 }
+
+
 
 catch(error){
 
 
 console.log(
-"CSV Load Error:",
+"Menu Load Error",
 error
 );
 
 
-
-showToast(
-"Menu Loading Error"
-);
-
-
-
 }
+
 
 
 };
@@ -68,62 +139,6 @@ showToast(
 
 
 
-
-// =====================================
-// CSV PARSER
-// =====================================
-
-function parseCSV(text){
-
-
-
-const rows =
-text.trim().split("\n");
-
-
-
-const headers =
-rows[0]
-.split(",");
-
-
-
-return rows.slice(1).map(row=>{
-
-
-const values =
-row.split(",");
-
-
-
-let obj={};
-
-
-
-headers.forEach((h,i)=>{
-
-
-obj[h.trim()] =
-values[i]
-?
-values[i].trim()
-:
-"";
-
-
-});
-
-
-
-return obj;
-
-
-
-});
-
-
-
-}
 
 
 
@@ -133,12 +148,14 @@ return obj;
 // DISPLAY MENU
 // =====================================
 
+
 window.displayMenu=function(items){
+
 
 
 const box =
 document.getElementById(
-"menuItems"
+"menuContainer"
 );
 
 
@@ -151,26 +168,38 @@ box.innerHTML="";
 
 
 
+
+
 items.forEach((item)=>{
 
 
 
 const div =
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 
 
 div.className =
-"menuCard";
+"menuItem";
+
+
 
 
 
 div.innerHTML = `
 
+
 ${item.image ? 
+
 `<img src="${item.image}">`
+
 :
-""}
+
+""
+
+}
 
 
 
@@ -179,17 +208,25 @@ ${item.name}
 </h3>
 
 
+
+<p>
+${item.category}
+</p>
+
+
+
 <p>
 RM ${Number(item.price).toFixed(2)}
 </p>
 
 
 
-<button onclick='addToCart(${JSON.stringify(item)})'>
+<button onclick="addToCart('${item.id}')">
 
-Add To Cart
+Add
 
 </button>
+
 
 
 `;
@@ -205,9 +242,19 @@ box.appendChild(div);
 
 
 };
+
+
+
+
+
+
+
+
+
 // =====================================
-// CATEGORY FILTER
+// CATEGORY
 // =====================================
+
 
 window.loadCategory=function(){
 
@@ -227,25 +274,31 @@ box.innerHTML="";
 
 
 
-const categories =
-[...new Set(
 
-menuData.map(
 
+let categories = [
+
+...new Set(
+
+allMenuItems.map(
 item=>item.category
+)
 
 )
 
-)];
+];
+
+
 
 
 
 categories.forEach((cat)=>{
 
 
-
-const btn =
-document.createElement("button");
+let btn =
+document.createElement(
+"button"
+);
 
 
 
@@ -257,17 +310,7 @@ cat;
 btn.onclick=function(){
 
 
-const filtered =
-menuData.filter(
-
-item=>item.category === cat
-
-);
-
-
-
-displayMenu(filtered);
-
+filterCategory(cat);
 
 
 };
@@ -288,33 +331,240 @@ box.appendChild(btn);
 
 
 
+
+
+
+
+// =====================================
+// FILTER CATEGORY
+// =====================================
+
+
+window.filterCategory=function(category){
+
+
+
+let result =
+
+allMenuItems.filter(
+
+item=>
+
+item.category===category
+
+);
+
+
+
+displayMenu(
+result
+);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// TOP 15 SELLING ITEMS
+// =====================================
+
+
+window.showPopularItems = async function(){
+
+
+
+try{
+
+
+let sales={};
+
+
+
+
+
+const snap =
+await getDocs(
+
+collection(
+db,
+"orders"
+)
+
+);
+
+
+
+
+
+snap.forEach((order)=>{
+
+
+
+let data =
+order.data();
+
+
+
+
+
+let items =
+data.items || [];
+
+
+
+
+
+items.forEach((item)=>{
+
+
+
+let name =
+item.name;
+
+
+
+let qty =
+Number(item.qty || 1);
+
+
+
+
+
+if(!sales[name]){
+
+sales[name]=0;
+
+}
+
+
+
+sales[name]+=qty;
+
+
+
+});
+
+
+
+});
+
+
+
+
+
+
+
+
+let topItems =
+
+Object.entries(sales)
+
+.sort(
+
+(a,b)=>b[1]-a[1]
+
+)
+
+.slice(0,15)
+
+.map(
+
+item=>item[0]
+
+);
+
+
+
+
+
+
+
+let result =
+
+allMenuItems.filter(
+
+menu=>
+
+topItems.includes(
+menu.name
+)
+
+);
+
+
+
+
+
+displayMenu(
+result
+);
+
+
+
+}
+
+
+
+catch(error){
+
+
+console.log(
+"Popular Error",
+error
+);
+
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
 // =====================================
 // SEARCH MENU
 // =====================================
 
-window.searchMenu=function(value){
+
+window.searchMenu=function(text){
 
 
 
-const keyword =
-value.toLowerCase();
+let result =
 
-
-
-const result =
-menuData.filter(
+allMenuItems.filter(
 
 item=>
 
 item.name
 .toLowerCase()
-.includes(keyword)
+.includes(
+text.toLowerCase()
+)
 
 );
 
 
 
-displayMenu(result);
+displayMenu(
+result
+);
 
 
 
@@ -324,45 +574,21 @@ displayMenu(result);
 
 
 
-// =====================================
-// POPULAR ITEMS
-// =====================================
-
-window.showPopularItems=function(){
-
-
-
-const popular =
-menuData.filter(
-
-item=>
-
-item.popular === "yes"
-
-);
-
-
-
-displayMenu(popular);
-
-
-
-};
-
 
 
 
 
 // =====================================
-// RESTORE MENU
+// RESTORE ALL MENU
 // =====================================
+
 
 window.restoreMenuView=function(){
 
 
-
-displayMenu(menuData);
-
+displayMenu(
+allMenuItems
+);
 
 
 };
