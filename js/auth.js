@@ -291,41 +291,29 @@ error.message
 // ANDROID + PC
 // =====================================
 
-
 window.googleLogin = async function(){
-
 
 try{
 
-
 await signInWithRedirect(
-
 auth,
-
 googleProvider
-
 );
-
-
 
 }
 
 catch(error){
-
 
 console.log(
 "Google Login Error:",
 error
 );
 
-
 showToast(
 error.message
 );
 
-
 }
-
 
 };
 
