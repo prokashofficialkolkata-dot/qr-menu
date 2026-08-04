@@ -1,92 +1,67 @@
 // =====================================
-// MENU.JS FINAL
 // RESTORAN HAMEED'S BISTRO
+// MENU.JS V2
+// PART 1
 // =====================================
+
 
 
 let menuData = [];
 
-let currentView = localStorage.getItem("menuView") || "popular";
-
-let selectedCategory = localStorage.getItem("selectedCategory") || "";
 
 
 
+// =====================================
+// LOAD CSV MENU
+// =====================================
 
-// ================================
-// LOAD CSV
-// ================================
-
-window.loadCSV=function(){
-
-
-fetch("menu.csv")
-
-.then(response=>response.text())
-
-.then(data=>{
+window.loadCSV = async function(){
 
 
-let rows=data.split("\n");
+try{
 
 
-menuData=[];
-
-
-rows.slice(1).forEach(row=>{
-
-
-let col=row.split(",");
+const response =
+await fetch(
+"data/menu.csv"
+);
 
 
 
-if(col.length>=4){
+const text =
+await response.text();
 
 
-menuData.push({
 
-category:col[0].trim(),
-
-name:col[1].trim(),
-
-dine:col[2].trim(),
-
-takeaway:col[3].trim()
+menuData =
+parseCSV(text);
 
 
-});
+
+displayMenu(menuData);
+
 
 
 }
 
+catch(error){
 
 
-});
+console.log(
+"CSV Load Error:",
+error
+);
 
 
 
-// restore previous view
+showToast(
+"Menu Loading Error"
+);
 
-
-if(currentView==="category" && selectedCategory){
-
-
-showCategoryItems(selectedCategory);
 
 
 }
 
-else{
-
-
-showPopularItems();
-
-
-}
-
-
-
-});
 
 };
 
@@ -94,20 +69,78 @@ showPopularItems();
 
 
 
+// =====================================
+// CSV PARSER
+// =====================================
+
+function parseCSV(text){
+
+
+
+const rows =
+text.trim().split("\n");
+
+
+
+const headers =
+rows[0]
+.split(",");
+
+
+
+return rows.slice(1).map(row=>{
+
+
+const values =
+row.split(",");
+
+
+
+let obj={};
+
+
+
+headers.forEach((h,i)=>{
+
+
+obj[h.trim()] =
+values[i]
+?
+values[i].trim()
+:
+"";
+
+
+});
+
+
+
+return obj;
+
+
+
+});
+
+
+
+}
 
 
 
 
-// ================================
-// CATEGORY LOAD
-// ================================
 
-window.loadCategory=function(){
+// =====================================
+// DISPLAY MENU
+// =====================================
+
+window.displayMenu=function(items){
 
 
-let box=document.getElementById(
-"categoryBox"
+const box =
+document.getElementById(
+"menuItems"
 );
+
 
 
 if(!box)return;
@@ -118,39 +151,123 @@ box.innerHTML="";
 
 
 
-box.style.display="grid";
+items.forEach((item)=>{
 
 
 
-let categories=[
+const div =
+document.createElement("div");
 
-...new Set(
 
-menuData.map(item=>item.category)
+
+div.className =
+"menuCard";
+
+
+
+div.innerHTML = `
+
+${item.image ? 
+`<img src="${item.image}">`
+:
+""}
+
+
+
+<h3>
+${item.name}
+</h3>
+
+
+<p>
+RM ${Number(item.price).toFixed(2)}
+</p>
+
+
+
+<button onclick='addToCart(${JSON.stringify(item)})'>
+
+Add To Cart
+
+</button>
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+
+});
+
+
+
+};
+// =====================================
+// CATEGORY FILTER
+// =====================================
+
+window.loadCategory=function(){
+
+
+const box =
+document.getElementById(
+"categoryBox"
+);
+
+
+
+if(!box)return;
+
+
+
+box.innerHTML="";
+
+
+
+const categories =
+[...new Set(
+
+menuData.map(
+
+item=>item.category
 
 )
 
-];
+)];
 
 
 
-categories.forEach(function(cat){
+categories.forEach((cat)=>{
 
 
-let btn=document.createElement("button");
+
+const btn =
+document.createElement("button");
 
 
-btn.className="category-btn";
 
-
-btn.innerHTML=cat;
+btn.innerHTML =
+cat;
 
 
 
 btn.onclick=function(){
 
 
-selectCategory(cat);
+const filtered =
+menuData.filter(
+
+item=>item.category === cat
+
+);
+
+
+
+displayMenu(filtered);
+
 
 
 };
@@ -164,71 +281,40 @@ box.appendChild(btn);
 });
 
 
+
 };
 
 
 
 
 
+// =====================================
+// SEARCH MENU
+// =====================================
+
+window.searchMenu=function(value){
 
 
 
-
-// ================================
-// SELECT CATEGORY
-// ================================
-
-window.selectCategory=function(category){
+const keyword =
+value.toLowerCase();
 
 
 
-selectedCategory=category;
+const result =
+menuData.filter(
 
+item=>
 
-currentView="category";
+item.name
+.toLowerCase()
+.includes(keyword)
 
-
-
-localStorage.setItem(
-"menuView",
-"category"
-);
-
-
-localStorage.setItem(
-"selectedCategory",
-category
 );
 
 
 
-let box=document.getElementById(
-"categoryBox"
-);
-
-
-if(box){
-
-box.style.display="none";
-
-}
-
-
-
-let popular=document.getElementById(
-"popularSection"
-);
-
-
-if(popular){
-
-popular.style.display="none";
-
-}
-
-
-
-showCategoryItems(category);
+displayMenu(result);
 
 
 
@@ -238,132 +324,26 @@ showCategoryItems(category);
 
 
 
-
-
-
-
-// ================================
-// CATEGORY ITEMS
-// ================================
-
-window.showCategoryItems=function(category){
-
-
-
-let itemBox=document.getElementById(
-"itemBox"
-);
-
-
-
-if(!itemBox)return;
-
-
-
-itemBox.innerHTML="";
-
-
-
-let items=menuData.filter(function(item){
-
-
-return item.category===category;
-
-
-});
-
-
-
-items.forEach(function(item){
-
-
-createItemCard(item,itemBox);
-
-
-});
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// POPULAR
-// ================================
+// =====================================
+// POPULAR ITEMS
+// =====================================
 
 window.showPopularItems=function(){
 
 
 
-currentView="popular";
+const popular =
+menuData.filter(
 
+item=>
 
-localStorage.setItem(
-"menuView",
-"popular"
+item.popular === "yes"
+
 );
 
 
 
-let itemBox=document.getElementById(
-"itemBox"
-);
-
-
-if(itemBox){
-
-itemBox.innerHTML="";
-
-}
-
-
-
-let popular=document.getElementById(
-"popularSection"
-);
-
-
-
-if(popular){
-
-popular.style.display="block";
-
-}
-
-
-
-let popularBox=document.getElementById(
-"popularItems"
-);
-
-
-
-if(!popularBox)return;
-
-
-
-popularBox.innerHTML="";
-
-
-
-let popularItems=menuData.slice(0,15);
-
-
-
-popularItems.forEach(function(item){
-
-
-createPopularCard(item,popularBox);
-
-
-});
+displayMenu(popular);
 
 
 
@@ -373,241 +353,16 @@ createPopularCard(item,popularBox);
 
 
 
-
-
-
-
-// ================================
-// RESTORE VIEW
-// ================================
+// =====================================
+// RESTORE MENU
+// =====================================
 
 window.restoreMenuView=function(){
 
 
 
-if(currentView==="category" && selectedCategory){
-
-
-showCategoryItems(selectedCategory);
-
-
-}
-
-else{
-
-
-showPopularItems();
-
-
-}
+displayMenu(menuData);
 
 
 
 };
-
-
-
-
-
-
-
-
-
-// ================================
-// ITEM CARD
-// ================================
-
-function createItemCard(item,box){
-
-
-
-let div=document.createElement("div");
-
-
-div.className="menu-item";
-
-
-
-let price=
-
-localStorage.getItem("orderType")==="TAKE AWAY"
-
-?
-
-item.takeaway
-
-:
-
-item.dine;
-
-
-
-
-div.innerHTML=`
-
-<h3>${item.name}</h3>
-
-<p>RM ${price}</p>
-
-
-<button onclick="addToCart('${item.name}','${price}')">
-
-ADD ITEM
-
-</button>
-
-
-`;
-
-
-
-box.appendChild(div);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ================================
-// POPULAR CARD
-// ================================
-
-function createPopularCard(item,box){
-
-
-
-let div=document.createElement("div");
-
-
-div.className="popular-card";
-
-
-
-div.innerHTML=`
-
-<h3>⭐ ${item.name}</h3>
-
-<p>RM ${item.dine}</p>
-
-
-<button onclick="addToCart('${item.name}','${item.dine}')">
-
-ADD ITEM
-
-</button>
-
-
-`;
-
-
-
-box.appendChild(div);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ================================
-// ADD CART
-// ================================
-
-window.addToCart=function(name,price){
-
-
-
-let cart=
-
-JSON.parse(
-localStorage.getItem("cart")
-)
-
-|| [];
-
-
-
-cart.push({
-
-name:name,
-
-price:price
-
-});
-
-
-
-localStorage.setItem(
-
-"cart",
-
-JSON.stringify(cart)
-
-);
-
-
-
-if(typeof updateCartCount==="function"){
-
-
-updateCartCount();
-
-
-}
-
-
-
-showToast(
-
-"Hameed's Bistro says "+name+" Added"
-
-);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// AUTO LOAD
-// ================================
-
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-function(){
-
-
-if(document.getElementById("menuPage")){
-
-
-loadCSV();
-
-
-}
-
-
-
-});
