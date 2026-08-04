@@ -1,5 +1,6 @@
+
 // =====================================
-// cart.js FINAL V5
+// CART.JS FINAL V5
 // Restoran Hameed's Bistro
 // =====================================
 
@@ -18,9 +19,6 @@ localStorage.getItem("cart")
 
 
 
-
-
-
 // =====================================
 // ADD TO CART
 // =====================================
@@ -30,9 +28,7 @@ window.addToCart=function(id){
 
 
 
-let item =
-
-menuData.find(
+let item = window.menuData.find(
 
 x=>x.id===id
 
@@ -40,26 +36,39 @@ x=>x.id===id
 
 
 
+
+
 if(!item){
 
-console.log(
 
-"Item not found"
+showToast("Item Not Found");
 
-);
 
 return;
+
 
 }
 
 
 
 
-let price =
+
+let orderType =
 
 localStorage.getItem("orderType")
 
-==="TAKE AWAY"
+||
+
+"DINE IN";
+
+
+
+
+
+
+let price =
+
+orderType==="TAKE AWAY"
 
 ?
 
@@ -73,9 +82,10 @@ item.dineInPrice;
 
 
 
-let old =
 
-cart.find(
+
+
+let exist = cart.find(
 
 x=>x.id===id
 
@@ -85,14 +95,16 @@ x=>x.id===id
 
 
 
-if(old){
+if(exist){
 
 
-old.qty++;
+exist.qty++;
+
 
 }
 
 else{
+
 
 
 cart.push({
@@ -124,11 +136,11 @@ saveCart();
 
 
 
+
+
 showToast(
 
-item.name+
-
-" Added"
+item.name+" Added"
 
 );
 
@@ -152,6 +164,7 @@ item.name+
 function saveCart(){
 
 
+
 localStorage.setItem(
 
 "cart",
@@ -163,6 +176,7 @@ JSON.stringify(cart)
 
 
 updateCartCount();
+
 
 
 }
@@ -184,11 +198,11 @@ function updateCartCount(){
 
 
 
-let count =
+let count = cart.reduce(
 
-cart.reduce(
+(total,item)=>
 
-(a,b)=>a+b.qty,
+total+item.qty,
 
 0
 
@@ -211,16 +225,15 @@ cart.reduce(
 .forEach(id=>{
 
 
-
-let el=
-
-document.getElementById(id);
+let el=document.getElementById(id);
 
 
 
 if(el){
 
+
 el.innerHTML=count;
+
 
 }
 
@@ -236,11 +249,18 @@ el.innerHTML=count;
 
 
 
+window.updateCartCount=updateCartCount;
+
+
+
+
+
+
 
 
 
 // =====================================
-// SHOW CART
+// OPEN CART
 // =====================================
 
 
@@ -248,18 +268,19 @@ window.showCart=function(){
 
 
 
-document.getElementById("welcome")
-.style.display="none";
+document.getElementById("welcome").style.display="none";
+
+
+document.getElementById("menuPage").style.display="none";
+
+
+document.getElementById("checkoutPage").style.display="none";
 
 
 
-document.getElementById("menuPage")
-.style.display="none";
+document.getElementById("cartPage").style.display="block";
 
 
-
-document.getElementById("cartPage")
-.style.display="block";
 
 
 
@@ -282,13 +303,11 @@ displayCart();
 // =====================================
 
 
-function displayCart(){
+window.displayCart=function(){
 
 
 
-let box=
-
-document.getElementById(
+let box=document.getElementById(
 
 "cartItems"
 
@@ -300,7 +319,10 @@ if(!box)return;
 
 
 
+
+
 box.innerHTML="";
+
 
 
 
@@ -309,11 +331,16 @@ box.innerHTML="";
 if(cart.length===0){
 
 
+
 box.innerHTML=
 
 "<h3>Cart Empty</h3>";
 
+
+
 updateTotal();
+
+
 
 return;
 
@@ -324,12 +351,11 @@ return;
 
 
 
-
 cart.forEach(item=>{
 
 
 
-box.innerHTML +=`
+box.innerHTML += `
 
 
 
@@ -354,7 +380,10 @@ RM ${item.price.toFixed(2)}
 </p>
 
 
+
 </div>
+
+
 
 
 
@@ -378,7 +407,6 @@ ${item.qty}
 
 
 
-
 <button onclick="plusQty('${item.id}')">
 
 ➕
@@ -387,23 +415,25 @@ ${item.qty}
 
 
 
-<br>
 
+<br>
 
 
 <button onclick="removeItem('${item.id}')">
 
+
 🗑 Remove
+
 
 </button>
 
 
-</div>
-
-
 
 </div>
 
+
+
+</div>
 
 
 `;
@@ -411,6 +441,7 @@ ${item.qty}
 
 
 });
+
 
 
 
@@ -437,9 +468,8 @@ updateTotal();
 window.plusQty=function(id){
 
 
-let item=
 
-cart.find(
+let item=cart.find(
 
 x=>x.id===id
 
@@ -449,7 +479,9 @@ x=>x.id===id
 
 if(item){
 
+
 item.qty++;
+
 
 }
 
@@ -457,7 +489,9 @@ item.qty++;
 
 saveCart();
 
+
 displayCart();
+
 
 
 };
@@ -478,9 +512,8 @@ displayCart();
 window.minusQty=function(id){
 
 
-let item=
 
-cart.find(
+let item=cart.find(
 
 x=>x.id===id
 
@@ -493,11 +526,13 @@ if(item && item.qty>1){
 
 item.qty--;
 
+
 }
 
 
 
 saveCart();
+
 
 displayCart();
 
@@ -522,9 +557,7 @@ window.removeItem=function(id){
 
 
 
-cart =
-
-cart.filter(
+cart = cart.filter(
 
 x=>x.id!==id
 
@@ -533,6 +566,7 @@ x=>x.id!==id
 
 
 saveCart();
+
 
 displayCart();
 
@@ -557,15 +591,11 @@ function updateTotal(){
 
 
 
-let total =
-
-cart.reduce(
+let total = cart.reduce(
 
 (sum,item)=>
 
-sum+
-
-(item.price*item.qty),
+sum+(item.price*item.qty),
 
 0
 
@@ -575,9 +605,8 @@ sum+
 
 
 
-let box=
 
-document.getElementById(
+let box=document.getElementById(
 
 "total"
 
@@ -610,6 +639,6 @@ total.toFixed(2);
 
 
 
-// initial
+// START
 
 updateCartCount();
