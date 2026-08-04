@@ -1,6 +1,8 @@
+
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// KITCHEN DISPLAY SYSTEM V5 GRID
+// KITCHEN.JS FINAL V5
+// Restoran Hameed's Bistro
+// Kitchen Display System
 // =====================================
 
 
@@ -10,14 +12,34 @@ import { db } from "./firebase.js";
 import {
 
 collection,
-query,
-orderBy,
-onSnapshot,
-doc,
-updateDoc,
-serverTimestamp
 
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+query,
+
+orderBy,
+
+onSnapshot,
+
+doc,
+
+updateDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+
+
+let kitchenOrders=[];
+
+
 
 
 
@@ -34,17 +56,21 @@ function loadKitchenOrders(){
 
 
 
-const box =
+let box=document.getElementById(
 
-document.getElementById(
 "kitchenOrders"
+
 );
 
 
 
-const q =
+if(!box)return;
 
-query(
+
+
+
+
+const q=query(
 
 collection(db,"orders"),
 
@@ -73,53 +99,29 @@ box.innerHTML="";
 
 
 
-
-snapshot.forEach((orderDoc)=>{
-
-
-
-let order = orderDoc.data();
-
-
-
-
-
-// hide completed
-
-
-if(order.status==="Completed"){
-
-return;
-
-}
+kitchenOrders=[];
 
 
 
 
 
 
-let itemsHTML="";
+snapshot.forEach(item=>{
+
+
+
+let data=item.data();
 
 
 
 
+kitchenOrders.push({
 
-order.items.forEach(item=>{
+
+id:item.id,
 
 
-itemsHTML += `
-
-<div class="itemRow">
-
-${item.name}
-
-<strong>
-x${item.qty}
-</strong>
-
-</div>
-
-`;
+...data
 
 
 });
@@ -128,132 +130,138 @@ x${item.qty}
 
 
 
+box.innerHTML += `
 
 
 
+<div class="kitchen-card">
 
-let card =
-
-document.createElement("div");
-
-
-
-card.className=
-
-"kitchenCard";
-
-
-
-
-
-
-// status class
-
-
-if(order.status==="Pending"){
-
-
-card.classList.add(
-"pending"
-);
-
-
-}
-
-
-
-if(order.status==="Preparing"){
-
-
-card.classList.add(
-"preparing"
-);
-
-
-}
-
-
-
-if(order.status==="Ready"){
-
-
-card.classList.add(
-"ready"
-);
-
-
-}
-
-
-
-
-
-
-
-
-card.innerHTML = `
-
-
-
-<div class="orderHeader">
 
 
 <h2>
 
-${order.table}
+Order #${item.id.slice(0,5)}
 
 </h2>
 
 
+
+
+<h3>
+
+Table:
+
+${data.tableNumber || "-"}
+
+</h3>
+
+
+
+
 <p>
 
-${order.status}
+${data.orderType || ""}
 
 </p>
 
 
+
+
+
+<hr>
+
+
+
+
+
+
+${
+
+(data.items || [])
+
+.map(food=>`
+
+
+
+<div class="food-item">
+
+
+<b>
+
+${food.name}
+
+</b>
+
+
+<br>
+
+
+Qty:
+
+${food.qty}
+
+
+
 </div>
 
 
 
+`)
 
+.join("")
 
-<div class="itemsBox">
-
-${itemsHTML}
-
-</div>
-
+}
 
 
 
 
 
-<div class="buttonBox">
 
 
 
-<button onclick="changeOrderStatus('${orderDoc.id}','Preparing')">
+<h3>
 
-Cooking
+Status:
+
+${data.status || "NEW"}
+
+</h3>
+
+
+
+
+
+
+
+
+<button
+
+onclick="changeOrderStatus('${item.id}','COOKING')">
+
+
+🍳 COOKING
+
 
 </button>
 
 
 
-<button onclick="changeOrderStatus('${orderDoc.id}','Ready')">
 
-Ready
+
+
+<button
+
+onclick="changeOrderStatus('${item.id}','READY')">
+
+
+✅ READY
+
 
 </button>
 
 
 
-<button onclick="changeOrderStatus('${orderDoc.id}','Completed')">
 
-Done
-
-</button>
 
 
 
@@ -267,16 +275,29 @@ Done
 
 
 
+});
 
-box.appendChild(card);
+
+
+
+
+if(snapshot.empty){
+
+
+
+box.innerHTML=
+
+"<h2>No Orders</h2>";
+
+
+
+}
 
 
 
 });
 
 
-
-});
 
 
 
@@ -290,39 +311,38 @@ box.appendChild(card);
 
 
 
+
+
+
 // =====================================
-// CHANGE STATUS
+// UPDATE STATUS
 // =====================================
 
 
-window.changeOrderStatus = async function(
+window.changeOrderStatus = async function(id,status){
 
-id,
 
-status
 
-){
+try{
 
 
 
 await updateDoc(
 
 doc(
+
 db,
+
 "orders",
+
 id
+
 ),
 
 {
 
 
-status:status,
-
-
-updatedAt:
-
-serverTimestamp()
-
+status:status
 
 
 }
@@ -331,7 +351,31 @@ serverTimestamp()
 
 
 
+
+
+}
+
+catch(error){
+
+
+
+console.error(
+
+"STATUS ERROR",
+
+error
+
+);
+
+
+
+}
+
+
+
 };
+
+
 
 
 
