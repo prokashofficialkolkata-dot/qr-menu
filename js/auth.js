@@ -645,7 +645,7 @@ updateCustomerButton();
 // CHECK GOOGLE REDIRECT RESULT
 // =====================================
 
-async function checkGoogleRedirect(){
+window.checkGoogleRedirect = async function() {
 
 try{
 
