@@ -3,6 +3,11 @@
 // CASHIER POS V3 FINAL
 // =====================================
 
+import {
+
+saveSales
+
+} from "./sales.js";
 
 import {
 
@@ -674,7 +679,7 @@ serverTimestamp()
 );
 
 
-
+await saveSales(orderItems);
 
 
 
