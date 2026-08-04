@@ -1,12 +1,12 @@
+
 // =====================================
-// menu.js FINAL V5
+// MENU.JS FINAL V5
 // Restoran Hameed's Bistro
 // Firebase Dynamic Menu
 // =====================================
 
 
 import { db } from "./firebase.js";
-
 
 import {
 
@@ -25,17 +25,6 @@ from
 
 let menuData = [];
 
-let selectedOrderType =
-localStorage.getItem("orderType")
-||
-"DINE IN";
-
-
-
-
-
-// Make global
-
 window.menuData = menuData;
 
 
@@ -43,59 +32,13 @@ window.menuData = menuData;
 
 
 
+let selectedOrderType =
 
-// =====================================
-// START MENU
-// =====================================
+localStorage.getItem("orderType")
 
+||
 
-window.startMenu = function(type){
-
-
-selectedOrderType = type;
-
-
-localStorage.setItem(
-
-"orderType",
-
-type
-
-);
-
-
-
-let welcome =
-document.getElementById("welcome");
-
-
-let menuPage =
-document.getElementById("menuPage");
-
-
-
-if(welcome){
-
-welcome.style.display="none";
-
-}
-
-
-
-if(menuPage){
-
-menuPage.style.display="block";
-
-}
-
-
-
-loadMenu();
-
-
-
-};
-
+"DINE IN";
 
 
 
@@ -105,18 +48,19 @@ loadMenu();
 
 
 // =====================================
-// LOAD MENU FIREBASE
+// LOAD MENU
 // =====================================
 
 
-async function loadMenu(){
+window.loadMenu = async function(){
 
 
 
 try{
 
 
-const snapshot = await getDocs(
+
+const snap = await getDocs(
 
 collection(db,"menus")
 
@@ -130,8 +74,8 @@ menuData.length = 0;
 
 
 
-snapshot.forEach((doc)=>{
 
+snap.forEach(doc=>{
 
 
 let d = doc.data();
@@ -152,7 +96,16 @@ d.category || "",
 
 name:
 
-d["Item Name"] || "",
+d["Item Name"]
+
+||
+
+d.itemName
+
+||
+
+"",
+
 
 
 
@@ -160,9 +113,18 @@ dineInPrice:
 
 Number(
 
-d["Dine in price"] || 0
+d["Dine in price"]
+
+||
+
+d.dineInPrice
+
+||
+
+0
 
 ),
+
 
 
 
@@ -170,9 +132,18 @@ takeAwayPrice:
 
 Number(
 
-d["Take away Price"] || 0
+d["Take away Price"]
+
+||
+
+d.takeAwayPrice
+
+||
+
+0
 
 ),
+
 
 
 
@@ -180,7 +151,11 @@ sold:
 
 Number(
 
-d.sold || 0
+d.sold
+
+||
+
+0
 
 )
 
@@ -196,7 +171,6 @@ d.sold || 0
 
 
 
-// update global
 
 window.menuData = menuData;
 
@@ -205,6 +179,7 @@ window.menuData = menuData;
 
 
 showPopular();
+
 
 
 showMenu();
@@ -227,19 +202,20 @@ error
 );
 
 
+
 showToast(
 
-"Menu Loading Failed"
+"Menu Load Failed"
 
 );
 
 
-}
-
-
-
 
 }
+
+
+
+};
 
 
 
@@ -250,11 +226,12 @@ showToast(
 
 
 // =====================================
-// GET PRICE
+// PRICE
 // =====================================
 
 
 function getPrice(item){
+
 
 
 if(selectedOrderType==="TAKE AWAY"){
@@ -280,7 +257,7 @@ return item.dineInPrice;
 
 
 // =====================================
-// POPULAR TOP 15
+// POPULAR ITEMS
 // =====================================
 
 
@@ -288,9 +265,7 @@ function showPopular(){
 
 
 
-let box =
-
-document.getElementById(
+let box=document.getElementById(
 
 "popularItems"
 
@@ -302,21 +277,17 @@ if(!box)return;
 
 
 
+
 box.innerHTML="";
 
 
 
 
-
-let popular =
-
-[...menuData]
+let popular=[...menuData]
 
 .sort(
 
-(a,b)=>
-
-b.sold-a.sold
+(a,b)=>b.sold-a.sold
 
 )
 
@@ -331,7 +302,7 @@ popular.forEach(item=>{
 
 
 
-box.innerHTML +=`
+box.innerHTML += `
 
 
 
@@ -345,6 +316,7 @@ ${item.name}
 </h3>
 
 
+
 <p>
 
 RM ${getPrice(item).toFixed(2)}
@@ -353,9 +325,12 @@ RM ${getPrice(item).toFixed(2)}
 
 
 
+
 <button onclick="addToCart('${item.id}')">
 
+
 ➕ ADD
+
 
 </button>
 
@@ -364,12 +339,12 @@ RM ${getPrice(item).toFixed(2)}
 </div>
 
 
+
 `;
 
 
 
 });
-
 
 
 
@@ -384,7 +359,7 @@ RM ${getPrice(item).toFixed(2)}
 
 
 // =====================================
-// ALL MENU SHOW
+// ALL MENU
 // =====================================
 
 
@@ -392,9 +367,7 @@ function showMenu(){
 
 
 
-let box =
-
-document.getElementById(
+let box=document.getElementById(
 
 "itemBox"
 
@@ -403,6 +376,8 @@ document.getElementById(
 
 
 if(!box)return;
+
+
 
 
 
@@ -416,7 +391,7 @@ menuData.forEach(item=>{
 
 
 
-box.innerHTML +=`
+box.innerHTML += `
 
 
 
@@ -448,9 +423,12 @@ RM ${getPrice(item).toFixed(2)}
 
 
 
+
 <button onclick="addToCart('${item.id}')">
 
+
 ADD TO CART
+
 
 </button>
 
@@ -459,13 +437,11 @@ ADD TO CART
 </div>
 
 
-
 `;
 
 
 
 });
-
 
 
 
@@ -480,7 +456,7 @@ ADD TO CART
 
 
 // =====================================
-// CHANGE ORDER TYPE
+// ORDER TYPE CHANGE
 // =====================================
 
 
@@ -488,7 +464,7 @@ window.changeOrderType=function(type){
 
 
 
-selectedOrderType = type;
+selectedOrderType=type;
 
 
 
@@ -504,7 +480,28 @@ type
 
 showPopular();
 
+
 showMenu();
+
+
+
+
+let display=document.getElementById(
+
+"orderTypeDisplay"
+
+);
+
+
+
+if(display){
+
+
+display.innerHTML=type;
+
+
+}
+
 
 
 
@@ -517,8 +514,9 @@ showMenu();
 
 
 
+
 // =====================================
-// CATEGORY FILTER
+// CATEGORY
 // =====================================
 
 
@@ -526,9 +524,7 @@ window.openCategory=function(){
 
 
 
-let box =
-
-document.getElementById(
+let box=document.getElementById(
 
 "categoryBox"
 
@@ -537,6 +533,7 @@ document.getElementById(
 
 
 if(!box)return;
+
 
 
 
@@ -549,17 +546,11 @@ box.innerHTML="";
 
 
 
-let categories =
-
-[
+let cats=[
 
 ...new Set(
 
-menuData.map(
-
-x=>x.category
-
-)
+menuData.map(x=>x.category)
 
 )
 
@@ -568,7 +559,9 @@ x=>x.category
 
 
 
-categories.forEach(cat=>{
+
+
+cats.forEach(cat=>{
 
 
 
@@ -576,7 +569,9 @@ box.innerHTML +=`
 
 
 
-<button class="category-btn"
+<button
+
+class="category-btn"
 
 onclick="filterCategory('${cat}')">
 
@@ -585,6 +580,7 @@ ${cat}
 
 
 </button>
+
 
 
 `;
@@ -609,9 +605,7 @@ window.filterCategory=function(cat){
 
 
 
-let box =
-
-document.getElementById(
+let box=document.getElementById(
 
 "itemBox"
 
@@ -623,18 +617,16 @@ if(!box)return;
 
 
 
+
 box.innerHTML="";
+
 
 
 
 
 menuData
 
-.filter(
-
-x=>x.category===cat
-
-)
+.filter(x=>x.category===cat)
 
 .forEach(item=>{
 
@@ -647,7 +639,11 @@ box.innerHTML +=`
 <div class="menu-item">
 
 
-<h3>${item.name}</h3>
+<h3>
+
+${item.name}
+
+</h3>
 
 
 <p>
@@ -658,9 +654,12 @@ RM ${getPrice(item).toFixed(2)}
 
 
 
+
 <button onclick="addToCart('${item.id}')">
 
+
 ADD TO CART
+
 
 </button>
 
@@ -678,6 +677,7 @@ ADD TO CART
 
 
 
+
 };
 
 
@@ -688,35 +688,26 @@ ADD TO CART
 
 
 
-// =====================================
-// TOAST SAFE
-// =====================================
+// AUTO LOAD READY
 
 
-window.showToast = window.showToast || function(msg){
+window.addEventListener(
+
+"load",
+
+()=>{
 
 
-let t = document.getElementById("toast");
+if(document.getElementById("menuPage")){
 
 
-if(t){
-
-
-t.innerHTML=msg;
-
-
-t.classList.add("show");
-
-
-setTimeout(()=>{
-
-t.classList.remove("show");
-
-},2000);
-
+// wait for click DINE IN
 
 
 }
 
 
-};
+
+}
+
+);
