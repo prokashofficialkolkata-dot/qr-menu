@@ -705,3 +705,275 @@ updateCustomerButton();
 }
 
 );
+// =====================================
+// EMAIL LOGIN
+// =====================================
+
+window.loginUser = async function () {
+
+  try {
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    if (!email || !password) {
+      showToast("Please enter email and password");
+      return;
+    }
+
+    const result = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    localStorage.setItem("loggedIn", "yes");
+    localStorage.setItem("uid", result.user.uid);
+
+    openProfile();
+
+  } catch (error) {
+
+    console.log(error);
+    showToast(error.message);
+
+  }
+
+};
+
+
+// =====================================
+// GOOGLE LOGIN (ANDROID + PC)
+// =====================================
+
+window.googleLogin = async function () {
+
+  try {
+
+    // Android ও Mobile-এর জন্য Redirect সবচেয়ে নির্ভরযোগ্য
+    await signInWithRedirect(auth, googleProvider);
+
+  } catch (error) {
+
+    console.log(error);
+    showToast(error.message);
+
+  }
+
+};
+
+
+// =====================================
+// GOOGLE REDIRECT RESULT
+// =====================================
+
+getRedirectResult(auth)
+
+.then(async (result) => {
+
+  if (!result) return;
+
+  const user = result.user;
+
+  const ref = doc(db, "customers", user.uid);
+
+  const snap = await getDoc(ref);
+
+  if (snap.exists()) {
+
+    localStorage.setItem("loggedIn", "yes");
+    localStorage.setItem("uid", user.uid);
+
+    openProfile();
+
+  } else {
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("googleProfileBox").style.display = "block";
+
+    document.getElementById("googleName").value =
+      user.displayName || "";
+
+    document.getElementById("googleEmail").value =
+      user.email || "";
+
+  }
+
+})
+
+.catch((error) => {
+
+  console.log(error);
+
+});
+
+// =====================================
+// GOOGLE PROFILE SAVE
+// =====================================
+
+window.saveGoogleProfile = async function () {
+
+  try {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      showToast("User not found");
+      return;
+    }
+
+    const name = document.getElementById("googleName").value.trim();
+    const phone = document.getElementById("googlePhone").value.trim();
+
+    if (!phone) {
+      showToast("Phone number required");
+      return;
+    }
+
+    await setDoc(
+      doc(db, "customers", user.uid),
+      {
+        uid: user.uid,
+        name: name,
+        email: user.email,
+        phone: phone,
+        loginType: "Google",
+        createdAt: serverTimestamp()
+      },
+      {
+        merge: true
+      }
+    );
+
+    localStorage.setItem("loggedIn", "yes");
+    localStorage.setItem("uid", user.uid);
+
+    showToast("Profile Completed");
+
+    openProfile();
+
+  } catch (error) {
+
+    console.log(error);
+    showToast(error.message);
+
+  }
+
+};
+
+
+// =====================================
+// OPEN PROFILE
+// =====================================
+
+window.openProfile = async function () {
+
+  showPage("checkoutPage");
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("createBox").style.display = "none";
+  document.getElementById("googleProfileBox").style.display = "none";
+  document.getElementById("checkoutForm").
+
+    // =====================================
+// LOGOUT
+// =====================================
+
+window.logoutUser = async function () {
+
+  try {
+
+    await signOut(auth);
+
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("uid");
+    localStorage.removeItem("currentPage");
+
+    showPage("welcome");
+
+    if (typeof updateCustomerButton === "function") {
+      updateCustomerButton();
+    }
+
+    showToast("Logout Successful");
+
+  } catch (error) {
+
+    console.log(error);
+    showToast(error.message);
+
+  }
+
+};
+
+
+// =====================================
+// AUTH STATE CHANGED
+// =====================================
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (user) {
+
+    localStorage.setItem("loggedIn", "yes");
+    localStorage.setItem("uid", user.uid);
+
+  } else {
+
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("uid");
+
+  }
+
+  if (typeof updateCustomerButton === "function") {
+    updateCustomerButton();
+  }
+
+});
+
+
+// =====================================
+// CHECK REDIRECT LOGIN
+// =====================================
+
+(async () => {
+
+  try {
+
+    const result = await getRedirectResult(auth);
+
+    if (!result) return;
+
+    const user = result.user;
+
+    const ref = doc(db, "customers", user.uid);
+
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+
+      localStorage.setItem("loggedIn", "yes");
+      localStorage.setItem("uid", user.uid);
+
+      openProfile();
+
+    } else {
+
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("googleProfileBox").style.display = "block";
+
+      document.getElementById("googleName").value =
+        user.displayName || "";
+
+      document.getElementById("googleEmail").value =
+        user.email || "";
+
+    }
+
+  } catch (error) {
+
+    console.log("Redirect Result Error:", error);
+
+  }
+
+})();
