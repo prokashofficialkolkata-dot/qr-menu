@@ -1,6 +1,6 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// KITCHEN DISPLAY SYSTEM V1
+// KITCHEN DISPLAY SYSTEM V2
 // =====================================
 
 
@@ -14,12 +14,11 @@ db
 import {
 
 collection,
-getDocs,
 query,
 orderBy,
+onSnapshot,
 doc,
 updateDoc,
-onSnapshot,
 serverTimestamp
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
@@ -28,13 +27,20 @@ serverTimestamp
 
 
 
+let firstLoad=true;
+
+
+
+
+
+
+
 // =====================================
-// LOAD LIVE ORDERS
+// LIVE ORDERS
 // =====================================
 
 
-window.loadKitchenOrders = function(){
-
+window.loadKitchenOrders=function(){
 
 
 const box =
@@ -45,6 +51,7 @@ document.getElementById(
 
 
 if(!box)return;
+
 
 
 
@@ -67,7 +74,6 @@ orderBy(
 
 
 
-
 onSnapshot(
 
 q,
@@ -75,13 +81,19 @@ q,
 (snapshot)=>{
 
 
+
 box.innerHTML="";
+
+
+
+let newOrder=false;
+
+
 
 
 
 
 snapshot.forEach((item)=>{
-
 
 
 const order =
@@ -91,10 +103,26 @@ item.data();
 
 
 
-if(order.status==="Completed"){
-
+if(
+order.status==="Completed"
+){
 
 return;
+
+}
+
+
+
+
+
+if(
+firstLoad===false
+&&
+order.status==="Pending"
+
+){
+
+newOrder=true;
 
 
 }
@@ -104,106 +132,35 @@ return;
 
 
 
-const div =
-document.createElement(
-"div"
+createOrderCard(
+
+item.id,
+
+order,
+
+box
+
 );
 
 
 
-div.className =
-"kitchenCard";
-
-
-
-
-
-
-let items="";
-
-
-
-(order.items || []).forEach((i)=>{
-
-
-items += `
-
-<p>
-${i.name} × ${i.qty}
-</p>
-
-`;
-
-
 });
 
 
 
 
 
-
-div.innerHTML = `
-
-
-<h2>
-Order
-</h2>
+if(newOrder){
 
 
-<p>
-Customer:
-${order.customerName || ""}
-</p>
+playAlert();
+
+
+}
 
 
 
-${items}
-
-
-
-<h3>
-Status:
-${order.status || "Pending"}
-</h3>
-
-
-
-
-<button onclick="changeKitchenStatus('${item.id}','Preparing')">
-
-Preparing
-
-</button>
-
-
-
-<button onclick="changeKitchenStatus('${item.id}','Ready')">
-
-Ready
-
-</button>
-
-
-
-<button onclick="changeKitchenStatus('${item.id}','Completed')">
-
-Complete
-
-</button>
-
-
-
-`;
-
-
-
-
-
-box.appendChild(div);
-
-
-
-});
+firstLoad=false;
 
 
 
@@ -225,19 +182,165 @@ box.appendChild(div);
 
 
 
+
+
 // =====================================
-// CHANGE STATUS
+// CREATE CARD
 // =====================================
 
 
-window.changeKitchenStatus = async function(
+function createOrderCard(
+
 id,
-status
+
+order,
+
+box
+
 ){
 
 
 
-try{
+const div =
+document.createElement(
+"div"
+);
+
+
+
+div.className =
+"kitchenCard " 
++
+(order.status || "Pending");
+
+
+
+
+
+
+let itemHTML="";
+
+
+
+
+(order.items || [])
+.forEach(item=>{
+
+
+itemHTML += `
+
+
+<div class="foodItem">
+
+${item.name}
+
+×
+
+${item.qty}
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+
+
+div.innerHTML=`
+
+
+
+<h2>
+ORDER
+</h2>
+
+
+
+<h3>
+${order.customerName || ""}
+</h3>
+
+
+
+<div>
+
+${itemHTML}
+
+</div>
+
+
+
+<h2>
+${order.status || "Pending"}
+</h2>
+
+
+
+
+<button onclick="changeKitchenStatus('${id}','Preparing')">
+
+Preparing
+
+</button>
+
+
+
+<button onclick="changeKitchenStatus('${id}','Ready')">
+
+Ready
+
+</button>
+
+
+
+<button onclick="changeKitchenStatus('${id}','Completed')">
+
+Done
+
+</button>
+
+
+
+`;
+
+
+
+
+
+box.appendChild(div);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================
+// UPDATE STATUS
+// =====================================
+
+
+window.changeKitchenStatus=async function(
+
+id,
+
+status
+
+){
+
 
 
 await updateDoc(
@@ -265,20 +368,37 @@ serverTimestamp()
 
 
 
-
-}
-
-
-
-catch(error){
-
-
-console.log(error);
-
-
-
-}
-
-
-
 };
+
+
+
+
+
+
+
+
+
+// =====================================
+// SOUND ALERT
+// =====================================
+
+
+function playAlert(){
+
+
+
+let audio =
+new Audio(
+
+"sound/new-order.mp3"
+
+);
+
+
+
+audio.play()
+.catch(()=>{});
+
+
+
+}
