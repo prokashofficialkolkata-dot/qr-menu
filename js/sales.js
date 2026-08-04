@@ -1,8 +1,8 @@
-
-// =====================================
-// SALES.JS FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// SALES REPORT SYSTEM V2
+// PART 1
+// ==========================================
 
 
 import { db } from "./firebase.js";
@@ -24,79 +24,7 @@ from
 
 
 
-
-
-
-
-
-
-// =====================================
-// LOAD SALES REPORT
-// =====================================
-
-
-window.loadSalesReport = async function(){
-
-
-
-let totalBox=document.getElementById(
-
-"salesTotal"
-
-);
-
-
-
-let todayBox=document.getElementById(
-
-"todaySales"
-
-);
-
-
-
-let monthBox=document.getElementById(
-
-"monthSales"
-
-);
-
-
-
-let topBox=document.getElementById(
-
-"salesTopItems"
-
-);
-
-
-
-let catBox=document.getElementById(
-
-"salesCategory"
-
-);
-
-
-
-
-
-
-let total=0;
-
-
-let today=0;
-
-
-let month=0;
-
-
-
-let items={};
-
-
-
-let categories={};
+let salesOrders=[];
 
 
 
@@ -104,23 +32,28 @@ let categories={};
 
 
 
-let now=new Date();
+
+// ==========================================
+// LOAD SALES DATA
+// ==========================================
 
 
-
-
-
-
-
+async function loadSalesReport(){
 
 
 try{
 
 
 
-const snap = await getDocs(
+let snap = await getDocs(
 
-collection(db,"orders")
+collection(
+
+db,
+
+"orders"
+
+)
 
 );
 
@@ -128,26 +61,53 @@ collection(db,"orders")
 
 
 
-
-
-snap.forEach(order=>{
-
-
-
-let data=order.data();
+salesOrders=[];
 
 
 
 
+snap.forEach(doc=>{
 
 
-if(
+salesOrders.push({
 
-data.status==="CANCELLED"
+id:doc.id,
 
-){
+...doc.data()
 
-return;
+});
+
+
+});
+
+
+
+
+
+calculateSales();
+
+
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(
+
+"Sales Load Error",
+
+error
+
+);
+
+
+
+}
+
 
 
 }
@@ -159,12 +119,49 @@ return;
 
 
 
-let amount=Number(
 
-data.total || 0
 
-);
+// ==========================================
+// CALCULATE SALES
+// ==========================================
 
+
+function calculateSales(){
+
+
+
+let total = 0;
+
+
+let itemSales={};
+
+
+let categorySales={};
+
+
+
+
+
+
+
+
+salesOrders.forEach(order=>{
+
+
+
+(order.items || [])
+
+.forEach(item=>{
+
+
+
+let amount =
+
+Number(item.price || 0)
+
+*
+
+Number(item.qty || 1);
 
 
 
@@ -176,150 +173,25 @@ total += amount;
 
 
 
+if(!itemSales[item.name]){
 
 
-
-let date;
-
-
-
-if(data.createdAt?.toDate){
-
-
-date=data.createdAt.toDate();
-
-
-}
-
-else{
-
-
-date=new Date();
+itemSales[item.name]=0;
 
 
 }
 
 
 
+itemSales[item.name]+=
 
+Number(item.qty || 1);
 
 
 
 
-if(
 
-date.toDateString()
-
-===
-
-now.toDateString()
-
-){
-
-
-
-today += amount;
-
-
-
-}
-
-
-
-
-
-
-
-
-if(
-
-date.getMonth()
-
-===
-
-now.getMonth()
-
-&&
-
-date.getFullYear()
-
-===
-
-now.getFullYear()
-
-){
-
-
-
-month += amount;
-
-
-
-}
-
-
-
-
-
-
-
-
-(data.items || [])
-
-.forEach(item=>{
-
-
-
-
-
-
-if(!items[item.name]){
-
-
-items[item.name]=0;
-
-
-}
-
-
-
-items[item.name]+=Number(
-
-item.qty || 0
-
-);
-
-
-
-
-
-
-
-
-let cat=item.category || "Others";
-
-
-
-
-
-if(!categories[cat]){
-
-
-categories[cat]=0;
-
-
-}
-
-
-
-categories[cat]+=Number(
-
-item.qty || 0
-
-);
-
-
-
+});
 
 
 
@@ -331,24 +203,46 @@ item.qty || 0
 
 
 
-});
+showTotal(
+
+total
+
+);
 
 
 
+showTopItems(
+
+itemSales
+
+);
 
 
 
+}
+// ==========================================
+// SHOW TOTAL SALES
+// ==========================================
+
+
+function showTotal(total){
 
 
 
-// TOTAL
+let box =
+
+document.getElementById(
+
+"totalSales"
+
+);
 
 
-if(totalBox){
+
+if(box){
 
 
-
-totalBox.innerHTML=
+box.innerHTML =
 
 "RM "
 
@@ -365,218 +259,30 @@ total.toFixed(2);
 
 
 
+let orders =
 
+document.getElementById(
 
-// TODAY
-
-
-if(todayBox){
-
-
-
-todayBox.innerHTML=
-
-"RM "
-
-+
-
-today.toFixed(2);
-
-
-
-}
-
-
-
-
-
-
-
-
-// MONTH
-
-
-if(monthBox){
-
-
-
-monthBox.innerHTML=
-
-"RM "
-
-+
-
-month.toFixed(2);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// TOP ITEMS
-
-
-if(topBox){
-
-
-
-topBox.innerHTML="";
-
-
-
-
-Object.entries(items)
-
-.sort(
-
-(a,b)=>b[1]-a[1]
-
-)
-
-.slice(0,50)
-
-.forEach(x=>{
-
-
-
-topBox.innerHTML += `
-
-
-
-<tr>
-
-
-<td>
-
-${x[0]}
-
-</td>
-
-
-
-<td>
-
-${x[1]}
-
-</td>
-
-
-
-</tr>
-
-
-
-`;
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-
-// CATEGORY
-
-
-if(catBox){
-
-
-
-catBox.innerHTML="";
-
-
-
-
-Object.entries(categories)
-
-.sort(
-
-(a,b)=>b[1]-a[1]
-
-)
-
-.forEach(x=>{
-
-
-
-catBox.innerHTML +=`
-
-
-
-<tr>
-
-
-<td>
-
-${x[0]}
-
-</td>
-
-
-
-<td>
-
-${x[1]}
-
-</td>
-
-
-
-</tr>
-
-
-
-`;
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(
-
-"SALES REPORT ERROR",
-
-error
+"totalOrders"
 
 );
 
 
 
+if(orders){
+
+
+orders.innerHTML =
+
+salesOrders.length;
+
+
+
 }
 
 
 
-};
+}
 
 
 
@@ -586,9 +292,329 @@ error
 
 
 
+// ==========================================
+// TOP 50 ITEMS
+// ==========================================
 
 
-// AUTO LOAD
+function showTopItems(data){
+
+
+
+let list = [];
+
+
+
+
+
+Object.keys(data)
+
+.forEach(name=>{
+
+
+list.push({
+
+name:name,
+
+qty:data[name]
+
+});
+
+
+});
+
+
+
+
+
+
+list.sort(
+
+(a,b)=>b.qty-a.qty
+
+);
+
+
+
+
+
+
+
+let top =
+
+list.slice(0,50);
+
+
+
+
+
+
+let box =
+
+document.getElementById(
+
+"topItemsList"
+
+);
+
+
+
+if(!box)return;
+
+
+
+
+box.innerHTML="";
+
+
+
+
+
+top.forEach((item,index)=>{
+
+
+
+box.innerHTML += `
+
+
+
+<div class="sales-item">
+
+
+<span>
+
+${index+1}. ${item.name}
+
+</span>
+
+
+
+<b>
+
+${item.qty} Sold
+
+</b>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
+
+
+
+
+
+if(top[0]){
+
+
+
+let topBox =
+
+document.getElementById(
+
+"topItem"
+
+);
+
+
+
+if(topBox){
+
+
+topBox.innerHTML=
+
+top[0].name;
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// CATEGORY SALES
+// ==========================================
+
+
+function showCategorySales(){
+
+
+
+let category={};
+
+
+
+
+
+salesOrders.forEach(order=>{
+
+
+
+(order.items || [])
+
+.forEach(item=>{
+
+
+
+let cat =
+
+item.category || "Other";
+
+
+
+
+
+
+let amount =
+
+Number(item.price || 0)
+
+*
+
+Number(item.qty || 1);
+
+
+
+
+
+
+
+if(!category[cat]){
+
+
+category[cat]=0;
+
+
+}
+
+
+
+
+category[cat]+=amount;
+
+
+
+
+
+});
+
+
+
+});
+
+
+
+
+
+
+
+
+
+let box =
+
+document.getElementById(
+
+"categorySalesList"
+
+);
+
+
+
+
+if(!box)return;
+
+
+
+
+
+
+box.innerHTML="";
+
+
+
+
+
+
+Object.keys(category)
+
+.forEach(cat=>{
+
+
+
+box.innerHTML +=`
+
+
+
+<div class="sales-item">
+
+
+<span>
+
+${cat}
+
+</span>
+
+
+
+<b>
+
+RM ${category[cat].toFixed(2)}
+
+</b>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// START SALES REPORT
+// ==========================================
+
 
 window.addEventListener(
 
@@ -597,10 +623,23 @@ window.addEventListener(
 ()=>{
 
 
-if(window.loadSalesReport){
+if(
+
+localStorage.getItem(
+
+"adminLogin"
+
+)==="yes"
+
+){
+
 
 
 loadSalesReport();
+
+
+showCategorySales();
+
 
 
 }
