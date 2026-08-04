@@ -334,16 +334,13 @@ error.message
 
 
 // =====================================
-// GOOGLE REDIRECT RESULT
+// GOOGLE USER CHECK
 // =====================================
 
-
-getRedirectResult(auth)
-
-.then(async(result)=>{
+onAuthStateChanged(auth, async (user)=>{
 
 
-if(!result){
+if(!user){
 
 return;
 
@@ -351,20 +348,15 @@ return;
 
 
 
-const user =
-result.user;
+console.log("Firebase User:", user.email);
 
 
 
 const ref =
 doc(
-
 db,
-
 "customers",
-
 user.uid
-
 );
 
 
@@ -374,17 +366,13 @@ await getDoc(ref);
 
 
 
-
-
 if(snap.exists()){
-
 
 
 localStorage.setItem(
 "loggedIn",
 "yes"
 );
-
 
 
 localStorage.setItem(
@@ -403,28 +391,31 @@ openProfile();
 else{
 
 
-document.getElementById(
-"loginBox"
-).style.display="none";
+const loginBox =
+document.getElementById("loginBox");
+
+
+const googleBox =
+document.getElementById("googleProfileBox");
 
 
 
-document.getElementById(
-"googleProfileBox"
-).style.display="block";
+if(loginBox)
+loginBox.style.display="none";
 
 
 
-document.getElementById(
-"googleName"
-).value =
+if(googleBox)
+googleBox.style.display="block";
+
+
+
+document.getElementById("googleName").value =
 user.displayName || "";
 
 
 
-document.getElementById(
-"googleEmail"
-).value =
+document.getElementById("googleEmail").value =
 user.email || "";
 
 
@@ -432,24 +423,10 @@ user.email || "";
 }
 
 
-
-})
-
-.catch((error)=>{
-
-
-console.log(
-"Google Redirect Error:",
-error
-);
-
-
-showToast(
-error.message
-);
-
-
 });
+
+
+
 // =====================================
 // SAVE GOOGLE PROFILE
 // =====================================
