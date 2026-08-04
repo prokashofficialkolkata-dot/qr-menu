@@ -1,411 +1,192 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// CHECKOUT.JS FINAL
+// CHECKOUT.JS (PART 1)
 // =====================================
 
+import { db, auth } from "./firebase.js";
 
 import {
-
-db,
-auth
-
-} from "./firebase.js";
-
-
-
-import {
-
-doc,
-getDoc,
-addDoc,
-collection,
-serverTimestamp
-
+  doc,
+  getDoc,
+  addDoc,
+  collection,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-window.openCheckoutForm=function(){
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 
-let loginBox=document.getElementById("loginBox");
+// =====================================
+// OPEN CHECKOUT FORM
+// =====================================
 
-let createBox=document.getElementById("createBox");
+window.openCheckoutForm = async function () {
 
-let googleBox=document.getElementById("googleProfileBox");
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("createBox").style.display = "none";
+  document.getElementById("googleProfileBox").style.display = "none";
+  document.getElementById("customerProfileBox").style.display = "none";
+  document.getElementById("checkoutForm").style.display = "block";
 
-let profileBox=document.getElementById("customerProfileBox");
-
-let checkoutForm=document.getElementById("checkoutForm");
-
-
-
-if(loginBox)
-loginBox.style.display="none";
-
-
-if(createBox)
-createBox.style.display="none";
-
-
-if(googleBox)
-googleBox.style.display="none";
-
-
-
-if(profileBox)
-profileBox.style.display="none";
-
-
-
-if(checkoutForm)
-checkoutForm.style.display="block";
-
-
-
-loadCustomerData();
-
+  await loadCustomerData();
 
 };
 
 
-// ================================
-// LOAD CUSTOMER DETAILS
-// ================================
+// =====================================
+// LOAD CUSTOMER DATA
+// =====================================
 
+async function loadCustomerData() {
 
-async function loadCustomerData(){
+  const user = auth.currentUser;
 
+  if (!user) return;
 
-let user = auth.currentUser;
+  try {
 
+    const snap = await getDoc(
+      doc(db, "customers", user.uid)
+    );
 
-if(!user)return;
+    if (snap.exists()) {
 
+      const data = snap.data();
 
+      document.getElementById("customerName").value =
+        data.name || "";
 
-let ref =
-doc(
-db,
-"customers",
-user.uid
-);
+      document.getElementById("phone").value =
+        data.phone || "";
 
+    }
 
+  } catch (error) {
 
-let snap =
-await getDoc(ref);
+    console.log(error);
 
-
-
-if(snap.exists()){
-
-
-let data=snap.data();
-
-
-
-let name =
-document.getElementById(
-"customerName"
-);
-
-
-let phone =
-document.getElementById(
-"phone"
-);
-
-
-
-if(name)
-
-name.value =
-data.name || "";
-
-
-
-if(phone)
-
-phone.value =
-data.phone || "";
-
-
+  }
 
 }
 
-
-
-}
-
-
-
-window.openCheckoutForm=function(){
-
-
-let loginBox=document.getElementById("loginBox");
-
-let createBox=document.getElementById("createBox");
-
-let googleBox=document.getElementById("googleProfileBox");
-
-let profileBox=document.getElementById("customerProfileBox");
-
-let checkoutForm=document.getElementById("checkoutForm");
-
-
-
-if(loginBox)
-loginBox.style.display="none";
-
-
-if(createBox)
-createBox.style.display="none";
-
-
-if(googleBox)
-googleBox.style.display="none";
-
-
-
-if(profileBox)
-profileBox.style.display="none";
-
-
-
-if(checkoutForm)
-checkoutForm.style.display="block";
-
-
-
-loadCustomerData();
-
-
-};
-
-
-
-// ================================
+// =====================================
 // PLACE ORDER
-// ================================
+// =====================================
 
+window.placeOrder = async function () {
 
-window.placeOrder = async function(){
+  try {
 
+    const user = auth.currentUser;
 
+    if (!user) {
+      showToast("Please login first");
+      return;
+    }
 
-let user =
-auth.currentUser;
+    const tableNumber = document
+      .getElementById("tableNumber")
+      .value
+      .trim();
 
+    const customerName = document
+      .getElementById("customerName")
+      .value
+      .trim();
 
+    const phone = document
+      .getElementById("phone")
+      .value
+      .trim();
 
-if(!user){
+    const cart =
+      JSON.parse(localStorage.getItem("cart")) || [];
 
+    if (cart.length === 0) {
+      showToast("Your cart is empty");
+      return;
+    }
 
-showToast(
-"Please Login First"
-);
+    let subtotal = 0;
 
+    cart.forEach(item => {
+      subtotal += Number(item.price) * Number(item.qty);
+    });
 
-return;
+    const sst = subtotal * 0.06;
+    const total = subtotal + sst;
 
+    await addDoc(
+      collection(db, "orders"),
+      {
+        customerId: user.uid,
+        customerName: customerName,
+        phone: phone,
+        tableNumber: tableNumber,
+        orderType: localStorage.getItem("orderType") || "",
+        items: cart,
+        subtotal: subtotal,
+        sst: sst,
+        total: total,
+        status: "Pending",
+        createdAt: serverTimestamp()
+      }
+    );
 
-}
+    localStorage.removeItem("cart");
 
+    if (typeof updateCartCount === "function") {
+      updateCartCount();
+    }
 
+    showToast("Order Placed Successfully");
 
+    setTimeout(() => {
+      goHome();
+    }, 1500);
 
+  } catch (error) {
 
+    console.log(error);
+    showToast(error.message);
 
-let table =
-document.getElementById(
-"tableNumber"
-).value.trim();
-
-
-
-
-
-let cart =
-JSON.parse(
-localStorage.getItem("cart")
-)
-|| [];
-
-
-
-
-
-if(cart.length===0){
-
-
-showToast(
-"Cart Empty"
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-let customerName =
-document.getElementById(
-"customerName"
-).value;
-
-
-
-
-let phone =
-document.getElementById(
-"phone"
-).value;
-
-
-
-
-
-
-
-try{
-
-
-await addDoc(
-
-collection(
-db,
-"orders"
-),
-
-{
-
-
-customerId:user.uid,
-
-
-customerName:customerName,
-
-
-phone:phone,
-
-
-tableNumber:table,
-
-
-orderType:
-localStorage.getItem("orderType")
-|| "",
-
-
-
-items:cart,
-
-
-status:"Pending",
-
-
-createdAt:
-serverTimestamp()
-
-
-
-}
-
-
-);
-
-
-
-
-
-localStorage.removeItem(
-"cart"
-);
-
-
-
-
-
-if(typeof updateCartCount==="function"){
-
-updateCartCount();
-
-}
-
-
-
-
-showToast(
-"Order Placed Successfully"
-);
-
-
-
-
-
-setTimeout(()=>{
-
-
-goHome();
-
-
-},1500);
-
-
-
-
-
-
-}
-
-catch(error){
-
-
-console.log(error);
-
-
-showToast(
-error.message
-);
-
-
-}
-
-
+  }
 
 };
 
+// =====================================
+// AUTH STATE CHANGE
+// =====================================
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) return;
+
+  try {
+
+    await loadCustomerData();
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+});
 
 
+// =====================================
+// PAGE LOAD
+// =====================================
 
+window.addEventListener("load", () => {
 
+  if (auth.currentUser) {
 
+    loadCustomerData();
 
+  }
 
-
-// ================================
-// AUTH CHANGE
-// ================================
-
-
-auth.onAuthStateChanged(
-
-(user)=>{
-
-
-if(user){
-
-
-loadCustomerData();
-
-
-}
-
-
-}
-
-);
+});
