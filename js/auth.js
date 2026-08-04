@@ -1,71 +1,51 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// AUTH.JS FINAL
+// AUTH.JS FINAL CLEAN VERSION
+// PART 1
 // =====================================
 
 
 import {
-auth,
-db
+    auth,
+    db
 } from "./firebase.js";
 
 
-
 import {
 
-createUserWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithRedirect,
+    getRedirectResult,
+    signOut,
+    onAuthStateChanged
 
-signInWithEmailAndPassword,
-
-GoogleAuthProvider,
-
-signInWithPopup,
-
-signInWithRedirect,
-
-getRedirectResult,
-
-signOut,
-
-onAuthStateChanged
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 
 import {
 
-doc,
+    doc,
+    setDoc,
+    getDoc,
+    serverTimestamp
 
-setDoc,
-
-getDoc,
-
-serverTimestamp
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
 
 
-
-
+// GOOGLE PROVIDER
 
 const googleProvider = new GoogleAuthProvider();
 
 
 
 
-
-
-
-// ================================
+// =====================================
 // CREATE ACCOUNT
-// ================================
+// =====================================
 
 
 window.createAccount = async function(){
@@ -74,32 +54,35 @@ window.createAccount = async function(){
 try{
 
 
-let name =
-document.getElementById("createName").value.trim();
+const name =
+document.getElementById("createName")
+.value.trim();
 
 
-let phone =
-document.getElementById("createPhone").value.trim();
+const phone =
+document.getElementById("createPhone")
+.value.trim();
 
 
-let email =
-document.getElementById("createEmail").value.trim();
+const email =
+document.getElementById("createEmail")
+.value.trim();
 
 
-let password =
-document.getElementById("createPassword").value.trim();
+const password =
+document.getElementById("createPassword")
+.value.trim();
 
 
-let confirm =
-document.getElementById("confirmPassword").value.trim();
-
+const confirm =
+document.getElementById("confirmPassword")
+.value.trim();
 
 
 
 if(!name || !phone || !email || !password){
 
 showToast("Please fill all details");
-
 return;
 
 }
@@ -109,10 +92,10 @@ return;
 if(password !== confirm){
 
 showToast("Password not match");
-
 return;
 
 }
+
 
 
 
@@ -120,22 +103,25 @@ const result =
 await createUserWithEmailAndPassword(
 
 auth,
-
 email,
-
 password
 
 );
 
 
 
-const user=result.user;
+const user = result.user;
+
 
 
 
 await setDoc(
 
-doc(db,"customers",user.uid),
+doc(
+db,
+"customers",
+user.uid
+),
 
 {
 
@@ -157,29 +143,39 @@ createdAt:serverTimestamp()
 
 
 
-localStorage.setItem("loggedIn","yes");
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
 
-localStorage.setItem("uid",user.uid);
+
+localStorage.setItem(
+"uid",
+user.uid
+);
 
 
 
-showToast("Account Created Successfully");
+showToast(
+"Account Created Successfully"
+);
+
 
 
 openProfile();
 
 
-}
 
+}
 
 catch(error){
 
 
 console.log(error);
 
-
-showToast(error.message);
-
+showToast(
+error.message
+);
 
 }
 
@@ -187,15 +183,9 @@ showToast(error.message);
 };
 
 
-
-
-
-
-
-
-// ================================
+// =====================================
 // EMAIL LOGIN
-// ================================
+// =====================================
 
 
 window.loginUser = async function(){
@@ -204,12 +194,26 @@ window.loginUser = async function(){
 try{
 
 
-let email =
-document.getElementById("loginEmail").value.trim();
+const email =
+document.getElementById("loginEmail")
+.value.trim();
 
 
-let password =
-document.getElementById("loginPassword").value.trim();
+const password =
+document.getElementById("loginPassword")
+.value.trim();
+
+
+
+if(!email || !password){
+
+showToast(
+"Please enter email and password"
+);
+
+return;
+
+}
 
 
 
@@ -228,13 +232,28 @@ password
 
 
 
-const user=result.user;
+const user =
+result.user;
 
 
 
-localStorage.setItem("loggedIn","yes");
 
-localStorage.setItem("uid",user.uid);
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+showToast(
+"Login Successful"
+);
 
 
 
@@ -245,14 +264,15 @@ openProfile();
 }
 
 
-
 catch(error){
 
 
 console.log(error);
 
 
-showToast(error.message);
+showToast(
+error.message
+);
 
 
 }
@@ -266,65 +286,16 @@ showToast(error.message);
 
 
 
-
-// ================================
+// =====================================
 // GOOGLE LOGIN
-// ================================
+// ANDROID + PC
+// =====================================
 
 
 window.googleLogin = async function(){
 
 
-
 try{
-
-
-await signInWithPopup(
-
-auth,
-
-googleProvider
-
-);
-
-
-
-}
-
-
-
-catch(error){
-
-console.log("GOOGLE LOGIN ERROR:", error.code, error.message);
-
-showToast(
-error.code + " : " + error.message
-);
-
-}
-
-
-
-if(
-
-error.code ===
-
-"auth/popup-blocked"
-
-||
-
-error.code ===
-
-"auth/popup-closed-by-user"
-
-||
-
-error.code ===
-
-"auth/cancelled-popup-request"
-
-){
-
 
 
 await signInWithRedirect(
@@ -339,18 +310,21 @@ googleProvider
 
 }
 
-else{
+catch(error){
 
 
-showToast(error.message);
+console.log(
+"Google Login Error:",
+error
+);
+
+
+showToast(
+error.message
+);
 
 
 }
-
-
-
-}
-
 
 
 };
@@ -359,12 +333,9 @@ showToast(error.message);
 
 
 
-
-
-
-// ================================
+// =====================================
 // GOOGLE REDIRECT RESULT
-// ================================
+// =====================================
 
 
 getRedirectResult(auth)
@@ -372,38 +343,20 @@ getRedirectResult(auth)
 .then(async(result)=>{
 
 
-if(result){
+if(!result){
 
-
-handleGoogleUser(result.user);
-
+return;
 
 }
 
 
-})
 
-.catch(error=>{
-
-
-console.log(error);
-
-
-});
+const user =
+result.user;
 
 
 
-
-
-
-
-
-async function handleGoogleUser(user){
-
-
-
-const ref=
-
+const ref =
 doc(
 
 db,
@@ -416,8 +369,7 @@ user.uid
 
 
 
-const snap=
-
+const snap =
 await getDoc(ref);
 
 
@@ -427,22 +379,19 @@ await getDoc(ref);
 if(snap.exists()){
 
 
-localStorage.setItem(
 
+localStorage.setItem(
 "loggedIn",
-
 "yes"
-
 );
+
 
 
 localStorage.setItem(
-
 "uid",
-
 user.uid
-
 );
+
 
 
 openProfile();
@@ -455,38 +404,27 @@ else{
 
 
 document.getElementById(
-
 "loginBox"
-
 ).style.display="none";
 
 
 
 document.getElementById(
-
 "googleProfileBox"
-
 ).style.display="block";
 
 
 
-
 document.getElementById(
-
 "googleName"
-
-).value=
-
+).value =
 user.displayName || "";
 
 
 
 document.getElementById(
-
 "googleEmail"
-
-).value=
-
+).value =
 user.email || "";
 
 
@@ -495,19 +433,26 @@ user.email || "";
 
 
 
-}
+})
+
+.catch((error)=>{
 
 
+console.log(
+"Google Redirect Error:",
+error
+);
 
 
+showToast(
+error.message
+);
 
 
-
-
-
-// ================================
+});
+// =====================================
 // SAVE GOOGLE PROFILE
-// ================================
+// =====================================
 
 
 window.saveGoogleProfile = async function(){
@@ -516,12 +461,15 @@ window.saveGoogleProfile = async function(){
 try{
 
 
-let user=auth.currentUser;
+const user = auth.currentUser;
+
 
 
 if(!user){
 
-showToast("User not found");
+showToast(
+"User not found"
+);
 
 return;
 
@@ -530,15 +478,15 @@ return;
 
 
 
-let name=
+const name =
+document.getElementById("googleName")
+.value.trim();
 
-document.getElementById("googleName").value.trim();
 
 
-
-let phone=
-
-document.getElementById("googlePhone").value.trim();
+const phone =
+document.getElementById("googlePhone")
+.value.trim();
 
 
 
@@ -546,7 +494,9 @@ document.getElementById("googlePhone").value.trim();
 
 if(!phone){
 
-showToast("Phone number required");
+showToast(
+"Phone number required"
+);
 
 return;
 
@@ -555,34 +505,62 @@ return;
 
 
 
+
 await setDoc(
+
 doc(
 db,
 "customers",
 user.uid
 ),
+
 {
+
+uid:user.uid,
+
 name:name,
+
 email:user.email,
+
 phone:phone,
+
 loginType:"Google",
+
 createdAt:serverTimestamp()
+
 },
+
 {
+
 merge:true
+
 }
+
 );
 
 
 
 
-localStorage.setItem("loggedIn","yes");
 
-localStorage.setItem("uid",user.uid);
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
 
 
 
-showToast("Profile Completed");
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+
+
+
+showToast(
+"Profile Completed"
+);
 
 
 
@@ -592,16 +570,18 @@ openProfile();
 
 }
 
-
-
 catch(error){
 
 
-showToast(error.message);
+console.log(error);
+
+
+showToast(
+error.message
+);
 
 
 }
-
 
 
 };
@@ -613,34 +593,71 @@ showToast(error.message);
 
 
 
-// ================================
+// =====================================
 // LOGOUT
-// ================================
+// =====================================
 
 
 window.logoutUser = async function(){
 
+
+try{
 
 
 await signOut(auth);
 
 
 
-localStorage.removeItem("loggedIn");
-
-localStorage.removeItem("uid");
-
-
-
-showPage("welcome");
+localStorage.removeItem(
+"loggedIn"
+);
 
 
+localStorage.removeItem(
+"uid"
+);
+
+
+localStorage.removeItem(
+"currentPage"
+);
+
+
+
+showPage(
+"welcome"
+);
+
+
+
+if(typeof updateCustomerButton === "function"){
 
 updateCustomerButton();
 
+}
 
-showToast("Logout Successful");
 
+
+showToast(
+"Logout Successful"
+);
+
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+showToast(
+error.message
+);
+
+
+}
 
 
 };
@@ -652,9 +669,9 @@ showToast("Logout Successful");
 
 
 
-// ================================
+// =====================================
 // AUTH STATE
-// ================================
+// =====================================
 
 
 onAuthStateChanged(
@@ -668,20 +685,14 @@ if(user){
 
 
 localStorage.setItem(
-
 "loggedIn",
-
 "yes"
-
 );
 
 
 localStorage.setItem(
-
 "uid",
-
 user.uid
-
 );
 
 
@@ -690,290 +701,33 @@ user.uid
 else{
 
 
-localStorage.removeItem("loggedIn");
+localStorage.removeItem(
+"loggedIn"
+);
 
-localStorage.removeItem("uid");
+
+localStorage.removeItem(
+"uid"
+);
 
 
 }
 
 
 
+if(typeof updateCustomerButton === "function"){
+
 updateCustomerButton();
+
+}
+
 
 
 }
 
 );
-// =====================================
-// EMAIL LOGIN
-// =====================================
 
-window.loginUser = async function () {
 
-  try {
 
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
 
-    if (!email || !password) {
-      showToast("Please enter email and password");
-      return;
-    }
 
-    const result = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    localStorage.setItem("loggedIn", "yes");
-    localStorage.setItem("uid", result.user.uid);
-
-    openProfile();
-
-  } catch (error) {
-
-    console.log(error);
-    showToast(error.message);
-
-  }
-
-};
-
-
-// =====================================
-// GOOGLE LOGIN (ANDROID + PC)
-// =====================================
-
-window.googleLogin = async function () {
-
-  try {
-
-    // Android ও Mobile-এর জন্য Redirect সবচেয়ে নির্ভরযোগ্য
-    await signInWithRedirect(auth, googleProvider);
-
-  } catch (error) {
-
-    console.log(error);
-    showToast(error.message);
-
-  }
-
-};
-
-
-// =====================================
-// GOOGLE REDIRECT RESULT
-// =====================================
-
-getRedirectResult(auth)
-
-.then(async (result) => {
-
-  if (!result) return;
-
-  const user = result.user;
-
-  const ref = doc(db, "customers", user.uid);
-
-  const snap = await getDoc(ref);
-
-  if (snap.exists()) {
-
-    localStorage.setItem("loggedIn", "yes");
-    localStorage.setItem("uid", user.uid);
-
-    openProfile();
-
-  } else {
-
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("googleProfileBox").style.display = "block";
-
-    document.getElementById("googleName").value =
-      user.displayName || "";
-
-    document.getElementById("googleEmail").value =
-      user.email || "";
-
-  }
-
-})
-
-.catch((error) => {
-
-  console.log(error);
-
-});
-
-// =====================================
-// GOOGLE PROFILE SAVE
-// =====================================
-
-window.saveGoogleProfile = async function () {
-
-  try {
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      showToast("User not found");
-      return;
-    }
-
-    const name = document.getElementById("googleName").value.trim();
-    const phone = document.getElementById("googlePhone").value.trim();
-
-    if (!phone) {
-      showToast("Phone number required");
-      return;
-    }
-
-    await setDoc(
-      doc(db, "customers", user.uid),
-      {
-        uid: user.uid,
-        name: name,
-        email: user.email,
-        phone: phone,
-        loginType: "Google",
-        createdAt: serverTimestamp()
-      },
-      {
-        merge: true
-      }
-    );
-
-    localStorage.setItem("loggedIn", "yes");
-    localStorage.setItem("uid", user.uid);
-
-    showToast("Profile Completed");
-
-    openProfile();
-
-  } catch (error) {
-
-    console.log(error);
-    showToast(error.message);
-
-  }
-
-};
-
-
-// =====================================
-// OPEN PROFILE
-// =====================================
-
-window.openProfile = async function () {
-
-  showPage("checkoutPage");
-
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("createBox").style.display = "none";
-  document.getElementById("googleProfileBox").style.display = "none";
-  document.getElementById("checkoutForm").
-
-    // =====================================
-// LOGOUT
-// =====================================
-
-window.logoutUser = async function () {
-
-  try {
-
-    await signOut(auth);
-
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("uid");
-    localStorage.removeItem("currentPage");
-
-    showPage("welcome");
-
-    if (typeof updateCustomerButton === "function") {
-      updateCustomerButton();
-    }
-
-    showToast("Logout Successful");
-
-  } catch (error) {
-
-    console.log(error);
-    showToast(error.message);
-
-  }
-
-};
-
-
-// =====================================
-// AUTH STATE CHANGED
-// =====================================
-
-onAuthStateChanged(auth, async (user) => {
-
-  if (user) {
-
-    localStorage.setItem("loggedIn", "yes");
-    localStorage.setItem("uid", user.uid);
-
-  } else {
-
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("uid");
-
-  }
-
-  if (typeof updateCustomerButton === "function") {
-    updateCustomerButton();
-  }
-
-});
-
-
-// =====================================
-// CHECK REDIRECT LOGIN
-// =====================================
-
-(async () => {
-
-  try {
-
-    const result = await getRedirectResult(auth);
-
-    if (!result) return;
-
-    const user = result.user;
-
-    const ref = doc(db, "customers", user.uid);
-
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-
-      localStorage.setItem("loggedIn", "yes");
-      localStorage.setItem("uid", user.uid);
-
-      openProfile();
-
-    } else {
-
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("googleProfileBox").style.display = "block";
-
-      document.getElementById("googleName").value =
-        user.displayName || "";
-
-      document.getElementById("googleEmail").value =
-        user.email || "";
-
-    }
-
-  } catch (error) {
-
-    console.log("Redirect Result Error:", error);
-
-  }
-
-})();
