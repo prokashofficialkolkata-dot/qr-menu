@@ -24,7 +24,7 @@ from
 
 
 let menuData = [];
-
+window.menuData = menuData;
 let selectedOrderType = 
 localStorage.getItem("orderType")
 ||
