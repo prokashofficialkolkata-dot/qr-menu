@@ -1,6 +1,7 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// MAIN.JS FINAL UPDATED
+// MAIN.JS V2
+// PART 1
 // =====================================
 
 
@@ -8,19 +9,15 @@ let currentPage =
 localStorage.getItem("currentPage") || "welcome";
 
 
-let historyPage=[];
 
-
-
-
-// ================================
+// =====================================
 // SHOW PAGE
-// ================================
+// =====================================
 
-window.showPage=function(page){
+window.showPage = function(page){
 
 
-const pages=[
+const pages = [
 
 "welcome",
 "menuPage",
@@ -30,10 +27,13 @@ const pages=[
 ];
 
 
-pages.forEach(function(id){
+
+pages.forEach((id)=>{
 
 
-let el=document.getElementById(id);
+const el =
+document.getElementById(id);
+
 
 
 if(el){
@@ -47,7 +47,8 @@ el.style.display="none";
 
 
 
-let target=document.getElementById(page);
+const target =
+document.getElementById(page);
 
 
 
@@ -59,7 +60,8 @@ target.style.display="block";
 
 
 
-currentPage=page;
+currentPage = page;
+
 
 
 localStorage.setItem(
@@ -72,29 +74,25 @@ page
 window.scrollTo(0,0);
 
 
-
 };
 
 
 
 
 
+// =====================================
+// CUSTOMER BUTTON
+// =====================================
+
+window.customerAction = function(){
 
 
-// ================================
-// CUSTOMER ACTION
-// ================================
-
-
-window.customerAction=function(){
-
-
-let login =
+const login =
 localStorage.getItem("loggedIn");
 
 
 
-if(login==="yes"){
+if(login === "yes"){
 
 
 openProfile();
@@ -111,25 +109,20 @@ checkout();
 }
 
 
-
 };
 
 
 
 
 
-
-
-
-// ================================
+// =====================================
 // UPDATE CUSTOMER BUTTON
-// ================================
+// =====================================
+
+window.updateCustomerButton = function(){
 
 
-window.updateCustomerButton=function(){
-
-
-let btn =
+const btn =
 document.getElementById(
 "customerBtn"
 );
@@ -140,7 +133,7 @@ if(!btn)return;
 
 
 
-let login =
+const login =
 localStorage.getItem("loggedIn");
 
 
@@ -164,59 +157,96 @@ btn.innerHTML =
 }
 
 
-
 };
 
 
 
 
 
+// =====================================
+// LOGIN STATUS
+// =====================================
+
+window.checkLoginStatus=function(){
+
+
+const login =
+localStorage.getItem(
+"loggedIn"
+);
 
 
 
-
-// ================================
-// OPEN PROFILE
-// ================================
+updateCustomerButton();
 
 
-window.openProfile=async function(){
 
+const buttons=[
+
+"logoutBtn",
+"logoutCheckoutBtn",
+"logoutProfileBtn"
+
+];
+
+
+
+buttons.forEach((id)=>{
+
+
+const btn =
+document.getElementById(id);
+
+
+
+if(btn){
+
+
+btn.style.display =
+login==="yes"
+?
+"block"
+:
+"none";
+
+
+}
+
+
+
+});
+
+
+};
+// =====================================
+// OPEN CUSTOMER PROFILE
+// =====================================
+
+window.openProfile = async function(){
 
 
 showPage("checkoutPage");
 
 
 
-let loginBox =
-document.getElementById(
-"loginBox"
-);
+const loginBox =
+document.getElementById("loginBox");
 
 
-let createBox =
-document.getElementById(
-"createBox"
-);
+const createBox =
+document.getElementById("createBox");
 
 
-let googleBox =
-document.getElementById(
-"googleProfileBox"
-);
+const googleBox =
+document.getElementById("googleProfileBox");
 
 
-let profileBox =
-document.getElementById(
-"customerProfileBox"
-);
+const profileBox =
+document.getElementById("customerProfileBox");
 
 
-let checkoutForm =
-document.getElementById(
-"checkoutForm"
-);
-
+const checkoutForm =
+document.getElementById("checkoutForm");
 
 
 
@@ -236,7 +266,6 @@ if(checkoutForm)
 checkoutForm.style.display="none";
 
 
-
 if(profileBox)
 profileBox.style.display="block";
 
@@ -244,12 +273,16 @@ profileBox.style.display="block";
 
 
 
-let uid =
+const uid =
 localStorage.getItem("uid");
 
 
 
-if(!uid)return;
+if(!uid){
+
+return;
+
+}
 
 
 
@@ -261,7 +294,7 @@ const {
 doc,
 getDoc
 
-}=await import(
+} = await import(
 "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js"
 );
 
@@ -271,14 +304,14 @@ const {
 
 db
 
-}=await import(
+} = await import(
 "./firebase.js"
 );
 
 
 
 
-let ref =
+const ref =
 doc(
 db,
 "customers",
@@ -287,10 +320,8 @@ uid
 
 
 
-
-let snap =
+const snap =
 await getDoc(ref);
-
 
 
 
@@ -298,29 +329,27 @@ await getDoc(ref);
 if(snap.exists()){
 
 
-let data =
+const data =
 snap.data();
 
 
 
-let name =
+const name =
 document.getElementById(
 "profileName"
 );
 
 
-let email =
+const email =
 document.getElementById(
 "profileEmail"
 );
 
 
-let phone =
+const phone =
 document.getElementById(
 "profilePhone"
 );
-
-
 
 
 
@@ -351,11 +380,13 @@ data.phone || "";
 catch(error){
 
 
-console.log(error);
+console.log(
+"Profile Load Error:",
+error
+);
 
 
 }
-
 
 
 };
@@ -363,91 +394,34 @@ console.log(error);
 
 
 
-
-
-
-
-
-// ================================
+// =====================================
 // HOME
-// ================================
-
+// =====================================
 
 window.goHome=function(){
 
 
-
-historyPage=[];
-
-
 showPage("welcome");
-
-
-updateCustomerButton();
 
 
 checkLoginStatus();
 
 
-
 };
+// =====================================
+// PAGE HISTORY
+// =====================================
+
+let historyPage = [];
 
 
 
 
+// =====================================
+// START MENU
+// =====================================
 
-
-
-
-// ================================
-// BACK
-// ================================
-
-
-window.goBack=function(){
-
-
-
-let old =
-historyPage.pop();
-
-
-
-if(old){
-
-
-showPage(old);
-
-
-}
-
-else{
-
-
-showPage("welcome");
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// MENU START
-// ================================
-
-
-window.startMenu=function(type){
-
+window.startMenu = function(type){
 
 
 localStorage.setItem(
@@ -465,7 +439,7 @@ showPage("menuPage");
 
 
 
-if(typeof loadCSV==="function"){
+if(typeof loadCSV === "function"){
 
 loadCSV();
 
@@ -479,232 +453,11 @@ loadCSV();
 
 
 
-
-
-
-
-// ================================
-// REFRESH
-// ================================
-
-
-window.refreshPage=function(){
-
-
-location.reload();
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// CATEGORY
-// ================================
-
-
-window.openCategory=function(){
-
-
-
-let box =
-document.getElementById(
-"categoryBox"
-);
-
-
-
-if(!box)return;
-
-
-
-if(box.style.display==="grid"){
-
-
-
-box.style.display="none";
-
-
-
-if(typeof restoreMenuView==="function"){
-
-restoreMenuView();
-
-}
-
-
-
-}
-
-else{
-
-
-box.style.display="grid";
-
-
-
-if(typeof loadCategory==="function"){
-
-loadCategory();
-
-}
-
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// POPULAR
-// ================================
-
-
-window.showPopular=function(){
-
-
-
-showPage("menuPage");
-
-
-
-let box =
-document.getElementById(
-"categoryBox"
-);
-
-
-
-if(box)
-
-box.style.display="none";
-
-
-
-
-if(typeof showPopularItems==="function"){
-
-showPopularItems();
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// CREATE ACCOUNT SWITCH
-// ================================
-
-
-window.showCreateAccount=function(){
-
-
-
-let login =
-document.getElementById(
-"loginBox"
-);
-
-
-let create =
-document.getElementById(
-"createBox"
-);
-
-
-
-if(login)
-
-login.style.display="none";
-
-
-
-if(create)
-
-create.style.display="block";
-
-
-
-};
-
-
-
-
-
-
-
-
-window.showLogin=function(){
-
-
-
-let login =
-document.getElementById(
-"loginBox"
-);
-
-
-let create =
-document.getElementById(
-"createBox"
-);
-
-
-
-if(create)
-
-create.style.display="none";
-
-
-
-if(login)
-
-login.style.display="block";
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// ================================
-// CART
-// ================================
-
-
-window.showCart=function(){
-
+// =====================================
+// OPEN CART
+// =====================================
+
+window.showCart = function(){
 
 
 historyPage.push(currentPage);
@@ -715,11 +468,9 @@ showPage("cartPage");
 
 
 
-if(typeof displayCart==="function"){
-
+if(typeof displayCart === "function"){
 
 displayCart();
-
 
 }
 
@@ -731,16 +482,11 @@ displayCart();
 
 
 
-
-
-
-
-// ================================
+// =====================================
 // CHECKOUT
-// ================================
+// =====================================
 
-
-window.checkout=function(){
+window.checkout = function(){
 
 
 historyPage.push(currentPage);
@@ -751,7 +497,7 @@ showPage("checkoutPage");
 
 
 
-let login =
+const login =
 localStorage.getItem("loggedIn");
 
 
@@ -759,15 +505,18 @@ localStorage.getItem("loggedIn");
 if(login==="yes"){
 
 
-if(typeof openCheckoutForm==="function"){
+if(typeof openCheckoutForm === "function"){
 
 openCheckoutForm();
 
 }
+
 else{
+
 
 openProfile();
 
+
 }
 
 
@@ -777,8 +526,12 @@ openProfile();
 else{
 
 
+if(typeof showLogin === "function"){
+
 showLogin();
 
+}
+
 
 }
 
@@ -790,66 +543,33 @@ showLogin();
 
 
 
+// =====================================
+// BACK BUTTON
+// =====================================
+
+window.goBack=function(){
+
+
+const oldPage =
+historyPage.pop();
 
 
 
-
-// ================================
-// LOGIN STATUS
-// ================================
+if(oldPage){
 
 
-window.checkLoginStatus=function(){
-
-
-
-let login =
-localStorage.getItem(
-"loggedIn"
-);
-
-
-
-let buttons=[
-
-"logoutBtn",
-"logoutBtnCart",
-"logoutCheckoutBtn",
-"logoutProfileBtn"
-
-];
-
-
-
-buttons.forEach(function(id){
-
-
-
-let btn =
-document.getElementById(id);
-
-
-
-if(btn){
-
-
-btn.style.display =
-login==="yes"
-?
-"block"
-:
-"none";
+showPage(oldPage);
 
 
 }
 
+else{
 
 
-});
+showPage("welcome");
 
 
-
-updateCustomerButton();
+}
 
 
 
@@ -859,30 +579,110 @@ updateCustomerButton();
 
 
 
+// =====================================
+// REFRESH
+// =====================================
+
+window.refreshPage=function(){
+
+
+location.reload();
+
+
+};
+// =====================================
+// SHOW CREATE ACCOUNT
+// =====================================
+
+window.showCreateAccount=function(){
+
+
+const login =
+document.getElementById("loginBox");
+
+
+const create =
+document.getElementById("createBox");
+
+
+
+if(login){
+
+login.style.display="none";
+
+}
+
+
+
+if(create){
+
+create.style.display="block";
+
+}
+
+
+
+};
 
 
 
 
-// ================================
-// TOAST
-// ================================
 
+// =====================================
+// SHOW LOGIN
+// =====================================
+
+window.showLogin=function(){
+
+
+const login =
+document.getElementById("loginBox");
+
+
+const create =
+document.getElementById("createBox");
+
+
+
+if(create){
+
+create.style.display="none";
+
+}
+
+
+
+if(login){
+
+login.style.display="block";
+
+}
+
+
+
+};
+
+
+
+
+
+// =====================================
+// TOAST MESSAGE
+// =====================================
 
 window.showToast=function(message){
 
 
-
 let toast =
-document.getElementById(
-"toast"
-);
+document.getElementById("toast");
 
 
 
 if(!toast){
 
 
-toast=document.createElement("div");
+toast =
+document.createElement("div");
 
 
 toast.id="toast";
@@ -895,8 +695,9 @@ document.body.appendChild(toast);
 
 
 
+toast.innerHTML =
+message;
 
-toast.innerHTML=message;
 
 
 toast.classList.add("show");
@@ -909,7 +710,7 @@ setTimeout(()=>{
 toast.classList.remove("show");
 
 
-},1200);
+},1500);
 
 
 
@@ -919,23 +720,31 @@ toast.classList.remove("show");
 
 
 
+// =====================================
+// APP START
+// =====================================
+
+window.addEventListener(
+"load",
+async function(){
+
+
+showPage(currentPage);
 
 
 
-
-// ================================
-// LOAD
-// ================================
+checkLoginStatus();
 
 
-window.addEventListener("load", async function(){
 
-    showPage(currentPage);
+if(window.checkGoogleRedirect){
 
-    checkLoginStatus();
 
-    if (typeof checkGoogleRedirect === "function") {
-        await checkGoogleRedirect();
-    }
+await window.checkGoogleRedirect();
+
+
+}
+
+
 
 });
