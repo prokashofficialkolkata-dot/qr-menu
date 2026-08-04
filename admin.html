@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
 
@@ -23,11 +23,16 @@ Hameed Bistro Admin
 <body>
 
 
-<div id="loginBox">
+
+
+
+<!-- LOGIN -->
+
+<div id="loginBox" class="loginBox">
 
 
 <h1>
-Hameed Bistro
+Restoran Hameed's Bistro
 </h1>
 
 
@@ -36,14 +41,29 @@ Admin Login
 </h2>
 
 
-<input id="adminEmail"
+
+<input
+
+id="adminEmail"
+
 type="email"
-placeholder="Email">
+
+placeholder="Admin Email"
+
+>
 
 
-<input id="adminPassword"
+
+<input
+
+id="adminPassword"
+
 type="password"
-placeholder="Password">
+
+placeholder="Password"
+
+>
+
 
 
 <button onclick="adminLogin()">
@@ -67,7 +87,12 @@ Login
 
 
 
+<!-- DASHBOARD -->
+
+
 <div id="dashboard" style="display:none;">
+
+
 
 
 
@@ -77,6 +102,7 @@ Login
 <h1>
 Hameed Bistro Admin Panel
 </h1>
+
 
 
 <button onclick="adminLogout()">
@@ -96,30 +122,55 @@ Logout
 
 
 
+<!-- CSV UPLOAD -->
+
+
 <section>
 
 
 <h2>
-Menu Upload CSV
+Upload Menu CSV
 </h2>
 
 
-<input 
+
+<p>
+
+Format:
+
+<br>
+
+Category, Item Name, Dine in price, Take away Price
+
+</p>
+
+
+
+
+
+<input
+
 type="file"
+
 id="csvFile"
-accept=".csv">
+
+accept=".csv"
+
+>
 
 
 
 <button onclick="uploadCSV()">
 
-Upload Menu
+Upload CSV
 
 </button>
 
 
 
+
 <p id="uploadStatus"></p>
+
 
 
 </section>
@@ -132,6 +183,9 @@ Upload Menu
 
 
 
+<!-- ADD MENU -->
+
+
 <section>
 
 
@@ -141,23 +195,49 @@ Add Menu Item
 
 
 
-<input id="itemName"
-placeholder="Item Name">
+
+<input
+
+id="itemCategory"
+
+placeholder="Category"
+
+>
 
 
 
-<input id="itemCategory"
-placeholder="Category">
+<input
+
+id="itemName"
+
+placeholder="Item Name"
+
+>
 
 
 
-<input id="itemPrice"
-placeholder="Price">
+<input
+
+id="itemDinePrice"
+
+placeholder="Dine In Price"
+
+type="number"
+
+>
 
 
 
-<input id="itemImage"
-placeholder="Image URL">
+<input
+
+id="itemTakePrice"
+
+placeholder="Take Away Price"
+
+type="number"
+
+>
+
 
 
 
@@ -176,6 +256,10 @@ Add Item
 
 
 
+
+
+
+<!-- MENU LIST -->
 
 
 <section>
@@ -204,10 +288,11 @@ Loading...
 
 
 
+
 <script type="module" src="js/admin.js"></script>
 
 
-</body>
 
+</body>
 
 </html>
