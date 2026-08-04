@@ -1,89 +1,39 @@
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// CHECKOUT.JS V3 FINAL
+// checkout.js FINAL V5
+// Restoran Hameed's Bistro
 // =====================================
 
 
-import {
 
-auth,
-db
-
-} from "./firebase.js";
-
+import { db } from "./firebase.js";
 
 
 import {
 
 collection,
+
 addDoc,
+
 serverTimestamp
-
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
-
-
-
-
-
-
-
-// =====================================
-// SUBMIT ORDER
-// =====================================
-
-
-window.submitOrder = async function(){
-
-
-try{
-
-
-const user =
-auth.currentUser;
-
-
-
-const name =
-document
-.getElementById("customerName")
-.value
-.trim();
-
-
-
-const phone =
-document
-.getElementById("customerPhone")
-.value
-.trim();
-
-
-
-const address =
-document
-.getElementById("customerAddress")
-.value
-.trim();
-
-
-
-
-
-if(!name || !phone){
-
-
-showToast(
-"Please enter name and phone"
-);
-
-
-
-return;
-
 
 }
 
+from
 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+// =====================================
+// OPEN CHECKOUT
+// =====================================
+
+
+window.checkout=function(){
 
 
 
@@ -91,7 +41,9 @@ let cart = JSON.parse(
 
 localStorage.getItem("cart")
 
-) || [];
+)
+
+|| [];
 
 
 
@@ -101,9 +53,108 @@ if(cart.length===0){
 
 
 showToast(
+
 "Cart is empty"
+
 );
 
+
+return;
+
+
+}
+
+
+
+
+
+document.getElementById("cartPage")
+
+.style.display="none";
+
+
+
+document.getElementById("checkoutPage")
+
+.style.display="block";
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// PLACE ORDER
+// =====================================
+
+
+window.placeOrder = async function(){
+
+
+
+let cart = JSON.parse(
+
+localStorage.getItem("cart")
+
+)
+
+|| [];
+
+
+
+
+
+let name =
+
+document.getElementById(
+
+"customerName"
+
+).value;
+
+
+
+
+let phone =
+
+document.getElementById(
+
+"phone"
+
+).value;
+
+
+
+
+let table =
+
+document.getElementById(
+
+"tableNumber"
+
+).value;
+
+
+
+
+
+
+
+if(!table){
+
+
+showToast(
+
+"Enter Table Number"
+
+);
 
 
 return;
@@ -117,42 +168,8 @@ return;
 
 
 
-let total=0;
 
-
-
-cart.forEach(item=>{
-
-
-total +=
-
-Number(item.price) *
-
-Number(item.qty);
-
-
-
-});
-
-
-
-
-
-
-
-
-const orderData = {
-
-
-customerId:
-
-user ?
-
-user.uid
-
-:
-
-"guest",
+let order = {
 
 
 
@@ -162,7 +179,24 @@ customerName:name,
 phone:phone,
 
 
-address:address,
+
+tableNumber:table,
+
+
+
+orderType:
+
+localStorage.getItem(
+
+"orderType"
+
+)
+
+||
+
+"DINE IN",
+
+
 
 
 
@@ -170,15 +204,11 @@ items:cart,
 
 
 
-totalAmount:
-
-total,
 
 
+status:"NEW",
 
-status:
 
-"Pending",
 
 
 
@@ -196,50 +226,78 @@ serverTimestamp()
 
 
 
+
+
+try{
+
+
 await addDoc(
 
-collection(
+collection(db,"orders"),
 
-db,
-
-"orders"
-
-),
-
-orderData
+order
 
 );
-
-
-
 
 
 
 
 
 showToast(
-"Order Successful"
-);
 
+"Order Sent Kitchen"
+
+);
 
 
 
 
 
 localStorage.removeItem(
+
 "cart"
+
 );
 
 
 
 
 
-if(typeof displayCart==="function"){
 
-displayCart();
+setTimeout(()=>{
+
+
+goHome();
+
+
+},1500);
+
+
+
 
 }
 
+catch(error){
+
+
+
+console.error(
+
+error
+
+);
+
+
+
+showToast(
+
+"Order Failed"
+
+);
+
+
+
+}
 
 
 
@@ -248,23 +306,59 @@ displayCart();
 
 
 
-catch(error){
 
 
-console.log(
-"Order Error:",
-error
+
+
+
+
+// =====================================
+// TOAST
+// =====================================
+
+
+window.showToast=function(text){
+
+
+
+let box=
+
+document.getElementById(
+
+"toast"
+
 );
 
 
 
-showToast(
-error.message
+if(!box)return;
+
+
+
+box.innerHTML=text;
+
+
+
+box.classList.add(
+
+"show"
+
 );
 
 
 
-}
+
+setTimeout(()=>{
+
+
+box.classList.remove(
+
+"show"
+
+);
+
+
+},2500);
 
 
 
