@@ -432,54 +432,35 @@ user.email || "";
 // =====================================
 
 
-window.saveGoogleProfile = async function(){
 
+window.saveGoogleProfile = async function(){
 
 try{
 
-
 const user = auth.currentUser;
-
-
 
 if(!user){
 
-showToast(
-"User not found"
-);
-
+showToast("User not found");
 return;
 
 }
 
 
-
-
 const name =
-document.getElementById("googleName")
-.value.trim();
-
+document.getElementById("googleName").value.trim();
 
 
 const phone =
-document.getElementById("googlePhone")
-.value.trim();
-
-
-
+document.getElementById("googlePhone").value.trim();
 
 
 if(!phone){
 
-showToast(
-"Phone number required"
-);
-
+showToast("Phone number required");
 return;
 
 }
-
-
 
 
 
@@ -494,22 +475,11 @@ user.uid
 {
 
 uid:user.uid,
-
 name:name,
-
 email:user.email,
-
 phone:phone,
-
 loginType:"Google",
-
 createdAt:serverTimestamp()
-
-},
-
-{
-
-merge:true
 
 }
 
@@ -517,28 +487,13 @@ merge:true
 
 
 
+localStorage.setItem("loggedIn","yes");
 
-
-localStorage.setItem(
-"loggedIn",
-"yes"
-);
+localStorage.setItem("uid",user.uid);
 
 
 
-localStorage.setItem(
-"uid",
-user.uid
-);
-
-
-
-
-
-showToast(
-"Profile Completed"
-);
-
+showToast("Google Profile Saved");
 
 
 openProfile();
@@ -549,20 +504,13 @@ openProfile();
 
 catch(error){
 
+console.log("Firestore Save Error:",error);
 
-console.log(error);
-
-
-showToast(
-error.message
-);
-
+showToast(error.message);
 
 }
 
-
 };
-
 
 
 
