@@ -1,406 +1,19 @@
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// MAIN SYSTEM V6 FINAL
+// PART 1
+// ==========================================
 
-// =====================================
-// MAIN.JS FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
 
 
-// CURRENT PAGE
 
-let currentPage = "welcome";
 
-let pageHistory = [];
-
-
-
-
-
-// =====================================
-// SHOW PAGE
-// =====================================
-
-
-window.showPage = function(page){
-
-
-
-const pages = [
-
-"welcome",
-
-"menuPage",
-
-"cartPage",
-
-"checkoutPage"
-
-];
-
-
-
-
-pages.forEach(id=>{
-
-
-let el=document.getElementById(id);
-
-
-if(el){
-
-el.style.display="none";
-
-}
-
-
-});
-
-
-
-
-
-
-let target=document.getElementById(page);
-
-
-
-if(target){
-
-target.style.display="block";
-
-}
-
-
-
-currentPage = page;
-
-
-
-window.scrollTo(0,0);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// HOME
-// =====================================
-
-
-window.goHome=function(){
-
-
-
-pageHistory=[];
-
-
-showPage("welcome");
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// START MENU
-// =====================================
-
-
-window.startMenu=function(type){
-
-
-
-localStorage.setItem(
-
-"orderType",
-
-type
-
-);
-
-
-
-
-
-let display=document.getElementById(
-
-"orderTypeDisplay"
-
-);
-
-
-
-if(display){
-
-display.innerHTML=type;
-
-}
-
-
-
-
-
-
-pageHistory.push(currentPage);
-
-
-
-showPage("menuPage");
-
-
-
-
-
-
-if(window.loadMenu){
-
-
-loadMenu();
-
-
-}
-
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// BACK BUTTON
-// =====================================
-
-
-window.goBack=function(){
-
-
-
-let old=pageHistory.pop();
-
-
-
-if(old){
-
-
-showPage(old);
-
-
-}
-
-else{
-
-
-showPage("welcome");
-
-
-}
-
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// CART OPEN
-// =====================================
-
-
-window.showCart=function(){
-
-
-
-pageHistory.push(currentPage);
-
-
-
-showPage("cartPage");
-
-
-
-
-
-if(window.displayCart){
-
-
-displayCart();
-
-
-}
-
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// CHECKOUT
-// =====================================
-
-
-window.checkout=function(){
-
-
-
-let cart=JSON.parse(
-
-localStorage.getItem("cart")
-
-)
-
-|| [];
-
-
-
-
-
-if(cart.length===0){
-
-
-showToast("Cart Empty");
-
-
-return;
-
-
-}
-
-
-
-
-
-pageHistory.push(currentPage);
-
-
-
-showPage("checkoutPage");
-
-
-
-
-
-if(window.openCheckoutForm){
-
-
-openCheckoutForm();
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// CUSTOMER LOGIN BUTTON
-// =====================================
-
-
-window.customerAction=function(){
-
-
-
-let login=
-
-localStorage.getItem(
-
-"loggedIn"
-
-);
-
-
-
-
-
-if(login==="yes"){
-
-
-
-if(window.openProfile){
-
-
-openProfile();
-
-
-}
-
-
-
-}
-
-else{
-
-
-
-checkout();
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// REFRESH
-// =====================================
+// ==========================================
+// REFRESH PAGE
+// ==========================================
 
 
 window.refreshPage=function(){
-
 
 
 location.reload();
@@ -416,9 +29,739 @@ location.reload();
 
 
 
-// =====================================
-// PAGE START
-// =====================================
+// ==========================================
+// GO HOME
+// ==========================================
+
+
+window.goHome=function(){
+
+
+
+let pages=[
+
+"welcome",
+
+"menuPage",
+
+"cartPage",
+
+"checkoutPage"
+
+];
+
+
+
+
+
+pages.forEach(id=>{
+
+
+
+let el=
+
+document.getElementById(id);
+
+
+
+if(el){
+
+
+el.style.display="none";
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+let home =
+
+document.getElementById(
+
+"welcome"
+
+);
+
+
+
+
+
+if(home){
+
+
+home.style.display="block";
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// BACK BUTTON
+// ==========================================
+
+
+window.goBack=function(){
+
+
+
+history.back();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// CUSTOMER LOGIN BUTTON
+// ==========================================
+
+
+window.customerAction=function(){
+
+
+
+let login =
+
+localStorage.getItem(
+
+"loggedIn"
+
+);
+
+
+
+
+
+
+if(login==="yes"){
+
+
+
+showCustomerProfile();
+
+
+
+}
+
+else{
+
+
+
+document.getElementById(
+
+"welcome"
+
+).style.display="none";
+
+
+
+
+
+document.getElementById(
+
+"checkoutPage"
+
+).style.display="block";
+
+
+
+
+
+showLogin();
+
+
+
+}
+
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// SHOW LOGIN
+// ==========================================
+
+
+window.showLogin=function(){
+
+
+
+let login =
+
+document.getElementById(
+
+"loginBox"
+
+);
+
+
+
+let create =
+
+document.getElementById(
+
+"createBox"
+
+);
+
+
+
+
+
+if(login){
+
+login.style.display="block";
+
+
+}
+
+
+
+
+if(create){
+
+create.style.display="none";
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// SHOW CREATE ACCOUNT
+// ==========================================
+
+
+window.showCreateAccount=function(){
+
+
+
+let login =
+
+document.getElementById(
+
+"loginBox"
+
+);
+
+
+
+let create =
+
+document.getElementById(
+
+"createBox"
+
+);
+
+
+
+
+
+if(login){
+
+
+login.style.display="none";
+
+
+}
+
+
+
+
+if(create){
+
+
+create.style.display="block";
+
+
+}
+
+
+
+};
+// ==========================================
+// SHOW CUSTOMER PROFILE
+// ==========================================
+
+
+window.showCustomerProfile=function(){
+
+
+
+let data =
+
+JSON.parse(
+
+localStorage.getItem(
+
+"customer"
+
+)
+
+)
+
+|| {};
+
+
+
+
+
+
+
+let box =
+
+document.getElementById(
+
+"customerProfileBox"
+
+);
+
+
+
+
+
+
+if(box){
+
+
+box.style.display="block";
+
+
+}
+
+
+
+
+
+
+
+let name =
+
+document.getElementById(
+
+"profileName"
+
+);
+
+
+
+let email =
+
+document.getElementById(
+
+"profileEmail"
+
+);
+
+
+
+let phone =
+
+document.getElementById(
+
+"profilePhone"
+
+);
+
+
+
+
+
+
+if(name){
+
+
+name.innerHTML=
+
+"Name: "
+
++
+
+(data.name || "-");
+
+
+}
+
+
+
+
+
+
+
+if(email){
+
+
+email.innerHTML=
+
+"Email: "
+
++
+
+(data.email || "-");
+
+
+}
+
+
+
+
+
+
+
+if(phone){
+
+
+phone.innerHTML=
+
+"Phone: "
+
++
+
+(data.phone || "-");
+
+
+}
+
+
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// SAVE GOOGLE PROFILE
+// ==========================================
+
+
+window.saveGoogleProfile=function(){
+
+
+
+let name =
+
+document.getElementById(
+
+"googleName"
+
+).value;
+
+
+
+
+
+let email =
+
+document.getElementById(
+
+"googleEmail"
+
+).value;
+
+
+
+
+
+let phone =
+
+document.getElementById(
+
+"googlePhone"
+
+).value;
+
+
+
+
+
+
+
+let customer={
+
+
+
+name:name,
+
+
+
+email:email,
+
+
+
+phone:phone
+
+
+
+};
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"customer",
+
+JSON.stringify(customer)
+
+);
+
+
+
+
+
+
+
+document.getElementById(
+
+"googleProfileBox"
+
+).style.display="none";
+
+
+
+
+
+
+
+showToast(
+
+"Profile Saved"
+
+);
+
+
+
+
+
+
+
+goHome();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// UPDATE LOGIN BUTTON
+// ==========================================
+
+
+function updateLoginButton(){
+
+
+
+let btn =
+
+document.getElementById(
+
+"customerBtn"
+
+);
+
+
+
+
+
+
+
+if(!btn)return;
+
+
+
+
+
+
+
+if(
+
+localStorage.getItem(
+
+"loggedIn"
+
+)==="yes"
+
+){
+
+
+
+btn.innerHTML=
+
+"👤 My Profile";
+
+
+
+}
+
+else{
+
+
+
+btn.innerHTML=
+
+"👤 Customer Login";
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// LOGOUT BUTTON DISPLAY
+// ==========================================
+
+
+function updateLogoutButtons(){
+
+
+
+let ids=[
+
+"logoutBtn",
+
+"logoutBtnCart",
+
+"logoutCheckoutBtn"
+
+];
+
+
+
+
+
+
+ids.forEach(id=>{
+
+
+
+let btn =
+
+document.getElementById(id);
+
+
+
+
+
+
+if(btn){
+
+
+
+btn.style.display=
+
+localStorage.getItem(
+
+"loggedIn"
+
+)==="yes"
+
+?
+
+"block"
+
+:
+
+"none";
+
+
+
+
+
+}
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// PAGE LOAD
+// ==========================================
 
 
 window.addEventListener(
@@ -429,21 +772,12 @@ window.addEventListener(
 
 
 
-showPage("welcome");
+updateLoginButton();
 
 
 
-if(window.updateCartCount){
-
-
-updateCartCount();
-
-
-}
+updateLogoutButtons();
 
 
 
-
-}
-
-);
+});
