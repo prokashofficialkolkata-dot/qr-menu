@@ -551,25 +551,21 @@ return;
 
 
 await setDoc(
-
-doc(db,"customers",user.uid),
-
+doc(
+db,
+"customers",
+user.uid
+),
 {
-
-uid:user.uid,
-
 name:name,
-
 email:user.email,
-
 phone:phone,
-
 loginType:"Google",
-
 createdAt:serverTimestamp()
-
+},
+{
+merge:true
 }
-
 );
 
 
