@@ -1,63 +1,94 @@
-// =====================================
-// KITCHEN DISPLAY V2
-// =====================================
+/* =====================================
+   RESTORAN HAMEED'S BISTRO
+   KITCHEN DISPLAY SYSTEM V5 GRID
+===================================== */
+
+
+*{
+    box-sizing:border-box;
+}
 
 
 body{
 
-margin:0;
+    margin:0;
 
-font-family:Arial, sans-serif;
+    padding:0;
 
-background:#111;
+    background:#111;
 
-color:white;
+    font-family:Arial, Helvetica, sans-serif;
 
-overflow-x:hidden;
+    color:white;
 
 }
 
 
 
+
+
+
+
+/* HEADER */
 
 header{
 
-background:#0057b8;
+    background:#0057b8;
 
-text-align:center;
+    text-align:center;
 
-padding:25px;
+    padding:20px;
 
 }
-
 
 
 header h1{
 
-font-size:45px;
+    margin:0;
 
-margin:0;
+    font-size:42px;
 
 }
 
 
+header h2{
+
+    margin:8px 0 0;
+
+    font-size:28px;
+
+}
+
+
+
+
+
+
+
+
+/* ORDER GRID */
+
+
+main{
+
+    padding:20px;
+
+}
 
 
 
 #kitchenOrders{
 
 
-display:grid;
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(420px,1fr));
+    display:grid;
 
 
-gap:25px;
+    grid-template-columns:
+
+    repeat(4, 1fr);
 
 
-padding:25px;
+    gap:20px;
 
 
 }
@@ -66,55 +97,33 @@ padding:25px;
 
 
 
+
+
+
+/* ORDER CARD */
 
 
 .kitchenCard{
 
 
-background:#222;
-
-border-radius:20px;
-
-padding:25px;
-
-box-shadow:0 0 15px #000;
+    background:white;
 
 
-}
+    color:#222;
 
 
+    border-radius:15px;
 
 
-.kitchenCard h2{
+    padding:20px;
 
 
-font-size:45px;
-
-margin:10px 0;
+    min-height:330px;
 
 
-}
+    box-shadow:
 
-
-
-.kitchenCard h3{
-
-
-font-size:35px;
-
-
-}
-
-
-
-.foodItem{
-
-
-font-size:32px;
-
-padding:10px 0;
-
-border-bottom:1px solid #555;
+    0 5px 15px rgba(0,0,0,0.5);
 
 
 }
@@ -123,20 +132,31 @@ border-bottom:1px solid #555;
 
 
 
-.kitchenCard button{
 
 
-font-size:28px;
 
-padding:15px 25px;
+/* STATUS COLOR */
 
-margin:8px;
 
-border-radius:12px;
+.kitchenCard.pending{
 
-border:none;
+    border-top:12px solid red;
 
-cursor:pointer;
+}
+
+
+
+.kitchenCard.preparing{
+
+    border-top:12px solid orange;
+
+}
+
+
+
+.kitchenCard.ready{
+
+    border-top:12px solid green;
 
 }
 
@@ -144,13 +164,48 @@ cursor:pointer;
 
 
 
-/* Pending */
 
 
-.kitchenCard.Pending{
 
 
-border:5px solid orange;
+/* ORDER HEADER */
+
+
+.orderHeader{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+}
+
+
+.orderHeader h2{
+
+
+    font-size:34px;
+
+
+    margin:0;
+
+
+}
+
+
+.orderHeader p{
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
 
 }
 
@@ -158,13 +213,48 @@ border:5px solid orange;
 
 
 
-/* Preparing */
 
 
-.kitchenCard.Preparing{
+
+/* ITEM LIST */
 
 
-border:5px solid yellow;
+.itemsBox{
+
+
+    margin-top:20px;
+
+
+}
+
+
+.itemRow{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    font-size:25px;
+
+
+    padding:10px 0;
+
+
+    border-bottom:1px solid #ddd;
+
+
+}
+
+
+
+.itemRow strong{
+
+
+    color:#0057b8;
+
 
 }
 
@@ -172,13 +262,55 @@ border:5px solid yellow;
 
 
 
-/* Ready */
 
 
-.kitchenCard.Ready{
 
 
-border:5px solid lime;
+/* BUTTON AREA */
+
+
+.buttonBox{
+
+
+    display:flex;
+
+
+    gap:10px;
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+.buttonBox button{
+
+
+    flex:1;
+
+
+    padding:15px 5px;
+
+
+    border:none;
+
+
+    border-radius:10px;
+
+
+    background:#0057b8;
+
+
+    color:white;
+
+
+    font-size:18px;
+
+
+    font-weight:bold;
+
 
 }
 
@@ -186,24 +318,70 @@ border:5px solid lime;
 
 
 
-/* Mobile / Tablet */
-
-
-@media(max-width:700px){
 
 
 
-.kitchenCard h2{
 
-font-size:35px;
+/* TV RESPONSIVE */
+
+
+@media(max-width:1600px){
+
+
+#kitchenOrders{
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+}
+
 
 }
 
 
 
-.foodItem{
 
-font-size:25px;
+
+@media(max-width:1000px){
+
+
+#kitchenOrders{
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+}
+
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+#kitchenOrders{
+
+
+    grid-template-columns:
+
+    repeat(1,1fr);
+
+
+}
+
+
+header h1{
+
+    font-size:28px;
 
 }
 
