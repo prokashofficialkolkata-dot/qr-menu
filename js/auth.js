@@ -295,8 +295,13 @@ googleProvider
 
 catch(error){
 
+console.log("GOOGLE LOGIN ERROR:", error.code, error.message);
 
-console.log(error.code);
+showToast(
+error.code + " : " + error.message
+);
+
+}
 
 
 
