@@ -1,40 +1,32 @@
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// FIREBASE.JS FINAL V2
+// FIREBASE CONFIG FINAL
 // =====================================
 
 
-// Firebase SDK
-
-import {
-
-initializeApp
-
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+import { initializeApp } 
+from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
-
-import {
-
-getAuth
-
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-
+import { 
+getFirestore 
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-import {
-
-getFirestore
-
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import { 
+getAuth 
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
 
-// =====================================
-// FIREBASE CONFIG
-// Your web app's Firebase configuration
-  const firebaseConfig = {
+// আপনার Firebase Console থেকে এই config বসানো থাকবে
+
+const firebaseConfig = {
     apiKey: "AIzaSyAZEby6MscIOcgp94iMqAMehOJooyo8LQk",
     authDomain: "hameeds-bistro.firebaseapp.com",
     projectId: "hameeds-bistro",
@@ -47,40 +39,12 @@ getFirestore
 
 
 
-// =====================================
-// INITIALIZE FIREBASE
-// =====================================
-
-
 const app = initializeApp(firebaseConfig);
 
 
 
-
-
-// =====================================
-// SERVICES
-// =====================================
-
-
-const auth = getAuth(app);
-
-
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 
 
-
-
-// =====================================
-// EXPORT
-// =====================================
-
-
-export {
-
-auth,
-
-db
-
-};
+export const auth = getAuth(app);
