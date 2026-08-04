@@ -1,20 +1,33 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 
 <head>
 
+
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 
 <title>
-Restoran Hameed's Bistro Admin
+
+Restoran Hameed's Bistro
+Admin Panel
+
 </title>
 
 
-<link rel="icon" href="images/logo.png">
+<link rel="icon"
+href="images/logo.png">
 
-<link rel="stylesheet" href="admin.css">
+
+<link rel="stylesheet"
+href="admin.css">
+
 
 </head>
 
@@ -27,52 +40,65 @@ ADMIN LOGIN PAGE
 ========================== -->
 
 
-<div id="adminLoginPage">
+<div id="adminLoginPage"
+class="admin-login">
 
 
-<div class="admin-box">
+<div class="login-card">
 
 
-<div class="logo-circle">
-
-<img 
+<img
 src="images/logo.png"
-class="logo">
-
-</div>
+class="admin-logo">
 
 
 
 <h1>
+
 Restoran Hameed's Bistro
+
 </h1>
 
 
 <h2>
+
 Admin Login
+
 </h2>
 
 
 
 
 <input
+
 id="adminEmail"
+
 type="email"
-placeholder="Admin Email">
+
+placeholder="Admin Email"
+
+>
+
 
 
 
 <input
+
 id="adminPassword"
+
 type="password"
-placeholder="Password">
 
+placeholder="Password"
 
+>
 
 
 
 <button
-onclick="adminLogin()">
+
+onclick="adminLogin()"
+
+>
 
 LOGIN
 
@@ -80,15 +106,14 @@ LOGIN
 
 
 
-
 <p id="adminMessage"></p>
 
 
-</div>
-
 
 </div>
 
+
+</div>
 
 
 
@@ -100,17 +125,60 @@ ADMIN DASHBOARD
 ========================== -->
 
 
-<div id="adminDashboard" style="display:none;">
+<div id="adminDashboard"
+style="display:none;">
 
 
 
-<header>
+<!-- HEADER -->
 
 
-<div class="top-bar">
+<header class="admin-header">
 
 
-<button onclick="adminLogout()">
+
+<div class="admin-brand">
+
+
+<img
+src="images/logo.png">
+
+
+
+<div>
+
+<h1>
+
+Restoran Hameed's Bistro
+
+</h1>
+
+
+<h3>
+
+Admin Dashboard
+
+</h3>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div>
+
+
+<button
+
+onclick="adminLogout()"
+
+>
 
 🚪 Logout
 
@@ -121,51 +189,25 @@ ADMIN DASHBOARD
 
 
 
-
-<div class="logo-circle">
-
-<img 
-src="images/logo.png"
-class="logo">
-
-</div>
-
-
-
-<h1>
-Restoran Hameed's Bistro
-</h1>
-
-
-<h2>
-Admin Dashboard
-</h2>
-
-
 </header>
 
+<!-- ==========================
+ADMIN MENU BUTTONS
+========================== -->
 
 
+<section class="admin-menu">
 
 
-<!-- DASHBOARD BUTTONS -->
+<button onclick="openAdminSection('ordersSection')">
 
-
-<div class="admin-menu">
-
-
-
-<button onclick="showOrders()">
-
-📦 Order History
+📋 Order History
 
 </button>
 
 
 
-
-
-<button onclick="showSalesReport()">
+<button onclick="openAdminSection('salesSection')">
 
 📊 Sales Report
 
@@ -174,8 +216,7 @@ Admin Dashboard
 
 
 
-
-<button onclick="showMenuUpdate()">
+<button onclick="openAdminSection('menuSection')">
 
 🍽 Menu Update
 
@@ -184,100 +225,11 @@ Admin Dashboard
 
 
 
+<button onclick="openAdminSection('staffSection')">
 
-<button onclick="showStaffManagement()">
-
-👥 Staff Management
+👨‍🍳 Staff Management
 
 </button>
-
-
-
-</div>
-
-
-
-
-
-<!-- CONTENT AREA -->
-
-
-<div id="adminContent">
-
-
-<h3>
-Welcome Admin
-</h3>
-
-
-<p>
-Select an option above
-</p>
-
-
-</div>
-<!-- ==========================
-ORDER HISTORY SECTION
-========================== -->
-
-
-<section 
-id="orderHistorySection"
-style="display:none;">
-
-
-
-<h2>
-📦 Order History
-</h2>
-
-
-
-
-<div class="table-box">
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>Date</th>
-
-<th>Customer</th>
-
-<th>Phone</th>
-
-<th>Type</th>
-
-<th>Table</th>
-
-<th>Items</th>
-
-<th>Total</th>
-
-<th>Status</th>
-
-</tr>
-
-
-</thead>
-
-
-
-<tbody id="orderHistoryTable">
-
-
-</tbody>
-
-
-
-</table>
-
-
-</div>
 
 
 </section>
@@ -291,28 +243,146 @@ style="display:none;">
 
 
 <!-- ==========================
-SALES REPORT SECTION
+ORDER HISTORY
 ========================== -->
 
 
 <section
-id="salesReportSection"
+
+id="ordersSection"
+
+class="admin-section"
+
 style="display:none;">
 
 
 
 <h2>
-📊 Sales Report
+
+📋 Order History
+
 </h2>
 
 
+
+
+<div class="filter-bar">
+
+
+<input
+
+id="orderSearch"
+
+placeholder="Search Order / Table / Customer"
+
+>
+
+
+
+<select id="orderStatusFilter">
+
+
+<option value="ALL">
+
+All
+
+</option>
+
+
+<option value="NEW">
+
+New
+
+</option>
+
+
+<option value="COOKING">
+
+Cooking
+
+</option>
+
+
+<option value="READY">
+
+Ready
+
+</option>
+
+
+<option value="COMPLETED">
+
+Completed
+
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+<div id="orderHistoryList">
+
+
+Loading Orders...
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+SALES REPORT
+========================== -->
+
+
+<section
+
+id="salesSection"
+
+class="admin-section"
+
+style="display:none;">
+
+
+
+<h2>
+
+📊 Sales Report
+
+</h2>
+
+
+
+
+
+<div class="sales-summary">
 
 
 <div class="sales-card">
 
 
 <h3>
+
 Total Sales
+
 </h3>
 
 
@@ -328,18 +398,19 @@ RM 0.00
 
 
 
-
 <div class="sales-card">
 
 
 <h3>
-Today Sales
+
+Total Orders
+
 </h3>
 
 
-<h1 id="todaySales">
+<h1 id="totalOrders">
 
-RM 0.00
+0
 
 </h1>
 
@@ -350,143 +421,101 @@ RM 0.00
 
 
 
+<div class="sales-card">
+
+
+<h3>
+
+Top Selling Item
+
+</h3>
+
+
+<h1 id="topItem">
+
+-
+
+</h1>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
 
 <h2>
+
 🔥 Top 50 Selling Items
+
 </h2>
 
 
 
+<div id="topItemsList">
 
-<div class="table-box">
-
-
-<table>
-
-
-<thead>
-
-
-<tr>
-
-<th>Rank</th>
-
-<th>Item</th>
-
-<th>Category</th>
-
-<th>Qty Sold</th>
-
-<th>Amount</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-<tbody id="topSellingTable">
-
-
-</tbody>
-
-
-
-</table>
-
+Loading...
 
 </div>
-
 
 
 
 
 
 <h2>
+
 Category Wise Sales
+
 </h2>
 
 
 
+<div id="categorySalesList">
 
-<div class="table-box">
-
-
-<table>
-
-
-<thead>
-
-
-<tr>
-
-<th>Category</th>
-
-<th>Total Qty</th>
-
-<th>Total Sales</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-<tbody id="categorySalesTable">
-
-
-</tbody>
-
-
-
-</table>
-
+Loading...
 
 </div>
+
 
 
 
 </section>
 
-
-
-
-
-
-
-
-
 <!-- ==========================
-MENU UPDATE SECTION
+MENU UPDATE
 ========================== -->
 
 
 <section
-id="menuUpdateSection"
+
+id="menuSection"
+
+class="admin-section"
+
 style="display:none;">
 
 
 
 <h2>
+
 🍽 Menu Update
+
 </h2>
 
 
 
 
-
-<!-- CSV UPLOAD -->
-
-
-<div class="upload-box">
+<div class="menu-upload">
 
 
 <h3>
-Upload CSV Menu
+
+Upload Menu CSV
+
 </h3>
 
 
@@ -497,25 +526,21 @@ type="file"
 
 id="csvFile"
 
-accept=".csv">
+accept=".csv"
 
-
+>
 
 
 
 <button
 
-onclick="uploadCSV()">
+onclick="uploadMenuCSV()"
 
+>
 
-📤 Upload CSV
-
+⬆ Upload CSV
 
 </button>
-
-
-
-<p id="csvMessage"></p>
 
 
 
@@ -526,158 +551,110 @@ onclick="uploadCSV()">
 
 
 
-
-
-<!-- ADD ITEM -->
-
-
-<div class="add-item-box">
-
-
 <h3>
-Add New Item
+
+Full Menu List
+
 </h3>
 
 
 
-<input
-id="menuCategory"
-placeholder="Category">
 
+<div id="adminMenuList">
 
-
-<input
-id="menuItemName"
-placeholder="Item Name">
-
-
-
-<input
-id="menuDinePrice"
-placeholder="Dine In Price">
-
-
-
-<input
-id="menuTakePrice"
-placeholder="Take Away Price">
-
-
-
-
-
-<button
-
-onclick="addMenuItem()">
-
-
-
-➕ Add Item
-
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<!-- MENU TABLE -->
-
-
-<h2>
-Full Menu List
-</h2>
-
-
-
-
-<div class="table-box">
-
-
-<table>
-
-
-<thead>
-
-
-<tr>
-
-<th>Category</th>
-
-<th>Item Name</th>
-
-<th>Dine In</th>
-
-<th>Take Away</th>
-
-<th>Action</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-<tbody id="menuTable">
-
-
-</tbody>
-
-
-
-</table>
-
-
+Loading Menu...
 
 </div>
 
 
 
 </section>
+
+
+
+
+
+
+
+
+
+
 <!-- ==========================
-STAFF MANAGEMENT SECTION
+STAFF MANAGEMENT
 ========================== -->
 
 
 <section
 
-id="staffManagementSection"
+id="staffSection"
+
+class="admin-section"
 
 style="display:none;">
 
 
 
 <h2>
-👥 Staff Management
+
+👨‍🍳 Staff Management
+
 </h2>
 
 
 
 
+<button
+
+onclick="openStaffCreate()"
+
+>
+
+➕ Add Staff
+
+</button>
 
 
 
-<!-- ADD STAFF -->
 
 
-<div class="staff-add-box">
+<div id="staffList">
+
+Loading Staff...
+
+</div>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+STAFF CREATE BOX
+========================== -->
+
+
+<div
+
+id="staffCreateBox"
+
+style="display:none;">
+
 
 
 <h3>
-Add New Staff
+
+Create Staff Account
+
 </h3>
-
-
 
 
 
@@ -685,9 +662,9 @@ Add New Staff
 
 id="staffName"
 
-placeholder="Staff Name">
+placeholder="Staff Name"
 
-
+>
 
 
 
@@ -696,21 +673,9 @@ placeholder="Staff Name">
 
 id="staffEmail"
 
-type="email"
+placeholder="Staff Email"
 
-placeholder="Staff Email">
-
-
-
-
-
-
-<input
-
-id="staffRole"
-
-placeholder="Role (Kitchen/Cashier/Waiter)">
-
+>
 
 
 
@@ -721,132 +686,20 @@ id="staffPassword"
 
 type="password"
 
-placeholder="Password">
+placeholder="Password"
 
-
+>
 
 
 
 
 <button
 
-onclick="addStaff()">
+onclick="createStaff()"
 
+>
 
-
-➕ Add Staff
-
-
-
-</button>
-
-
-
-
-<p id="staffMessage"></p>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- STAFF LIST -->
-
-
-<h2>
-Staff List
-</h2>
-
-
-
-
-
-<div class="table-box">
-
-
-<table>
-
-
-<thead>
-
-
-<tr>
-
-
-<th>Name</th>
-
-
-<th>Email</th>
-
-
-<th>Role</th>
-
-
-<th>Status</th>
-
-
-<th>Action</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-
-<tbody id="staffTable">
-
-
-</tbody>
-
-
-
-</table>
-
-
-
-</div>
-
-
-
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- ==========================
-BACK BUTTON
-========================== -->
-
-
-<div class="back-area">
-
-
-<button
-
-onclick="backDashboard()">
-
-
-
-⬅ Back Dashboard
-
-
+CREATE
 
 </button>
 
@@ -862,18 +715,13 @@ onclick="backDashboard()">
 
 
 
+
 <!-- ==========================
-FOOTER
+TOAST
 ========================== -->
 
 
-<footer>
-
-
-Copyright 2026 | Rudranshi Rakshit | All Right Reserved
-
-
-</footer>
+<div id="toast"></div>
 
 
 
@@ -888,12 +736,16 @@ JAVASCRIPT
 ========================== -->
 
 
-
 <script type="module" src="js/firebase.js"></script>
 
 
 <script type="module" src="js/admin.js"></script>
 
+
+<script type="module" src="js/sales.js"></script>
+
+
+<script type="module" src="js/staff.js"></script>
 
 
 
