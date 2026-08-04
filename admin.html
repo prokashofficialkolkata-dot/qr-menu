@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
@@ -7,9 +8,14 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hameed Bistro Admin V2</title>
+
+<title>
+Hameed Bistro Admin
+</title>
+
 
 <link rel="stylesheet" href="admin.css">
+
 
 </head>
 
@@ -17,17 +23,11 @@
 <body>
 
 
-
-<!-- =========================
-ADMIN LOGIN
-========================= -->
-
-
-<div id="loginBox" class="login-box">
+<div id="loginBox">
 
 
 <h1>
-Restoran Hameed's Bistro
+Hameed Bistro
 </h1>
 
 
@@ -36,19 +36,14 @@ Admin Login
 </h2>
 
 
-
-<input 
-id="adminEmail"
+<input id="adminEmail"
 type="email"
 placeholder="Email">
 
 
-
-<input
-id="adminPassword"
+<input id="adminPassword"
 type="password"
 placeholder="Password">
-
 
 
 <button onclick="adminLogin()">
@@ -70,9 +65,6 @@ Login
 
 
 
-<!-- =========================
-ADMIN DASHBOARD
-========================= -->
 
 
 <div id="dashboard" style="display:none;">
@@ -83,9 +75,8 @@ ADMIN DASHBOARD
 
 
 <h1>
-Hameed Bistro Admin
+Hameed Bistro Admin Panel
 </h1>
-
 
 
 <button onclick="adminLogout()">
@@ -101,119 +92,28 @@ Logout
 
 
 
-<nav>
-
-
-<button onclick="showAdminPage('orders')">
-
-📦 Orders
-
-</button>
-
-
-
-<button onclick="showAdminPage('menuManager')">
-
-📋 Menu
-
-</button>
-
-
-
-<button onclick="showAdminPage('sales')">
-
-📊 Sales
-
-</button>
-
-
-
-<button onclick="showAdminPage('history')">
-
-🕘 History
-
-</button>
-
-
-</nav>
 
 
 
 
-
-
-
-
-
-<!-- =========================
-ORDERS PAGE
-========================= -->
-
-
-<section id="orders" class="adminPage">
+<section>
 
 
 <h2>
-New Orders
+Menu Upload CSV
 </h2>
 
 
-<div id="ordersList">
-
-Loading Orders...
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- =========================
-MENU MANAGEMENT
-========================= -->
-
-
-<section 
-id="menuManager"
-class="adminPage"
-style="display:none;">
-
-
-
-<h2>
-Menu Management
-</h2>
-
-
-
-
-
-<!-- CSV UPLOAD -->
-
-
-<h3>
-Bulk Update Menu CSV
-</h3>
-
-
-
-<input
+<input 
 type="file"
 id="csvFile"
 accept=".csv">
 
 
 
-<button onclick="uploadMenuCSV()">
+<button onclick="uploadCSV()">
 
-Upload CSV
+Upload Menu
 
 </button>
 
@@ -222,77 +122,54 @@ Upload CSV
 <p id="uploadStatus"></p>
 
 
+</section>
 
 
 
 
 
-<hr>
 
 
 
 
-
-<!-- ADD ITEM -->
-
-
-<h3>
-Add New Menu Item
-</h3>
+<section>
 
 
+<h2>
+Add Menu Item
+</h2>
 
-<input
-id="menuName"
+
+
+<input id="itemName"
 placeholder="Item Name">
 
 
 
-<input
-id="menuCategory"
+<input id="itemCategory"
 placeholder="Category">
 
 
 
-<input
-id="menuPrice"
-type="number"
+<input id="itemPrice"
 placeholder="Price">
 
 
 
-<input
-id="menuImage"
+<input id="itemImage"
 placeholder="Image URL">
-
-
-
-<select id="menuPopular">
-
-
-<option value="no">
-Not Popular
-</option>
-
-
-<option value="yes">
-Popular
-</option>
-
-
-</select>
 
 
 
 <button onclick="addMenuItem()">
 
-Save Item
+Add Item
 
 </button>
 
 
 
-<p id="menuMessage"></p>
+</section>
 
 
 
@@ -300,92 +177,19 @@ Save Item
 
 
 
-<hr>
+
+<section>
 
 
-
-
-
-<!-- MENU LIST -->
-
-
-<h3>
-Current Menu
-
-</h3>
+<h2>
+Menu List
+</h2>
 
 
 
 <div id="menuList">
 
-Loading Menu...
-
-</div>
-
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- =========================
-SALES REPORT
-========================= -->
-
-
-<section 
-id="sales"
-class="adminPage"
-style="display:none;">
-
-
-<h2>
-Sales Report
-</h2>
-
-
-
-<div id="salesReport">
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- =========================
-HISTORY
-========================= -->
-
-
-<section 
-id="history"
-class="adminPage"
-style="display:none;">
-
-
-<h2>
-Order History
-
-</h2>
-
-
-
-<div id="historyList">
+Loading...
 
 </div>
 
@@ -396,60 +200,11 @@ Order History
 
 
 
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<script>
-
-
-function showAdminPage(page){
-
-
-document
-.querySelectorAll(".adminPage")
-.forEach(function(section){
-
-
-section.style.display="none";
-
-
-});
-
-
-
-const target =
-document.getElementById(page);
-
-
-
-if(target){
-
-target.style.display="block";
-
-}
-
-
-}
-
-
-
-</script>
 
 
 
 
 <script type="module" src="js/admin.js"></script>
-
 
 
 </body>
