@@ -1,101 +1,162 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hameed Bistro Admin</title>
+<title>Hameed Bistro Admin V2</title>
 
 <link rel="stylesheet" href="admin.css">
 
 </head>
 
+
 <body>
 
 
-<!-- LOGIN -->
 
-<div class="login-box" id="loginBox">
+<!-- =========================
+ADMIN LOGIN
+========================= -->
 
-<h2>Hameed Bistro</h2>
-<h3>Admin Login</h3>
 
-<input id="email" type="email" placeholder="Email">
+<div id="loginBox" class="login-box">
 
-<input id="password" type="password" placeholder="Password">
 
-<button id="loginBtn">
+<h1>
+Restoran Hameed's Bistro
+</h1>
+
+
+<h2>
+Admin Login
+</h2>
+
+
+
+<input 
+id="adminEmail"
+type="email"
+placeholder="Email">
+
+
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Password">
+
+
+
+<button onclick="adminLogin()">
+
 Login
+
 </button>
 
+
+
 <p id="loginMessage"></p>
+
 
 </div>
 
 
 
 
-<!-- ADMIN PANEL -->
-
-<div id="dashboard" class="dashboard" style="display:none;">
 
 
 
-<!-- HEADER -->
+<!-- =========================
+ADMIN DASHBOARD
+========================= -->
+
+
+<div id="dashboard" style="display:none;">
+
+
 
 <header>
 
-<h1>Hameed Bistro Admin</h1>
 
-<button id="logoutBtn">
+<h1>
+Hameed Bistro Admin
+</h1>
+
+
+
+<button onclick="adminLogout()">
+
 Logout
+
 </button>
+
 
 </header>
 
 
 
 
-<!-- MENU BUTTONS -->
 
-<div class="menu-buttons">
+<nav>
 
-<button onclick="showPage('orders')">
+
+<button onclick="showAdminPage('orders')">
+
 📦 Orders
+
 </button>
 
 
-<button onclick="showPage('menuUpdate')">
-📋 Menu Update
+
+<button onclick="showAdminPage('menuManager')">
+
+📋 Menu
+
 </button>
 
 
-<button onclick="showPage('showMenu')">
-👁 Show Menu
+
+<button onclick="showAdminPage('sales')">
+
+📊 Sales
+
 </button>
 
 
-<button onclick="showPage('sales')">
-📊 Sales Report
-</button>
 
+<button onclick="showAdminPage('history')">
 
-<button onclick="showPage('history')">
 🕘 History
+
 </button>
 
 
-</div>
+</nav>
 
 
 
 
 
-<!-- ORDERS PAGE -->
 
-<section id="orders" class="page">
 
-<h2>New Orders</h2>
+
+
+<!-- =========================
+ORDERS PAGE
+========================= -->
+
+
+<section id="orders" class="adminPage">
+
+
+<h2>
+New Orders
+</h2>
+
 
 <div id="ordersList">
 
@@ -103,6 +164,7 @@ Loading Orders...
 
 </div>
 
+
 </section>
 
 
@@ -111,27 +173,53 @@ Loading Orders...
 
 
 
-<!-- MENU UPDATE PAGE -->
-
-<section id="menuUpdate" class="page" style="display:none;">
-
-<h2>Update Menu</h2>
 
 
-<input type="file" id="csvFile" accept=".csv">
+<!-- =========================
+MENU MANAGEMENT
+========================= -->
 
 
-<button id="uploadMenuBtn">
+<section 
+id="menuManager"
+class="adminPage"
+style="display:none;">
 
-Upload Menu CSV
+
+
+<h2>
+Menu Management
+</h2>
+
+
+
+
+
+<!-- CSV UPLOAD -->
+
+
+<h3>
+Bulk Update Menu CSV
+</h3>
+
+
+
+<input
+type="file"
+id="csvFile"
+accept=".csv">
+
+
+
+<button onclick="uploadMenuCSV()">
+
+Upload CSV
 
 </button>
 
 
-<div id="uploadStatus"></div>
 
-
-</section>
+<p id="uploadStatus"></p>
 
 
 
@@ -139,17 +227,104 @@ Upload Menu CSV
 
 
 
-<!-- SHOW MENU PAGE -->
+<hr>
 
-<section id="showMenu" class="page" style="display:none;">
 
-<h2>Menu List</h2>
+
+
+
+<!-- ADD ITEM -->
+
+
+<h3>
+Add New Menu Item
+</h3>
+
+
+
+<input
+id="menuName"
+placeholder="Item Name">
+
+
+
+<input
+id="menuCategory"
+placeholder="Category">
+
+
+
+<input
+id="menuPrice"
+type="number"
+placeholder="Price">
+
+
+
+<input
+id="menuImage"
+placeholder="Image URL">
+
+
+
+<select id="menuPopular">
+
+
+<option value="no">
+Not Popular
+</option>
+
+
+<option value="yes">
+Popular
+</option>
+
+
+</select>
+
+
+
+<button onclick="addMenuItem()">
+
+Save Item
+
+</button>
+
+
+
+<p id="menuMessage"></p>
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+<!-- MENU LIST -->
+
+
+<h3>
+Current Menu
+
+</h3>
+
+
 
 <div id="menuList">
+
+Loading Menu...
 
 </div>
 
 
+
+
 </section>
 
 
@@ -158,11 +333,23 @@ Upload Menu CSV
 
 
 
-<!-- SALES REPORT -->
 
-<section id="sales" class="page" style="display:none;">
 
-<h2>Sales Report</h2>
+<!-- =========================
+SALES REPORT
+========================= -->
+
+
+<section 
+id="sales"
+class="adminPage"
+style="display:none;">
+
+
+<h2>
+Sales Report
+</h2>
+
 
 
 <div id="salesReport">
@@ -179,12 +366,23 @@ Upload Menu CSV
 
 
 
-<!-- HISTORY -->
 
-<section id="history" class="page" style="display:none;">
+<!-- =========================
+HISTORY
+========================= -->
 
 
-<h2>24 Hours Order History</h2>
+<section 
+id="history"
+class="adminPage"
+style="display:none;">
+
+
+<h2>
+Order History
+
+</h2>
+
 
 
 <div id="historyList">
@@ -192,7 +390,12 @@ Upload Menu CSV
 </div>
 
 
+
 </section>
+
+
+
+
 
 
 
@@ -201,20 +404,55 @@ Upload Menu CSV
 
 
 
+
+
+
+
+
 <script>
-function showPage(page){
 
-    document.querySelectorAll(".page").forEach(function(p){
-        p.style.display="none";
-    });
 
-    document.getElementById(page).style.display="block";
+function showAdminPage(page){
+
+
+document
+.querySelectorAll(".adminPage")
+.forEach(function(section){
+
+
+section.style.display="none";
+
+
+});
+
+
+
+const target =
+document.getElementById(page);
+
+
+
+if(target){
+
+target.style.display="block";
 
 }
+
+
+}
+
+
+
 </script>
+
+
+
 
 <script type="module" src="admin.js"></script>
 
 
+
 </body>
+
+
 </html>
