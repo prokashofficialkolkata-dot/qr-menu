@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
 
@@ -10,7 +10,7 @@
 
 
 <title>
-Hameed Bistro Cashier
+Hameed Bistro Cashier POS
 </title>
 
 
@@ -25,20 +25,35 @@ Hameed Bistro Cashier
 
 <header>
 
+
 <h1>
-Hameed Bistro Cashier
+Restoran Hameed's Bistro
 </h1>
 
 
+<h2>
+Cashier POS
+</h2>
+
+
+
 <button onclick="staffLogout()">
+
 Logout
+
 </button>
+
 
 
 </header>
 
 
 
+
+
+
+
+<!-- TABLE SECTION -->
 
 
 <section id="tableSection">
@@ -49,9 +64,15 @@ Select Table
 </h2>
 
 
+
 <div id="tableList">
 
+
+Loading Tables...
+
+
 </div>
+
 
 
 </section>
@@ -61,8 +82,13 @@ Select Table
 
 
 
-<section id="orderSection"
-style="display:none;">
+
+
+
+<!-- ORDER SECTION -->
+
+
+<section id="orderSection" style="display:none;">
 
 
 
@@ -72,38 +98,133 @@ Current Order
 
 
 
+
 <h3 id="selectedTable">
 
 </h3>
 
 
 
+
+
+
+
+
+<!-- MENU -->
+
+
+<h2>
+Menu
+</h2>
+
+
+
 <div id="cashierMenu">
 
+
 Loading Menu...
+
 
 </div>
 
 
 
 
+
+
+
+
+
+<!-- BILL -->
+
+
+<h2>
+Bill Items
+</h2>
+
+
+
+<div id="billItems">
+
+
+</div>
+
+
+
+
+
+
+
 <h2 id="orderTotal">
 
+
 Total: RM 0.00
+
 
 </h2>
 
 
 
-<button onclick="sendKitchen()">
 
-Send To Kitchen
+
+
+
+
+<!-- PAYMENT BUTTONS -->
+
+
+<div class="paymentBox">
+
+
+<button onclick="selectPayment('Cash')">
+
+💵 Cash
 
 </button>
 
 
 
+<button onclick="selectPayment('Card')">
+
+💳 Card
+
+</button>
+
+
+
+
+<button onclick="selectPayment('Online')">
+
+📱 Online
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<button class="sendBtn" onclick="sendKitchen()">
+
+
+Send To Kitchen
+
+
+</button>
+
+
+
+
+
 </section>
+
+
 
 
 
