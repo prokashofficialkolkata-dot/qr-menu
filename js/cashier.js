@@ -1,6 +1,7 @@
+
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// CASHIER POS FINAL V4
+// CASHIER.JS FINAL V5
+// Restoran Hameed's Bistro
 // =====================================
 
 
@@ -10,34 +11,33 @@ import { db } from "./firebase.js";
 import {
 
 collection,
-getDocs,
-addDoc,
-serverTimestamp
 
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+query,
+
+orderBy,
+
+onSnapshot,
+
+doc,
+
+updateDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
-import {
-
-saveSales
-
-} from "./sales.js";
 
 
 
 
 
 
-let menuItems = [];
+let cashierOrders=[];
 
-let orderItems = [];
-
-let selectedTable = "";
-
-let priceType = "dine";
-
-let paymentMethod = "Cash";
 
 
 
@@ -47,17 +47,18 @@ let paymentMethod = "Cash";
 
 
 // =====================================
-// LOAD TABLES
+// LOAD ORDERS
 // =====================================
 
 
-function loadTables(){
+function loadCashierOrders(){
 
 
-const box =
 
-document.getElementById(
-"tableList"
+let box=document.getElementById(
+
+"cashierOrders"
+
 );
 
 
@@ -66,137 +67,18 @@ if(!box)return;
 
 
 
-box.innerHTML="";
 
 
 
+const q=query(
 
-for(let i=1;i<=30;i++){
+collection(db,"orders"),
 
+orderBy(
 
+"createdAt",
 
-let button =
-
-document.createElement(
-"button"
-);
-
-
-
-button.className="tableBtn";
-
-
-
-button.innerHTML =
-"Table " + i;
-
-
-
-button.onclick=function(){
-
-
-selectTable(
-"Table " + i
-);
-
-
-};
-
-
-
-
-box.appendChild(button);
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// SELECT TABLE
-// =====================================
-
-
-window.selectTable=function(table){
-
-
-
-selectedTable = table;
-
-
-
-document.getElementById(
-
-"selectedTable"
-
-).innerHTML = table;
-
-
-
-
-document.getElementById(
-
-"orderSection"
-
-).style.display="block";
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// LOAD MENU
-// =====================================
-
-
-async function loadMenu(){
-
-
-
-const box =
-
-document.getElementById(
-"cashierMenu"
-);
-
-
-
-if(!box)return;
-
-
-
-box.innerHTML="";
-
-
-
-
-
-const snap =
-
-await getDocs(
-
-collection(
-db,
-"menus"
+"desc"
 
 )
 
@@ -207,34 +89,41 @@ db,
 
 
 
-menuItems=[];
+
+onSnapshot(q,(snapshot)=>{
+
+
+
+box.innerHTML="";
+
+
+
+cashierOrders=[];
 
 
 
 
 
-snap.forEach((doc)=>{
 
 
-menuItems.push({
-
-id:doc.id,
-
-...doc.data()
-
-});
+snapshot.forEach(item=>{
 
 
 
-});
+let data=item.data();
 
 
 
 
 
-displayMenu();
 
+if(
 
+data.status==="PAID"
+
+){
+
+return;
 
 }
 
@@ -245,521 +134,161 @@ displayMenu();
 
 
 
+cashierOrders.push({
 
-// =====================================
-// DISPLAY MENU
-// =====================================
+id:item.id,
 
+...data
 
-function displayMenu(){
-
-
-
-const box =
-
-document.getElementById(
-"cashierMenu"
-);
-
-
-
-box.innerHTML="";
-
-
-
-
-
-menuItems.forEach(item=>{
-
-
-let price =
-
-priceType==="dine"
-
-?
-
-item.dineInPrice
-
-:
-
-item.takeAwayPrice;
+});
 
 
 
 
 
 
-let div =
-
-document.createElement(
-"div"
-);
 
 
 
-div.className="menuCard";
+box.innerHTML += `
+
+
+
+<div class="cashier-card">
 
 
 
 
-div.innerHTML=`
+
+<h2>
+
+Order #${item.id.slice(0,6)}
+
+</h2>
+
+
+
+
 
 
 <h3>
 
-${item.name}
+Table:
+
+${data.tableNumber || "-"}
 
 </h3>
 
 
+
+
+
+
 <p>
 
-RM ${Number(price).toFixed(2)}
+Customer:
+
+${data.customerName || ""}
 
 </p>
 
 
 
-<button onclick="addItem('${item.id}')">
 
-ADD
 
-</button>
 
+<p>
 
+Type:
 
-`;
+${data.orderType || ""}
 
+</p>
 
 
-box.appendChild(div);
 
 
 
-});
 
+<hr>
 
 
-}
 
 
 
 
+${
 
+(data.items || [])
 
+.map(item=>`
 
 
 
-// =====================================
-// CHANGE PRICE TYPE
-// =====================================
+<p>
 
-
-window.changePriceType=function(type){
-
-
-priceType = type;
-
-
-displayMenu();
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// ADD ITEM
-// =====================================
-
-
-window.addItem=function(id){
-
-
-
-let item =
-
-menuItems.find(
-
-x=>x.id===id
-
-);
-
-
-
-
-
-let exist =
-
-orderItems.find(
-
-x=>x.id===id
-
-);
-
-
-
-
-
-
-let price =
-
-priceType==="dine"
-
-?
-
-item.dineInPrice
-
-:
-
-item.takeAwayPrice;
-
-
-
-
-
-
-if(exist){
-
-
-exist.qty++;
-
-
-}
-
-else{
-
-
-orderItems.push({
-
-
-id:id,
-
-
-name:item.name,
-
-
-price:Number(price),
-
-
-qty:1
-
-
-
-});
-
-
-}
-
-
-
-updateBill();
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// UPDATE BILL
-// =====================================
-
-
-function updateBill(){
-
-
-
-let box =
-
-document.getElementById(
-"billItems"
-);
-
-
-
-if(!box)return;
-
-
-
-box.innerHTML="";
-
-
-
-
-let total=0;
-
-
-
-
-
-orderItems.forEach((item,index)=>{
-
-
-
-let amount =
-
-item.price *
-
-item.qty;
-
-
-
-total += amount;
-
-
-
-
-
-let div =
-
-document.createElement(
-"div"
-);
-
-
-
-div.className="billRow";
-
-
-
-div.innerHTML=`
-
-
-<b>
 ${item.name}
-</b>
 
-
-RM ${amount.toFixed(2)}
-
-
-
-<button onclick="changeQty(${index},-1)">
--
-</button>
-
-
+×
 
 ${item.qty}
 
+</p>
 
 
-<button onclick="changeQty(${index},1)">
-+
+
+`)
+
+.join("")
+
+}
+
+
+
+
+
+
+
+<h2>
+
+RM ${Number(
+
+data.total || 0
+
+).toFixed(2)}
+
+</h2>
+
+
+
+
+
+
+
+
+<button
+
+onclick="completePayment('${item.id}')">
+
+
+💰 PAYMENT DONE
+
+
 </button>
 
 
 
-<button onclick="removeItem(${index})">
 
-❌
 
-</button>
+
+</div>
+
 
 
 `;
 
 
 
-box.appendChild(div);
-
-
-
-});
-
-
-
-
-
-
-document.getElementById(
-
-"orderTotal"
-
-).innerHTML =
-
-"Total: RM "
-
-+
-
-total.toFixed(2);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// QUANTITY
-// =====================================
-
-
-window.changeQty=function(index,value){
-
-
-
-orderItems[index].qty += value;
-
-
-
-
-if(orderItems[index].qty<=0){
-
-
-orderItems.splice(index,1);
-
-
-}
-
-
-
-updateBill();
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// REMOVE ITEM
-// =====================================
-
-
-window.removeItem=function(index){
-
-
-orderItems.splice(index,1);
-
-
-
-updateBill();
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// PAYMENT
-// =====================================
-
-
-window.selectPayment=function(type){
-
-
-paymentMethod = type;
-
-
-
-alert(
-
-"Payment: "+type
-
-);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// SEND ORDER TO KITCHEN
-// =====================================
-
-
-window.sendKitchen=async function(){
-
-
-
-if(!selectedTable){
-
-
-alert(
-"Please Select Table"
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-if(orderItems.length===0){
-
-
-alert(
-"No Items Added"
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-let total=0;
-
-
-
-orderItems.forEach(item=>{
-
-
-total +=
-
-item.price *
-
-item.qty;
 
 
 });
@@ -770,40 +299,68 @@ item.qty;
 
 
 
+if(!cashierOrders.length){
 
 
-// SAVE KITCHEN ORDER
+
+box.innerHTML=
+
+"<h2>No Pending Orders</h2>";
 
 
-await addDoc(
 
-collection(
+}
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// =====================================
+// COMPLETE PAYMENT
+// =====================================
+
+
+window.completePayment = async function(id){
+
+
+
+try{
+
+
+
+await updateDoc(
+
+doc(
+
 db,
-"orders"
+
+"orders",
+
+id
 
 ),
 
 {
 
 
-table:selectedTable,
+status:"PAID",
 
 
-items:orderItems,
-
-
-totalAmount:total,
-
-
-paymentMethod:paymentMethod,
-
-
-status:"Pending",
-
-
-createdAt:
-
-serverTimestamp()
+paidAt:new Date()
 
 
 
@@ -815,15 +372,9 @@ serverTimestamp()
 
 
 
+showToast(
 
-
-
-// SAVE SALES
-
-
-await saveSales(
-
-orderItems
+"Payment Completed"
 
 );
 
@@ -831,29 +382,29 @@ orderItems
 
 
 
+}
+
+catch(error){
 
 
 
-alert(
+console.error(
 
-"Order Sent To Kitchen"
+"PAYMENT ERROR",
+
+error
 
 );
 
 
 
-
-
-
-orderItems=[];
-
-
-
-updateBill();
+}
 
 
 
 };
+
+
 
 
 
@@ -875,13 +426,8 @@ window.addEventListener(
 ()=>{
 
 
-loadTables();
-
-
-loadMenu();
+loadCashierOrders();
 
 
 
-}
-
-);
+});
