@@ -1,20 +1,39 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// FIREBASE.JS
-// VERSION 2
+// FIREBASE.JS FINAL V2
 // =====================================
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+
+// Firebase SDK
 
 import {
-    getAuth
+
+initializeApp
+
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+
+
+
+import {
+
+getAuth
+
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
+
+
 import {
-    getFirestore
+
+getFirestore
+
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
- // Your web app's Firebase configuration
+
+
+
+// =====================================
+// FIREBASE CONFIG
+// Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyAZEby6MscIOcgp94iMqAMehOJooyo8LQk",
     authDomain: "hameeds-bistro.firebaseapp.com",
@@ -24,16 +43,44 @@ import {
     appId: "1:918800284532:web:5a927c4852f1d657c0ca21"
   };
 
+
+
+
+
+// =====================================
+// INITIALIZE FIREBASE
+// =====================================
+
+
 const app = initializeApp(firebaseConfig);
+
+
+
+
+
+// =====================================
+// SERVICES
+// =====================================
+
 
 const auth = getAuth(app);
 
+
 const db = getFirestore(app);
+
+
+
+
+
+// =====================================
+// EXPORT
+// =====================================
+
 
 export {
 
-    app,
-    auth,
-    db
+auth,
+
+db
 
 };
