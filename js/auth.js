@@ -1,8 +1,8 @@
-
-// =====================================
-// AUTH.JS FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// AUTH SYSTEM V6 FINAL
+// CUSTOMER LOGIN
+// ==========================================
 
 
 import { auth, db } from "./firebase.js";
@@ -11,21 +11,15 @@ import { auth, db } from "./firebase.js";
 
 import {
 
-
 createUserWithEmailAndPassword,
-
 
 signInWithEmailAndPassword,
 
-
 GoogleAuthProvider,
-
 
 signInWithPopup,
 
-
 signOut
-
 
 }
 
@@ -35,19 +29,13 @@ from
 
 
 
-
-
 import {
-
 
 doc,
 
-
 setDoc,
 
-
 getDoc
-
 
 }
 
@@ -63,16 +51,18 @@ from
 
 
 
-// =====================================
+// ==========================================
 // CREATE ACCOUNT
-// =====================================
+// ==========================================
 
 
 window.createAccount = async function(){
 
 
 
-let name=document.getElementById(
+let name =
+
+document.getElementById(
 
 "createName"
 
@@ -80,7 +70,10 @@ let name=document.getElementById(
 
 
 
-let phone=document.getElementById(
+
+let phone =
+
+document.getElementById(
 
 "createPhone"
 
@@ -88,7 +81,10 @@ let phone=document.getElementById(
 
 
 
-let email=document.getElementById(
+
+let email =
+
+document.getElementById(
 
 "createEmail"
 
@@ -96,42 +92,14 @@ let email=document.getElementById(
 
 
 
-let password=document.getElementById(
+
+let password =
+
+document.getElementById(
 
 "createPassword"
 
 ).value;
-
-
-
-
-let confirm=document.getElementById(
-
-"confirmPassword"
-
-).value;
-
-
-
-
-
-
-
-if(password!==confirm){
-
-
-showToast(
-
-"Password Not Match"
-
-);
-
-
-return;
-
-
-}
-
 
 
 
@@ -143,7 +111,9 @@ try{
 
 
 
-let result = await createUserWithEmailAndPassword(
+let user =
+
+await createUserWithEmailAndPassword(
 
 auth,
 
@@ -158,8 +128,6 @@ password
 
 
 
-
-
 await setDoc(
 
 doc(
@@ -168,7 +136,7 @@ db,
 
 "users",
 
-result.user.uid
+user.user.uid
 
 ),
 
@@ -177,27 +145,18 @@ result.user.uid
 
 name:name,
 
-
 phone:phone,
-
 
 email:email,
 
-
-role:"customer",
-
+role:"CUSTOMER",
 
 createdAt:new Date()
 
 
-
 }
 
-
-
 );
-
-
 
 
 
@@ -214,17 +173,13 @@ localStorage.setItem(
 
 
 
-
 localStorage.setItem(
 
 "uid",
 
-result.user.uid
+user.user.uid
 
 );
-
-
-
 
 
 
@@ -259,10 +214,6 @@ showToast(
 
 
 
-showLogin();
-
-
-
 }
 
 catch(error){
@@ -286,27 +237,18 @@ error.message
 
 
 };
-
-
-
-
-
-
-
-
-
-
-
-// =====================================
-// LOGIN
-// =====================================
+// ==========================================
+// LOGIN USER
+// ==========================================
 
 
 window.loginUser = async function(){
 
 
 
-let email=document.getElementById(
+let email =
+
+document.getElementById(
 
 "loginEmail"
 
@@ -314,7 +256,10 @@ let email=document.getElementById(
 
 
 
-let password=document.getElementById(
+
+let password =
+
+document.getElementById(
 
 "loginPassword"
 
@@ -326,12 +271,13 @@ let password=document.getElementById(
 
 
 
-
 try{
 
 
 
-let result = await signInWithEmailAndPassword(
+let result =
+
+await signInWithEmailAndPassword(
 
 auth,
 
@@ -347,7 +293,9 @@ password
 
 
 
-let snap = await getDoc(
+let snap =
+
+await getDoc(
 
 doc(
 
@@ -367,25 +315,26 @@ result.user.uid
 
 
 
-let data={
-
-email:email
-
-};
-
-
-
-
-
-
 if(snap.exists()){
 
 
-data=snap.data();
+
+let data = snap.data();
+
+
+
+
+localStorage.setItem(
+
+"customer",
+
+JSON.stringify(data)
+
+);
+
 
 
 }
-
 
 
 
@@ -402,24 +351,11 @@ localStorage.setItem(
 
 
 
-
 localStorage.setItem(
 
 "uid",
 
 result.user.uid
-
-);
-
-
-
-
-
-localStorage.setItem(
-
-"customer",
-
-JSON.stringify(data)
 
 );
 
@@ -434,13 +370,6 @@ showToast(
 "Login Successful"
 
 );
-
-
-
-
-
-goHome();
-
 
 
 
@@ -478,16 +407,19 @@ showToast(
 
 
 
-// =====================================
+// ==========================================
 // GOOGLE LOGIN
-// =====================================
+// ==========================================
 
 
 window.googleLogin = async function(){
 
 
 
-let provider = new GoogleAuthProvider();
+let provider =
+
+new GoogleAuthProvider();
+
 
 
 
@@ -498,7 +430,9 @@ try{
 
 
 
-let result = await signInWithPopup(
+let result =
+
+await signInWithPopup(
 
 auth,
 
@@ -510,7 +444,9 @@ provider
 
 
 
-let user=result.user;
+
+
+let user = result.user;
 
 
 
@@ -535,15 +471,11 @@ user.uid
 
 name:user.displayName || "",
 
-
 email:user.email || "",
-
 
 phone:"",
 
-
-role:"customer"
-
+role:"CUSTOMER"
 
 
 },
@@ -556,8 +488,6 @@ merge:true
 
 
 }
-
-
 
 );
 
@@ -577,8 +507,6 @@ localStorage.setItem(
 
 
 
-
-
 localStorage.setItem(
 
 "uid",
@@ -586,6 +514,7 @@ localStorage.setItem(
 user.uid
 
 );
+
 
 
 
@@ -613,17 +542,13 @@ phone:""
 
 
 
+
 showToast(
 
 "Google Login Success"
 
 );
 
-
-
-
-
-goHome();
 
 
 
@@ -661,9 +586,9 @@ showToast(
 
 
 
-// =====================================
+// ==========================================
 // LOGOUT
-// =====================================
+// ==========================================
 
 
 window.logoutUser=function(){
@@ -671,7 +596,6 @@ window.logoutUser=function(){
 
 
 signOut(auth);
-
 
 
 
@@ -701,7 +625,6 @@ localStorage.removeItem(
 
 
 
-
 showToast(
 
 "Logged Out"
@@ -712,10 +635,6 @@ showToast(
 
 
 
-goHome();
-
-
-
 };
 
 
@@ -725,20 +644,45 @@ goHome();
 
 
 
-// =====================================
-// SAVE GOOGLE PROFILE
-// =====================================
+
+// ==========================================
+// CHECK CURRENT USER
+// ==========================================
 
 
-window.saveGoogleProfile=function(){
+auth.onAuthStateChanged(
+
+(user)=>{
+
+
+if(user){
 
 
 
-showToast(
+localStorage.setItem(
 
-"Profile Saved"
+"loggedIn",
+
+"yes"
 
 );
 
 
-};
+
+localStorage.setItem(
+
+"uid",
+
+user.uid
+
+);
+
+
+
+}
+
+
+
+}
+
+);
