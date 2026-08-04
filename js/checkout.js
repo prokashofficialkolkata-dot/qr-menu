@@ -1,11 +1,12 @@
-
-// =====================================
-// CHECKOUT.JS FINAL V5
-// Restoran Hameed's Bistro
-// =====================================
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// CHECKOUT SYSTEM V6 FINAL
+// PART 1
+// ==========================================
 
 
 import { db } from "./firebase.js";
+
 
 
 import {
@@ -29,19 +30,115 @@ from
 
 
 
-
-// =====================================
+// ==========================================
 // OPEN CHECKOUT
-// =====================================
+// ==========================================
 
 
-window.openCheckoutForm=function(){
+window.checkout=function(){
 
 
 
-let customer = JSON.parse(
+let cart =
 
-localStorage.getItem("customer")
+JSON.parse(
+
+localStorage.getItem(
+
+"cart"
+
+)
+
+)
+
+|| [];
+
+
+
+
+
+
+
+if(cart.length===0){
+
+
+showToast(
+
+"Cart Empty"
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+
+document.getElementById(
+
+"cartPage"
+
+).style.display="none";
+
+
+
+
+
+
+
+document.getElementById(
+
+"checkoutPage"
+
+).style.display="block";
+
+
+
+
+
+
+
+loadCustomerCheckout();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+// ==========================================
+// LOAD CUSTOMER DATA
+// ==========================================
+
+
+function loadCustomerCheckout(){
+
+
+
+let customer =
+
+JSON.parse(
+
+localStorage.getItem(
+
+"customer"
+
+)
 
 )
 
@@ -51,7 +148,11 @@ localStorage.getItem("customer")
 
 
 
-let name=document.getElementById(
+
+
+let name =
+
+document.getElementById(
 
 "customerName"
 
@@ -59,11 +160,14 @@ let name=document.getElementById(
 
 
 
-let phone=document.getElementById(
+let phone =
+
+document.getElementById(
 
 "phone"
 
 );
+
 
 
 
@@ -73,7 +177,10 @@ let phone=document.getElementById(
 if(name){
 
 
-name.value = customer.name || "";
+name.value =
+
+customer.name || "";
+
 
 
 }
@@ -83,147 +190,35 @@ name.value = customer.name || "";
 if(phone){
 
 
-phone.value = customer.phone || "";
+phone.value =
+
+customer.phone || "";
+
 
 
 }
 
 
 
-
-
-
-let form=document.getElementById(
-
-"checkoutForm"
-
-);
-
-
-
-let login=document.getElementById(
-
-"loginBox"
-
-);
-
-
-
-if(form){
-
-
-form.style.display="block";
-
-
 }
-
-
-
-if(login){
-
-
-login.style.display="none";
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// CHECKOUT BUTTON
-// =====================================
-
-
-window.checkout=function(){
-
-
-
-let cart = JSON.parse(
-
-localStorage.getItem("cart")
-
-)
-
-|| [];
-
-
-
-
-
-
-if(cart.length===0){
-
-
-showToast("Cart Empty");
-
-
-return;
-
-
-}
-
-
-
-
-
-
-document.getElementById("cartPage")
-
-.style.display="none";
-
-
-
-
-document.getElementById("checkoutPage")
-
-.style.display="block";
-
-
-
-
-
-if(window.openCheckoutForm){
-
-
-openCheckoutForm();
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
+// ==========================================
 // PLACE ORDER
-// =====================================
+// ==========================================
 
 
 window.placeOrder = async function(){
 
 
 
-let cart = JSON.parse(
+let cart =
 
-localStorage.getItem("cart")
+JSON.parse(
+
+localStorage.getItem(
+
+"cart"
+
+)
 
 )
 
@@ -233,10 +228,16 @@ localStorage.getItem("cart")
 
 
 
+
+
 if(cart.length===0){
 
 
-showToast("Cart Empty");
+showToast(
+
+"Cart Empty"
+
+);
 
 
 return;
@@ -250,7 +251,9 @@ return;
 
 
 
-let name=document.getElementById(
+let name =
+
+document.getElementById(
 
 "customerName"
 
@@ -260,7 +263,10 @@ let name=document.getElementById(
 
 
 
-let phone=document.getElementById(
+
+let phone =
+
+document.getElementById(
 
 "phone"
 
@@ -270,12 +276,15 @@ let phone=document.getElementById(
 
 
 
-let table=document.getElementById(
+
+
+let table =
+
+document.getElementById(
 
 "tableNumber"
 
 ).value;
-
 
 
 
@@ -306,11 +315,23 @@ return;
 
 
 
-let total = cart.reduce(
+let total =
+
+cart.reduce(
 
 (sum,item)=>
 
-sum+(item.price*item.qty),
+sum +
+
+(
+
+Number(item.price)
+
+*
+
+Number(item.qty)
+
+),
 
 0
 
@@ -327,7 +348,9 @@ sum+(item.price*item.qty),
 let order = {
 
 
+
 customerName:name,
+
 
 
 phone:phone,
@@ -359,12 +382,15 @@ items:cart,
 
 
 
+
 total:total,
 
 
 
 
+
 status:"NEW",
+
 
 
 
@@ -389,13 +415,23 @@ try{
 
 
 
+let result =
+
 await addDoc(
 
-collection(db,"orders"),
+collection(
+
+db,
+
+"orders"
+
+),
 
 order
 
 );
+
+
 
 
 
@@ -406,7 +442,6 @@ showToast(
 "Order Sent Kitchen"
 
 );
-
 
 
 
@@ -424,13 +459,13 @@ localStorage.removeItem(
 
 
 
+
+
 setTimeout(()=>{
 
 
 goHome();
 
-
-location.reload();
 
 
 },1500);
@@ -449,7 +484,7 @@ catch(error){
 
 console.error(
 
-"ORDER ERROR",
+"Order Error",
 
 error
 
@@ -479,47 +514,21 @@ showToast(
 
 
 
-// =====================================
-// TOAST
-// =====================================
+// ==========================================
+// AUTO LOAD
+// ==========================================
 
 
-window.showToast = window.showToast || function(msg){
+window.addEventListener(
 
+"load",
 
-
-let t=document.getElementById(
-
-"toast"
-
-);
+()=>{
 
 
 
-if(t){
+loadCustomerCheckout();
 
 
 
-t.innerHTML=msg;
-
-
-
-t.classList.add("show");
-
-
-
-setTimeout(()=>{
-
-
-t.classList.remove("show");
-
-
-},2000);
-
-
-
-}
-
-
-
-};
+});
