@@ -1,48 +1,668 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 
 <head>
 
 <meta charset="UTF-8">
 
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 <title>
 Restoran Hameed's Bistro
 </title>
 
-<link rel="icon" href="data:,">
+<link rel="icon" href="images/logo.png">
+
 <link rel="stylesheet" href="style.css">
 
-
 </head>
-
 
 
 <body>
 
 
+<!-- ==============================
+WELCOME PAGE
+============================== -->
 
-<!-- HEADER -->
 
-<header class="header">
+<div id="welcome">
+
+
+<div class="top-bar">
+
+
+<button onclick="refreshPage()">
+
+🔄 Refresh
+
+</button>
+
+
+<button onclick="showCart()">
+
+🛒 Cart
+
+(<span id="cartCount">0</span>)
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="logo-circle">
+
+
+<img 
+src="images/logo.png"
+class="logo">
+
+
+</div>
+
+
+
 
 
 <h1>
+
 Restoran Hameed's Bistro
+
 </h1>
 
 
-<p>
-Digital QR Menu
+<h2>
+
+QR Menu & Ordering System
+
+</h2>
+
+
+
+
+
+<div class="languages">
+
+
+<button onclick="setLanguage('en')">
+English
+</button>
+
+
+<button onclick="setLanguage('ms')">
+Malay
+</button>
+
+
+<button onclick="setLanguage('ta')">
+Tamil
+</button>
+
+
+<button onclick="setLanguage('zh')">
+Chinese
+</button>
+
+
+<button onclick="setLanguage('hi')">
+Hindi
+</button>
+
+
+<button onclick="setLanguage('bn')">
+Bangla
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="order-type">
+
+
+<button
+
+class="dine-btn"
+
+onclick="startMenu('DINE IN')">
+
+
+🍽 DINE IN
+
+
+</button>
+
+
+
+
+
+<button
+
+class="take-btn"
+
+onclick="startMenu('TAKE AWAY')">
+
+
+🥡 TAKE AWAY
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="welcome-login">
+
+
+<button
+
+id="customerBtn"
+
+class="login-btn"
+
+onclick="customerAction()">
+
+
+
+👤 Customer Login
+
+
+
+</button>
+
+
+</div>
+
+
+
+</div>
+<!-- ==============================
+MENU PAGE
+============================== -->
+
+
+<div id="menuPage" style="display:none;">
+
+
+
+<div class="top-bar">
+
+
+<button onclick="goBack()">
+
+⬅ Back
+
+</button>
+
+
+
+<button onclick="goHome()">
+
+🏠 Home
+
+</button>
+
+
+
+<button onclick="refreshPage()">
+
+🔄 Refresh
+
+</button>
+
+
+
+<button onclick="showCart()">
+
+🛒 Cart
+
+(<span id="cartCount2">0</span>)
+
+</button>
+
+
+
+<button
+
+id="logoutBtn"
+
+onclick="logoutUser()"
+
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- LANGUAGE -->
+
+
+<div class="languages small-language">
+
+
+<button onclick="setLanguage('en')">
+English
+</button>
+
+
+<button onclick="setLanguage('ms')">
+Malay
+</button>
+
+
+<button onclick="setLanguage('ta')">
+Tamil
+</button>
+
+
+<button onclick="setLanguage('zh')">
+Chinese
+</button>
+
+
+<button onclick="setLanguage('hi')">
+Hindi
+</button>
+
+
+<button onclick="setLanguage('bn')">
+Bangla
+</button>
+
+
+</div>
+
+
+
+
+
+
+<!-- ORDER TYPE DISPLAY -->
+
+
+<div class="order-status">
+
+
+<h3>
+
+Order Type:
+
+<span id="orderTypeDisplay">
+
+</span>
+
+
+</h3>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ==============================
+TOP 15 POPULAR ITEMS
+============================== -->
+
+
+<div id="popularSection">
+
+
+<h2>
+
+⭐ Top 15 Popular Items
+
+</h2>
+
+
+
+<div id="popularItems">
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ==============================
+ALL MENU ITEMS
+============================== -->
+
+
+<div class="menu-title">
+
+
+<h2>
+
+🍽 Our Menu
+
+</h2>
+
+
+</div>
+
+
+
+
+
+<div id="itemBox">
+
+
+</div>
+
+
+
+
+
+</div>
+<!-- ==============================
+CART PAGE
+============================== -->
+
+
+<div id="cartPage" style="display:none;">
+
+
+
+<div class="top-bar">
+
+
+<button onclick="goBack()">
+
+⬅ Back
+
+</button>
+
+
+
+<button onclick="goHome()">
+
+🏠 Home
+
+</button>
+
+
+
+<button onclick="refreshPage()">
+
+🔄 Refresh
+
+</button>
+
+
+
+<button onclick="showCart()">
+
+🛒 Cart
+
+(<span id="cartCount3">0</span>)
+
+</button>
+
+
+
+
+<button
+
+id="logoutBtnCart"
+
+onclick="logoutUser()"
+
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<h2>
+
+🛒 Your Cart
+
+</h2>
+
+
+
+
+<div id="cartItems">
+
+</div>
+
+
+
+
+
+<h3 id="total">
+
+Total : RM 0.00
+
+</h3>
+
+
+
+
+
+<button
+
+class="main-btn"
+
+onclick="checkout()">
+
+
+
+✅ CHECKOUT
+
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==============================
+CHECKOUT PAGE
+============================== -->
+
+
+<div id="checkoutPage" style="display:none;">
+
+
+
+<div class="top-bar">
+
+
+<button onclick="goBack()">
+
+⬅ Back
+
+</button>
+
+
+
+<button onclick="goHome()">
+
+🏠 Home
+
+</button>
+
+
+
+<button
+
+id="logoutCheckoutBtn"
+
+onclick="logoutUser()"
+
+style="display:none;">
+
+
+🚪 Logout
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- LOGIN -->
+
+
+<div id="loginBox" class="auth-box">
+
+
+
+<div class="logo-circle">
+
+<img
+
+src="images/logo.png"
+
+class="logo">
+
+</div>
+
+
+
+
+
+<h2>
+
+Customer Login
+
+</h2>
+
+
+
+
+
+<input
+
+id="loginEmail"
+
+type="email"
+
+placeholder="Email Address">
+
+
+
+
+
+<input
+
+id="loginPassword"
+
+type="password"
+
+placeholder="Password">
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="loginUser()">
+
+
+LOGIN
+
+
+</button>
+
+
+
+
+
+<button
+
+class="google-btn"
+
+onclick="googleLogin()">
+
+
+🌐 Sign In With Google
+
+
+</button>
+
+
+
+
+
+<p
+
+class="link"
+
+onclick="showCreateAccount()">
+
+
+
+Create Account
+
+
+
 </p>
 
 
-</header>
+
+</div>
 
 
 
@@ -51,27 +671,218 @@ Digital QR Menu
 
 
 
-<!-- DINE / TAKE AWAY -->
 
-<div class="price-switch">
+<!-- CREATE ACCOUNT -->
 
 
-<button onclick="changeMenuType('dine')">
+<div
 
-🍽 Dine In
+id="createBox"
+
+class="auth-box"
+
+style="display:none;">
+
+
+
+<div class="logo-circle">
+
+<img
+
+src="images/logo.png"
+
+class="logo">
+
+</div>
+
+
+
+
+
+<h2>
+
+Create Account
+
+</h2>
+
+
+
+
+
+<input
+
+id="createName"
+
+placeholder="Customer Name">
+
+
+
+
+
+<input
+
+id="createPhone"
+
+placeholder="Phone Number">
+
+
+
+
+
+<input
+
+id="createEmail"
+
+type="email"
+
+placeholder="Email Address">
+
+
+
+
+
+<input
+
+id="createPassword"
+
+type="password"
+
+placeholder="Password">
+
+
+
+
+
+<input
+
+id="confirmPassword"
+
+type="password"
+
+placeholder="Confirm Password">
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="createAccount()">
+
+
+
+CREATE ACCOUNT
+
+
 
 </button>
 
 
 
-<button onclick="changeMenuType('take')">
 
-🥡 Take Away
+<p
+
+class="link"
+
+onclick="showLogin()">
+
+
+
+← Back To Login
+
+
+
+</p>
+
+
+
+</div>
+<!-- ==============================
+GOOGLE PROFILE
+============================== -->
+
+
+<div
+
+id="googleProfileBox"
+
+class="auth-box"
+
+style="display:none;">
+
+
+
+<div class="logo-circle">
+
+<img
+
+src="images/logo.png"
+
+class="logo">
+
+</div>
+
+
+
+
+
+<h2>
+
+Complete Profile
+
+</h2>
+
+
+
+
+
+<input
+
+id="googleName"
+
+placeholder="Customer Name">
+
+
+
+
+
+<input
+
+id="googleEmail"
+
+readonly>
+
+
+
+
+
+<input
+
+id="googlePhone"
+
+placeholder="Phone Number">
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="saveGoogleProfile()">
+
+
+
+SAVE PROFILE
+
+
 
 </button>
 
 
-
 </div>
 
 
@@ -82,61 +893,179 @@ Digital QR Menu
 
 
 
-<!-- POPULAR ITEMS -->
+<!-- ==============================
+CUSTOMER PROFILE
+============================== -->
 
 
-<section class="section">
+<div
+
+id="customerProfileBox"
+
+class="auth-box"
+
+style="display:none;">
+
+
+
+<div class="logo-circle">
+
+<img
+
+src="images/logo.png"
+
+class="logo">
+
+</div>
+
+
+
 
 
 <h2>
-🔥 Top 15 Popular Items
+
+Customer Details
+
 </h2>
 
 
 
-<div id="popularItems" class="menu-grid">
 
 
-Loading Popular Items...
+<h3 id="profileName"></h3>
+
+
+<h3 id="profileEmail"></h3>
+
+
+<h3 id="profilePhone"></h3>
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="goHome()">
+
+
+
+CLOSE
+
+
+
+</button>
 
 
 </div>
 
 
 
-</section>
 
 
 
 
 
 
+<!-- ==============================
+CHECKOUT FORM
+============================== -->
+
+
+<div
+
+id="checkoutForm"
+
+class="auth-box"
+
+style="display:none;">
 
 
 
-<!-- CATEGORY -->
+<div class="logo-circle">
+
+<img
+
+src="images/logo.png"
+
+class="logo">
+
+</div>
 
 
-<section class="section">
+
 
 
 <h2>
-Select Category
+
+Checkout
+
 </h2>
 
 
 
-<div id="categoryList" class="category-grid">
 
 
-Loading Categories...
+<input
+
+id="customerName"
+
+readonly>
+
+
+
+
+
+<input
+
+id="phone"
+
+readonly>
+
+
+
+
+
+<input
+
+id="tableNumber"
+
+placeholder="Table Number">
+
+
+
+
+
+<button
+
+class="login-btn"
+
+onclick="placeOrder()">
+
+
+
+PLACE ORDER
+
+
+
+</button>
 
 
 </div>
 
 
 
-</section>
+
+
+
+
+
+
+<!-- TOAST -->
+
+<div id="toast"></div>
 
 
 
@@ -146,54 +1075,15 @@ Loading Categories...
 
 
 
-<!-- MENU LIST -->
-
-
-<section class="section">
-
-
-<h2 id="categoryTitle">
-
-Menu Items
-
-</h2>
-
-
-
-<div id="menuItems" class="menu-grid">
-
-
-Please Select Category
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- FOOTER -->
+<!-- ==============================
+FOOTER
+============================== -->
 
 
 <footer>
 
 
-<p>
-Thank You For Visiting
-</p>
-
-
-<p>
-Restoran Hameed's Bistro
-</p>
+© 2026 Rudranshi Rakshit | All Rights Reserved
 
 
 </footer>
@@ -206,18 +1096,31 @@ Restoran Hameed's Bistro
 
 
 
-<!-- FIREBASE -->
+<!-- ==============================
+JAVASCRIPT
+============================== -->
 
 
 <script type="module" src="js/firebase.js"></script>
 
 
-<script type="module" src="js/menu.js"></script>
+<script type="module" src="js/auth.js"></script>
 
+
+<script type="module" src="js/checkout.js"></script>
+
+
+
+<script src="js/main.js"></script>
+
+
+<script src="js/menu.js"></script>
+
+
+<script src="js/cart.js"></script>
 
 
 
 </body>
-
 
 </html>
