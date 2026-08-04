@@ -1,23 +1,16 @@
 // =====================================
-// HAMEED BISTRO
-// CUSTOMER MENU JS V4 FINAL
+// RESTORAN HAMEED'S BISTRO
+// CUSTOMER QR MENU V4 FINAL
 // =====================================
 
 
-import {
-
-db
-
-} from "./firebase.js";
+import { db } from "./firebase.js";
 
 
 import {
 
 collection,
-getDocs,
-query,
-orderBy,
-limit
+getDocs
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -27,9 +20,7 @@ limit
 
 let allMenu = [];
 
-let currentType = "dine";
-
-
+let currentPriceType = "dine";
 
 
 
@@ -38,17 +29,17 @@ let currentType = "dine";
 
 
 // =====================================
-// LOAD MENU
+// LOAD ALL MENU
 // =====================================
 
 
 async function loadMenu(){
 
 
+try{
 
-const snap =
 
-await getDocs(
+const snapshot = await getDocs(
 
 collection(
 db,
@@ -60,37 +51,55 @@ db,
 
 
 
-
 allMenu=[];
 
 
 
-snap.forEach((item)=>{
+
+snapshot.forEach((doc)=>{
 
 
 allMenu.push({
 
-id:item.id,
+id:doc.id,
 
-...item.data()
+...doc.data()
+
+});
+
 
 });
 
 
 
-});
 
 
+createCategoryButtons();
 
 
-
-createCategories();
-
-
-showPopular();
+showPopularItems();
 
 
 }
+
+catch(error){
+
+
+console.log(
+"Menu Load Error:",
+error
+);
+
+
+}
+
+
+
+}
+
+
+
+
 
 
 
@@ -101,7 +110,7 @@ showPopular();
 // =====================================
 
 
-function createCategories(){
+function createCategoryButtons(){
 
 
 
@@ -122,7 +131,6 @@ box.innerHTML="";
 
 
 
-
 let categories =
 
 [
@@ -131,7 +139,7 @@ let categories =
 
 allMenu.map(
 
-x=>x.category
+item=>item.category
 
 )
 
@@ -143,12 +151,10 @@ x=>x.category
 
 
 
+categories.forEach((category)=>{
 
 
-categories.forEach(cat=>{
-
-
-let btn =
+let button =
 
 document.createElement(
 "button"
@@ -156,21 +162,29 @@ document.createElement(
 
 
 
-btn.innerHTML = cat;
+button.className =
+"categoryBtn";
 
 
 
-btn.onclick = ()=>{
+button.innerHTML =
+category;
 
 
-openCategory(cat);
+
+
+button.onclick=function(){
+
+
+openCategory(category);
 
 
 };
 
 
 
-box.appendChild(btn);
+
+box.appendChild(button);
 
 
 
@@ -197,18 +211,42 @@ window.openCategory=function(category){
 
 
 
+let title =
+
+document.getElementById(
+"categoryTitle"
+);
+
+
+
+if(title){
+
+title.innerHTML =
+category;
+
+}
+
+
+
+
+
+
 let items =
 
 allMenu.filter(
 
-x=>x.category===category
+item =>
+
+item.category === category
 
 );
 
 
 
 
-showItems(items);
+
+
+displayItems(items);
 
 
 
@@ -223,11 +261,11 @@ showItems(items);
 
 
 // =====================================
-// SHOW ITEMS
+// DISPLAY MENU ITEMS
 // =====================================
 
 
-function showItems(items){
+function displayItems(items){
 
 
 
@@ -249,28 +287,58 @@ box.innerHTML="";
 
 
 
-items.forEach(item=>{
+if(items.length===0){
+
+
+box.innerHTML=
+
+"No Items Found";
+
+
+return;
+
+
+}
 
 
 
-let price =
 
-currentType==="dine"
 
-?
 
-item.dineInPrice
 
-:
+items.forEach((item)=>{
 
+
+
+let price;
+
+
+
+if(currentPriceType==="dine"){
+
+
+price =
+item.dineInPrice;
+
+
+}
+
+else{
+
+
+price =
 item.takeAwayPrice;
 
 
+}
 
 
 
 
-let div =
+
+
+
+let card =
 
 document.createElement(
 "div"
@@ -278,12 +346,14 @@ document.createElement(
 
 
 
-div.className="menuCard";
+card.className =
+"menuCard";
 
 
 
 
-div.innerHTML = `
+
+card.innerHTML = `
 
 
 <h3>
@@ -293,10 +363,9 @@ ${item.name}
 </h3>
 
 
-
 <p>
 
-RM ${Number(price).toFixed(2)}
+RM ${Number(price || 0).toFixed(2)}
 
 </p>
 
@@ -307,7 +376,8 @@ RM ${Number(price).toFixed(2)}
 
 
 
-box.appendChild(div);
+
+box.appendChild(card);
 
 
 
@@ -331,7 +401,7 @@ box.appendChild(div);
 // =====================================
 
 
-async function showPopular(){
+async function showPopularItems(){
 
 
 
@@ -348,27 +418,7 @@ if(!box)return;
 
 
 
-const q =
-
-query(
-
-collection(
-db,
-"sales"
-),
-
-orderBy(
-
-"qty",
-
-"desc"
-
-),
-
-limit(15)
-
-);
-
+box.innerHTML="";
 
 
 
@@ -378,65 +428,167 @@ limit(15)
 try{
 
 
-const snap =
 
-await getDocs(q);
+const salesSnap =
 
+await getDocs(
 
+collection(
+db,
+"sales"
+)
 
-box.innerHTML="";
-
-
-
-
-
-snap.forEach(item=>{
-
-
-let data=item.data();
+);
 
 
 
 
-let div =
+
+let sales=[];
+
+
+
+salesSnap.forEach((doc)=>{
+
+
+sales.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+
+});
+
+
+
+
+
+
+sales.sort(
+
+(a,b)=>
+
+Number(b.qty || 0)
+
+-
+
+Number(a.qty || 0)
+
+);
+
+
+
+
+
+
+
+let top15 =
+
+sales.slice(
+0,
+15
+);
+
+
+
+
+
+
+
+top15.forEach((item)=>{
+
+
+
+let card =
+
 document.createElement(
 "div"
 );
 
 
 
-div.className="menuCard";
+card.className =
+"menuCard popular";
 
 
 
-div.innerHTML=`
+
+
+let menu =
+
+allMenu.find(
+
+x=>
+
+x.name===item.name
+
+);
+
+
+
+
+
+let price=0;
+
+
+
+if(menu){
+
+
+
+price =
+
+currentPriceType==="dine"
+
+?
+
+menu.dineInPrice
+
+:
+
+menu.takeAwayPrice;
+
+
+}
+
+
+
+
+
+
+card.innerHTML = `
 
 
 <h3>
 
-${data.name}
+🔥 ${item.name}
 
 </h3>
 
 
+
 <p>
 
-Sold:
-${data.qty}
+RM ${Number(price).toFixed(2)}
 
 </p>
-
 
 
 `;
 
 
 
-box.appendChild(div);
+
+
+box.appendChild(card);
 
 
 
 });
+
 
 
 
@@ -446,9 +598,10 @@ box.appendChild(div);
 catch(error){
 
 
+
 console.log(
 
-"Popular error",
+"Popular item error",
 
 error
 
@@ -471,7 +624,7 @@ error
 
 
 // =====================================
-// DINE / TAKE AWAY SWITCH
+// CHANGE DINE / TAKE AWAY
 // =====================================
 
 
@@ -479,11 +632,57 @@ window.changeMenuType=function(type){
 
 
 
-currentType=type;
+currentPriceType = type;
 
 
 
-showItems(allMenu);
+let currentItems =
+
+document.getElementById(
+"menuItems"
+);
+
+
+
+if(currentItems){
+
+
+
+let category =
+
+document.getElementById(
+"categoryTitle"
+).innerHTML;
+
+
+
+
+
+let items =
+
+allMenu.filter(
+
+x=>
+
+x.category===category
+
+);
+
+
+
+
+
+displayItems(items);
+
+
+
+}
+
+
+
+
+
+showPopularItems();
 
 
 
@@ -497,9 +696,9 @@ showItems(allMenu);
 
 
 
-
-
+// =====================================
 // START
+// =====================================
 
 
 window.addEventListener(
