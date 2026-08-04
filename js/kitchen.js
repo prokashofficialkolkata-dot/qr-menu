@@ -1,14 +1,10 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// KITCHEN DISPLAY SYSTEM V3
+// KITCHEN DISPLAY SYSTEM V5 GRID
 // =====================================
 
 
-import {
-
-db
-
-} from "./firebase.js";
+import { db } from "./firebase.js";
 
 
 import {
@@ -27,36 +23,37 @@ serverTimestamp
 
 
 
+
+
 // =====================================
-// LIVE KITCHEN ORDERS
+// LOAD LIVE ORDERS
 // =====================================
 
 
 function loadKitchenOrders(){
 
 
+
 const box =
+
 document.getElementById(
 "kitchenOrders"
 );
 
 
 
-if(!box)return;
-
-
-
 const q =
+
 query(
 
-collection(
-db,
-"orders"
-),
+collection(db,"orders"),
 
 orderBy(
+
 "createdAt",
+
 "desc"
+
 )
 
 );
@@ -65,26 +62,29 @@ orderBy(
 
 
 
-onSnapshot(
 
-q,
+onSnapshot(q,(snapshot)=>{
 
-(snapshot)=>{
 
 
 box.innerHTML="";
 
 
 
-snapshot.forEach((item)=>{
 
 
 
-const order =
-item.data();
+snapshot.forEach((orderDoc)=>{
 
 
 
+let order = orderDoc.data();
+
+
+
+
+
+// hide completed
 
 
 if(order.status==="Completed"){
@@ -97,42 +97,29 @@ return;
 
 
 
-const card =
-document.createElement(
-"div"
-);
 
-
-
-card.className =
-"kitchenCard " +
-(order.status || "Pending");
+let itemsHTML="";
 
 
 
 
 
-
-let items="";
-
+order.items.forEach(item=>{
 
 
-(order.items || [])
-.forEach((food)=>{
+itemsHTML += `
 
+<div class="itemRow">
 
-items += `
+${item.name}
 
-<div class="foodItem">
-
-${food.name}
-
-× ${food.qty}
+<strong>
+x${item.qty}
+</strong>
 
 </div>
 
 `;
-
 
 
 });
@@ -142,39 +129,119 @@ ${food.name}
 
 
 
+
+
+
+let card =
+
+document.createElement("div");
+
+
+
+card.className=
+
+"kitchenCard";
+
+
+
+
+
+
+// status class
+
+
+if(order.status==="Pending"){
+
+
+card.classList.add(
+"pending"
+);
+
+
+}
+
+
+
+if(order.status==="Preparing"){
+
+
+card.classList.add(
+"preparing"
+);
+
+
+}
+
+
+
+if(order.status==="Ready"){
+
+
+card.classList.add(
+"ready"
+);
+
+
+}
+
+
+
+
+
+
+
+
 card.innerHTML = `
 
 
-<h2>
-ORDER
-</h2>
 
-
-<h3>
-${order.customerName || "Customer"}
-</h3>
-
-
-${items}
-
+<div class="orderHeader">
 
 
 <h2>
-${order.status || "Pending"}
+
+${order.table}
+
 </h2>
 
 
+<p>
+
+${order.status}
+
+</p>
 
 
-<button onclick="changeKitchenStatus('${item.id}','Preparing')">
+</div>
 
-Preparing
+
+
+
+
+<div class="itemsBox">
+
+${itemsHTML}
+
+</div>
+
+
+
+
+
+
+<div class="buttonBox">
+
+
+
+<button onclick="changeOrderStatus('${orderDoc.id}','Preparing')">
+
+Cooking
 
 </button>
 
 
 
-<button onclick="changeKitchenStatus('${item.id}','Ready')">
+<button onclick="changeOrderStatus('${orderDoc.id}','Ready')">
 
 Ready
 
@@ -182,14 +249,22 @@ Ready
 
 
 
-<button onclick="changeKitchenStatus('${item.id}','Completed')">
+<button onclick="changeOrderStatus('${orderDoc.id}','Completed')">
 
 Done
 
 </button>
 
 
+
+</div>
+
+
+
 `;
+
+
+
 
 
 
@@ -201,15 +276,13 @@ box.appendChild(card);
 
 
 
-}
-
-
-
-);
+});
 
 
 
 }
+
+
 
 
 
@@ -222,13 +295,14 @@ box.appendChild(card);
 // =====================================
 
 
-window.changeKitchenStatus = async function(
+window.changeOrderStatus = async function(
 
 id,
 
 status
 
 ){
+
 
 
 await updateDoc(
@@ -241,10 +315,15 @@ id
 
 {
 
+
 status:status,
 
+
 updatedAt:
+
 serverTimestamp()
+
+
 
 }
 
@@ -260,7 +339,12 @@ serverTimestamp()
 
 
 
+
+
+// =====================================
 // START
+// =====================================
+
 
 window.addEventListener(
 
@@ -275,12 +359,3 @@ loadKitchenOrders();
 }
 
 );
-
-
-
-
-export {
-
-loadKitchenOrders
-
-};
