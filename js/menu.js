@@ -1,26 +1,77 @@
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// CUSTOMER QR MENU V4 FINAL
+// MENU SYSTEM V5
+// Restoran Hameed's Bistro
 // =====================================
 
 
 import { db } from "./firebase.js";
 
-
 import {
-
 collection,
-getDocs
+getDocs,
+query,
+orderBy,
+limit
+}
 
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
 
 
-let allMenu = [];
+let menuData = [];
 
-let currentPriceType = "dine";
+let currentOrderType = "DINE IN";
+
+
+
+
+
+
+// =====================================
+// START MENU
+// =====================================
+
+
+window.startMenu = function(type){
+
+currentOrderType = type;
+
+
+localStorage.setItem(
+"orderType",
+type
+);
+
+
+document.getElementById("welcome")
+.style.display="none";
+
+
+document.getElementById("menuPage")
+.style.display="block";
+
+
+
+let display =
+document.getElementById("orderTypeDisplay");
+
+
+if(display){
+
+display.innerHTML = type;
+
+}
+
+
+
+loadMenu();
+
+
+};
 
 
 
@@ -29,7 +80,7 @@ let currentPriceType = "dine";
 
 
 // =====================================
-// LOAD ALL MENU
+// LOAD MENU FROM FIRESTORE
 // =====================================
 
 
@@ -39,27 +90,21 @@ async function loadMenu(){
 try{
 
 
-const snapshot = await getDocs(
-
-collection(
-db,
-"menus"
-)
-
+const snapshot =
+await getDocs(
+collection(db,"menus")
 );
 
 
 
-
-allMenu=[];
-
+menuData=[];
 
 
 
-snapshot.forEach((doc)=>{
+snapshot.forEach(doc=>{
 
 
-allMenu.push({
+menuData.push({
 
 id:doc.id,
 
@@ -73,11 +118,11 @@ id:doc.id,
 
 
 
+showPopular();
 
-createCategoryButtons();
 
+showAllMenu();
 
-showPopularItems();
 
 
 }
@@ -85,7 +130,7 @@ showPopularItems();
 catch(error){
 
 
-console.log(
+console.error(
 "Menu Load Error:",
 error
 );
@@ -96,264 +141,51 @@ error
 
 
 }
-
-
-
-
-
-
-
-
-
 // =====================================
-// CREATE CATEGORY BUTTON
+// SHOW TOP 15 POPULAR ITEMS
 // =====================================
 
 
-function createCategoryButtons(){
+window.showPopular = function(){
+
+
+let box = 
+document.getElementById("popularItems");
 
 
 
-const box =
-
-document.getElementById(
-"categoryList"
-);
+if(!box) return;
 
 
 
-if(!box)return;
-
-
-
-box.innerHTML="";
+box.innerHTML = "";
 
 
 
 
-let categories =
+// Sort by selling count
 
-[
+let popular = 
+[...menuData]
 
-...new Set(
+.sort((a,b)=>
 
-allMenu.map(
-
-item=>item.category
+(b.sold || 0) - (a.sold || 0)
 
 )
 
-)
+.slice(0,15);
 
-];
 
 
 
 
+popular.forEach(item=>{
 
-categories.forEach((category)=>{
 
+box.innerHTML += `
 
-let button =
-
-document.createElement(
-"button"
-);
-
-
-
-button.className =
-"categoryBtn";
-
-
-
-button.innerHTML =
-category;
-
-
-
-
-button.onclick=function(){
-
-
-openCategory(category);
-
-
-};
-
-
-
-
-box.appendChild(button);
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// OPEN CATEGORY
-// =====================================
-
-
-window.openCategory=function(category){
-
-
-
-let title =
-
-document.getElementById(
-"categoryTitle"
-);
-
-
-
-if(title){
-
-title.innerHTML =
-category;
-
-}
-
-
-
-
-
-
-let items =
-
-allMenu.filter(
-
-item =>
-
-item.category === category
-
-);
-
-
-
-
-
-
-displayItems(items);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// DISPLAY MENU ITEMS
-// =====================================
-
-
-function displayItems(items){
-
-
-
-const box =
-
-document.getElementById(
-"menuItems"
-);
-
-
-
-if(!box)return;
-
-
-
-box.innerHTML="";
-
-
-
-
-
-if(items.length===0){
-
-
-box.innerHTML=
-
-"No Items Found";
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-items.forEach((item)=>{
-
-
-
-let price;
-
-
-
-if(currentPriceType==="dine"){
-
-
-price =
-item.dineInPrice;
-
-
-}
-
-else{
-
-
-price =
-item.takeAwayPrice;
-
-
-}
-
-
-
-
-
-
-
-let card =
-
-document.createElement(
-"div"
-);
-
-
-
-card.className =
-"menuCard";
-
-
-
-
-
-card.innerHTML = `
+<div class="popular-card">
 
 
 <h3>
@@ -363,326 +195,35 @@ ${item.name}
 </h3>
 
 
+
 <p>
 
-RM ${Number(price || 0).toFixed(2)}
+RM ${getPrice(item)}
 
 </p>
 
+
+
+<button
+
+onclick="addToCart('${item.id}')">
+
+
+➕ ADD
+
+
+</button>
+
+
+
+</div>
 
 
 `;
 
 
 
-
-
-box.appendChild(card);
-
-
-
 });
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// POPULAR TOP 15
-// =====================================
-
-
-async function showPopularItems(){
-
-
-
-const box =
-
-document.getElementById(
-"popularItems"
-);
-
-
-
-if(!box)return;
-
-
-
-
-box.innerHTML="";
-
-
-
-
-
-
-try{
-
-
-
-const salesSnap =
-
-await getDocs(
-
-collection(
-db,
-"sales"
-)
-
-);
-
-
-
-
-
-let sales=[];
-
-
-
-salesSnap.forEach((doc)=>{
-
-
-sales.push({
-
-id:doc.id,
-
-...doc.data()
-
-});
-
-
-});
-
-
-
-
-
-
-sales.sort(
-
-(a,b)=>
-
-Number(b.qty || 0)
-
--
-
-Number(a.qty || 0)
-
-);
-
-
-
-
-
-
-
-let top15 =
-
-sales.slice(
-0,
-15
-);
-
-
-
-
-
-
-
-top15.forEach((item)=>{
-
-
-
-let card =
-
-document.createElement(
-"div"
-);
-
-
-
-card.className =
-"menuCard popular";
-
-
-
-
-
-let menu =
-
-allMenu.find(
-
-x=>
-
-x.name===item.name
-
-);
-
-
-
-
-
-let price=0;
-
-
-
-if(menu){
-
-
-
-price =
-
-currentPriceType==="dine"
-
-?
-
-menu.dineInPrice
-
-:
-
-menu.takeAwayPrice;
-
-
-}
-
-
-
-
-
-
-card.innerHTML = `
-
-
-<h3>
-
-🔥 ${item.name}
-
-</h3>
-
-
-
-<p>
-
-RM ${Number(price).toFixed(2)}
-
-</p>
-
-
-`;
-
-
-
-
-
-box.appendChild(card);
-
-
-
-});
-
-
-
-
-
-}
-
-catch(error){
-
-
-
-console.log(
-
-"Popular item error",
-
-error
-
-);
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =====================================
-// CHANGE DINE / TAKE AWAY
-// =====================================
-
-
-window.changeMenuType=function(type){
-
-
-
-currentPriceType = type;
-
-
-
-let currentItems =
-
-document.getElementById(
-"menuItems"
-);
-
-
-
-if(currentItems){
-
-
-
-let category =
-
-document.getElementById(
-"categoryTitle"
-).innerHTML;
-
-
-
-
-
-let items =
-
-allMenu.filter(
-
-x=>
-
-x.category===category
-
-);
-
-
-
-
-
-displayItems(items);
-
-
-
-}
-
-
-
-
-
-showPopularItems();
 
 
 
@@ -697,18 +238,330 @@ showPopularItems();
 
 
 // =====================================
-// START
+// SHOW ALL MENU ITEMS
 // =====================================
 
 
-window.addEventListener(
+function showAllMenu(){
 
-"load",
+
+let box = 
+document.getElementById("itemBox");
+
+
+
+if(!box) return;
+
+
+
+box.innerHTML="";
+
+
+
+
+
+menuData.forEach(item=>{
+
+
+
+box.innerHTML += `
+
+<div class="menu-item">
+
+
+<h3>
+
+${item.name}
+
+</h3>
+
+
+
+<p>
+
+${item.category}
+
+</p>
+
+
+
+<p>
+
+RM ${getPrice(item)}
+
+</p>
+
+
+
+
+<button
+
+onclick="addToCart('${item.id}')">
+
+
+➕ ADD TO CART
+
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================
+// PRICE SWITCH
+// =====================================
+
+
+function getPrice(item){
+
+
+
+let type =
+
+localStorage.getItem("orderType")
+
+|| currentOrderType;
+
+
+
+
+
+if(type==="TAKE AWAY"){
+
+
+return Number(
+
+item.takeAwayPrice || 0
+
+)
+
+.toFixed(2);
+
+
+
+}
+
+
+
+return Number(
+
+item.dineInPrice || 0
+
+)
+
+.toFixed(2);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================
+// CHANGE ORDER TYPE
+// =====================================
+
+
+window.changeOrderType = function(type){
+
+
+currentOrderType = type;
+
+
+localStorage.setItem(
+
+"orderType",
+
+type
+
+);
+
+
+
+showPopular();
+
+showAllMenu();
+
+
+
+}
+// =====================================
+// REFRESH MENU
+// =====================================
+
+
+window.refreshMenu = function(){
+
+loadMenu();
+
+};
+
+
+
+
+
+
+
+// =====================================
+// BACK TO HOME
+// =====================================
+
+
+window.goHome = function(){
+
+
+document.getElementById("welcome")
+.style.display="block";
+
+
+document.getElementById("menuPage")
+.style.display="none";
+
+
+document.getElementById("cartPage")
+.style.display="none";
+
+
+document.getElementById("checkoutPage")
+.style.display="none";
+
+
+};
+
+
+
+
+
+
+
+
+// =====================================
+// BACK BUTTON
+// =====================================
+
+
+window.goBack = function(){
+
+
+document.getElementById("cartPage")
+.style.display="none";
+
+
+document.getElementById("checkoutPage")
+.style.display="none";
+
+
+document.getElementById("menuPage")
+.style.display="block";
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// ADD TO CART CONNECTOR
+// =====================================
+
+
+window.addMenuItem = function(id){
+
+
+addToCart(id);
+
+
+};
+
+
+
+
+
+
+
+
+// =====================================
+// ORDER TYPE CHECK
+// =====================================
+
+
+let savedType =
+
+localStorage.getItem("orderType");
+
+
+
+if(savedType){
+
+currentOrderType = savedType;
+
+}
+
+
+
+
+
+
+
+// =====================================
+// AUTO LOAD MENU IF PAGE OPEN
+// =====================================
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
 
 ()=>{
 
 
+let menu =
+
+document.getElementById("menuPage");
+
+
+
+if(menu && 
+
+menu.style.display==="block"){
+
+
 loadMenu();
+
+
+}
+
 
 
 }
