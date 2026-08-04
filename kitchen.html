@@ -2,15 +2,17 @@
 
 <html lang="en">
 
+
 <head>
 
 <meta charset="UTF-8">
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 <title>
-Hameed Bistro Kitchen Display
+Hameed Bistro Kitchen
 </title>
 
 
@@ -20,18 +22,23 @@ Hameed Bistro Kitchen Display
 </head>
 
 
+
 <body>
+
 
 
 <header>
 
+
 <h1>
-🍳 Restoran Hameed's Bistro
+Restoran Hameed's Bistro
 </h1>
 
+
 <h2>
-Kitchen Display System
+Kitchen Display
 </h2>
+
 
 </header>
 
@@ -39,17 +46,17 @@ Kitchen Display System
 
 
 
-<main>
+
 
 
 <div id="kitchenOrders">
 
+
 Loading Orders...
+
 
 </div>
 
-
-</main>
 
 
 
@@ -61,44 +68,7 @@ Loading Orders...
 
 
 
-
-<script type="module">
-
-
-import {
-
-loadKitchenOrders
-
-} from "./js/kitchen.js";
-
-
-
-window.addEventListener(
-"load",
-()=>{
-
-
-if(typeof loadKitchenOrders === "function"){
-
-
-loadKitchenOrders();
-
-
-}
-
-
-
-}
-
-);
-
-
-</script>
-
-
-
-
-
 </body>
+
 
 </html>
