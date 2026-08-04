@@ -1,7 +1,6 @@
 // =====================================
-// RESTORAN HAMEED'S BISTRO
-// MENU.JS V3 FINAL
-// FIRESTORE + TOP SELLING ITEMS
+// HAMEED BISTRO
+// CUSTOMER MENU JS V4 FINAL
 // =====================================
 
 
@@ -17,7 +16,8 @@ import {
 collection,
 getDocs,
 query,
-orderBy
+orderBy,
+limit
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -25,9 +25,11 @@ orderBy
 
 
 
-let allMenuItems = [];
+let allMenu = [];
 
-let sellingRank = [];
+let currentType = "dine";
+
+
 
 
 
@@ -40,60 +42,33 @@ let sellingRank = [];
 // =====================================
 
 
-window.loadMenu = async function(){
-
-
-try{
-
-
-const box =
-document.getElementById(
-"menuContainer"
-);
+async function loadMenu(){
 
 
 
-if(!box)return;
+const snap =
 
-
-
-box.innerHTML =
-"Loading Menu...";
-
-
-
-
-
-const q =
-query(
+await getDocs(
 
 collection(
 db,
 "menus"
-),
-
-orderBy(
-"name"
 )
 
 );
 
 
 
-const snap =
-await getDocs(q);
 
 
-
-allMenuItems=[];
-
+allMenu=[];
 
 
 
 snap.forEach((item)=>{
 
 
-allMenuItems.push({
+allMenu.push({
 
 id:item.id,
 
@@ -102,60 +77,38 @@ id:item.id,
 });
 
 
+
 });
 
 
 
 
-displayMenu(
-allMenuItems
-);
+
+createCategories();
 
 
-
-loadCategory();
-
+showPopular();
 
 
 }
 
 
 
-catch(error){
-
-
-console.log(
-"Menu Load Error",
-error
-);
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-
 
 
 // =====================================
-// DISPLAY MENU
+// CREATE CATEGORY BUTTON
 // =====================================
 
 
-window.displayMenu=function(items){
+function createCategories(){
 
 
 
 const box =
+
 document.getElementById(
-"menuContainer"
+"categoryList"
 );
 
 
@@ -170,20 +123,162 @@ box.innerHTML="";
 
 
 
-items.forEach((item)=>{
+let categories =
+
+[
+
+...new Set(
+
+allMenu.map(
+
+x=>x.category
+
+)
+
+)
+
+];
 
 
 
-const div =
+
+
+
+
+categories.forEach(cat=>{
+
+
+let btn =
+
+document.createElement(
+"button"
+);
+
+
+
+btn.innerHTML = cat;
+
+
+
+btn.onclick = ()=>{
+
+
+openCategory(cat);
+
+
+};
+
+
+
+box.appendChild(btn);
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================
+// OPEN CATEGORY
+// =====================================
+
+
+window.openCategory=function(category){
+
+
+
+let items =
+
+allMenu.filter(
+
+x=>x.category===category
+
+);
+
+
+
+
+showItems(items);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// SHOW ITEMS
+// =====================================
+
+
+function showItems(items){
+
+
+
+const box =
+
+document.getElementById(
+"menuItems"
+);
+
+
+
+if(!box)return;
+
+
+
+box.innerHTML="";
+
+
+
+
+
+items.forEach(item=>{
+
+
+
+let price =
+
+currentType==="dine"
+
+?
+
+item.dineInPrice
+
+:
+
+item.takeAwayPrice;
+
+
+
+
+
+
+let div =
+
 document.createElement(
 "div"
 );
 
 
 
-div.className =
-"menuItem";
-
+div.className="menuCard";
 
 
 
@@ -191,41 +286,145 @@ div.className =
 div.innerHTML = `
 
 
-${item.image ? 
-
-`<img src="${item.image}">`
-
-:
-
-""
-
-}
-
-
-
 <h3>
+
 ${item.name}
+
 </h3>
 
 
 
 <p>
-${item.category}
+
+RM ${Number(price).toFixed(2)}
+
 </p>
 
+
+
+`;
+
+
+
+
+box.appendChild(div);
+
+
+
+});
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================
+// POPULAR TOP 15
+// =====================================
+
+
+async function showPopular(){
+
+
+
+const box =
+
+document.getElementById(
+"popularItems"
+);
+
+
+
+if(!box)return;
+
+
+
+
+const q =
+
+query(
+
+collection(
+db,
+"sales"
+),
+
+orderBy(
+
+"qty",
+
+"desc"
+
+),
+
+limit(15)
+
+);
+
+
+
+
+
+
+
+try{
+
+
+const snap =
+
+await getDocs(q);
+
+
+
+box.innerHTML="";
+
+
+
+
+
+snap.forEach(item=>{
+
+
+let data=item.data();
+
+
+
+
+let div =
+document.createElement(
+"div"
+);
+
+
+
+div.className="menuCard";
+
+
+
+div.innerHTML=`
+
+
+<h3>
+
+${data.name}
+
+</h3>
 
 
 <p>
-RM ${Number(item.price).toFixed(2)}
+
+Sold:
+${data.qty}
+
 </p>
-
-
-
-<button onclick="addToCart('${item.id}')">
-
-Add
-
-</button>
 
 
 
@@ -241,284 +440,18 @@ box.appendChild(div);
 
 
 
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// CATEGORY
-// =====================================
-
-
-window.loadCategory=function(){
-
-
-const box =
-document.getElementById(
-"categoryBox"
-);
-
-
-
-if(!box)return;
-
-
-
-box.innerHTML="";
-
-
-
-
-
-let categories = [
-
-...new Set(
-
-allMenuItems.map(
-item=>item.category
-)
-
-)
-
-];
-
-
-
-
-
-categories.forEach((cat)=>{
-
-
-let btn =
-document.createElement(
-"button"
-);
-
-
-
-btn.innerHTML =
-cat;
-
-
-
-btn.onclick=function(){
-
-
-filterCategory(cat);
-
-
-};
-
-
-
-box.appendChild(btn);
-
-
-
-});
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// FILTER CATEGORY
-// =====================================
-
-
-window.filterCategory=function(category){
-
-
-
-let result =
-
-allMenuItems.filter(
-
-item=>
-
-item.category===category
-
-);
-
-
-
-displayMenu(
-result
-);
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// =====================================
-// TOP 15 SELLING ITEMS
-// =====================================
-
-
-window.showPopularItems = async function(){
-
-
-
-try{
-
-
-let sales={};
-
-
-
-
-
-const snap =
-await getDocs(
-
-collection(
-db,
-"orders"
-)
-
-);
-
-
-
-
-
-snap.forEach((order)=>{
-
-
-
-let data =
-order.data();
-
-
-
-
-
-let items =
-data.items || [];
-
-
-
-
-
-items.forEach((item)=>{
-
-
-
-let name =
-item.name;
-
-
-
-let qty =
-Number(item.qty || 1);
-
-
-
-
-
-if(!sales[name]){
-
-sales[name]=0;
 
 }
-
-
-
-sales[name]+=qty;
-
-
-
-});
-
-
-
-});
-
-
-
-
-
-
-
-
-let topItems =
-
-Object.entries(sales)
-
-.sort(
-
-(a,b)=>b[1]-a[1]
-
-)
-
-.slice(0,15)
-
-.map(
-
-item=>item[0]
-
-);
-
-
-
-
-
-
-
-let result =
-
-allMenuItems.filter(
-
-menu=>
-
-topItems.includes(
-menu.name
-)
-
-);
-
-
-
-
-
-displayMenu(
-result
-);
-
-
-
-}
-
-
 
 catch(error){
 
 
 console.log(
-"Popular Error",
+
+"Popular error",
+
 error
+
 );
 
 
@@ -527,7 +460,7 @@ error
 
 
 
-};
+}
 
 
 
@@ -538,33 +471,19 @@ error
 
 
 // =====================================
-// SEARCH MENU
+// DINE / TAKE AWAY SWITCH
 // =====================================
 
 
-window.searchMenu=function(text){
+window.changeMenuType=function(type){
 
 
 
-let result =
-
-allMenuItems.filter(
-
-item=>
-
-item.name
-.toLowerCase()
-.includes(
-text.toLowerCase()
-)
-
-);
+currentType=type;
 
 
 
-displayMenu(
-result
-);
+showItems(allMenu);
 
 
 
@@ -578,17 +497,21 @@ result
 
 
 
-// =====================================
-// RESTORE ALL MENU
-// =====================================
 
 
-window.restoreMenuView=function(){
+// START
 
 
-displayMenu(
-allMenuItems
+window.addEventListener(
+
+"load",
+
+()=>{
+
+
+loadMenu();
+
+
+}
+
 );
-
-
-};
