@@ -721,7 +721,184 @@ loadTables();
 
 
 loadMenu();
+// =====================================
+// SPLIT BILL
+// =====================================
 
+
+window.splitBill=function(){
+
+
+if(orderItems.length===0){
+
+alert("No items");
+
+return;
+
+}
+
+
+
+let total =
+0;
+
+
+orderItems.forEach(item=>{
+
+
+total += item.price * item.qty;
+
+
+});
+
+
+
+let people =
+prompt(
+"Number of people?"
+);
+
+
+
+if(!people || people<=0){
+
+return;
+
+}
+
+
+
+let each =
+total / Number(people);
+
+
+
+alert(
+
+"Each Person: RM "
+
++
+
+each.toFixed(2)
+
+);
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// COMBINE TABLE
+// =====================================
+
+
+window.combineTable=function(){
+
+
+let table =
+prompt(
+
+"Enter table number to combine"
+
+);
+
+
+
+if(!table){
+
+return;
+
+}
+
+
+
+alert(
+
+"Combine with Table " + table
+
+);
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// PRINT RECEIPT
+// =====================================
+
+
+window.printReceipt=function(){
+
+
+
+let receipt =
+
+"RESTORAN HAMEED'S BISTRO\n\n";
+
+
+
+
+
+orderItems.forEach(item=>{
+
+
+receipt +=
+
+item.name +
+
+" x " +
+
+item.qty +
+
+"\n";
+
+
+});
+
+
+
+
+
+receipt +=
+
+"\nTotal: "
+
++
+
+document.getElementById(
+
+"orderTotal"
+
+).innerText;
+
+
+
+
+
+console.log(receipt);
+
+
+
+window.print();
+
+
+
+};
 
 
 }
