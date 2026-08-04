@@ -1,6 +1,6 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// CASHIER POS V1
+// CASHIER POS V3 FINAL
 // =====================================
 
 
@@ -9,7 +9,6 @@ import {
 db
 
 } from "./firebase.js";
-
 
 
 import {
@@ -25,13 +24,13 @@ serverTimestamp
 
 
 
-
-
 let selectedTable = "";
 
 let orderItems = [];
 
 let menuItems = [];
+
+let paymentMethod = "Cash";
 
 
 
@@ -46,7 +45,6 @@ let menuItems = [];
 
 
 function loadTables(){
-
 
 
 const box =
@@ -66,7 +64,7 @@ box.innerHTML="";
 
 
 
-for(let i=1;i<=20;i++){
+for(let i=1;i<=30;i++){
 
 
 
@@ -88,7 +86,7 @@ btn.innerHTML =
 
 
 
-btn.onclick=function(){
+btn.onclick = function(){
 
 
 selectTable(
@@ -97,7 +95,6 @@ selectTable(
 
 
 };
-
 
 
 
@@ -118,13 +115,13 @@ box.appendChild(btn);
 
 
 
+
 // =====================================
 // SELECT TABLE
 // =====================================
 
 
 window.selectTable=function(table){
-
 
 
 selectedTable =
@@ -135,18 +132,15 @@ table;
 document.getElementById(
 "selectedTable"
 ).innerHTML =
-table;
 
+table;
 
 
 
 
 document.getElementById(
 "orderSection"
-).style.display =
-"block";
-
-
+).style.display="block";
 
 
 
@@ -175,6 +169,10 @@ document.getElementById(
 
 
 
+if(!box)return;
+
+
+
 const snap =
 await getDocs(
 
@@ -189,30 +187,28 @@ db,
 
 
 
+box.innerHTML="";
+
 menuItems=[];
 
 
 
-box.innerHTML="";
+
+snap.forEach((doc)=>{
 
 
+let item =
+doc.data();
 
 
-
-snap.forEach((item)=>{
-
-
-
-let data =
-item.data();
 
 
 
 menuItems.push({
 
-id:item.id,
+id:doc.id,
 
-...data
+...item
 
 });
 
@@ -238,25 +234,23 @@ div.innerHTML = `
 
 
 <h3>
-${data.name}
+${item.name}
 </h3>
 
 
 <p>
-RM ${Number(data.price).toFixed(2)}
+RM ${Number(item.price).toFixed(2)}
 </p>
 
 
+<button onclick="addCashierItem('${doc.id}')">
 
-<button onclick="addCashierItem('${item.id}')">
-
-Add
+ADD
 
 </button>
 
 
 `;
-
 
 
 
@@ -288,7 +282,6 @@ window.addCashierItem=function(id){
 
 
 let item =
-
 menuItems.find(
 
 x=>x.id===id
@@ -300,13 +293,11 @@ x=>x.id===id
 
 
 let exist =
-
 orderItems.find(
 
 x=>x.id===id
 
 );
-
 
 
 
@@ -362,19 +353,92 @@ updateBill();
 function updateBill(){
 
 
+const box =
+document.getElementById(
+"billItems"
+);
+
+
+
+box.innerHTML="";
+
+
 
 let total=0;
 
 
 
-orderItems.forEach(item=>{
 
 
-total +=
+orderItems.forEach((item,index)=>{
 
+
+
+let amount =
 item.price *
-
 item.qty;
+
+
+
+total += amount;
+
+
+
+
+
+let div =
+document.createElement(
+"div"
+);
+
+
+
+div.className =
+"billRow";
+
+
+
+
+div.innerHTML = `
+
+
+<b>
+${item.name}
+</b>
+
+
+RM ${amount.toFixed(2)}
+
+
+
+<button onclick="changeQty(${index},-1)">
+-
+</button>
+
+
+${item.qty}
+
+
+<button onclick="changeQty(${index},1)">
++
+</button>
+
+
+
+<button onclick="removeItem(${index})">
+
+❌
+
+</button>
+
+
+
+`;
+
+
+
+box.appendChild(div);
+
 
 
 });
@@ -396,6 +460,103 @@ total.toFixed(2);
 
 
 }
+
+
+
+
+
+
+
+
+
+// =====================================
+// QUANTITY
+// =====================================
+
+
+window.changeQty=function(index,value){
+
+
+orderItems[index].qty += value;
+
+
+
+if(orderItems[index].qty<=0){
+
+
+orderItems.splice(index,1);
+
+
+}
+
+
+
+updateBill();
+
+
+
+};
+
+
+
+
+
+
+
+
+// =====================================
+// REMOVE ITEM
+// =====================================
+
+
+window.removeItem=function(index){
+
+
+orderItems.splice(
+
+index,
+
+1
+
+);
+
+
+
+updateBill();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// PAYMENT
+// =====================================
+
+
+window.selectPayment=function(type){
+
+
+paymentMethod = type;
+
+
+
+alert(
+
+"Payment: " + type
+
+);
+
+
+};
+
 
 
 
@@ -433,7 +594,7 @@ if(orderItems.length===0){
 
 
 alert(
-"Add Items"
+"Add Item"
 );
 
 
@@ -441,6 +602,7 @@ return;
 
 
 }
+
 
 
 
@@ -461,7 +623,9 @@ item.price *
 item.qty;
 
 
+
 });
+
 
 
 
@@ -491,8 +655,12 @@ items:orderItems,
 totalAmount:total,
 
 
-status:"Pending",
+payment:
 
+paymentMethod,
+
+
+status:"Pending",
 
 
 createdAt:
@@ -511,12 +679,16 @@ serverTimestamp()
 
 
 alert(
-"Sent To Kitchen"
+"Order Sent Kitchen"
 );
 
 
 
+
+
+
 orderItems=[];
+
 
 
 updateBill();
@@ -533,13 +705,16 @@ updateBill();
 
 
 
-
 // =====================================
 // START
 // =====================================
 
 
-window.onload=function(){
+window.addEventListener(
+
+"load",
+
+()=>{
 
 
 loadTables();
@@ -548,4 +723,7 @@ loadTables();
 loadMenu();
 
 
-};
+
+}
+
+);
