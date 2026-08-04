@@ -641,6 +641,131 @@ updateCustomerButton();
 );
 
 
+// =====================================
+// CHECK GOOGLE REDIRECT RESULT
+// =====================================
 
+async function checkGoogleRedirect(){
+
+try{
+
+
+const result = await getRedirectResult(auth);
+
+
+if(!result){
+
+return;
+
+}
+
+
+
+const user = result.user;
+
+
+console.log(
+"Google User:",
+user
+);
+
+
+
+const ref = doc(
+db,
+"customers",
+user.uid
+);
+
+
+
+const snap = await getDoc(ref);
+
+
+
+if(snap.exists()){
+
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+
+localStorage.setItem(
+"uid",
+user.uid
+);
+
+
+openProfile();
+
+
+}
+
+else{
+
+
+let loginBox =
+document.getElementById("loginBox");
+
+
+let googleBox =
+document.getElementById("googleProfileBox");
+
+
+
+if(loginBox){
+
+loginBox.style.display="none";
+
+}
+
+
+
+if(googleBox){
+
+googleBox.style.display="block";
+
+}
+
+
+
+document.getElementById("googleName").value =
+user.displayName || "";
+
+
+
+document.getElementById("googleEmail").value =
+user.email || "";
+
+
+}
+
+
+
+}
+
+catch(error){
+
+
+console.log(
+"Google Redirect Error:",
+error
+);
+
+
+showToast(
+error.message
+);
+
+
+}
+
+
+}
+
+
+checkGoogleRedirect();
 
 
