@@ -1,44 +1,16 @@
-
-// =====================================
-// MENU.JS FINAL V5
-// Restoran Hameed's Bistro
-// Firebase Dynamic Menu
-// =====================================
-
-
-import { db } from "./firebase.js";
-
-import {
-
-collection,
-getDocs
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// ==========================================
+// RESTORAN HAMEED'S BISTRO
+// MENU SYSTEM V6 FINAL
+// PART 1
+// ==========================================
 
 
 
-
-
-let menuData = [];
-
-window.menuData = menuData;
+let menuData=[];
 
 
 
-
-
-
-let selectedOrderType =
-
-localStorage.getItem("orderType")
-
-||
-
-"DINE IN";
+let currentLanguage="en";
 
 
 
@@ -47,12 +19,12 @@ localStorage.getItem("orderType")
 
 
 
-// =====================================
-// LOAD MENU
-// =====================================
+// ==========================================
+// LOAD CSV MENU
+// ==========================================
 
 
-window.loadMenu = async function(){
+window.loadCSV = async function(){
 
 
 
@@ -60,129 +32,41 @@ try{
 
 
 
-const snap = await getDocs(
+let response =
 
-collection(db,"menus")
+await fetch(
+
+"menu.csv"
 
 );
 
 
 
 
-menuData.length = 0;
 
 
+let text =
 
+await response.text();
 
 
-snap.forEach(doc=>{
 
 
-let d = doc.data();
 
 
+parseCSV(text);
 
-menuData.push({
 
 
-id:doc.id,
 
 
-category:
 
-d.category || "",
+displayMenu();
 
 
 
-name:
+displayPopular();
 
-d["Item Name"]
-
-||
-
-d.itemName
-
-||
-
-"",
-
-
-
-
-dineInPrice:
-
-Number(
-
-d["Dine in price"]
-
-||
-
-d.dineInPrice
-
-||
-
-0
-
-),
-
-
-
-
-takeAwayPrice:
-
-Number(
-
-d["Take away Price"]
-
-||
-
-d.takeAwayPrice
-
-||
-
-0
-
-),
-
-
-
-
-sold:
-
-Number(
-
-d.sold
-
-||
-
-0
-
-)
-
-
-
-});
-
-
-
-});
-
-
-
-
-
-
-window.menuData = menuData;
-
-
-
-
-
-showPopular();
-
-
-
-showMenu();
 
 
 
@@ -193,9 +77,10 @@ showMenu();
 catch(error){
 
 
+
 console.error(
 
-"MENU LOAD ERROR",
+"CSV Load Error",
 
 error
 
@@ -225,122 +110,78 @@ showToast(
 
 
 
-// =====================================
-// PRICE
-// =====================================
+// ==========================================
+// CSV PARSER
+// ==========================================
 
 
-function getPrice(item){
+function parseCSV(text){
 
 
 
-if(selectedOrderType==="TAKE AWAY"){
+let rows =
 
+text.trim()
 
-return item.takeAwayPrice;
+.split("\n");
 
 
-}
 
 
-return item.dineInPrice;
 
 
-}
 
+let headers =
 
+rows[0]
 
+.split(",")
 
+.map(x=>x.trim());
 
 
 
 
 
-// =====================================
-// POPULAR ITEMS
-// =====================================
 
 
-function showPopular(){
+menuData=[];
 
 
 
-let box=document.getElementById(
 
-"popularItems"
 
-);
 
+for(let i=1;i<rows.length;i++){
 
 
-if(!box)return;
 
+let values =
 
+rows[i]
 
+.split(",")
 
-box.innerHTML="";
+.map(x=>x.trim());
 
 
 
 
-let popular=[...menuData]
 
-.sort(
 
-(a,b)=>b.sold-a.sold
+let item={};
 
-)
 
-.slice(0,15);
 
 
 
 
 
+headers.forEach((h,index)=>{
 
-popular.forEach(item=>{
 
 
-
-box.innerHTML += `
-
-
-
-<div class="popular-card">
-
-
-<h3>
-
-${item.name}
-
-</h3>
-
-
-
-<p>
-
-RM ${getPrice(item).toFixed(2)}
-
-</p>
-
-
-
-
-<button onclick="addToCart('${item.id}')">
-
-
-➕ ADD
-
-
-</button>
-
-
-
-</div>
-
-
-
-`;
+item[h]=values[index] || "";
 
 
 
@@ -348,6 +189,29 @@ RM ${getPrice(item).toFixed(2)}
 
 
 
+
+
+
+
+
+item.id = i;
+
+
+
+
+
+
+
+menuData.push(item);
+
+
+
+
+}
+
+
+
+
 }
 
 
@@ -358,16 +222,18 @@ RM ${getPrice(item).toFixed(2)}
 
 
 
-// =====================================
-// ALL MENU
-// =====================================
+// ==========================================
+// DISPLAY MENU
+// ==========================================
 
 
-function showMenu(){
+function displayMenu(){
 
 
 
-let box=document.getElementById(
+let box =
+
+document.getElementById(
 
 "itemBox"
 
@@ -375,7 +241,12 @@ let box=document.getElementById(
 
 
 
+
+
+
 if(!box)return;
+
+
 
 
 
@@ -387,7 +258,36 @@ box.innerHTML="";
 
 
 
+
+
+
+
 menuData.forEach(item=>{
+
+
+
+
+
+let price =
+
+localStorage.getItem(
+
+"orderType"
+
+)==="TAKE AWAY"
+
+?
+
+item.takeAwayPrice
+
+:
+
+item.dineInPrice;
+
+
+
+
+
 
 
 
@@ -398,6 +298,156 @@ box.innerHTML += `
 <div class="menu-item">
 
 
+
+<img
+
+src="images/${item.image || 'food.png'}"
+
+>
+
+
+
+
+<h3>
+
+${item.name}
+
+</h3>
+
+
+
+
+
+<p>
+
+RM ${Number(price).toFixed(2)}
+
+</p>
+
+
+
+
+
+
+<button onclick="addToCart(${item.id})">
+
+ADD
+
+</button>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+
+});
+
+
+
+}
+// ==========================================
+// POPULAR ITEMS
+// ==========================================
+
+
+function displayPopular(){
+
+
+
+let box =
+
+document.getElementById(
+
+"popularItems"
+
+);
+
+
+
+
+
+
+if(!box)return;
+
+
+
+
+
+
+box.innerHTML="";
+
+
+
+
+
+
+
+let popular =
+
+menuData.filter(
+
+item=>
+
+item.popular==="YES"
+
+)
+
+.slice(0,15);
+
+
+
+
+
+
+
+popular.forEach(item=>{
+
+
+
+let price =
+
+localStorage.getItem(
+
+"orderType"
+
+)==="TAKE AWAY"
+
+?
+
+item.takeAwayPrice
+
+:
+
+item.dineInPrice;
+
+
+
+
+
+
+
+box.innerHTML += `
+
+
+
+<div class="popular-item">
+
+
+<img
+
+src="images/${item.image || 'food.png'}"
+
+>
+
+
+
+
 <h3>
 
 ${item.name}
@@ -408,33 +458,25 @@ ${item.name}
 
 <p>
 
-${item.category}
+RM ${Number(price).toFixed(2)}
 
 </p>
 
 
 
-<p>
+<button
 
-RM ${getPrice(item).toFixed(2)}
+onclick="addToCart(${item.id})">
 
-</p>
-
-
-
-
-
-<button onclick="addToCart('${item.id}')">
-
-
-ADD TO CART
-
+ADD
 
 </button>
 
 
 
+
 </div>
+
 
 
 `;
@@ -442,6 +484,8 @@ ADD TO CART
 
 
 });
+
+
 
 
 
@@ -455,16 +499,189 @@ ADD TO CART
 
 
 
-// =====================================
-// ORDER TYPE CHANGE
-// =====================================
+// ==========================================
+// LANGUAGE
+// ==========================================
 
 
-window.changeOrderType=function(type){
+window.setLanguage=function(lang){
 
 
 
-selectedOrderType=type;
+currentLanguage = lang;
+
+
+
+localStorage.setItem(
+
+"language",
+
+lang
+
+);
+
+
+
+
+
+
+displayMenu();
+
+
+displayPopular();
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// ==========================================
+// CATEGORY FILTER
+// ==========================================
+
+
+window.filterCategory=function(category){
+
+
+
+let box =
+
+document.getElementById(
+
+"itemBox"
+
+);
+
+
+
+
+
+
+if(!box)return;
+
+
+
+
+
+
+box.innerHTML="";
+
+
+
+
+
+
+menuData
+
+.filter(
+
+item=>
+
+item.category===category
+
+)
+
+.forEach(item=>{
+
+
+
+
+
+let price =
+
+localStorage.getItem(
+
+"orderType"
+
+)==="TAKE AWAY"
+
+?
+
+item.takeAwayPrice
+
+:
+
+item.dineInPrice;
+
+
+
+
+
+
+
+box.innerHTML += `
+
+
+
+<div class="menu-item">
+
+
+
+<h3>
+
+${item.name}
+
+</h3>
+
+
+
+
+<p>
+
+RM ${Number(price).toFixed(2)}
+
+</p>
+
+
+
+
+<button onclick="addToCart(${item.id})">
+
+ADD
+
+</button>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+
+
+});
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// START MENU
+// ==========================================
+
+
+window.startMenu=function(type){
 
 
 
@@ -478,19 +695,39 @@ type
 
 
 
-showPopular();
-
-
-showMenu();
 
 
 
+document.getElementById(
 
-let display=document.getElementById(
+"welcome"
+
+).style.display="none";
+
+
+
+
+
+document.getElementById(
+
+"menuPage"
+
+).style.display="block";
+
+
+
+
+
+
+let display =
+
+document.getElementById(
 
 "orderTypeDisplay"
 
 );
+
+
 
 
 
@@ -505,89 +742,11 @@ display.innerHTML=type;
 
 
 
-};
+
+displayMenu();
 
 
-
-
-
-
-
-
-
-// =====================================
-// CATEGORY
-// =====================================
-
-
-window.openCategory=function(){
-
-
-
-let box=document.getElementById(
-
-"categoryBox"
-
-);
-
-
-
-if(!box)return;
-
-
-
-
-box.style.display="grid";
-
-
-
-box.innerHTML="";
-
-
-
-
-let cats=[
-
-...new Set(
-
-menuData.map(x=>x.category)
-
-)
-
-];
-
-
-
-
-
-
-cats.forEach(cat=>{
-
-
-
-box.innerHTML +=`
-
-
-
-<button
-
-class="category-btn"
-
-onclick="filterCategory('${cat}')">
-
-
-${cat}
-
-
-</button>
-
-
-
-`;
-
-
-
-});
+displayPopular();
 
 
 
@@ -601,94 +760,9 @@ ${cat}
 
 
 
-window.filterCategory=function(cat){
-
-
-
-let box=document.getElementById(
-
-"itemBox"
-
-);
-
-
-
-if(!box)return;
-
-
-
-
-box.innerHTML="";
-
-
-
-
-
-menuData
-
-.filter(x=>x.category===cat)
-
-.forEach(item=>{
-
-
-
-box.innerHTML +=`
-
-
-
-<div class="menu-item">
-
-
-<h3>
-
-${item.name}
-
-</h3>
-
-
-<p>
-
-RM ${getPrice(item).toFixed(2)}
-
-</p>
-
-
-
-
-<button onclick="addToCart('${item.id}')">
-
-
-ADD TO CART
-
-
-</button>
-
-
-
-</div>
-
-
-
-`;
-
-
-
-});
-
-
-
-
-};
-
-
-
-
-
-
-
-
-
-// AUTO LOAD READY
+// ==========================================
+// INITIAL LOAD
+// ==========================================
 
 
 window.addEventListener(
@@ -698,16 +772,31 @@ window.addEventListener(
 ()=>{
 
 
-if(document.getElementById("menuPage")){
 
+let lang =
 
-// wait for click DINE IN
+localStorage.getItem(
 
-
-}
-
-
-
-}
+"language"
 
 );
+
+
+
+if(lang){
+
+
+currentLanguage=lang;
+
+
+}
+
+
+
+
+loadCSV();
+
+
+
+
+});
