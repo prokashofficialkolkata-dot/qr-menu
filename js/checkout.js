@@ -1,75 +1,38 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// CHECKOUT.JS V2
-// PART 1
+// CHECKOUT.JS V3 FINAL
 // =====================================
 
 
 import {
-    db,
-    auth
+
+auth,
+db
+
 } from "./firebase.js";
+
 
 
 import {
 
-    collection,
-    addDoc,
-    serverTimestamp
+collection,
+addDoc,
+serverTimestamp
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
 
 
-// =====================================
-// OPEN CHECKOUT FORM
-// =====================================
-
-window.openCheckoutForm=function(){
-
-
-const form =
-document.getElementById(
-"checkoutForm"
-);
-
-
-
-const profile =
-document.getElementById(
-"customerProfileBox"
-);
-
-
-
-if(form){
-
-form.style.display="block";
-
-}
-
-
-
-if(profile){
-
-profile.style.display="none";
-
-}
-
-
-
-};
-
-
 
 
 
 // =====================================
-// PLACE ORDER
+// SUBMIT ORDER
 // =====================================
 
-window.placeOrder = async function(){
+
+window.submitOrder = async function(){
 
 
 try{
@@ -80,39 +43,29 @@ auth.currentUser;
 
 
 
-if(!user){
-
-
-showToast(
-"Please login first"
-);
-
-
-return;
-
-
-}
-
-
-
 const name =
-document.getElementById(
-"orderName"
-).value.trim();
+document
+.getElementById("customerName")
+.value
+.trim();
 
 
 
 const phone =
-document.getElementById(
-"orderPhone"
-).value.trim();
+document
+.getElementById("customerPhone")
+.value
+.trim();
 
 
 
-const table =
-document.getElementById(
-"tableNumber"
-)?.value || "";
+const address =
+document
+.getElementById("customerAddress")
+.value
+.trim();
+
+
 
 
 
@@ -120,8 +73,9 @@ if(!name || !phone){
 
 
 showToast(
-"Please enter details"
+"Please enter name and phone"
 );
+
 
 
 return;
@@ -131,10 +85,15 @@ return;
 
 
 
-const cart =
-JSON.parse(
+
+
+let cart = JSON.parse(
+
 localStorage.getItem("cart")
+
 ) || [];
+
+
 
 
 
@@ -142,27 +101,35 @@ if(cart.length===0){
 
 
 showToast(
-"Cart empty"
+"Cart is empty"
 );
+
 
 
 return;
 
 
 }
-// =====================================
-// CALCULATE TOTAL
-// =====================================
-
-
-let total = 0;
 
 
 
-cart.forEach((item)=>{
 
 
-total += Number(item.price) * Number(item.qty || 1);
+
+
+let total=0;
+
+
+
+cart.forEach(item=>{
+
+
+total +=
+
+Number(item.price) *
+
+Number(item.qty);
+
 
 
 });
@@ -170,15 +137,23 @@ total += Number(item.price) * Number(item.qty || 1);
 
 
 
-// =====================================
-// SAVE ORDER TO FIRESTORE
-// =====================================
+
+
 
 
 const orderData = {
 
 
-customerId:user.uid,
+customerId:
+
+user ?
+
+user.uid
+
+:
+
+"guest",
+
 
 
 customerName:name,
@@ -187,11 +162,7 @@ customerName:name,
 phone:phone,
 
 
-tableNumber:table,
-
-
-orderType:
-localStorage.getItem("orderType") || "Dine In",
+address:address,
 
 
 
@@ -199,15 +170,21 @@ items:cart,
 
 
 
-totalAmount:total,
+totalAmount:
+
+total,
 
 
 
-status:"Pending",
+status:
+
+"Pending",
 
 
 
-createdAt:serverTimestamp()
+createdAt:
+
+serverTimestamp()
 
 
 
@@ -217,12 +194,16 @@ createdAt:serverTimestamp()
 
 
 
-const orderRef =
+
+
 await addDoc(
 
 collection(
+
 db,
+
 "orders"
+
 ),
 
 orderData
@@ -233,18 +214,16 @@ orderData
 
 
 
-console.log(
-"Order ID:",
-orderRef.id
+
+
+
+showToast(
+"Order Successful"
 );
 
 
 
 
-
-// =====================================
-// ORDER SUCCESS
-// =====================================
 
 
 localStorage.removeItem(
@@ -253,30 +232,23 @@ localStorage.removeItem(
 
 
 
-showToast(
-"Order Placed Successfully"
-);
 
 
+if(typeof displayCart==="function"){
 
-setTimeout(()=>{
-
-
-showPage("welcome");
-
-
-
-},1500);
-
-
-
-
+displayCart();
 
 }
 
 
-catch(error){
 
+
+
+};
+
+
+
+catch(error){
 
 
 console.log(
@@ -293,6 +265,7 @@ error.message
 
 
 }
+
 
 
 };
