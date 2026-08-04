@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
 
@@ -10,7 +10,7 @@
 
 
 <title>
-Hameed Bistro Kitchen
+Hameed Bistro Kitchen Display
 </title>
 
 
@@ -26,9 +26,12 @@ Hameed Bistro Kitchen
 <header>
 
 <h1>
-🍳 Restoran Hameed's Bistro Kitchen
+🍳 Restoran Hameed's Bistro
 </h1>
 
+<h2>
+Kitchen Display System
+</h2>
 
 </header>
 
@@ -36,13 +39,19 @@ Hameed Bistro Kitchen
 
 
 
-<div id="kitchenOrders">
+<main>
 
+
+<div id="kitchenOrders">
 
 Loading Orders...
 
-
 </div>
+
+
+</main>
+
+
 
 
 
@@ -51,27 +60,45 @@ Loading Orders...
 <script type="module" src="js/kitchen.js"></script>
 
 
-<script>
 
 
-window.onload=function(){
+<script type="module">
 
 
-if(typeof loadKitchenOrders==="function"){
+import {
+
+loadKitchenOrders
+
+} from "./js/kitchen.js";
+
+
+
+window.addEventListener(
+"load",
+()=>{
+
+
+if(typeof loadKitchenOrders === "function"){
+
 
 loadKitchenOrders();
+
 
 }
 
 
-};
+
+}
+
+);
 
 
 </script>
 
 
 
-</body>
 
+
+</body>
 
 </html>
