@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Hameed Bistro Cashier
+</title>
+
+
+<link rel="stylesheet" href="cashier.css">
+
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>
+Hameed Bistro Cashier
+</h1>
+
+
+<button onclick="staffLogout()">
+Logout
+</button>
+
+
+</header>
+
+
+
+
+
+<section id="tableSection">
+
+
+<h2>
+Select Table
+</h2>
+
+
+<div id="tableList">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<section id="orderSection"
+style="display:none;">
+
+
+
+<h2>
+Current Order
+</h2>
+
+
+
+<h3 id="selectedTable">
+
+</h3>
+
+
+
+<div id="cashierMenu">
+
+Loading Menu...
+
+</div>
+
+
+
+
+<h2 id="orderTotal">
+
+Total: RM 0.00
+
+</h2>
+
+
+
+<button onclick="sendKitchen()">
+
+Send To Kitchen
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+<script type="module" src="js/cashier.js"></script>
+
+
+</body>
+
+</html>
