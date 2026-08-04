@@ -1,5 +1,6 @@
+
 // =====================================
-// auth.js FINAL V5
+// AUTH.JS FINAL V5
 // Restoran Hameed's Bistro
 // =====================================
 
@@ -10,15 +11,21 @@ import { auth, db } from "./firebase.js";
 
 import {
 
+
 createUserWithEmailAndPassword,
+
 
 signInWithEmailAndPassword,
 
+
 GoogleAuthProvider,
+
 
 signInWithPopup,
 
+
 signOut
+
 
 }
 
@@ -29,19 +36,25 @@ from
 
 
 
+
 import {
+
 
 doc,
 
+
 setDoc,
 
+
 getDoc
+
 
 }
 
 from
 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 
 
@@ -59,9 +72,7 @@ window.createAccount = async function(){
 
 
 
-let name =
-
-document.getElementById(
+let name=document.getElementById(
 
 "createName"
 
@@ -69,10 +80,7 @@ document.getElementById(
 
 
 
-
-let phone =
-
-document.getElementById(
+let phone=document.getElementById(
 
 "createPhone"
 
@@ -80,10 +88,7 @@ document.getElementById(
 
 
 
-
-let email =
-
-document.getElementById(
+let email=document.getElementById(
 
 "createEmail"
 
@@ -91,10 +96,7 @@ document.getElementById(
 
 
 
-
-let password =
-
-document.getElementById(
+let password=document.getElementById(
 
 "createPassword"
 
@@ -103,13 +105,45 @@ document.getElementById(
 
 
 
+let confirm=document.getElementById(
+
+"confirmPassword"
+
+).value;
+
+
+
+
+
+
+
+if(password!==confirm){
+
+
+showToast(
+
+"Password Not Match"
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
 
 try{
 
 
-let result =
 
-await createUserWithEmailAndPassword(
+let result = await createUserWithEmailAndPassword(
 
 auth,
 
@@ -118,6 +152,9 @@ email,
 password
 
 );
+
+
+
 
 
 
@@ -140,11 +177,18 @@ result.user.uid
 
 name:name,
 
+
 phone:phone,
+
 
 email:email,
 
+
+role:"customer",
+
+
 createdAt:new Date()
+
 
 
 }
@@ -152,6 +196,34 @@ createdAt:new Date()
 
 
 );
+
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"loggedIn",
+
+"yes"
+
+);
+
+
+
+
+localStorage.setItem(
+
+"uid",
+
+result.user.uid
+
+);
+
+
 
 
 
@@ -176,6 +248,7 @@ email
 
 
 
+
 showToast(
 
 "Account Created"
@@ -186,12 +259,18 @@ showToast(
 
 
 
+showLogin();
+
+
+
 }
 
 catch(error){
 
 
+
 console.error(error);
+
 
 
 showToast(
@@ -216,6 +295,8 @@ error.message
 
 
 
+
+
 // =====================================
 // LOGIN
 // =====================================
@@ -225,9 +306,7 @@ window.loginUser = async function(){
 
 
 
-let email =
-
-document.getElementById(
+let email=document.getElementById(
 
 "loginEmail"
 
@@ -235,9 +314,7 @@ document.getElementById(
 
 
 
-let password =
-
-document.getElementById(
+let password=document.getElementById(
 
 "loginPassword"
 
@@ -246,12 +323,15 @@ document.getElementById(
 
 
 
+
+
+
+
 try{
 
 
-let result =
 
-await signInWithEmailAndPassword(
+let result = await signInWithEmailAndPassword(
 
 auth,
 
@@ -260,6 +340,9 @@ email,
 password
 
 );
+
+
+
 
 
 
@@ -281,7 +364,54 @@ result.user.uid
 
 
 
+
+
+
+let data={
+
+email:email
+
+};
+
+
+
+
+
+
 if(snap.exists()){
+
+
+data=snap.data();
+
+
+}
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"loggedIn",
+
+"yes"
+
+);
+
+
+
+
+localStorage.setItem(
+
+"uid",
+
+result.user.uid
+
+);
+
+
 
 
 
@@ -289,17 +419,13 @@ localStorage.setItem(
 
 "customer",
 
-JSON.stringify(
-
-snap.data()
-
-)
+JSON.stringify(data)
 
 );
 
 
 
-}
+
 
 
 
@@ -312,12 +438,22 @@ showToast(
 
 
 
+
+goHome();
+
+
+
+
+
+
 }
 
 catch(error){
 
 
+
 console.error(error);
+
 
 
 showToast(
@@ -351,9 +487,9 @@ window.googleLogin = async function(){
 
 
 
-let provider =
+let provider = new GoogleAuthProvider();
 
-new GoogleAuthProvider();
+
 
 
 
@@ -361,9 +497,8 @@ new GoogleAuthProvider();
 try{
 
 
-let result =
 
-await signInWithPopup(
+let result = await signInWithPopup(
 
 auth,
 
@@ -375,8 +510,8 @@ provider
 
 
 
+let user=result.user;
 
-let user = result.user;
 
 
 
@@ -404,21 +539,54 @@ name:user.displayName || "",
 email:user.email || "",
 
 
-phone:""
+phone:"",
+
+
+role:"customer"
 
 
 
 },
 
+
 {
 
+
 merge:true
+
 
 }
 
 
 
 );
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"loggedIn",
+
+"yes"
+
+);
+
+
+
+
+
+localStorage.setItem(
+
+"uid",
+
+user.uid
+
+);
+
 
 
 
@@ -455,12 +623,20 @@ showToast(
 
 
 
+goHome();
+
+
+
+
+
 }
 
 catch(error){
 
 
+
 console.error(error);
+
 
 
 showToast(
@@ -498,11 +674,31 @@ signOut(auth);
 
 
 
+
+localStorage.removeItem(
+
+"loggedIn"
+
+);
+
+
+
+localStorage.removeItem(
+
+"uid"
+
+);
+
+
+
 localStorage.removeItem(
 
 "customer"
 
 );
+
+
+
 
 
 
@@ -512,6 +708,37 @@ showToast(
 
 );
 
+
+
+
+
+goHome();
+
+
+
+};
+
+
+
+
+
+
+
+
+// =====================================
+// SAVE GOOGLE PROFILE
+// =====================================
+
+
+window.saveGoogleProfile=function(){
+
+
+
+showToast(
+
+"Profile Saved"
+
+);
 
 
 };
