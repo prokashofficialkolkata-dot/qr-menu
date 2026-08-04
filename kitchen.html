@@ -1,90 +1,229 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 
 <head>
 
-
 <meta charset="UTF-8">
 
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
 
 <title>
-Hameed Bistro Kitchen Display
+Restoran Hameed's Bistro
+Kitchen Display
 </title>
 
+<link rel="icon" href="images/logo.png">
 
-<link rel="icon" href="data:,">
-<link rel="stylesheet" href="kitchen.css">
-
+<link rel="stylesheet"
+href="kitchen.css">
 
 </head>
 
-
-
 <body>
 
+<!-- ===========================
+HEADER
+=========================== -->
 
+<header class="top-header">
 
-<!-- HEADER -->
+<div class="logo-area">
 
+<img
+src="images/logo.png"
+class="logo">
 
-<header>
-
+<div>
 
 <h1>
 Restoran Hameed's Bistro
 </h1>
 
-
-<h2>
+<h3>
 Kitchen Display System
-</h2>
-
-
-</header>
-
-
-
-
-
-
-
-
-
-<!-- ORDER GRID -->
-
-
-<main>
-
-
-<div id="kitchenOrders">
-
-
-Loading Orders...
-
+</h3>
 
 </div>
 
+</div>
+
+<div class="header-right">
+
+<div id="liveClock">
+
+00:00:00
+
+</div>
+
+<button
+id="refreshBtn">
+
+🔄 Refresh
+
+</button>
+
+<button
+id="fullscreenBtn">
+
+⛶ Full Screen
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ===========================
+SUMMARY
+=========================== -->
+
+<section class="summary">
+
+<div class="summary-card pending">
+
+<h2 id="pendingCount">
+
+0
+
+</h2>
+
+<p>
+
+Pending
+
+</p>
+
+</div>
+
+<div class="summary-card cooking">
+
+<h2 id="cookingCount">
+
+0
+
+</h2>
+
+<p>
+
+Cooking
+
+</p>
+
+</div>
+
+<div class="summary-card ready">
+
+<h2 id="readyCount">
+
+0
+
+</h2>
+
+<p>
+
+Ready
+
+</p>
+
+</div>
+
+</section>
+<!-- ===========================
+SEARCH & TOOLBAR
+=========================== -->
+
+<section class="toolbar">
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchOrder"
+placeholder="Search Table / Order / Customer...">
+
+</div>
+
+<div class="toolbar-right">
+
+<select id="statusFilter">
+
+<option value="ALL">All Orders</option>
+
+<option value="NEW">New</option>
+
+<option value="COOKING">Cooking</option>
+
+<option value="READY">Ready</option>
+
+</select>
+
+<button id="autoRefreshBtn">
+
+🟢 Auto Refresh
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ===========================
+ORDER SECTION
+=========================== -->
+
+<main>
+
+<div id="loadingScreen">
+
+<div class="loader"></div>
+
+<h2>
+
+Loading Kitchen Orders...
+
+</h2>
+
+</div>
+
+<div id="kitchenOrders">
+
+<!-- Live Firebase Orders -->
+
+</div>
 
 </main>
 
+<!-- ===========================
+FOOTER
+=========================== -->
 
+<footer>
 
+Restoran Hameed's Bistro
+Kitchen Display System
 
+</footer>
+<!-- ===========================
+TOAST MESSAGE
+=========================== -->
 
+<div id="toast"></div>
 
+<!-- ===========================
+ORDER SOUND
+=========================== -->
 
+<audio id="newOrderSound" preload="auto">
+    <source src="sounds/new-order.mp3" type="audio/mpeg">
+</audio>
 
+<!-- ===========================
+SCRIPTS
+=========================== -->
 
+<script type="module" src="js/firebase.js"></script>
 <script type="module" src="js/kitchen.js"></script>
 
-
-
 </body>
-
-
 </html>
