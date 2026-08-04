@@ -928,16 +928,14 @@ toast.classList.remove("show");
 // ================================
 
 
-window.addEventListener(
-"load",
-function(){
+window.addEventListener("load", async function(){
 
+    showPage(currentPage);
 
-showPage(currentPage);
+    checkLoginStatus();
 
-
-checkLoginStatus();
-
-
+    if (typeof checkGoogleRedirect === "function") {
+        await checkGoogleRedirect();
+    }
 
 });
