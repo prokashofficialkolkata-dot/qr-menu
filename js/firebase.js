@@ -1,62 +1,47 @@
 // =====================================
 // RESTORAN HAMEED'S BISTRO
-// FIREBASE.JS FINAL
+// FIREBASE CONFIG FINAL
 // =====================================
 
 
-// Firebase App
-
-import { initializeApp }
-
+import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 
-
-// Firestore
-
-import { getFirestore }
-
+import { getFirestore } 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
-
-// Authentication
-
-import { getAuth }
-
+import { getAuth } 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 
 
 
-
-
-// Firebase Configuration
+// YOUR NEW FIREBASE PROJECT
 
 const firebaseConfig = {
 
 
-apiKey: "AIzaSyA-b4Y_1pk5QX6dTQPyy2uruB0qBb0c6s0",
+apiKey: "AIzaSyAZEby6MscIOcgp94iMqAMehOJooyo8LQk",
 
 
-authDomain: "hameed-bistro-qr-menu.firebaseapp.com",
+authDomain: "hameeds-bistro.firebaseapp.com",
 
 
-projectId: "hameed-bistro-qr-menu",
+projectId: "hameeds-bistro",
 
 
-storageBucket: "hameed-bistro-qr-menu.firebasestorage.app",
+storageBucket: "hameeds-bistro.firebasestorage.app",
 
 
-messagingSenderId: "860085792035",
+messagingSenderId: "918800284532",
 
 
-appId: "1:860085792035:web:9907610b51cd7b73147096"
+appId: "1:918800284532:web:5a927c4852f1d657c0ca21"
 
 
 };
-
-
 
 
 
@@ -68,25 +53,15 @@ const app = initializeApp(firebaseConfig);
 
 
 
-
-
-
-// Firestore Database
+// Firestore
 
 const db = getFirestore(app);
 
 
 
-
-
-
-// Firebase Authentication
+// Authentication
 
 const auth = getAuth(app);
-
-
-
-
 
 
 
