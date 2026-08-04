@@ -1,390 +1,824 @@
-/* =====================================
+/* ==========================================
    RESTORAN HAMEED'S BISTRO
-   KITCHEN DISPLAY SYSTEM V5 GRID
-===================================== */
-
+   KITCHEN DISPLAY SYSTEM V2
+========================================== */
 
 *{
+    margin:0;
+    padding:0;
     box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
+html{
+    scroll-behavior:smooth;
+}
 
 body{
 
-    margin:0;
-
-    padding:0;
-
-    background:#111;
-
-    font-family:Arial, Helvetica, sans-serif;
-
-    color:white;
+    background:#0b1220;
+    color:#fff;
+    overflow-x:hidden;
 
 }
 
+/* ======================================
+HEADER
+====================================== */
 
+.top-header{
 
-
-
-
-
-/* HEADER */
-
-header{
-
-    background:#0057b8;
-
-    text-align:center;
-
-    padding:20px;
-
-}
-
-
-header h1{
-
-    margin:0;
-
-    font-size:42px;
-
-}
-
-
-header h2{
-
-    margin:8px 0 0;
-
-    font-size:28px;
-
-}
-
-
-
-
-
-
-
-
-/* ORDER GRID */
-
-
-main{
-
-    padding:20px;
-
-}
-
-
-
-#kitchenOrders{
-
-
-    display:grid;
-
-
-    grid-template-columns:
-
-    repeat(4, 1fr);
-
-
-    gap:20px;
-
-
-}
-
-
-
-
-
-
-
-
-/* ORDER CARD */
-
-
-.kitchenCard{
-
-
-    background:white;
-
-
-    color:#222;
-
-
-    border-radius:15px;
-
-
-    padding:20px;
-
-
-    min-height:330px;
-
-
-    box-shadow:
-
-    0 5px 15px rgba(0,0,0,0.5);
-
-
-}
-
-
-
-
-
-
-
-
-/* STATUS COLOR */
-
-
-.kitchenCard.pending{
-
-    border-top:12px solid red;
-
-}
-
-
-
-.kitchenCard.preparing{
-
-    border-top:12px solid orange;
-
-}
-
-
-
-.kitchenCard.ready{
-
-    border-top:12px solid green;
-
-}
-
-
-
-
-
-
-
-
-
-/* ORDER HEADER */
-
-
-.orderHeader{
-
-
+    width:100%;
+    background:#13213b;
     display:flex;
-
-
     justify-content:space-between;
-
-
     align-items:center;
 
+    padding:18px 25px;
+
+    border-bottom:4px solid #2196f3;
+
+    position:sticky;
+    top:0;
+    z-index:999;
 
 }
 
+.logo-area{
 
-.orderHeader h2{
-
-
-    font-size:34px;
-
-
-    margin:0;
-
+    display:flex;
+    align-items:center;
+    gap:18px;
 
 }
 
+.logo{
 
-.orderHeader p{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#fff;
+    padding:5px;
 
+}
 
-    font-size:22px;
+.logo-area h1{
 
+    font-size:32px;
+    color:#fff;
+
+}
+
+.logo-area h3{
+
+    color:#facc15;
+    font-weight:normal;
+    margin-top:6px;
+
+}
+
+.header-right{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+}
+
+#liveClock{
+
+    background:#1f3c66;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-size:24px;
 
     font-weight:bold;
 
-
 }
 
+#refreshBtn,
+#fullscreenBtn{
 
-
-
-
-
-
-
-/* ITEM LIST */
-
-
-.itemsBox{
-
-
-    margin-top:20px;
-
-
-}
-
-
-.itemRow{
-
-
-    display:flex;
-
-
-    justify-content:space-between;
-
-
-    font-size:25px;
-
-
-    padding:10px 0;
-
-
-    border-bottom:1px solid #ddd;
-
-
-}
-
-
-
-.itemRow strong{
-
-
-    color:#0057b8;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* BUTTON AREA */
-
-
-.buttonBox{
-
-
-    display:flex;
-
-
-    gap:10px;
-
-
-    margin-top:25px;
-
-
-}
-
-
-
-.buttonBox button{
-
-
-    flex:1;
-
-
-    padding:15px 5px;
-
+    padding:12px 18px;
 
     border:none;
 
-
     border-radius:10px;
 
-
-    background:#0057b8;
-
-
-    color:white;
-
+    cursor:pointer;
 
     font-size:18px;
 
+    background:#1976d2;
+
+    color:#fff;
+
+    transition:.25s;
+
+}
+
+#refreshBtn:hover,
+#fullscreenBtn:hover{
+
+    background:#42a5f5;
+
+}
+
+/* ======================================
+SUMMARY
+====================================== */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:20px;
+
+    padding:25px;
+
+}
+
+.summary-card{
+
+    padding:25px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
+
+.summary-card h2{
+
+    font-size:44px;
+
+    margin-bottom:8px;
+
+}
+
+.summary-card p{
+
+    font-size:22px;
+
+}
+
+.pending{
+
+    background:#f59e0b;
+
+}
+
+.cooking{
+
+    background:#ef6c00;
+
+}
+
+.ready{
+
+    background:#16a34a;
+
+}
+/* ======================================
+TOOLBAR
+====================================== */
+
+.toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:0 25px 25px;
+
+}
+
+
+.search-box{
+
+    flex:1;
+
+}
+
+
+.search-box input{
+
+    width:100%;
+
+    padding:15px 20px;
+
+    border-radius:12px;
+
+    border:none;
+
+    outline:none;
+
+    font-size:18px;
+
+}
+
+
+.toolbar-right{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+.toolbar-right select{
+
+    padding:14px;
+
+    border-radius:10px;
+
+    border:none;
+
+    font-size:16px;
+
+}
+
+
+#autoRefreshBtn{
+
+    background:#16a34a;
+
+    color:#fff;
+
+    border:none;
+
+    padding:14px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+/* ======================================
+ORDER GRID
+====================================== */
+
+
+#kitchenOrders{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(350px,1fr));
+
+    gap:25px;
+
+    padding:25px;
+
+}
+
+
+
+/* ======================================
+ORDER CARD
+====================================== */
+
+
+.kitchen-card{
+
+    background:#172554;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.35);
+
+    border-top:8px solid #3b82f6;
+
+    position:relative;
+
+    transition:.3s;
+
+}
+
+
+.kitchen-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+
+
+.kitchen-card h2{
+
+    font-size:28px;
+
+    color:#93c5fd;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.kitchen-card h3{
+
+    font-size:20px;
+
+    margin:8px 0;
+
+}
+
+
+
+.kitchen-card p{
+
+    font-size:17px;
+
+    line-height:1.5;
+
+}
+
+
+
+/* ======================================
+FOOD ITEMS
+====================================== */
+
+
+.food-item{
+
+    background:#1e3a8a;
+
+    padding:12px;
+
+    margin-top:10px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+.food-item b{
+
+    font-size:19px;
+
+}
+
+
+.food-item span{
+
+    background:#facc15;
+
+    color:#000;
+
+    padding:5px 10px;
+
+    border-radius:20px;
 
     font-weight:bold;
 
+}
+
+
+/* ======================================
+STATUS BADGE
+====================================== */
+
+
+.status-badge{
+
+    display:inline-block;
+
+    padding:8px 18px;
+
+    border-radius:25px;
+
+    font-weight:bold;
+
+    margin-top:15px;
+
+}
+
+
+.status-new{
+
+    background:#facc15;
+
+    color:#000;
+
+}
+
+
+.status-cooking{
+
+    background:#f97316;
+
+    color:#fff;
+
+}
+
+
+.status-ready{
+
+    background:#22c55e;
+
+    color:#fff;
+
+}
+/* ======================================
+ORDER ACTION BUTTONS
+====================================== */
+
+.order-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+
+.order-actions button{
+
+    flex:1;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+
+
+.btn-cooking{
+
+    background:#f97316;
+
+    color:#fff;
+
+}
+
+
+.btn-ready{
+
+    background:#16a34a;
+
+    color:#fff;
+
+}
+
+
+.btn-complete{
+
+    background:#2563eb;
+
+    color:#fff;
 
 }
 
 
 
+.order-actions button:hover{
+
+    opacity:.85;
+
+}
 
 
 
+/* ======================================
+ORDER TIMER
+====================================== */
+
+
+.order-time{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    background:#000;
+
+    padding:8px 12px;
+
+    border-radius:20px;
+
+    color:#facc15;
+
+    font-weight:bold;
+
+}
 
 
 
-/* TV RESPONSIVE */
+/* ======================================
+LOADING SCREEN
+====================================== */
 
 
-@media(max-width:1600px){
+#loadingScreen{
+
+    min-height:300px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#fff;
+
+}
+
+
+.loader{
+
+    width:60px;
+
+    height:60px;
+
+    border:7px solid #334155;
+
+    border-top:7px solid #38bdf8;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+    margin-bottom:20px;
+
+}
+
+
+@keyframes spin{
+
+    100%{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+
+
+/* ======================================
+EMPTY ORDER
+====================================== */
+
+
+.empty-orders{
+
+    text-align:center;
+
+    padding:60px;
+
+    font-size:28px;
+
+    color:#94a3b8;
+
+}
+
+
+
+/* ======================================
+TOAST
+====================================== */
+
+
+#toast{
+
+    position:fixed;
+
+    bottom:30px;
+
+    right:30px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    padding:15px 25px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    transition:.3s;
+
+    z-index:9999;
+
+}
+
+
+#toast.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+
+
+/* ======================================
+RESPONSIVE
+====================================== */
+
+
+@media(max-width:1100px){
+
+
+.top-header{
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+.summary{
+
+    grid-template-columns:1fr;
+
+}
+
+
+.toolbar{
+
+    flex-direction:column;
+
+}
+
+
+.toolbar-right{
+
+    width:100%;
+
+}
 
 
 #kitchenOrders{
 
-
-    grid-template-columns:
-
-    repeat(3,1fr);
-
+    grid-template-columns:1fr;
 
 }
 
 
 }
-
-
-
-
-
-@media(max-width:1000px){
-
-
-#kitchenOrders{
-
-
-    grid-template-columns:
-
-    repeat(2,1fr);
-
-
-}
-
-
-}
-
-
 
 
 
 @media(max-width:600px){
 
 
-#kitchenOrders{
+.logo-area h1{
+
+    font-size:22px;
+
+}
 
 
-    grid-template-columns:
+.logo{
 
-    repeat(1,1fr);
+    width:60px;
+
+    height:60px;
+
+}
+
+
+.header-right{
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+}
+
+
+#liveClock{
+
+    font-size:18px;
+
+}
+
+
+.kitchen-card{
+
+    padding:15px;
+
+}
+
+
+.food-item{
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+.order-actions{
+
+    flex-direction:column;
+
+}
 
 
 }
 
 
-header h1{
 
-    font-size:28px;
+/* ======================================
+TV / FULL SCREEN MODE
+====================================== */
+
+
+:fullscreen body{
+
+    background:#000;
 
 }
 
 
+:fullscreen .top-header{
+
+    position:relative;
+
+}
+
+
+@media print{
+
+
+.toolbar,
+.order-actions,
+#refreshBtn,
+#fullscreenBtn{
+
+    display:none;
+
+}
+
+
+body{
+
+    background:#fff;
+
+    color:#000;
+
+}
+
+
+.kitchen-card{
+
+    box-shadow:none;
+
+    border:1px solid #ccc;
+
+}
 
 }
